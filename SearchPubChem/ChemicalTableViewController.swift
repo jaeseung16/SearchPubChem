@@ -11,12 +11,13 @@ import UIKit
 class ChemicalTableViewController: UITableViewController {
 
     let names = ["Water", "Sodium Chloride"]
+    let formula = ["H2O", "NaCl"]
     let tableViewCellIdentifier = "ChemicalTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+        downloadSample()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -46,6 +47,7 @@ class ChemicalTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
 
         cell.textLabel?.text = names[indexPath.row]
+        cell.detailTextLabel?.text = formula[indexPath.row]
 
         return cell
     }
@@ -96,4 +98,51 @@ class ChemicalTableViewController: UITableViewController {
     }
     */
 
+}
+
+extension ChemicalTableViewController {
+    func downloadSample() {
+        var component = URLComponents()
+        component.scheme = "https"
+        component.host = "pubchem.ncbi.nlm.nih.gov"
+        component.path = "/rest/pug/compound/name/glycine/json"
+        
+        // print("\(component.url)")
+        let request = URLRequest(url: component.url!)
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            func sendError(_ error: String) {
+                let userInfo = [NSLocalizedDescriptionKey: error]
+                print("Error: \(userInfo[NSLocalizedDescriptionKey])")
+            }
+            
+            guard (error == nil) else {
+                sendError("There was an error with your request: \(error)!")
+                return
+            }
+            
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                sendError("Your request returned a stauts code other than 2xx!")
+                return
+            }
+            
+            guard let data = data else {
+                sendError("No data was returned by the request!")
+                return
+            }
+            
+            let parsedResult: [String: AnyObject]!
+            
+            do {
+                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
+            } catch {
+                print("Cannot parse JSON!")
+                return
+            }
+            
+            print("\(parsedResult)")
+        }
+        
+        task.resume()
+    }
 }
