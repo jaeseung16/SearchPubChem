@@ -51,17 +51,21 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Compounds" id="Sm3-tP-py3">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="KuD-MV-Gpa"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="KuD-MV-Gpa">
+                            <connections>
+                                <segue destination="zOn-VM-GxY" kind="presentation" id="LRF-Fw-lbO"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G3i-JY-fJ1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1366" y="-524"/>
         </scene>
-        <!--View Controller-->
+        <!--Search By Name View Controller-->
         <scene sceneID="Jxb-Va-aal">
             <objects>
-                <viewController storyboardIdentifier="SearchCompoundByName" id="zOn-VM-GxY" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchCompoundByName" id="zOn-VM-GxY" customClass="SearchByNameViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rX4-5a-Yd7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -69,7 +73,14 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CEc-xE-Vcl">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
-                                    <navigationItem title="PubChem Search" id="6fQ-Xe-Kds"/>
+                                    <navigationItem title="PubChem Search" id="6fQ-Xe-Kds">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="hfe-CN-3kV">
+                                            <connections>
+                                                <action selector="dismiss:" destination="zOn-VM-GxY" id="Ylv-Zv-pW1"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Nc5-K7-TIy"/>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ez7-BZ-WeO">
@@ -90,6 +101,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qjl-Rc-OI8">
                                         <rect key="frame" x="0.0" y="70.5" width="375" height="30"/>
                                         <state key="normal" title="Start Search"/>
+                                        <connections>
+                                            <action selector="searchByName:" destination="zOn-VM-GxY" eventType="touchUpInside" id="39Q-9T-eNx"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -113,6 +127,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ynd-aS-3Rl"/>
                     </view>
+                    <connections>
+                        <outlet property="nameToSearch" destination="yKj-Yu-Fiw" id="aLR-CC-wRm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BNe-Yr-yIX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
