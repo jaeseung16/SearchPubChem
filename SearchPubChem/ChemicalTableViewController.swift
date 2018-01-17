@@ -108,10 +108,20 @@ class ChemicalTableViewController: UITableViewController {
 
 extension ChemicalTableViewController {
     func downloadSample(compound name: String) {
+        let properties = ["MolecularFormula", "MolecularWeight", "IUPACName"]
+        var pathForProperties = "/property/"
+        
+        for property in properties {
+            pathForProperties += property + ","
+        }
+        
+        pathForProperties.remove(at: pathForProperties.index(before: pathForProperties.endIndex))
+        pathForProperties += "/json"
+        
         var component = URLComponents()
         component.scheme = "https"
         component.host = "pubchem.ncbi.nlm.nih.gov"
-        component.path = "/rest/pug/compound/name/" + name + "/json"
+        component.path = "/rest/pug/compound/name/" + name + pathForProperties
         
         print("\(String(describing: component.url))")
         let request = URLRequest(url: component.url!)
@@ -165,6 +175,26 @@ extension ChemicalTableViewController {
             }
             
             print("\(parsedResult)")
+            
+            guard let propertyTable = parsedResult["PropertyTable"] as? [String: AnyObject] else {
+                sendError("There is no PropertyTable in: \(parsedResult)")
+                return
+            }
+            
+            guard let properties = propertyTable["Properties"] as? [[String: AnyObject]] else {
+                sendError("There is no properties in: \(propertyTable)")
+                return
+            }
+            
+            let CID = properties[0]["CID"] as! Int
+            let molecularFormula = properties[0]["MolecularFormula"] as! String
+            let molecularWeight = properties[0]["MolecularWeight"] as! Double
+            let nameIUPAC = properties[0]["IUPACName"] as! String
+            
+            print("CID: \(CID)\n")
+            print("Molecular Formula: \(molecularFormula)")
+            print("Molecular Weight: \(molecularWeight)")
+            print("IUPAC Name: \(nameIUPAC)")
         }
         
         task.resume()
