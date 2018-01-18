@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -96,7 +95,10 @@
                                         <rect key="frame" x="0.0" y="30.5" width="375" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="zOn-VM-GxY" id="rOF-Ap-Uo0"/>
+                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qjl-Rc-OI8">
                                         <rect key="frame" x="0.0" y="70.5" width="375" height="30"/>
@@ -107,23 +109,15 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="seZ-hF-UQA">
-                                <rect key="frame" x="16" y="164.5" width="343" height="502.5"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ez7-BZ-WeO" firstAttribute="centerX" secondItem="seZ-hF-UQA" secondAttribute="centerX" id="2rU-Q5-iEw"/>
                             <constraint firstItem="CEc-xE-Vcl" firstAttribute="top" secondItem="ynd-aS-3Rl" secondAttribute="top" id="9Az-s3-3B2"/>
                             <constraint firstItem="CEc-xE-Vcl" firstAttribute="trailing" secondItem="ez7-BZ-WeO" secondAttribute="trailing" id="CPs-l0-EJN"/>
                             <constraint firstItem="CEc-xE-Vcl" firstAttribute="leading" secondItem="ez7-BZ-WeO" secondAttribute="leading" id="EzF-bX-A5m"/>
-                            <constraint firstItem="seZ-hF-UQA" firstAttribute="top" secondItem="ez7-BZ-WeO" secondAttribute="bottom" id="LuF-b8-tB5"/>
                             <constraint firstItem="ez7-BZ-WeO" firstAttribute="top" secondItem="CEc-xE-Vcl" secondAttribute="bottom" id="Q6o-Sk-my2"/>
                             <constraint firstItem="ez7-BZ-WeO" firstAttribute="leading" secondItem="ynd-aS-3Rl" secondAttribute="leading" id="XjM-Ib-9ca"/>
                             <constraint firstItem="ynd-aS-3Rl" firstAttribute="trailing" secondItem="ez7-BZ-WeO" secondAttribute="trailing" id="abq-6D-Oyv"/>
-                            <constraint firstItem="ynd-aS-3Rl" firstAttribute="bottom" secondItem="seZ-hF-UQA" secondAttribute="bottom" id="cag-JC-SVL"/>
-                            <constraint firstItem="seZ-hF-UQA" firstAttribute="leading" secondItem="rX4-5a-Yd7" secondAttribute="leadingMargin" id="w1c-O8-SBc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ynd-aS-3Rl"/>
                     </view>

@@ -17,11 +17,6 @@ class SearchByNameViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @IBAction func searchByName(_ sender: UIButton) {
         let name = nameToSearch.text!
@@ -92,7 +87,7 @@ class SearchByNameViewController: UIViewController {
                 return
             }
             
-            print("\(parsedResult)")
+            // print("\(parsedResult)")
             
             guard let propertyTable = parsedResult["PropertyTable"] as? [String: AnyObject] else {
                 sendError("There is no PropertyTable in: \(parsedResult)")
@@ -132,4 +127,17 @@ class SearchByNameViewController: UIViewController {
     }
     */
 
+}
+
+// MARK: - UITextFieldDelegate
+extension SearchByNameViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
 }
