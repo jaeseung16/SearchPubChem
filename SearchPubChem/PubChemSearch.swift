@@ -11,6 +11,37 @@ import Foundation
 class PubChemSearch {
     var session = URLSession.shared
     
+    func downloadImage(for compound: Compound, completionHandler: @escaping (_ success: Bool) -> Void) {
+        guard let cid = compound.CID else {
+            print("There is no CID.")
+            completionHandler(false)
+            return
+        }
+        
+        var component = URLComponents()
+        component.scheme = "https"
+        component.host = "pubchem.ncbi.nlm.nih.gov"
+        component.path = "/rest/pug/compound/cid/" + cid + "/PNG"
+        
+        _ = dataTask(with: component.url!, completionHandler: { (data, error) in
+            func sendError(_ error: String) {
+                let userInfo = [NSLocalizedDescriptionKey: error]
+                completionHandler(false)
+            }
+            
+            guard let data = data else {
+                completionHandler(false)
+                return
+            }
+            
+            print("\(data)")
+            compound.image = data
+            
+            completionHandler(true)
+        })
+    }
+
+    
     func searchCompound(by name: String, completionHandler: @escaping (_ success: Bool, _ compound: Compound?) -> Void) -> Void {
         let properties = ["MolecularFormula", "MolecularWeight", "IUPACName"]
         
@@ -32,11 +63,14 @@ class PubChemSearch {
             
             let compound = Compound(name: name, formula: molecularFormula, molecularWeight: molecularWeight, CID: CID, nameIUPAC: nameIUPAC, image: nil)
             
+            print("CID: \(compound.CID)")
+            
             completionHandler(true, compound)
         }
 
     }
     
+    // Change the name later
     func searchCompound(by name: String, for properties: [String], completionHandler: @escaping (_ values: [String: AnyObject]?, _ error: NSError?) -> Void) {
         let url = searchURL(by: name, for: properties)
         

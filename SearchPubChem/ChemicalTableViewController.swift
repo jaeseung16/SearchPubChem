@@ -16,16 +16,21 @@ class ChemicalTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        compounds = appDelegate.compounds
-        self.tableView.reloadData()
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidLoad()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        compounds = appDelegate.compounds
+        self.tableView.reloadData()
+        print("\(compounds.count)")
     }
 
     override func didReceiveMemoryWarning() {

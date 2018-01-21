@@ -78,7 +78,11 @@
                                                 <action selector="dismiss:" destination="zOn-VM-GxY" id="Ylv-Zv-pW1"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Nc5-K7-TIy"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Nc5-K7-TIy">
+                                            <connections>
+                                                <action selector="saveCompound:" destination="zOn-VM-GxY" id="EJ4-x7-r7a"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -194,10 +198,10 @@
                         <viewLayoutGuide key="safeArea" id="ynd-aS-3Rl"/>
                     </view>
                     <connections>
-                        <outlet property="cidLabel" destination="Rz8-zO-5DK" id="9OS-G3-AVx"/>
+                        <outlet property="cidLabel" destination="Rz8-zO-5DK" id="XAv-qD-l8x"/>
                         <outlet property="compoundImageView" destination="yVS-zL-TgO" id="9dy-R3-PsC"/>
                         <outlet property="formulaLabel" destination="Ifk-aW-ZW4" id="q05-Ye-TuA"/>
-                        <outlet property="iupacNameLabel" destination="e9U-wc-Ue1" id="brg-k5-0Y8"/>
+                        <outlet property="iupacNameLabel" destination="e9U-wc-Ue1" id="L3t-hX-61V"/>
                         <outlet property="nameToSearch" destination="yKj-Yu-Fiw" id="aLR-CC-wRm"/>
                         <outlet property="weightLabel" destination="zV9-c5-74X" id="eru-ga-OPu"/>
                     </connections>

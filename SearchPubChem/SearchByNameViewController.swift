@@ -20,13 +20,10 @@ class SearchByNameViewController: UIViewController {
     
     let client = PubChemSearch()
     var compound = Compound()
-    var compounds = [Compound]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        compounds = appDelegate.compounds
+
         // Do any additional setup after loading the view.
     }
     
@@ -34,32 +31,46 @@ class SearchByNameViewController: UIViewController {
         let name = nameToSearch.text!
         
         client.searchCompound(by: name) { (success, compound) in
-            if success == true {
+            if success {
                 guard let compound = compound else {
                     print("There is no compound.")
                     return
                 }
-                
-                self.compound = compound
-                
+
                 DispatchQueue.main.async {
+                    self.compound = compound
                     self.formulaLabel.text = compound.formula
                     self.weightLabel.text = String(describing: compound.molecularWeight)
                     self.cidLabel.text = compound.CID
                     self.iupacNameLabel.text = compound.nameIUPAC
+                    
+                    self.client.downloadImage(for: self.compound, completionHandler: { (success) in
+                        if success {
+                            DispatchQueue.main.async {
+                                self.compoundImageView.image = UIImage(data: self.compound.image!)
+                            }
+                        } else {
+                            print("Cannot download the image.")
+                        }
+                    })
                 }
                 
             } else {
                 
             }
         }
-        
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func saveCompound(_ sender: UIBarButtonItem) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.compounds.append(compound)
+
+        dismiss(animated: true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 
