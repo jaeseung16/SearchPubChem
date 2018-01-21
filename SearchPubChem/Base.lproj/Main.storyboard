@@ -210,6 +210,120 @@
             </objects>
             <point key="canvasLocation" x="2116" y="-526"/>
         </scene>
+        <!--Compound Detail View Controller-->
+        <scene sceneID="xOT-YO-tsS">
+            <objects>
+                <viewController storyboardIdentifier="CompoundDetailViewController" id="8uc-ZR-Vbf" customClass="CompoundDetailViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Epz-xX-DIa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0b2-Yd-KjY">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Compound Detail View" id="4hH-oi-s73">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Sd4-vq-h2P">
+                                            <connections>
+                                                <action selector="dismiss:" destination="8uc-ZR-Vbf" id="F5p-7g-iKW"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l7h-0m-611">
+                                <rect key="frame" x="0.0" y="394" width="375" height="273"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="itK-nw-6GZ">
+                                <rect key="frame" x="0.0" y="64" width="375" height="330.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IV7-2Y-aQC">
+                                        <rect key="frame" x="166.5" y="0.0" width="42" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Molecular Formula" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Lv-S3-prj">
+                                        <rect key="frame" x="117" y="22.5" width="141.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nTh-dh-0aX">
+                                        <rect key="frame" x="166.5" y="45" width="42" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Molecular Weight" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="144-uu-0mt">
+                                        <rect key="frame" x="121" y="67.5" width="133.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jak-ge-NCa">
+                                        <rect key="frame" x="166.5" y="90" width="42" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PubChem CID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u6t-4l-Vph">
+                                        <rect key="frame" x="133.5" y="112.5" width="108" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iNo-HF-YcG">
+                                        <rect key="frame" x="166.5" y="135" width="42" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IUPAC Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6VV-15-dzr">
+                                        <rect key="frame" x="138.5" y="157.5" width="98" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VoD-gt-1sv">
+                                        <rect key="frame" x="166.5" y="180" width="42" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qG5-sT-ZvM">
+                                        <rect key="frame" x="0.0" y="202.5" width="375" height="128"/>
+                                    </imageView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="itK-nw-6GZ" firstAttribute="top" secondItem="0b2-Yd-KjY" secondAttribute="bottom" id="4Pw-06-mu7"/>
+                            <constraint firstItem="l7h-0m-611" firstAttribute="top" secondItem="itK-nw-6GZ" secondAttribute="bottom" id="Aor-Tf-Vm0"/>
+                            <constraint firstItem="0b2-Yd-KjY" firstAttribute="trailing" secondItem="itK-nw-6GZ" secondAttribute="trailing" id="N7B-Wj-5tw"/>
+                            <constraint firstItem="0b2-Yd-KjY" firstAttribute="leading" secondItem="l7h-0m-611" secondAttribute="leading" id="Vpl-U4-7WU"/>
+                            <constraint firstItem="itK-nw-6GZ" firstAttribute="leading" secondItem="srm-hO-zfs" secondAttribute="leading" id="XwA-xF-sjb"/>
+                            <constraint firstItem="0b2-Yd-KjY" firstAttribute="top" secondItem="srm-hO-zfs" secondAttribute="top" id="Y4Z-C2-hqL"/>
+                            <constraint firstItem="0b2-Yd-KjY" firstAttribute="trailing" secondItem="l7h-0m-611" secondAttribute="trailing" id="dBe-r9-1xV"/>
+                            <constraint firstItem="0b2-Yd-KjY" firstAttribute="leading" secondItem="itK-nw-6GZ" secondAttribute="leading" id="fn6-Po-jDO"/>
+                            <constraint firstItem="srm-hO-zfs" firstAttribute="trailing" secondItem="itK-nw-6GZ" secondAttribute="trailing" id="qMJ-wC-vQ6"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="srm-hO-zfs"/>
+                    </view>
+                    <connections>
+                        <outlet property="cidLabel" destination="iNo-HF-YcG" id="izF-qO-0z8"/>
+                        <outlet property="compoundImageView" destination="qG5-sT-ZvM" id="1xr-Lt-wDh"/>
+                        <outlet property="formulaLabel" destination="nTh-dh-0aX" id="dsJ-n3-Sva"/>
+                        <outlet property="iupacLabel" destination="VoD-gt-1sv" id="vdo-vb-wyQ"/>
+                        <outlet property="nameLabel" destination="IV7-2Y-aQC" id="P55-Xz-97h"/>
+                        <outlet property="weightLabel" destination="Jak-ge-NCa" id="a4o-9D-auz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nif-de-sE1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2116" y="167.76611694152925"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="lPj-py-fOO">
             <objects>
