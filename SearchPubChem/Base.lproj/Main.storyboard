@@ -59,7 +59,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G3i-JY-fJ1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1366" y="-524"/>
+            <point key="canvasLocation" x="1260" y="-525"/>
         </scene>
         <!--Search By Name View Controller-->
         <scene sceneID="Jxb-Va-aal">
@@ -82,8 +82,8 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ez7-BZ-WeO">
-                                <rect key="frame" x="0.0" y="64" width="375" height="100.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ez7-BZ-WeO">
+                                <rect key="frame" x="0.0" y="64" width="375" height="191"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Compond Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9K4-PE-mRi">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="20.5"/>
@@ -92,7 +92,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="water" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yKj-Yu-Fiw">
-                                        <rect key="frame" x="0.0" y="30.5" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="76" width="375" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -101,7 +101,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qjl-Rc-OI8">
-                                        <rect key="frame" x="0.0" y="70.5" width="375" height="30"/>
+                                        <rect key="frame" x="0.0" y="161" width="375" height="30"/>
                                         <state key="normal" title="Start Search"/>
                                         <connections>
                                             <action selector="searchByName:" destination="zOn-VM-GxY" eventType="touchUpInside" id="39Q-9T-eNx"/>
@@ -109,25 +109,102 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Obz-5U-SRS">
+                                <rect key="frame" x="0.0" y="255" width="375" height="412"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="AiW-sS-cSo">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="412"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yVS-zL-TgO">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Molecular Formula" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hFP-zL-IOV">
+                                                <rect key="frame" x="0.0" y="143" width="375" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ifk-aW-ZW4">
+                                                <rect key="frame" x="0.0" y="178.5" width="375" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Molecular Weight" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GGG-Z6-rQV">
+                                                <rect key="frame" x="0.0" y="214" width="375" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zV9-c5-74X">
+                                                <rect key="frame" x="0.0" y="249.5" width="375" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PubChem Compund Identifier (CID)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wI7-RM-LBU">
+                                                <rect key="frame" x="0.0" y="285" width="375" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rz8-zO-5DK">
+                                                <rect key="frame" x="0.0" y="320.5" width="375" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IUPAC Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0h-Bu-IlC">
+                                                <rect key="frame" x="0.0" y="356" width="375" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9U-wc-Ue1">
+                                                <rect key="frame" x="0.0" y="391.5" width="375" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="AiW-sS-cSo" secondAttribute="trailing" id="F5D-SS-PHQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="AiW-sS-cSo" secondAttribute="bottom" id="Nv5-7m-gZ3"/>
+                                    <constraint firstItem="AiW-sS-cSo" firstAttribute="top" secondItem="Obz-5U-SRS" secondAttribute="top" id="Q8V-bD-gzU"/>
+                                    <constraint firstItem="AiW-sS-cSo" firstAttribute="leading" secondItem="Obz-5U-SRS" secondAttribute="leading" id="hB5-nP-zS9"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="CEc-xE-Vcl" firstAttribute="top" secondItem="ynd-aS-3Rl" secondAttribute="top" id="9Az-s3-3B2"/>
                             <constraint firstItem="CEc-xE-Vcl" firstAttribute="trailing" secondItem="ez7-BZ-WeO" secondAttribute="trailing" id="CPs-l0-EJN"/>
                             <constraint firstItem="CEc-xE-Vcl" firstAttribute="leading" secondItem="ez7-BZ-WeO" secondAttribute="leading" id="EzF-bX-A5m"/>
+                            <constraint firstItem="ynd-aS-3Rl" firstAttribute="bottom" secondItem="Obz-5U-SRS" secondAttribute="bottom" id="IFN-HO-lEg"/>
                             <constraint firstItem="ez7-BZ-WeO" firstAttribute="top" secondItem="CEc-xE-Vcl" secondAttribute="bottom" id="Q6o-Sk-my2"/>
                             <constraint firstItem="ez7-BZ-WeO" firstAttribute="leading" secondItem="ynd-aS-3Rl" secondAttribute="leading" id="XjM-Ib-9ca"/>
                             <constraint firstItem="ynd-aS-3Rl" firstAttribute="trailing" secondItem="ez7-BZ-WeO" secondAttribute="trailing" id="abq-6D-Oyv"/>
+                            <constraint firstItem="Obz-5U-SRS" firstAttribute="top" secondItem="ez7-BZ-WeO" secondAttribute="bottom" id="he6-B4-svd"/>
+                            <constraint firstItem="ynd-aS-3Rl" firstAttribute="trailing" secondItem="Obz-5U-SRS" secondAttribute="trailing" id="jG3-6W-fEc"/>
+                            <constraint firstItem="Obz-5U-SRS" firstAttribute="leading" secondItem="ynd-aS-3Rl" secondAttribute="leading" id="juE-ky-1Yy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ynd-aS-3Rl"/>
                     </view>
                     <connections>
+                        <outlet property="cidLabel" destination="Rz8-zO-5DK" id="9OS-G3-AVx"/>
+                        <outlet property="compoundImageView" destination="yVS-zL-TgO" id="9dy-R3-PsC"/>
+                        <outlet property="formulaLabel" destination="Ifk-aW-ZW4" id="q05-Ye-TuA"/>
+                        <outlet property="iupacNameLabel" destination="e9U-wc-Ue1" id="brg-k5-0Y8"/>
                         <outlet property="nameToSearch" destination="yKj-Yu-Fiw" id="aLR-CC-wRm"/>
+                        <outlet property="weightLabel" destination="zV9-c5-74X" id="eru-ga-OPu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BNe-Yr-yIX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2149.5999999999999" y="-525.78710644677665"/>
+            <point key="canvasLocation" x="2116" y="-526"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lPj-py-fOO">

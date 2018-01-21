@@ -12,105 +12,48 @@ class SearchByNameViewController: UIViewController {
 
     @IBOutlet weak var nameToSearch: UITextField!
     
+    @IBOutlet weak var compoundImageView: UIImageView!
+    @IBOutlet weak var formulaLabel: UILabel!
+    @IBOutlet weak var weightLabel: UILabel!
+    @IBOutlet weak var cidLabel: UILabel!
+    @IBOutlet weak var iupacNameLabel: UILabel!
+    
+    let client = PubChemSearch()
+    var compound = Compound()
+    var compounds = [Compound]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        compounds = appDelegate.compounds
         // Do any additional setup after loading the view.
     }
     
     @IBAction func searchByName(_ sender: UIButton) {
         let name = nameToSearch.text!
         
-        let properties = ["MolecularFormula", "MolecularWeight", "IUPACName"]
-        var pathForProperties = "/property/"
-        
-        for property in properties {
-            pathForProperties += property + ","
-        }
-        
-        pathForProperties.remove(at: pathForProperties.index(before: pathForProperties.endIndex))
-        pathForProperties += "/json"
-        
-        var component = URLComponents()
-        component.scheme = "https"
-        component.host = "pubchem.ncbi.nlm.nih.gov"
-        component.path = "/rest/pug/compound/name/" + name + pathForProperties
-        
-        print("\(String(describing: component.url))")
-        let request = URLRequest(url: component.url!)
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            func sendError(_ error: String) {
-                let userInfo = [NSLocalizedDescriptionKey: error]
-                print("Error: \(String(describing: userInfo[NSLocalizedDescriptionKey]))")
-            }
-            
-            guard (error == nil) else {
-                sendError("There was an error with your request: \(String(describing: error))!")
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                let statusCode = (response as? HTTPURLResponse)!.statusCode
-                var errorString: String
-                
-                switch(statusCode) {
-                case 400:
-                    errorString = "Request is improperly formed!"
-                case 404:
-                    errorString = "The input record was not found!"
-                case 405:
-                    errorString = "Request not allowed!"
-                case 503:
-                    errorString = "Too many requests or server is busy!"
-                case 504:
-                    errorString = "The request timed out!"
-                default:
-                    errorString = "Your request returned a stauts code other than 2xx!"
+        client.searchCompound(by: name) { (success, compound) in
+            if success == true {
+                guard let compound = compound else {
+                    print("There is no compound.")
+                    return
                 }
                 
-                sendError(errorString)
-                return
+                self.compound = compound
+                
+                DispatchQueue.main.async {
+                    self.formulaLabel.text = compound.formula
+                    self.weightLabel.text = String(describing: compound.molecularWeight)
+                    self.cidLabel.text = compound.CID
+                    self.iupacNameLabel.text = compound.nameIUPAC
+                }
+                
+            } else {
+                
             }
-            
-            guard let data = data else {
-                sendError("No data was returned by the request!")
-                return
-            }
-            
-            let parsedResult: [String: AnyObject]!
-            
-            do {
-                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
-            } catch {
-                print("Cannot parse JSON!")
-                return
-            }
-            
-            // print("\(parsedResult)")
-            
-            guard let propertyTable = parsedResult["PropertyTable"] as? [String: AnyObject] else {
-                sendError("There is no PropertyTable in: \(parsedResult)")
-                return
-            }
-            
-            guard let properties = propertyTable["Properties"] as? [[String: AnyObject]] else {
-                sendError("There is no properties in: \(propertyTable)")
-                return
-            }
-            
-            let CID = properties[0]["CID"] as! Int
-            let molecularFormula = properties[0]["MolecularFormula"] as! String
-            let molecularWeight = properties[0]["MolecularWeight"] as! Double
-            let nameIUPAC = properties[0]["IUPACName"] as! String
-            
-            print("CID: \(CID)")
-            print("Molecular Formula: \(molecularFormula)")
-            print("Molecular Weight: \(molecularWeight)")
-            print("IUPAC Name: \(nameIUPAC)")
         }
         
-        task.resume()
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {

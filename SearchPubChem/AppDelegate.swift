@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    let compounds: [Compound] = [Compound(name: "water", formula: "H2O", molecularWeight: 18.015, CID: "962", nameIUPAC: "oxidane", image: nil),
+    var compounds: [Compound] = [Compound(name: "water", formula: "H2O", molecularWeight: 18.015, CID: "962", nameIUPAC: "oxidane", image: nil),
                                  Compound(name: "sodium chloride", formula: "NaCl", molecularWeight: 58.44, CID: "5234", nameIUPAC: "sodium chloride", image: nil)]
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {

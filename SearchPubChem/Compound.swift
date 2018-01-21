@@ -8,11 +8,24 @@
 
 import Foundation
 
-struct Compound {
-    let name: String
-    let formula: String
-    let molecularWeight: Double
-    let CID: String
-    let nameIUPAC: String
+class Compound {
+    var name: String?
+    var formula: String?
+    var molecularWeight: Double?
+    var CID: String?
+    var nameIUPAC: String?
     var image: Data?
+    
+    init() {
+        
+    }
+    
+    init(name: String?, formula: String?, molecularWeight: Double?, CID: String?, nameIUPAC: String?, image: Data?) {
+        self.name = name
+        self.formula = formula
+        self.molecularWeight = molecularWeight
+        self.CID = CID
+        self.nameIUPAC = nameIUPAC
+        self.image = image
+    }
 }
