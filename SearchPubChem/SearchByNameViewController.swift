@@ -19,7 +19,6 @@ class SearchByNameViewController: UIViewController {
     @IBOutlet weak var iupacNameLabel: UILabel!
     
     let client = PubChemSearch()
-    var compound = Compound()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,24 +29,23 @@ class SearchByNameViewController: UIViewController {
     @IBAction func searchByName(_ sender: UIButton) {
         let name = nameToSearch.text!
         
-        client.searchCompound(by: name) { (success, compound) in
+        client.searchCompound(by: name) { (success, compoundInformation) in
             if success {
-                guard let compound = compound else {
+                guard let information = compoundInformation else {
                     print("There is no compound.")
                     return
                 }
 
                 DispatchQueue.main.async {
-                    self.compound = compound
-                    self.formulaLabel.text = compound.formula
-                    self.weightLabel.text = String(describing: compound.molecularWeight)
-                    self.cidLabel.text = compound.cid
-                    self.iupacNameLabel.text = compound.nameIUPAC
+                    self.formulaLabel.text = (information["MolecularFormula"] as! String)
+                    self.weightLabel.text = String(information["MolecularWeight"] as! Double)
+                    self.cidLabel.text = (information["CID"] as! String)
+                    self.iupacNameLabel.text = (information["IUPACName"] as! String)
                     
-                    self.client.downloadImage(for: self.compound, completionHandler: { (success) in
+                    self.client.downloadImage(for: self.cidLabel.text!, completionHandler: { (success, data) in
                         if success {
                             DispatchQueue.main.async {
-                                self.compoundImageView.image = UIImage(data: self.compound.image! as Data)
+                                self.compoundImageView.image = UIImage(data: data! as Data)
                             }
                         } else {
                             print("Cannot download the image.")
@@ -66,9 +64,19 @@ class SearchByNameViewController: UIViewController {
     }
     
     @IBAction func saveCompound(_ sender: UIBarButtonItem) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        //appDelegate.compounds.append(compound)
-
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let stack = delegate.stack
+        
+        let name = nameToSearch.text!
+        let formula = formulaLabel.text!
+        let molecularWeight = Double(weightLabel.text!)!
+        let cid = cidLabel.text!
+        let nameIUPAC = iupacNameLabel.text!
+        let image = UIImagePNGRepresentation(compoundImageView.image!)!
+        
+        let compound = Compound(name: name, formula: formula, molecularWeight: molecularWeight, CID: cid, nameIUPAC: nameIUPAC, context: stack.context)
+        compound.image = image as NSData
+        
         dismiss(animated: true, completion: nil)
     }
     /*

@@ -45,7 +45,6 @@ class ChemicalTableViewController: UITableViewController, NSFetchedResultsContro
         super.viewDidLoad()
         
         self.tableView.reloadData()
-        print("\(compounds.count)")
     }
 
     override func didReceiveMemoryWarning() {

@@ -12,7 +12,7 @@ import CoreData
 
 
 public class Compound: NSManagedObject {
-    convenience init(name: String, formula: String, molecularWeight: Double, CID: String, nameIUPAC: String, image: NSData?, context: NSManagedObjectContext) {
+    convenience init(name: String, formula: String, molecularWeight: Double, CID: String, nameIUPAC: String, context: NSManagedObjectContext) {
         if let entity = NSEntityDescription.entity(forEntityName: "Compound", in: context) {
             self.init(entity: entity, insertInto: context)
             self.name = name
@@ -20,7 +20,6 @@ public class Compound: NSManagedObject {
             self.molecularWeight = molecularWeight
             self.cid = CID
             self.nameIUPAC = nameIUPAC
-            self.image = image
             self.created = NSDate()
         } else {
             fatalError("Unable to find the entity name, \"Compound\".")

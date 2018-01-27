@@ -11,38 +11,32 @@ import Foundation
 class PubChemSearch {
     var session = URLSession.shared
     
-    func downloadImage(for compound: Compound, completionHandler: @escaping (_ success: Bool) -> Void) {
-        guard let cid = compound.cid else {
-            print("There is no CID.")
-            completionHandler(false)
-            return
-        }
-        
+    func downloadImage(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?) -> Void) {
         var component = URLComponents()
         component.scheme = "https"
         component.host = "pubchem.ncbi.nlm.nih.gov"
         component.path = "/rest/pug/compound/cid/" + cid + "/PNG"
         
         _ = dataTask(with: component.url!, completionHandler: { (data, error) in
+            /*
             func sendError(_ error: String) {
                 let userInfo = [NSLocalizedDescriptionKey: error]
-                completionHandler(false)
-            }
+                completionHandler(false, nil)
+            }*/
             
             guard let data = data else {
-                completionHandler(false)
+                completionHandler(false, nil)
                 return
             }
             
             print("\(data)")
-            compound.image = data as NSData
-            
-            completionHandler(true)
+
+            completionHandler(true, data as NSData)
         })
     }
 
     
-    func searchCompound(by name: String, completionHandler: @escaping (_ success: Bool, _ compound: Compound?) -> Void) -> Void {
+    func searchCompound(by name: String, completionHandler: @escaping (_ success: Bool, _ compoundInformation: [String: Any]?) -> Void) -> Void {
         let properties = ["MolecularFormula", "MolecularWeight", "IUPACName"]
         
         searchCompound(by: name, for: properties) { (values, error) in
@@ -56,16 +50,19 @@ class PubChemSearch {
                 return
             }
             
-            let CID = String(values["CID"] as! Int)
+            let cid = String(values["CID"] as! Int)
             let molecularFormula = values["MolecularFormula"] as! String
             let molecularWeight = values["MolecularWeight"] as! Double
             let nameIUPAC = values["IUPACName"] as! String
             
+            let compoundInformation: [String: Any] = ["CID": cid, "MolecularFormula": molecularFormula,
+                                       "MolecularWeight": molecularWeight, "IUPACName": nameIUPAC]
+            
             //let compound = Compound(name: name, formula: molecularFormula, molecularWeight: molecularWeight, CID: CID, nameIUPAC: nameIUPAC, image: nil)
             
-            print("CID: \(CID)")
+            print("Compound: \(compoundInformation)")
             
-            completionHandler(true, nil)
+            completionHandler(true, compoundInformation)
         }
 
     }
