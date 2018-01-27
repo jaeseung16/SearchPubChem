@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Compound {
+class CompoundX {
     var name: String?
     var formula: String?
     var molecularWeight: Double?
