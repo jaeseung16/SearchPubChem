@@ -12,11 +12,11 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-    var compounds: [Compound] = [Compound(name: "water", formula: "H2O", molecularWeight: 18.015, CID: "962", nameIUPAC: "oxidane", image: nil),
-                                 Compound(name: "sodium chloride", formula: "NaCl", molecularWeight: 58.44, CID: "5234", nameIUPAC: "sodium chloride", image: nil)]
-    
+    let stack = CoreDataStack(modelName: "PubChemSolution")!
+ 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        checkIfFirstLaunch()
         // Override point for customization after application launch.
         return true
     }
@@ -46,3 +46,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// MARK: - Convenient functions
+extension AppDelegate {
+    func checkIfFirstLaunch() {
+        if UserDefaults.standard.bool(forKey: "HasLaunchedBefore") {
+            print("Not First Launch")
+        } else {
+            UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
+            UserDefaults.standard.synchronize()
+            preloadData()
+        }
+    }
+    
+    func saveData() {
+        do {
+            try stack.saveContext()
+        } catch {
+            print("Error while saving")
+        }
+    }
+    
+    func preloadData() {
+        do {
+            try stack.dropAllData()
+        } catch {
+            print("Error while dropping all objects in DB")
+        }
+        
+        let water = Compound(name: "water", formula: "H2O", molecularWeight: 18.015, CID: "962", nameIUPAC: "oxidane", image: nil, context: stack.context)
+        let sodiumChloride = Compound(name: "sodium chloride", formula: "NaCl", molecularWeight: 58.44, CID: "5234", nameIUPAC: "sodium chloride", image: nil, context: stack.context)
+        
+    }
+}

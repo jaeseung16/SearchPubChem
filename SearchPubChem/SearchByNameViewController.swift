@@ -41,13 +41,13 @@ class SearchByNameViewController: UIViewController {
                     self.compound = compound
                     self.formulaLabel.text = compound.formula
                     self.weightLabel.text = String(describing: compound.molecularWeight)
-                    self.cidLabel.text = compound.CID
+                    self.cidLabel.text = compound.cid
                     self.iupacNameLabel.text = compound.nameIUPAC
                     
                     self.client.downloadImage(for: self.compound, completionHandler: { (success) in
                         if success {
                             DispatchQueue.main.async {
-                                self.compoundImageView.image = UIImage(data: self.compound.image!)
+                                self.compoundImageView.image = UIImage(data: self.compound.image! as Data)
                             }
                         } else {
                             print("Cannot download the image.")
@@ -67,7 +67,7 @@ class SearchByNameViewController: UIViewController {
     
     @IBAction func saveCompound(_ sender: UIBarButtonItem) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.compounds.append(compound)
+        //appDelegate.compounds.append(compound)
 
         dismiss(animated: true, completion: nil)
     }

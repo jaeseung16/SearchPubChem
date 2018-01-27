@@ -12,7 +12,7 @@ class PubChemSearch {
     var session = URLSession.shared
     
     func downloadImage(for compound: Compound, completionHandler: @escaping (_ success: Bool) -> Void) {
-        guard let cid = compound.CID else {
+        guard let cid = compound.cid else {
             print("There is no CID.")
             completionHandler(false)
             return
@@ -35,7 +35,7 @@ class PubChemSearch {
             }
             
             print("\(data)")
-            compound.image = data
+            compound.image = data as NSData
             
             completionHandler(true)
         })
@@ -61,11 +61,11 @@ class PubChemSearch {
             let molecularWeight = values["MolecularWeight"] as! Double
             let nameIUPAC = values["IUPACName"] as! String
             
-            let compound = Compound(name: name, formula: molecularFormula, molecularWeight: molecularWeight, CID: CID, nameIUPAC: nameIUPAC, image: nil)
+            //let compound = Compound(name: name, formula: molecularFormula, molecularWeight: molecularWeight, CID: CID, nameIUPAC: nameIUPAC, image: nil)
             
-            print("CID: \(compound.CID)")
+            print("CID: \(CID)")
             
-            completionHandler(true, compound)
+            completionHandler(true, nil)
         }
 
     }

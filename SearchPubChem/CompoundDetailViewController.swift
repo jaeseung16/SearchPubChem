@@ -26,10 +26,10 @@ class CompoundDetailViewController: UIViewController {
         nameLabel.text = compound.name
         formulaLabel.text = compound.formula
         weightLabel.text = String(describing: compound.molecularWeight)
-        cidLabel.text = compound.CID
+        cidLabel.text = compound.cid
         iupacLabel.text = compound.nameIUPAC
         
-        if let image = compound.image {
+        if let image = compound.image as Data? {
             compoundImageView.image = UIImage(data: image)
         }
     }
