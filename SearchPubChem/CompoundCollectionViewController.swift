@@ -9,10 +9,13 @@
 import UIKit
 import CoreData
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifier = "CompoundCollectionViewCell"
 
-class CompoundCollectionViewController: UICollectionViewController {
+class CompoundCollectionViewController: UIViewController {
 
+    @IBOutlet weak var compoundCollectionView: UICollectionView!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
         didSet {
             fetchedResultsController?.delegate = self
@@ -29,14 +32,6 @@ class CompoundCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,26 +51,29 @@ class CompoundCollectionViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+
+}
+
+extension CompoundCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let fc = fetchedResultsController {
             return fc.sections![section].numberOfObjects
         } else {
             return 0
         }
     }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CompoundCollectionViewCell", for: indexPath) as! CompoundCollectionViewCell
     
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CompoundCollectionViewCell
+        
         // Set the properties of 'cell' to default values
-        cell.compoundImage.image = nil
-        cell.compoundImage.backgroundColor = .black
+        cell.compoundImageView.image = nil
+        cell.compoundImageView.backgroundColor = .black
         //cell.activityIndicator.startAnimating()
         cell.compoundName.text = ""
         
@@ -86,44 +84,45 @@ class CompoundCollectionViewController: UICollectionViewController {
             cell.compoundName.text = compound.name
             
             if let imageData = compound.image {
-                cell.compoundImage.image = UIImage(data: imageData as Data)
+                cell.compoundImageView.image = UIImage(data: imageData as Data)
             }
         }
-    
+        
         return cell
     }
-
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
     
+    // MARK: Methods for FlowLayout
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        // This method is called when the orientaition of a device changes even before the view controller is loaded.
+        // So checking whether flowLayout exists before updating the collection view
+        if self.flowLayout != nil {
+            self.flowLayout.invalidateLayout()
+            adjustFlowLayoutSize(size: size)
+        }
     }
-    */
-
+    
+    func adjustFlowLayoutSize(size: CGSize) {
+        let space: CGFloat = 3.0
+        let dimension = cellSize(size: size, space: space)
+        
+        self.flowLayout.minimumInteritemSpacing = space
+        self.flowLayout.minimumLineSpacing = 2 * space
+        self.flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
+        self.flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+    }
+    
+    func cellSize(size: CGSize, space: CGFloat) -> CGFloat {
+        let height = size.height
+        let width = size.width
+        
+        let numberInRowPortrait = 3.0
+        let numberInRowLandscape = 5.0
+        
+        let numberInRow = height > width ? CGFloat(numberInRowPortrait) : CGFloat(numberInRowLandscape)
+        
+        return ( width - 2 * numberInRow * space ) / numberInRow
+    }
 }
 
 extension CompoundCollectionViewController {
@@ -149,9 +148,9 @@ extension CompoundCollectionViewController: NSFetchedResultsControllerDelegate {
         
         switch type {
         case .insert:
-            collectionView?.insertSections(set)
+            compoundCollectionView.insertSections(set)
         case .delete:
-            collectionView?.deleteSections(set)
+            compoundCollectionView.deleteSections(set)
         default:
             break
         }
@@ -160,14 +159,14 @@ extension CompoundCollectionViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            collectionView?.insertItems(at: [newIndexPath!])
+            compoundCollectionView.insertItems(at: [newIndexPath!])
         case .delete:
-            collectionView?.deleteItems(at: [indexPath!])
+            compoundCollectionView.deleteItems(at: [indexPath!])
         case .update:
-            collectionView?.reloadItems(at: [indexPath!])
+            compoundCollectionView.reloadItems(at: [indexPath!])
         case .move:
-            collectionView?.deleteItems(at: [indexPath!])
-            collectionView?.insertItems(at: [newIndexPath!])
+            compoundCollectionView.deleteItems(at: [indexPath!])
+            compoundCollectionView.insertItems(at: [newIndexPath!])
         }
     }
     

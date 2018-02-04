@@ -9,6 +9,6 @@
 import UIKit
 
 class CompoundCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var compoundImage: UIImageView!
+    @IBOutlet weak var compoundImageView: UIImageView!
     @IBOutlet weak var compoundName: UILabel!
 }

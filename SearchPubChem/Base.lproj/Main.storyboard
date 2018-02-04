@@ -463,7 +463,7 @@
                                         <rect key="frame" x="187.5" y="0.0" width="187.5" height="30"/>
                                         <state key="normal" title="Add a compound"/>
                                         <connections>
-                                            <segue destination="etJ-B1-mW3" kind="show" id="f4P-Vf-SoN"/>
+                                            <segue destination="Op3-KS-PYq" kind="show" id="qcz-qj-sGK"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -499,63 +499,84 @@
             <point key="canvasLocation" x="1100" y="-9.4452773613193415"/>
         </scene>
         <!--Compound Collection View Controller-->
-        <scene sceneID="nXk-1T-3Sa">
+        <scene sceneID="6BH-nm-Rsb">
             <objects>
-                <collectionViewController storyboardIdentifier="CompoundCollectionViewController" id="etJ-B1-mW3" customClass="CompoundCollectionViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="zMA-8h-Hy1">
+                <viewController storyboardIdentifier="CompoundCollectionViewController" id="Op3-KS-PYq" customClass="CompoundCollectionViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UhE-dK-Y3v">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ri1-jw-A3d">
-                            <size key="itemSize" width="150" height="168"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CompoundCollectionViewCell" id="fEn-ca-0Aq" customClass="CompoundCollectionViewCell" customModule="SearchPubChem" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="150" height="168"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KXU-F6-fIE">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Select Compounds" id="FFs-cj-Ane">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="BFq-Q9-tIW"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9Mn-jL-dED">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="150" height="168"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8gr-98-REK">
-                                            <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="8gr-98-REK" secondAttribute="height" multiplier="1:1" id="FhP-Md-trO"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqK-Xm-t8k">
-                                            <rect key="frame" x="0.0" y="150" width="150" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </view>
-                                <constraints>
-                                    <constraint firstItem="8gr-98-REK" firstAttribute="top" secondItem="fEn-ca-0Aq" secondAttribute="top" id="5qd-u9-20X"/>
-                                    <constraint firstAttribute="trailing" secondItem="8gr-98-REK" secondAttribute="trailing" id="POU-D2-W7x"/>
-                                    <constraint firstItem="mqK-Xm-t8k" firstAttribute="top" secondItem="8gr-98-REK" secondAttribute="bottom" id="RJ7-ad-QMQ"/>
-                                    <constraint firstItem="mqK-Xm-t8k" firstAttribute="width" secondItem="8gr-98-REK" secondAttribute="width" id="bTQ-ss-cII"/>
-                                    <constraint firstAttribute="bottom" secondItem="mqK-Xm-t8k" secondAttribute="bottom" id="h8C-U5-x2f"/>
-                                    <constraint firstItem="mqK-Xm-t8k" firstAttribute="centerX" secondItem="8gr-98-REK" secondAttribute="centerX" id="jpg-iG-sSE"/>
-                                    <constraint firstItem="8gr-98-REK" firstAttribute="leading" secondItem="fEn-ca-0Aq" secondAttribute="leading" id="qVX-FC-E1b"/>
-                                </constraints>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Hd1-Ys-Mha">
+                                    <size key="itemSize" width="150" height="171"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CompoundCollectionViewCell" id="7iG-0a-dOt" customClass="CompoundCollectionViewCell" customModule="SearchPubChem" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="150" height="171"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="171"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Xf-uc-MmA">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="1Xf-uc-MmA" secondAttribute="height" multiplier="1:1" id="932-OQ-KZv"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1XG-uc-YZ5">
+                                                    <rect key="frame" x="0.0" y="150" width="150" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="1XG-uc-YZ5" secondAttribute="trailing" id="Eii-3U-MzD"/>
+                                            <constraint firstAttribute="trailing" secondItem="1Xf-uc-MmA" secondAttribute="trailing" id="EtR-fp-Pyv"/>
+                                            <constraint firstAttribute="bottom" secondItem="1XG-uc-YZ5" secondAttribute="bottom" id="Jpn-6x-JBZ"/>
+                                            <constraint firstItem="1XG-uc-YZ5" firstAttribute="leading" secondItem="7iG-0a-dOt" secondAttribute="leading" id="LuT-il-vIG"/>
+                                            <constraint firstItem="1Xf-uc-MmA" firstAttribute="top" secondItem="7iG-0a-dOt" secondAttribute="top" id="ZzF-XP-Xt7"/>
+                                            <constraint firstItem="1XG-uc-YZ5" firstAttribute="top" secondItem="1Xf-uc-MmA" secondAttribute="bottom" id="dte-IC-EXZ"/>
+                                            <constraint firstItem="1Xf-uc-MmA" firstAttribute="leading" secondItem="7iG-0a-dOt" secondAttribute="leading" id="ha0-FU-Zyy"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="compoundImageView" destination="1Xf-uc-MmA" id="Xma-1O-eH7"/>
+                                            <outlet property="compoundName" destination="1XG-uc-YZ5" id="ZlD-Oc-dT9"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
                                 <connections>
-                                    <outlet property="compoundImage" destination="8gr-98-REK" id="70A-Aa-G6s"/>
-                                    <outlet property="compoundName" destination="mqK-Xm-t8k" id="KWP-ap-wV2"/>
+                                    <outlet property="dataSource" destination="Op3-KS-PYq" id="o8q-RI-131"/>
+                                    <outlet property="delegate" destination="Op3-KS-PYq" id="Fuk-EH-DOD"/>
                                 </connections>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="etJ-B1-mW3" id="P9u-nO-zjf"/>
-                            <outlet property="delegate" destination="etJ-B1-mW3" id="dLK-Wq-cTN"/>
-                        </connections>
-                    </collectionView>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8aL-U4-v6h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="aCy-s0-LUS"/>
+                    </view>
+                    <connections>
+                        <outlet property="compoundCollectionView" destination="9Mn-jL-dED" id="6BX-xS-zuA"/>
+                        <outlet property="flowLayout" destination="Hd1-Ys-Mha" id="21A-K8-h5D"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZmM-R6-o5A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1888.8" y="-9.4452773613193415"/>
         </scene>
