@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class SearchByNameViewController: UIViewController {
 
@@ -54,7 +55,11 @@ class SearchByNameViewController: UIViewController {
                 }
                 
             } else {
-                
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Search Failed", message: "There is no compound matching the name \(name). Try again.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
         }
     }
@@ -77,17 +82,26 @@ class SearchByNameViewController: UIViewController {
         let compound = Compound(name: name, formula: formula, molecularWeight: molecularWeight, CID: cid, nameIUPAC: nameIUPAC, context: stack.context)
         compound.image = image as NSData
         
+        save(context: stack.context)
+        
         dismiss(animated: true, completion: nil)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func save(context: NSManagedObjectContext) -> Bool {
+        if context.hasChanges {
+            do {
+                try context.save()
+                print("Context has changed and been saved.")
+                return true
+            } catch {
+                print("Context has changed but not been saved.")
+                return false
+            }
+        } else {
+            print("Context has not changed.")
+            return false
+        }
     }
-    */
 
 }
 

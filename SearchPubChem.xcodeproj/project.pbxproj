@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		90267BE5201E5B1000F899A3 /* MakeSolutionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90267BE4201E5B1000F899A3 /* MakeSolutionViewController.swift */; };
+		902DFADD2027636B001E2AD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 902DFADC2027636B001E2AD6 /* Assets.xcassets */; };
 		907FECB42014EDF800B0CEBF /* PubChemSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907FECB32014EDF800B0CEBF /* PubChemSearch.swift */; };
 		907FECB620152CD500B0CEBF /* CompoundDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907FECB520152CD500B0CEBF /* CompoundDetailViewController.swift */; };
 		9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */; };
@@ -18,7 +20,6 @@
 		9090EC2120101262003280BD /* SearchByNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9090EC2020101262003280BD /* SearchByNameViewController.swift */; };
 		909AE6A9200CF2F000FEE529 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6A8200CF2F000FEE529 /* AppDelegate.swift */; };
 		909AE6AE200CF2F000FEE529 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6AC200CF2F000FEE529 /* Main.storyboard */; };
-		909AE6B0200CF2F000FEE529 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6AF200CF2F000FEE529 /* Assets.xcassets */; };
 		909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */; };
 		909AE6BE200CF2F000FEE529 /* SearchPubChemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6BD200CF2F000FEE529 /* SearchPubChemTests.swift */; };
 		909AE6C9200CF2F000FEE529 /* SearchPubChemUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6C8200CF2F000FEE529 /* SearchPubChemUITests.swift */; };
@@ -44,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		90267BE4201E5B1000F899A3 /* MakeSolutionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeSolutionViewController.swift; sourceTree = "<group>"; };
+		902DFADC2027636B001E2AD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		907FECB32014EDF800B0CEBF /* PubChemSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemSearch.swift; sourceTree = "<group>"; };
 		907FECB520152CD500B0CEBF /* CompoundDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundDetailViewController.swift; sourceTree = "<group>"; };
 		9081A37F201BEEB800A1FECC /* PubChemSolution.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PubChemSolution.xcdatamodel; sourceTree = "<group>"; };
@@ -56,7 +59,6 @@
 		909AE6A5200CF2F000FEE529 /* SearchPubChem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchPubChem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909AE6A8200CF2F000FEE529 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		909AE6AD200CF2F000FEE529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		909AE6AF200CF2F000FEE529 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		909AE6B2200CF2F000FEE529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		909AE6B4200CF2F000FEE529 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		909AE6B9200CF2F000FEE529 /* SearchPubChemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SearchPubChemTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,7 +122,7 @@
 			children = (
 				909AE6A8200CF2F000FEE529 /* AppDelegate.swift */,
 				909AE6AC200CF2F000FEE529 /* Main.storyboard */,
-				909AE6AF200CF2F000FEE529 /* Assets.xcassets */,
+				902DFADC2027636B001E2AD6 /* Assets.xcassets */,
 				909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */,
 				909AE6B4200CF2F000FEE529 /* Info.plist */,
 				909AE6D6200CF38800FEE529 /* ChemicalTableViewController.swift */,
@@ -128,6 +130,7 @@
 				9090EC2020101262003280BD /* SearchByNameViewController.swift */,
 				907FECB32014EDF800B0CEBF /* PubChemSearch.swift */,
 				907FECB520152CD500B0CEBF /* CompoundDetailViewController.swift */,
+				90267BE4201E5B1000F899A3 /* MakeSolutionViewController.swift */,
 			);
 			path = SearchPubChem;
 			sourceTree = "<group>";
@@ -271,7 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */,
-				909AE6B0200CF2F000FEE529 /* Assets.xcassets in Resources */,
+				902DFADD2027636B001E2AD6 /* Assets.xcassets in Resources */,
 				909AE6AE200CF2F000FEE529 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,6 +312,7 @@
 				9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */,
 				9081A388201BF7A900A1FECC /* Solution+CoreDataProperties.swift in Sources */,
 				909AE6D7200CF38800FEE529 /* ChemicalTableViewController.swift in Sources */,
+				90267BE5201E5B1000F899A3 /* MakeSolutionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
