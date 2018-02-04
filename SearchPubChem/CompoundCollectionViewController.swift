@@ -71,9 +71,24 @@ class CompoundCollectionViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CompoundCollectionViewCell", for: indexPath) as! CompoundCollectionViewCell
     
-        // Configure the cell
+        // Set the properties of 'cell' to default values
+        cell.compoundImage.image = nil
+        cell.compoundImage.backgroundColor = .black
+        //cell.activityIndicator.startAnimating()
+        cell.compoundName.text = ""
+        
+        // If there is an item in 'fetchedResultsController', present it.
+        if let fc = fetchedResultsController {
+            let compound = fc.object(at: indexPath) as! Compound
+            
+            cell.compoundName.text = compound.name
+            
+            if let imageData = compound.image {
+                cell.compoundImage.image = UIImage(data: imageData as Data)
+            }
+        }
     
         return cell
     }
