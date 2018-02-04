@@ -115,5 +115,4 @@ extension SearchByNameViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
 }

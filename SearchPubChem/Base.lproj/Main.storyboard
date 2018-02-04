@@ -322,7 +322,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nif-de-sE1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1898" y="-359"/>
+            <point key="canvasLocation" x="1889" y="-797"/>
         </scene>
         <!--Solutions-->
         <scene sceneID="urY-Q0-Jdk">
@@ -440,6 +440,9 @@
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="1lD-Sm-KLH" id="ygS-xJ-qlm"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <constraints>
@@ -458,6 +461,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gcM-Ms-CPm">
                                         <rect key="frame" x="187.5" y="0.0" width="187.5" height="30"/>
                                         <state key="normal" title="Add a compound"/>
+                                        <connections>
+                                            <segue destination="etJ-B1-mW3" kind="show" id="f4P-Vf-SoN"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -483,10 +489,47 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7MN-Kv-8Ws"/>
                     </view>
+                    <connections>
+                        <outlet property="addCompound" destination="gcM-Ms-CPm" id="ejO-AZ-Y7q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U8I-1R-LVi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1100" y="-9.4452773613193415"/>
+        </scene>
+        <!--Compound Collection View Controller-->
+        <scene sceneID="nXk-1T-3Sa">
+            <objects>
+                <collectionViewController storyboardIdentifier="CompoundCollectionViewController" id="etJ-B1-mW3" customClass="CompoundCollectionViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="zMA-8h-Hy1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ri1-jw-A3d">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="fEn-ca-0Aq">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="etJ-B1-mW3" id="P9u-nO-zjf"/>
+                            <outlet property="delegate" destination="etJ-B1-mW3" id="dLK-Wq-cTN"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8aL-U4-v6h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1889" y="-9"/>
         </scene>
         <!--Solution-->
         <scene sceneID="rdo-ML-X0U">
