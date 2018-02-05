@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -511,36 +512,39 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Select Compounds" id="FFs-cj-Ane">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="BFq-Q9-tIW"/>
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="BFq-Q9-tIW">
+                                            <connections>
+                                                <action selector="dismiss:" destination="Op3-KS-PYq" id="7Pk-sp-L2k"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9Mn-jL-dED">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9Mn-jL-dED">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Hd1-Ys-Mha">
-                                    <size key="itemSize" width="150" height="171"/>
+                                    <size key="itemSize" width="152" height="152"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CompoundCollectionViewCell" id="7iG-0a-dOt" customClass="CompoundCollectionViewCell" customModule="SearchPubChem" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="150" height="171"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="152" height="152"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="150" height="171"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="152" height="152"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Xf-uc-MmA">
-                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="150" placeholderIntrinsicHeight="150" translatesAutoresizingMaskIntoConstraints="NO" id="1Xf-uc-MmA">
+                                                    <rect key="frame" x="9" y="9" width="134" height="134"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" secondItem="1Xf-uc-MmA" secondAttribute="height" multiplier="1:1" id="932-OQ-KZv"/>
+                                                        <constraint firstAttribute="width" secondItem="1Xf-uc-MmA" secondAttribute="height" multiplier="1:1" id="Xi8-u3-dqD"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1XG-uc-YZ5">
-                                                    <rect key="frame" x="0.0" y="150" width="150" height="21"/>
+                                                    <rect key="frame" x="9" y="122" width="134" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -548,17 +552,20 @@
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="1XG-uc-YZ5" secondAttribute="trailing" id="Eii-3U-MzD"/>
-                                            <constraint firstAttribute="trailing" secondItem="1Xf-uc-MmA" secondAttribute="trailing" id="EtR-fp-Pyv"/>
-                                            <constraint firstAttribute="bottom" secondItem="1XG-uc-YZ5" secondAttribute="bottom" id="Jpn-6x-JBZ"/>
-                                            <constraint firstItem="1XG-uc-YZ5" firstAttribute="leading" secondItem="7iG-0a-dOt" secondAttribute="leading" id="LuT-il-vIG"/>
-                                            <constraint firstItem="1Xf-uc-MmA" firstAttribute="top" secondItem="7iG-0a-dOt" secondAttribute="top" id="ZzF-XP-Xt7"/>
-                                            <constraint firstItem="1XG-uc-YZ5" firstAttribute="top" secondItem="1Xf-uc-MmA" secondAttribute="bottom" id="dte-IC-EXZ"/>
-                                            <constraint firstItem="1Xf-uc-MmA" firstAttribute="leading" secondItem="7iG-0a-dOt" secondAttribute="leading" id="ha0-FU-Zyy"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="1Xf-uc-MmA" secondAttribute="trailing" constant="1" id="8qV-KM-ltF"/>
+                                            <constraint firstItem="1XG-uc-YZ5" firstAttribute="trailing" secondItem="1Xf-uc-MmA" secondAttribute="trailing" id="Hr4-QY-C6q"/>
+                                            <constraint firstItem="1Xf-uc-MmA" firstAttribute="centerX" secondItem="7iG-0a-dOt" secondAttribute="centerX" id="M8D-cK-BJ9"/>
+                                            <constraint firstItem="1Xf-uc-MmA" firstAttribute="centerY" secondItem="7iG-0a-dOt" secondAttribute="centerY" id="SrN-cN-kVm"/>
+                                            <constraint firstItem="1XG-uc-YZ5" firstAttribute="leading" secondItem="1Xf-uc-MmA" secondAttribute="leading" id="fRy-IF-gEk"/>
+                                            <constraint firstItem="1XG-uc-YZ5" firstAttribute="bottom" secondItem="1Xf-uc-MmA" secondAttribute="bottom" id="gF0-BS-qVx"/>
+                                            <constraint firstItem="1XG-uc-YZ5" firstAttribute="centerX" secondItem="7iG-0a-dOt" secondAttribute="centerX" id="gFL-Zi-sTX"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="1Xf-uc-MmA" secondAttribute="bottom" constant="1" id="izO-hK-Kba"/>
+                                            <constraint firstItem="1Xf-uc-MmA" firstAttribute="top" secondItem="7iG-0a-dOt" secondAttribute="topMargin" constant="1" id="siU-sF-VN9"/>
+                                            <constraint firstItem="1Xf-uc-MmA" firstAttribute="leading" secondItem="7iG-0a-dOt" secondAttribute="leadingMargin" constant="1" id="tbR-bQ-IYg"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="compoundImageView" destination="1Xf-uc-MmA" id="Xma-1O-eH7"/>
-                                            <outlet property="compoundName" destination="1XG-uc-YZ5" id="ZlD-Oc-dT9"/>
+                                            <outlet property="compoundName" destination="1XG-uc-YZ5" id="9yf-W8-cHE"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -569,6 +576,12 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="aCy-s0-LUS" firstAttribute="bottom" secondItem="9Mn-jL-dED" secondAttribute="bottom" id="H17-th-CYy"/>
+                            <constraint firstItem="9Mn-jL-dED" firstAttribute="top" secondItem="aCy-s0-LUS" secondAttribute="top" constant="44" id="JlX-oz-xSZ"/>
+                            <constraint firstItem="aCy-s0-LUS" firstAttribute="trailing" secondItem="9Mn-jL-dED" secondAttribute="trailing" id="Vsg-I9-f23"/>
+                            <constraint firstItem="9Mn-jL-dED" firstAttribute="leading" secondItem="aCy-s0-LUS" secondAttribute="leading" id="XrF-Pf-JLz"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="aCy-s0-LUS"/>
                     </view>
                     <connections>
@@ -584,7 +597,7 @@
         <scene sceneID="rdo-ML-X0U">
             <objects>
                 <navigationController id="yqB-EI-ZFW" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Solution" id="UjD-Nm-tTh"/>
+                    <tabBarItem key="tabBarItem" title="Solution" image="Solution" selectedImage="Solution_Selected" id="UjD-Nm-tTh"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WJl-mA-8WE">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -619,7 +632,9 @@
         <scene sceneID="lPj-py-fOO">
             <objects>
                 <navigationController id="DSG-Hz-3TZ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Compound" id="Fa3-8d-09A"/>
+                    <tabBarItem key="tabBarItem" title="Compound" image="Compound" selectedImage="Compound_Selected" id="Fa3-8d-09A">
+                        <inset key="imageInsets" minX="2" minY="2" maxX="2" maxY="2"/>
+                    </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3Jq-Yc-Ml0">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -633,4 +648,10 @@
             <point key="canvasLocation" x="-391" y="-797"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Compound" width="45" height="45"/>
+        <image name="Compound_Selected" width="45" height="45"/>
+        <image name="Solution" width="45" height="45"/>
+        <image name="Solution_Selected" width="45" height="45"/>
+    </resources>
 </document>
