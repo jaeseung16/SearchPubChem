@@ -138,7 +138,7 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
     }
     
     func adjustFlowLayoutSize(size: CGSize) {
-        let space: CGFloat = 3.0
+        let space: CGFloat = 1.0
         let width = cellSize(size: size, space: space)
         let height = width
         

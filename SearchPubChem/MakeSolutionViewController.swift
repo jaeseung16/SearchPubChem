@@ -14,11 +14,18 @@ class MakeSolutionViewController: UIViewController {
     @IBOutlet weak var addCompound: UIButton!
     
     let maxNumberOfCompounds = 10
+    var cids = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print(cids)
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,11 +66,37 @@ class MakeSolutionViewController: UIViewController {
             // Set up the fetchedResultsController of CompoundCollectionViewController
             if let compoundCollectionViewController = segue.destination as? CompoundCollectionViewController {
                 compoundCollectionViewController.fetchedResultsController = fc
+                compoundCollectionViewController.delegate = self
                 present(compoundCollectionViewController, animated: true, completion: nil)
             }
         }
     }
     
+}
+
+extension MakeSolutionViewController: CompoundCollectionViewDelegate {
+    func selectedCompounds(with cids: [String]) {
+        self.cids = cids
+    }
+}
+
+extension MakeSolutionViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return cids.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MakeSolutionTableViewCell")!
+        
+        cell.textLabel?.text = cids[indexPath.row]
+        print(cids)
+        
+        return cell
+    }
 }
 
 // MARK: - UITextFieldDelegate
