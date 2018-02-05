@@ -13,6 +13,8 @@ class MakeSolutionViewController: UIViewController {
 
     @IBOutlet weak var addCompound: UIButton!
     
+    let maxNumberOfCompounds = 10
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -55,16 +57,13 @@ class MakeSolutionViewController: UIViewController {
             }
             
             // Set up the fetchedResultsController of CompoundCollectionViewController
-            let compoundCollectionViewController = self.storyboard?.instantiateViewController(withIdentifier: "CompoundCollectionViewController") as! CompoundCollectionViewController
-            
-            compoundCollectionViewController.fetchedResultsController = fc
-            
-            present(compoundCollectionViewController, animated: true, completion: nil)
+            if let compoundCollectionViewController = segue.destination as? CompoundCollectionViewController {
+                compoundCollectionViewController.fetchedResultsController = fc
+                present(compoundCollectionViewController, animated: true, completion: nil)
+            }
         }
-        
     }
     
-
 }
 
 // MARK: - UITextFieldDelegate

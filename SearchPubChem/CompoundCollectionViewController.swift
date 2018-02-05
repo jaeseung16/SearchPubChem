@@ -11,10 +11,18 @@ import CoreData
 
 private let reuseIdentifier = "CompoundCollectionViewCell"
 
+protocol CompoundCollectionViewDelegate: AnyObject {
+    func selectedCompounds(with cids: [String])
+}
+
 class CompoundCollectionViewController: UIViewController {
 
     @IBOutlet weak var compoundCollectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    
+    weak var delegate: CompoundCollectionViewDelegate?
+    var maxNumberOfCompounds: Int?
+    var cids = [String]()
     
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
         didSet {
@@ -32,8 +40,10 @@ class CompoundCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        adjustFlowLayoutSize(size: self.view.frame.size)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -52,6 +62,12 @@ class CompoundCollectionViewController: UIViewController {
     // MARK: UICollectionViewDataSource
 
 
+    @IBAction func dismiss(_ sender: UIBarButtonItem) {
+        delegate?.selectedCompounds(with: cids)
+    
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 
 extension CompoundCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -91,6 +107,25 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if let fc = fetchedResultsController {
+            let compound = fc.object(at: indexPath) as! Compound
+            let cid = compound.cid!
+            
+            if let index = cids.index(of: cid){
+                cids.remove(at: index)
+                print("selected: \(cids)")
+                return false
+            } else {
+                cids.append(cid)
+                print("selected: \(cids)")
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     // MARK: Methods for FlowLayout
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -104,12 +139,13 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
     
     func adjustFlowLayoutSize(size: CGSize) {
         let space: CGFloat = 3.0
-        let dimension = cellSize(size: size, space: space)
+        let width = cellSize(size: size, space: space)
+        let height = width
         
         self.flowLayout.minimumInteritemSpacing = space
         self.flowLayout.minimumLineSpacing = 2 * space
         self.flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
-        self.flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+        self.flowLayout.itemSize = CGSize(width: width, height: height)
     }
     
     func cellSize(size: CGSize, space: CGFloat) -> CGFloat {
