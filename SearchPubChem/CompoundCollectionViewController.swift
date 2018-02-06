@@ -19,6 +19,7 @@ class CompoundCollectionViewController: UIViewController {
 
     @IBOutlet weak var compoundCollectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var selectedCompoundsLabel: UILabel!
     
     weak var delegate: CompoundCollectionViewDelegate?
     var maxNumberOfCompounds: Int?
@@ -41,6 +42,7 @@ class CompoundCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        selectedCompoundsLabel.text = cids.joined(separator: " ")
         adjustFlowLayoutSize(size: self.view.frame.size)
     }
     
@@ -61,10 +63,13 @@ class CompoundCollectionViewController: UIViewController {
 
     // MARK: UICollectionViewDataSource
 
-
-    @IBAction func dismiss(_ sender: UIBarButtonItem) {
+    @IBAction func selectionFinished(_ sender: UIButton) {
         delegate?.selectedCompounds(with: cids)
+        dismiss(animated: true, completion: nil)
+    }
     
+    
+    @IBAction func dismiss(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
     
@@ -114,11 +119,11 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
             
             if let index = cids.index(of: cid){
                 cids.remove(at: index)
-                print("selected: \(cids)")
+                selectedCompoundsLabel.text = cids.joined(separator: " ")
                 return false
             } else {
                 cids.append(cid)
-                print("selected: \(cids)")
+                selectedCompoundsLabel.text = cids.joined(separator: " ")
                 return true
             }
         }

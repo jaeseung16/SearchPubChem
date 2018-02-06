@@ -12,6 +12,7 @@ import CoreData
 class MakeSolutionViewController: UIViewController {
 
     @IBOutlet weak var addCompound: UIButton!
+    @IBOutlet weak var solutionTableView: UITableView!
     
     let maxNumberOfCompounds = 10
     var cids = [String]()
@@ -26,6 +27,7 @@ class MakeSolutionViewController: UIViewController {
         super.viewWillAppear(animated)
         
         print(cids)
+        solutionTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,6 +69,7 @@ class MakeSolutionViewController: UIViewController {
             if let compoundCollectionViewController = segue.destination as? CompoundCollectionViewController {
                 compoundCollectionViewController.fetchedResultsController = fc
                 compoundCollectionViewController.delegate = self
+                compoundCollectionViewController.cids = cids
                 present(compoundCollectionViewController, animated: true, completion: nil)
             }
         }
