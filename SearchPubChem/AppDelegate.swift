@@ -83,5 +83,7 @@ extension AppDelegate {
         let sodiumChloride = Compound(name: "sodium chloride", formula: "NaCl", molecularWeight: 58.44, CID: "5234", nameIUPAC: "sodium chloride", context: stack.context)
         sodiumChloride.image = UIImagePNGRepresentation(UIImage(named: "NaCl")!)! as NSData
         
+        let saltyWater = Solution(name: "salty water", compounds: [water, sodiumChloride], context: stack.context)
+        
     }
 }

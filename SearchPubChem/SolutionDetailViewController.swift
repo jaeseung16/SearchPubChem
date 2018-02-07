@@ -38,7 +38,7 @@ class SolutionDetailViewController: UIViewController {
             }
             
             if let compound1 = compoundsArray[1] as? Compound {
-                compound1Labe2.text = compound1.name
+                compound2Label.text = compound1.name
             }
         }
     }

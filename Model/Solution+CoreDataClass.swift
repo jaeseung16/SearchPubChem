@@ -12,5 +12,14 @@ import CoreData
 
 
 public class Solution: NSManagedObject {
-
+    convenience init(name: String, compounds: [Compound], context: NSManagedObjectContext) {
+        if let entity = NSEntityDescription.entity(forEntityName: "Solution", in: context) {
+            self.init(entity: entity, insertInto: context)
+            self.name = name
+            self.compounds = NSSet(array: compounds)
+            self.created = NSDate()
+        } else {
+            fatalError("Unable to find the entity name, \"Compound\".")
+        }
+    }
 }

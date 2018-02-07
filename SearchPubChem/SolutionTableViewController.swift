@@ -1,19 +1,19 @@
 //
-//  ChemicalTableViewController.swift
+//  SolutionTableViewController.swift
 //  SearchPubChem
 //
-//  Created by Jae Seung Lee on 1/15/18.
+//  Created by Jae Seung Lee on 2/6/18.
 //  Copyright © 2018 Jae Seung Lee. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class ChemicalTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class SolutionTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
-    let tableViewCellIdentifier = "ChemicalTableViewCell"
+    let tableViewCellIdentifier = "SolutionTableViewCell"
     
-    var compounds = [Compound]()
+    var solutions = [Solution]()
     
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
         didSet {
@@ -32,8 +32,8 @@ class ChemicalTableViewController: UITableViewController, NSFetchedResultsContro
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchCompounds()
-        
+        fetchSolutions()
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -93,26 +93,54 @@ class ChemicalTableViewController: UITableViewController, NSFetchedResultsContro
             return nil
         }
     }
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
-
-        let compound = fetchedResultsController?.object(at: indexPath) as! Compound
         
-        cell.textLabel?.text = compound.name
-        cell.detailTextLabel?.text = compound.formula
-
+        let solution = fetchedResultsController?.object(at: indexPath) as! Solution
+        
+        cell.textLabel?.text = solution.name
+        cell.detailTextLabel?.text = solution.created?.description
+        
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let compound = fetchedResultsController?.object(at: indexPath) as! Compound
-        
-        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "CompoundDetailViewController") as! CompoundDetailViewController
-        detailViewController.compound = compound
-        
-        present(detailViewController, animated: true, completion: nil)
+
+    /*
+    // Override to support conditional editing of the table view.
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
     }
+    */
+
+    /*
+    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }    
+    }
+    */
+
+    /*
+    // Override to support rearranging the table view.
+    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+
+    }
+    */
+
+    /*
+    // Override to support conditional rearranging of the table view.
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the item to be re-orderable.
+        return true
+    }
+    */
 
     /*
     // MARK: - Navigation
@@ -126,19 +154,19 @@ class ChemicalTableViewController: UITableViewController, NSFetchedResultsContro
 
 }
 
-extension ChemicalTableViewController {
-    func fetchCompounds() {
+extension SolutionTableViewController {
+    func fetchSolutions() {
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let stack = delegate.stack
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Compound")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Solution")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
     }
 }
 
-extension ChemicalTableViewController {
+extension SolutionTableViewController {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -178,3 +206,4 @@ extension ChemicalTableViewController {
         tableView.endUpdates()
     }
 }
+

@@ -329,13 +329,13 @@
         <!--Solutions-->
         <scene sceneID="urY-Q0-Jdk">
             <objects>
-                <tableViewController id="ATX-MQ-62f" sceneMemberID="viewController">
+                <tableViewController id="ATX-MQ-62f" customClass="SolutionTableViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="QeZ-5g-rbO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="zq1-uC-Y5h" detailTextLabel="BcQ-C3-tO4" style="IBUITableViewCellStyleValue1" id="VJE-QR-wVX">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SolutionTableViewCell" textLabel="zq1-uC-Y5h" detailTextLabel="BcQ-C3-tO4" style="IBUITableViewCellStyleValue1" id="VJE-QR-wVX">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VJE-QR-wVX" id="pdj-ot-wes">
