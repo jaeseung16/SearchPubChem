@@ -30,15 +30,24 @@ class SolutionDetailViewController: UIViewController {
         nameLabel.text = solution.name
         dateLabel.text = solution.created?.description
         
-        if let compounds = solution.compounds {
+        if let compounds = solution.compounds, let amount = solution.amount {
             let compoundsArray = Array(compounds)
             
-            if let compound1 = compoundsArray[0] as? Compound {
-                compound1Label.text = compound1.name
+            if let compound = compoundsArray[0] as? Compound {
+                compound1Label.text = compound.name
+                if let value = amount.value(forKey: compound.name!) {
+                    print("\(String(describing: value))")
+                    amount1Label.text = String(describing: value)
+                }
             }
             
-            if let compound1 = compoundsArray[1] as? Compound {
-                compound2Label.text = compound1.name
+            if let compound = compoundsArray[1] as? Compound {
+                compound2Label.text = compound.name
+                
+                if let value = amount.value(forKey: compound.name!) {
+                    print("\(String(describing: value))")
+                    amount2Label.text = String(describing: value)
+                }
             }
         }
     }
@@ -48,7 +57,10 @@ class SolutionDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    @IBAction func dismiss(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 
