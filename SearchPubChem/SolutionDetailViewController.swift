@@ -11,6 +11,8 @@ import UIKit
 class SolutionDetailViewController: UIViewController {
     
     var solution: Solution!
+    var names = [String]()
+    var amounts = [Double]()
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
@@ -23,29 +25,41 @@ class SolutionDetailViewController: UIViewController {
         nameLabel.text = solution.name
         dateLabel.text = solution.created?.description
         
-        if let compounds = solution.compounds, let amount = solution.amount {
-            //let compoundsArray = Array(compounds)
-            var count = 1
-            
-            for compound in compounds {
-                guard let compound = compound as? Compound else {
-                    print("It is not a compound.")
-                    return
-                }
-                
-                if let label = self.view.viewWithTag(count) as? UILabel {
-                    label.text = compound.name
-                }
-                
-                if let value = amount.value(forKey: compound.name!) {
-                    if let label = self.view.viewWithTag(count+10) as? UILabel {
-                        label.text = String(describing: value)
-                    }
-                }
-                
-                count += 1
-            }
+        guard let compounds = solution.compounds, let amount = solution.amount else {
+            print("There is no information.")
+            return
         }
+        
+        for compound in compounds {
+            guard let compound = compound as? Compound else {
+                print("It is not a compound.")
+                break
+            }
+            
+            guard let name = compound.name else {
+                print("No name found")
+                break
+            }
+            
+            guard let value = amount.value(forKey: name) as? Double else {
+                print("No value found")
+                break
+            }
+            
+            names.append(name)
+            amounts.append(value)
+        }
+        
+        for index in 1...names.count {
+            guard let nameLabel = self.view.viewWithTag(index) as? UILabel, let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
+                print("Cannot find views with tags")
+                break
+            }
+            
+            nameLabel.text = names[index-1]
+            amountLabel.text = "\(amounts[index-1])"
+        }
+        
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
