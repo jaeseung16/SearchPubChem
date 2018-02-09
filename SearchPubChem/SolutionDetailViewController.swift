@@ -15,13 +15,6 @@ class SolutionDetailViewController: UIViewController {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
-    @IBOutlet weak var compound1Label: UILabel!
-    @IBOutlet weak var compound2Label: UILabel!
-    
-    @IBOutlet weak var amount1Label: UILabel!
-    @IBOutlet weak var amount2Label: UILabel!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,30 +24,28 @@ class SolutionDetailViewController: UIViewController {
         dateLabel.text = solution.created?.description
         
         if let compounds = solution.compounds, let amount = solution.amount {
-            let compoundsArray = Array(compounds)
+            //let compoundsArray = Array(compounds)
+            var count = 1
             
-            if let compound = compoundsArray[0] as? Compound {
-                compound1Label.text = compound.name
-                if let value = amount.value(forKey: compound.name!) {
-                    print("\(String(describing: value))")
-                    amount1Label.text = String(describing: value)
+            for compound in compounds {
+                guard let compound = compound as? Compound else {
+                    print("It is not a compound.")
+                    return
                 }
-            }
-            
-            if let compound = compoundsArray[1] as? Compound {
-                compound2Label.text = compound.name
+                
+                if let label = self.view.viewWithTag(count) as? UILabel {
+                    label.text = compound.name
+                }
                 
                 if let value = amount.value(forKey: compound.name!) {
-                    print("\(String(describing: value))")
-                    amount2Label.text = String(describing: value)
+                    if let label = self.view.viewWithTag(count+10) as? UILabel {
+                        label.text = String(describing: value)
+                    }
                 }
+                
+                count += 1
             }
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
