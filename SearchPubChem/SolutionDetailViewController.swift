@@ -13,14 +13,23 @@ class SolutionDetailViewController: UIViewController {
     var solution: Solution!
     var names = [String]()
     var amounts = [Double]()
+    var molecularWeights = [Double]()
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    
+    @IBOutlet weak var absoluteRelativeControl: UISegmentedControl!
+    @IBOutlet weak var unitControl: UISegmentedControl!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        absoluteRelativeControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenAbsoluteAndRelative), for: .valueChanged)
+        
+        unitControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenGramAndMol), for: .valueChanged)
         
         nameLabel.text = solution.name
         dateLabel.text = solution.created?.description
@@ -48,6 +57,7 @@ class SolutionDetailViewController: UIViewController {
             
             names.append(name)
             amounts.append(value)
+            molecularWeights.append(compound.molecularWeight)
         }
         
         for index in 1...names.count {
@@ -76,4 +86,63 @@ class SolutionDetailViewController: UIViewController {
     }
     */
 
+    @objc func switchBetweenAbsoluteAndRelative() {
+        switch absoluteRelativeControl.selectedSegmentIndex {
+        case 0:
+            for index in 1...amounts.count {
+                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
+                    print("Cannot find views with tags")
+                    break
+                }
+                amountLabel.text = "\(amounts[index-1])"
+            }
+        case 1:
+            let maximum = amounts.min()!
+            
+            for index in 1...amounts.count {
+                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
+                    print("Cannot find views with tags")
+                    break
+                }
+                amountLabel.text = "\(amounts[index-1] / maximum)"
+            }
+        default:
+            for index in 1...amounts.count {
+                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
+                    print("Cannot find views with tags")
+                    break
+                }
+                amountLabel.text = "\(amounts[index-1])"
+            }
+        }
+    }
+    
+    @objc func switchBetweenGramAndMol() {
+        switch unitControl.selectedSegmentIndex {
+        case 0:
+            for index in 1...amounts.count {
+                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
+                    print("Cannot find views with tags")
+                    break
+                }
+                amountLabel.text = "\(amounts[index-1])"
+            }
+        case 1:
+            for index in 1...amounts.count {
+                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
+                    print("Cannot find views with tags")
+                    break
+                }
+                amountLabel.text = "\(amounts[index-1] / molecularWeights[index-1])"
+            }
+        default:
+            for index in 1...amounts.count {
+                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
+                    print("Cannot find views with tags")
+                    break
+                }
+                amountLabel.text = "\(amounts[index-1])"
+            }
+        }
+    }
 }

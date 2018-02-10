@@ -693,8 +693,10 @@
                         <viewLayoutGuide key="safeArea" id="t5z-oA-muX"/>
                     </view>
                     <connections>
+                        <outlet property="absoluteRelativeControl" destination="NuE-4U-ES1" id="XkG-SY-WbY"/>
                         <outlet property="dateLabel" destination="EwZ-8B-fkL" id="Nxv-qV-whP"/>
                         <outlet property="nameLabel" destination="C0L-17-2eM" id="miE-nC-OY9"/>
+                        <outlet property="unitControl" destination="ysP-vh-MiN" id="y6e-Ts-JdT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZLQ-g8-GsN" userLabel="First Responder" sceneMemberID="firstResponder"/>
