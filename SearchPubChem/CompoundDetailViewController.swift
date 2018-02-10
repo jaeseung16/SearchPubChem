@@ -54,3 +54,23 @@ class CompoundDetailViewController: UIViewController {
     */
 
 }
+
+extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+    return 0
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SolutionMadeOfCompoundTableViewCell") as! UITableViewCell
+        
+        cell.textLabel?.text = "a"
+        
+        return cell
+    }
+    
+    
+}

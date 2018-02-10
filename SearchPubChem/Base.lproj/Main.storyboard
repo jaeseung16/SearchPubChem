@@ -232,10 +232,6 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l7h-0m-611">
-                                <rect key="frame" x="0.0" y="394" width="375" height="273"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="itK-nw-6GZ">
                                 <rect key="frame" x="0.0" y="64" width="375" height="330.5"/>
                                 <subviews>
@@ -298,18 +294,48 @@
                                     </imageView>
                                 </subviews>
                             </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l7h-0m-611">
+                                <rect key="frame" x="0.0" y="394" width="375" height="273"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SolutionMadeOfCompoundTableViewCell" textLabel="MwS-QA-zHC" style="IBUITableViewCellStyleDefault" id="z8e-9I-JfB">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="z8e-9I-JfB" id="Bmv-5E-pHU">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MwS-QA-zHC">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="8uc-ZR-Vbf" id="ZE9-7n-O9U"/>
+                                    <outlet property="delegate" destination="8uc-ZR-Vbf" id="fdx-ZK-YCZ"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="itK-nw-6GZ" firstAttribute="top" secondItem="0b2-Yd-KjY" secondAttribute="bottom" id="4Pw-06-mu7"/>
+                            <constraint firstItem="l7h-0m-611" firstAttribute="leading" secondItem="srm-hO-zfs" secondAttribute="leading" id="6Yp-MA-uNz"/>
                             <constraint firstItem="l7h-0m-611" firstAttribute="top" secondItem="itK-nw-6GZ" secondAttribute="bottom" id="Aor-Tf-Vm0"/>
                             <constraint firstItem="0b2-Yd-KjY" firstAttribute="trailing" secondItem="itK-nw-6GZ" secondAttribute="trailing" id="N7B-Wj-5tw"/>
                             <constraint firstItem="0b2-Yd-KjY" firstAttribute="leading" secondItem="l7h-0m-611" secondAttribute="leading" id="Vpl-U4-7WU"/>
                             <constraint firstItem="itK-nw-6GZ" firstAttribute="leading" secondItem="srm-hO-zfs" secondAttribute="leading" id="XwA-xF-sjb"/>
                             <constraint firstItem="0b2-Yd-KjY" firstAttribute="top" secondItem="srm-hO-zfs" secondAttribute="top" id="Y4Z-C2-hqL"/>
+                            <constraint firstItem="srm-hO-zfs" firstAttribute="trailing" secondItem="l7h-0m-611" secondAttribute="trailing" id="cXW-vr-fRV"/>
                             <constraint firstItem="0b2-Yd-KjY" firstAttribute="trailing" secondItem="l7h-0m-611" secondAttribute="trailing" id="dBe-r9-1xV"/>
                             <constraint firstItem="0b2-Yd-KjY" firstAttribute="leading" secondItem="itK-nw-6GZ" secondAttribute="leading" id="fn6-Po-jDO"/>
                             <constraint firstItem="srm-hO-zfs" firstAttribute="trailing" secondItem="itK-nw-6GZ" secondAttribute="trailing" id="qMJ-wC-vQ6"/>
+                            <constraint firstItem="srm-hO-zfs" firstAttribute="bottom" secondItem="l7h-0m-611" secondAttribute="bottom" id="uDs-Qn-lFc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="srm-hO-zfs"/>
                     </view>
