@@ -93,9 +93,10 @@ extension MakeSolutionViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MakeSolutionTableViewCell")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MakeSolutionTableViewCell") as! MakeSolutionTableViewCell
         
-        cell.textLabel?.text = compounds[indexPath.row].name
+        cell.label.text = compounds[indexPath.row].name
+        
         print(compounds)
         
         return cell
