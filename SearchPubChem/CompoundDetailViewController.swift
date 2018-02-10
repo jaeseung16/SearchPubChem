@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class CompoundDetailViewController: UIViewController {
+class CompoundDetailViewController: UIViewController, NSFetchedResultsControllerDelegate {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var formulaLabel: UILabel!
@@ -18,6 +19,20 @@ class CompoundDetailViewController: UIViewController {
     @IBOutlet weak var compoundImageView: UIImageView!
     
     var compound: Compound!
+    
+    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
+        didSet {
+            fetchedResultsController?.delegate = self
+            
+            if let fc = fetchedResultsController {
+                do {
+                    try fc.performFetch()
+                } catch {
+                    print("Error while trying to perform a search: \n\(error)\n\(String(describing: fetchedResultsController))")
+                }
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

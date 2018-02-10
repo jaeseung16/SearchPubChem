@@ -111,6 +111,19 @@ class ChemicalTableViewController: UITableViewController, NSFetchedResultsContro
         let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "CompoundDetailViewController") as! CompoundDetailViewController
         detailViewController.compound = compound
         
+        print("\(compound)")
+        
+        // Fetching [Photo] attached to the Pin
+        //let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Solution")
+        //fr.sortDescriptors = [NSSortDescriptor(key: "created", ascending: true)]
+        
+        //let pred = NSPredicate(format: "compound = %@", argumentArray: [compound])
+        //fr.predicate = pred
+        
+        //let fcForDetailVC = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: (fetchedResultsController?.managedObjectContext)!, sectionNameKeyPath: nil, cacheName: nil)
+        
+        //detailViewController.fetchedResultsController = fcForDetailVC
+        
         present(detailViewController, animated: true, completion: nil)
     }
 
