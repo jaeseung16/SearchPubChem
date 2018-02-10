@@ -16,6 +16,8 @@ class MakeSolutionViewController: UIViewController {
     
     let maxNumberOfCompounds = 10
     var compounds = [Compound]()
+    var amounts = [Double]()
+    var units = [Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,6 +98,7 @@ extension MakeSolutionViewController: UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "MakeSolutionTableViewCell") as! MakeSolutionTableViewCell
         
         cell.label.text = compounds[indexPath.row].name
+        cell.delegate = self
         
         print(compounds)
         
@@ -112,5 +115,11 @@ extension MakeSolutionViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+extension MakeSolutionViewController: MakeSolutionTableViewCellDelegate {
+    func didEndEditing(_ cell: MakeSolutionTableViewCell) {
+        print("\(solutionTableView.indexPath(for: cell))")
     }
 }
