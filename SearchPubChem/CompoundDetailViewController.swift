@@ -19,6 +19,7 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
     @IBOutlet weak var compoundImageView: UIImageView!
     
     var compound: Compound!
+    var solutions = [Solution]()
     
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
         didSet {
@@ -47,6 +48,20 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
         if let image = compound.image as Data? {
             compoundImageView.image = UIImage(data: image)
         }
+        
+        guard let solutions = compound.solutions else {
+            print("There are no solutions.")
+            return
+        }
+        
+        for solution in solutions {
+            guard let solution = solution as? Solution else {
+                print("It is not a solution.")
+                break
+            }
+            
+            self.solutions.append(solution)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,17 +87,17 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
 
 extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-    return 0
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return solutions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SolutionMadeOfCompoundTableViewCell") as! UITableViewCell
         
-        cell.textLabel?.text = "a"
+        cell.textLabel?.text = solutions[indexPath.row].name
         
         return cell
     }
