@@ -12,7 +12,7 @@ import CoreData
 private let reuseIdentifier = "CompoundCollectionViewCell"
 
 protocol CompoundCollectionViewDelegate: AnyObject {
-    func selectedCompounds(with cids: [String])
+    func selectedCompounds(with compounds: [Compound])
 }
 
 class CompoundCollectionViewController: UIViewController {
@@ -23,7 +23,7 @@ class CompoundCollectionViewController: UIViewController {
     
     weak var delegate: CompoundCollectionViewDelegate?
     var maxNumberOfCompounds: Int?
-    var cids = [String]()
+    var compounds = [Compound]()
     
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
         didSet {
@@ -42,7 +42,13 @@ class CompoundCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        selectedCompoundsLabel.text = cids.joined(separator: " ")
+        var cids = [String]()
+        
+        for compound in compounds {
+            cids.append(compound.name!)
+        }
+        
+        selectedCompoundsLabel.text = cids.joined(separator: "/")
         adjustFlowLayoutSize(size: self.view.frame.size)
     }
     
@@ -64,7 +70,7 @@ class CompoundCollectionViewController: UIViewController {
     // MARK: UICollectionViewDataSource
 
     @IBAction func selectionFinished(_ sender: UIButton) {
-        delegate?.selectedCompounds(with: cids)
+        delegate?.selectedCompounds(with: compounds)
         dismiss(animated: true, completion: nil)
     }
     
@@ -115,15 +121,24 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         if let fc = fetchedResultsController {
             let compound = fc.object(at: indexPath) as! Compound
-            let cid = compound.cid!
             
-            if let index = cids.index(of: cid){
-                cids.remove(at: index)
-                selectedCompoundsLabel.text = cids.joined(separator: " ")
+            if let index = compounds.index(of: compound){
+                compounds.remove(at: index)
+                
+                var cids = [String]()
+                for compound in compounds {
+                    cids.append(compound.name!)
+                }
+                selectedCompoundsLabel.text = cids.joined(separator: "/")
                 return false
             } else {
-                cids.append(cid)
-                selectedCompoundsLabel.text = cids.joined(separator: " ")
+                compounds.append(compound)
+                
+                var cids = [String]()
+                for compound in compounds {
+                    cids.append(compound.name!)
+                }
+                selectedCompoundsLabel.text = cids.joined(separator: "/")
                 return true
             }
         }

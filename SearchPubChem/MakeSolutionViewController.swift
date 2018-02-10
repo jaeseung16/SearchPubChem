@@ -15,7 +15,7 @@ class MakeSolutionViewController: UIViewController {
     @IBOutlet weak var solutionTableView: UITableView!
     
     let maxNumberOfCompounds = 10
-    var cids = [String]()
+    var compounds = [Compound]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class MakeSolutionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print(cids)
+        print("\(compounds.count)")
         solutionTableView.reloadData()
     }
 
@@ -69,7 +69,7 @@ class MakeSolutionViewController: UIViewController {
             if let compoundCollectionViewController = segue.destination as? CompoundCollectionViewController {
                 compoundCollectionViewController.fetchedResultsController = fc
                 compoundCollectionViewController.delegate = self
-                compoundCollectionViewController.cids = cids
+                compoundCollectionViewController.compounds = compounds
                 present(compoundCollectionViewController, animated: true, completion: nil)
             }
         }
@@ -78,8 +78,8 @@ class MakeSolutionViewController: UIViewController {
 }
 
 extension MakeSolutionViewController: CompoundCollectionViewDelegate {
-    func selectedCompounds(with cids: [String]) {
-        self.cids = cids
+    func selectedCompounds(with compounds: [Compound]) {
+        self.compounds = compounds
     }
 }
 
@@ -89,14 +89,14 @@ extension MakeSolutionViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cids.count
+        return compounds.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MakeSolutionTableViewCell")!
         
-        cell.textLabel?.text = cids[indexPath.row]
-        print(cids)
+        cell.textLabel?.text = compounds[indexPath.row].name
+        print(compounds)
         
         return cell
     }
