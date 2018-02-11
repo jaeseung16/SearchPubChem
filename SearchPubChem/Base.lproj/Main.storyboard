@@ -421,7 +421,11 @@
                                                 <action selector="dismiss:" destination="1lD-Sm-KLH" id="oMq-nE-btp"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="JW2-Ls-VsE"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="JW2-Ls-VsE">
+                                            <connections>
+                                                <action selector="createSolution:" destination="1lD-Sm-KLH" id="gg5-dD-aBF"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>

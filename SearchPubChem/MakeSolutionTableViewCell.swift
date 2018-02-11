@@ -10,6 +10,8 @@ import UIKit
 
 protocol MakeSolutionTableViewCellDelegate: AnyObject {
     func didEndEditing(_ cell: MakeSolutionTableViewCell)
+    
+    func didValueChanged(_ cell: MakeSolutionTableViewCell)
 }
 
 class MakeSolutionTableViewCell: UITableViewCell {
@@ -23,6 +25,11 @@ class MakeSolutionTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         textField.delegate = self
+        segmentedControl.addTarget(self, action: #selector(segmentControlChanged), for: .valueChanged)
+    }
+    
+    @objc func segmentControlChanged() {
+        delegate?.didValueChanged(self)
     }
 }
 

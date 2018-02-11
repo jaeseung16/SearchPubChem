@@ -41,6 +41,8 @@ class MakeSolutionViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
+    @IBAction func createSolution(_ sender: UIBarButtonItem) {
+    }
     
     // MARK: - Navigation
 
@@ -82,6 +84,11 @@ class MakeSolutionViewController: UIViewController {
 extension MakeSolutionViewController: CompoundCollectionViewDelegate {
     func selectedCompounds(with compounds: [Compound]) {
         self.compounds = compounds
+        
+        while amounts.count < compounds.count {
+            amounts.append(0.0)
+            units.append(0)
+        }
     }
 }
 
@@ -99,7 +106,7 @@ extension MakeSolutionViewController: UITableViewDelegate, UITableViewDataSource
         
         cell.label.text = compounds[indexPath.row].name
         cell.delegate = self
-        
+
         print(compounds)
         
         return cell
@@ -120,6 +127,14 @@ extension MakeSolutionViewController: UITextFieldDelegate {
 
 extension MakeSolutionViewController: MakeSolutionTableViewCellDelegate {
     func didEndEditing(_ cell: MakeSolutionTableViewCell) {
-        print("\(solutionTableView.indexPath(for: cell))")
+        let indexPath = solutionTableView.indexPath(for: cell)
+        amounts[indexPath!.row] = Double(cell.textField.text!)!
+        print("\(amounts)")
+    }
+    
+    @objc func didValueChanged(_ cell: MakeSolutionTableViewCell) {
+        let indexPath = solutionTableView.indexPath(for: cell)
+        units[indexPath!.row] = cell.segmentedControl.selectedSegmentIndex
+        print("\(units)")
     }
 }
