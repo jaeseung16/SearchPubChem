@@ -11,6 +11,7 @@ import CoreData
 
 class MakeSolutionViewController: UIViewController {
 
+    @IBOutlet weak var labelForSolution: UITextField!
     @IBOutlet weak var addCompound: UIButton!
     @IBOutlet weak var solutionTableView: UITableView!
     
@@ -22,7 +23,7 @@ class MakeSolutionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        labelForSolution.text = ""
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,6 +43,36 @@ class MakeSolutionViewController: UIViewController {
     }
 
     @IBAction func createSolution(_ sender: UIBarButtonItem) {
+        guard labelForSolution.text != "" else {
+            print("Label should be given.")
+            return
+        }
+        
+        guard compounds.count > 0 else {
+            print("No compounds.")
+            return
+        }
+        
+        var amountsWithUnit: [String: Double] = [:]
+        
+        for index in 0..<compounds.count {
+            let name = compounds[index].name!
+            let amount = amounts[index]
+            
+            if units[index] == 1 {
+                amountsWithUnit[name] = amount / 1000.0
+            } else {
+                amountsWithUnit[name] = amount
+            }
+        }
+        
+        // Get the stack
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let stack = delegate.stack
+        
+        let solution = Solution(name: labelForSolution.text!, compounds: compounds, amount: amountsWithUnit as NSObject, context: stack.context)
+        
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Navigation

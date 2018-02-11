@@ -591,6 +591,7 @@
                     </view>
                     <connections>
                         <outlet property="addCompound" destination="gcM-Ms-CPm" id="ejO-AZ-Y7q"/>
+                        <outlet property="labelForSolution" destination="sOm-K9-bpn" id="DSJ-oD-1Zy"/>
                         <outlet property="solutionTableView" destination="T3I-sH-c09" id="nWc-nw-lXK"/>
                     </connections>
                 </viewController>
