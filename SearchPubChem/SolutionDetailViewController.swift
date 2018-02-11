@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class SolutionDetailViewController: UIViewController {
     
@@ -74,6 +75,35 @@ class SolutionDetailViewController: UIViewController {
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func deleteAndDismiss(_ sender: UIBarButtonItem) {
+        // Get the stack
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let stack = delegate.stack
+        stack.context.delete(solution)
+        
+        if save(context: stack.context) {
+            print("Saved in SolutionDetailViewController.deleteAndDismiss(_:)")
+        } else {
+            print("Error while saving in SolutionDetailViewController.deleteAndDismiss(_:)")
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func save(context: NSManagedObjectContext) -> Bool {
+        if context.hasChanges {
+            do {
+                try context.save()
+                return true
+            } catch {
+                return false
+            }
+        } else {
+            print("Context has not changed.")
+            return false
+        }
     }
     
     /*

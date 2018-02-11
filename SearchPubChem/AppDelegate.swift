@@ -87,6 +87,6 @@ extension AppDelegate {
         
         let saltyWater = Solution(name: "salty water", compounds: [water, sodiumChloride], amount: amounts as NSObject, context: stack.context)
         
-        saltyWater.addToCompounds([water, sodiumChloride])
+        //saltyWater.addToCompounds([water, sodiumChloride])
     }
 }

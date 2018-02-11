@@ -19,6 +19,10 @@ public class Solution: NSManagedObject {
             self.compounds = NSSet(array: compounds)
             self.amount = amount
             self.created = NSDate()
+            
+            for compound in compounds {
+                self.addToCompounds(compound)
+            }
         } else {
             fatalError("Unable to find the entity name, \"Compound\".")
         }
