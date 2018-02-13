@@ -28,12 +28,13 @@ class CompoundDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         nameLabel.text = compound.name?.uppercased()
         formulaLabel.text = compound.formula
-        weightLabel.text = String(describing: compound.molecularWeight)
-        cidLabel.text = compound.cid
-        iupacLabel.text = compound.nameIUPAC
+        weightLabel.text = "\(String(describing: compound.molecularWeight)) gram/mol"
+        cidLabel.text = "PubChem CID: \(compound.cid!)"
+        iupacLabel.text = "IUPAC Name: \(compound.nameIUPAC!)"
         
         if let image = compound.image as Data? {
             compoundImageView.image = UIImage(data: image)
+            compoundImageView.isOpaque = false
         }
         
         guard let solutions = compound.solutions else {
