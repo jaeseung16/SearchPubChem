@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class CompoundDetailViewController: UIViewController {
 
@@ -16,6 +17,7 @@ class CompoundDetailViewController: UIViewController {
     @IBOutlet weak var cidLabel: UILabel!
     @IBOutlet weak var iupacLabel: UILabel!
     @IBOutlet weak var compoundImageView: UIImageView!
+    @IBOutlet weak var deleteButton: UIBarButtonItem!
     
     var compound: Compound!
     var solutions = [Solution]()
@@ -24,7 +26,7 @@ class CompoundDetailViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        nameLabel.text = compound.name
+        nameLabel.text = compound.name?.uppercased()
         formulaLabel.text = compound.formula
         weightLabel.text = String(describing: compound.molecularWeight)
         cidLabel.text = compound.cid
@@ -37,6 +39,12 @@ class CompoundDetailViewController: UIViewController {
         guard let solutions = compound.solutions else {
             print("There are no solutions.")
             return
+        }
+        
+        if solutions.count == 0 {
+            deleteButton.isEnabled = true
+        } else {
+            deleteButton.isEnabled = false
         }
         
         for solution in solutions {
@@ -56,6 +64,35 @@ class CompoundDetailViewController: UIViewController {
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func deleteAndDismiss(_ sender: UIBarButtonItem) {
+        // Get the stack
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let stack = delegate.stack
+        stack.context.delete(compound)
+        
+        if save(context: stack.context) {
+            print("Saved in CompoundDetailViewController.deleteAndDismiss(_:)")
+        } else {
+            print("Error while saving in CompoundDetailViewController.deleteAndDismiss(_:)")
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func save(context: NSManagedObjectContext) -> Bool {
+        if context.hasChanges {
+            do {
+                try context.save()
+                return true
+            } catch {
+                return false
+            }
+        } else {
+            print("Context has not changed.")
+            return false
+        }
     }
     
     /*
@@ -83,6 +120,15 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
         let cell = tableView.dequeueReusableCell(withIdentifier: "SolutionMadeOfCompoundTableViewCell")!
         
         cell.textLabel?.text = solutions[indexPath.row].name
+        
+        if let date = solutions[indexPath.row].created {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            dateFormatter.timeStyle = .none
+            dateFormatter.locale = Locale.current
+            
+            cell.detailTextLabel?.text = dateFormatter.string(from: date as Date)
+        }
         
         return cell
     }
