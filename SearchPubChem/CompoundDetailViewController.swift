@@ -34,7 +34,6 @@ class CompoundDetailViewController: UIViewController {
         
         if let image = compound.image as Data? {
             compoundImageView.image = UIImage(data: image)
-            compoundImageView.isOpaque = false
         }
         
         guard let solutions = compound.solutions else {
