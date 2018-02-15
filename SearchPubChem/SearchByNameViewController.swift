@@ -13,6 +13,10 @@ class SearchByNameViewController: UIViewController {
 
     @IBOutlet weak var nameToSearch: UITextField!
     
+    @IBOutlet weak var weightTitleLabel: UILabel!
+    @IBOutlet weak var cidTitleLabel: UILabel!
+    @IBOutlet weak var iupacTitleLabel: UILabel!
+    
     @IBOutlet weak var compoundImageView: UIImageView!
     @IBOutlet weak var formulaLabel: UILabel!
     @IBOutlet weak var weightLabel: UILabel!
@@ -25,6 +29,20 @@ class SearchByNameViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        hideLabels(true)
+        
+    }
+    
+    func hideLabels(_ yes: Bool) {
+            weightTitleLabel.isHidden = yes
+            cidTitleLabel.isHidden = yes
+            iupacTitleLabel.isHidden = yes
+            
+            compoundImageView.isHidden = yes
+            formulaLabel.isHidden = yes
+            weightLabel.isHidden = yes
+            cidLabel.isHidden = yes
+            iupacNameLabel.isHidden = yes
     }
     
     @IBAction func searchByName(_ sender: UIButton) {
@@ -43,6 +61,8 @@ class SearchByNameViewController: UIViewController {
                     self.cidLabel.text = (information["CID"] as! String)
                     self.iupacNameLabel.text = (information["IUPACName"] as! String)
                     
+                    self.hideLabels(false)
+                    
                     self.client.downloadImage(for: self.cidLabel.text!, completionHandler: { (success, data) in
                         if success {
                             DispatchQueue.main.async {
@@ -52,6 +72,7 @@ class SearchByNameViewController: UIViewController {
                             print("Cannot download the image.")
                         }
                     })
+                    
                 }
                 
             } else {
