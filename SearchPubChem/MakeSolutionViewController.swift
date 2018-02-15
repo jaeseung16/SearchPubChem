@@ -159,7 +159,9 @@ extension MakeSolutionViewController: UITextFieldDelegate {
 extension MakeSolutionViewController: MakeSolutionTableViewCellDelegate {
     func didEndEditing(_ cell: MakeSolutionTableViewCell) {
         let indexPath = solutionTableView.indexPath(for: cell)
-        amounts[indexPath!.row] = Double(cell.textField.text!)!
+        if let text = cell.textField.text, let amount = Double(text) {
+            amounts[indexPath!.row] = amount
+        }
         print("\(amounts)")
     }
     

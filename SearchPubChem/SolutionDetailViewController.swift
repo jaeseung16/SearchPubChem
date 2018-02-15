@@ -14,6 +14,7 @@ class SolutionDetailViewController: UIViewController {
     var solution: Solution!
     var names = [String]()
     var amounts = [Double]()
+    var amountsMol = [Double]()
     var molecularWeights = [Double]()
     
     @IBOutlet weak var nameLabel: UILabel!
@@ -22,6 +23,7 @@ class SolutionDetailViewController: UIViewController {
     @IBOutlet weak var absoluteRelativeControl: UISegmentedControl!
     @IBOutlet weak var unitControl: UISegmentedControl!
     
+    @IBOutlet weak var compoundsTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,18 +69,10 @@ class SolutionDetailViewController: UIViewController {
             names.append(name)
             amounts.append(value)
             molecularWeights.append(compound.molecularWeight)
+            amountsMol.append(value/compound.molecularWeight)
         }
         
-        for index in 1...names.count {
-            guard let nameLabel = self.view.viewWithTag(index) as? UILabel, let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
-                print("Cannot find views with tags")
-                break
-            }
-            
-            nameLabel.text = names[index-1]
-            amountLabel.text = "\(amounts[index-1])"
-        }
-        
+        compoundsTableView.reloadData()
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
@@ -125,62 +119,54 @@ class SolutionDetailViewController: UIViewController {
     */
 
     @objc func switchBetweenAbsoluteAndRelative() {
-        switch absoluteRelativeControl.selectedSegmentIndex {
-        case 0:
-            for index in 1...amounts.count {
-                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
-                    print("Cannot find views with tags")
-                    break
-                }
-                amountLabel.text = "\(amounts[index-1])"
-            }
-        case 1:
-            let maximum = amounts.min()!
-            
-            for index in 1...amounts.count {
-                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
-                    print("Cannot find views with tags")
-                    break
-                }
-                amountLabel.text = "\(amounts[index-1] / maximum)"
-            }
-        default:
-            for index in 1...amounts.count {
-                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
-                    print("Cannot find views with tags")
-                    break
-                }
-                amountLabel.text = "\(amounts[index-1])"
-            }
-        }
+        compoundsTableView.reloadData()
     }
     
     @objc func switchBetweenGramAndMol() {
+        compoundsTableView.reloadData()
+    }
+    
+}
+
+extension SolutionDetailViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return names.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CompoundsTableViewCell")!
+        
+        cell.textLabel?.text = names[indexPath.row]
+        
+        var amount: Double
+        
         switch unitControl.selectedSegmentIndex {
         case 0:
-            for index in 1...amounts.count {
-                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
-                    print("Cannot find views with tags")
-                    break
-                }
-                amountLabel.text = "\(amounts[index-1])"
-            }
+            amount = amounts[indexPath.row]
         case 1:
-            for index in 1...amounts.count {
-                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
-                    print("Cannot find views with tags")
-                    break
-                }
-                amountLabel.text = "\(amounts[index-1] / molecularWeights[index-1])"
-            }
+            amount = amountsMol[indexPath.row]
         default:
-            for index in 1...amounts.count {
-                guard let amountLabel = self.view.viewWithTag(index+10) as? UILabel else {
-                    print("Cannot find views with tags")
-                    break
-                }
-                amountLabel.text = "\(amounts[index-1])"
-            }
+            amount = amounts[indexPath.row]
         }
+        
+        var factor: Double
+        switch absoluteRelativeControl.selectedSegmentIndex {
+        case 0: factor = 1.0
+        case 1:
+            if unitControl.selectedSegmentIndex == 0 {
+                factor = 100.0 / amounts.reduce(0.0, { x, y in x + y })
+            } else if unitControl.selectedSegmentIndex == 1 {
+                factor = 100.0 / amountsMol.reduce(0.0, { x, y in x + y })
+            } else {
+                factor = 1.0
+            }
+        default: factor = 1.0
+        }
+        
+        cell.detailTextLabel?.text = String(amount * factor)
+        
+        return cell
     }
+    
+    
 }
