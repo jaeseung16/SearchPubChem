@@ -32,8 +32,16 @@ class SolutionDetailViewController: UIViewController {
         
         unitControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenGramAndMol), for: .valueChanged)
         
-        nameLabel.text = solution.name
-        dateLabel.text = solution.created?.description
+        nameLabel.text = solution.name?.uppercased()
+        
+        if let date = solution.created {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            dateFormatter.timeStyle = .medium
+            dateFormatter.locale = Locale.current
+            
+            dateLabel.text = "Created on " + dateFormatter.string(from: date as Date)
+        }
         
         guard let compounds = solution.compounds, let amount = solution.amount else {
             print("There is no information.")
