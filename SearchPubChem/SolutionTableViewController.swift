@@ -101,7 +101,15 @@ class SolutionTableViewController: UITableViewController, NSFetchedResultsContro
         let solution = fetchedResultsController?.object(at: indexPath) as! Solution
         
         cell.textLabel?.text = solution.name
-        cell.detailTextLabel?.text = solution.created?.description
+        
+        if let date = solution.created {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            dateFormatter.timeStyle = .none
+            dateFormatter.locale = Locale.current
+            
+            cell.detailTextLabel?.text = dateFormatter.string(from: date as Date)
+        }
         
         return cell
     }
