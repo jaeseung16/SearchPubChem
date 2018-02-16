@@ -11,12 +11,15 @@ import CoreData
 
 class SolutionDetailViewController: UIViewController {
     
+    // MARK: - Variables
     var solution: Solution!
-    var names = [String]()
+    var compoundNames = [String]()
+    var molecularWeights = [Double]()
     var amounts = [Double]()
     var amountsMol = [Double]()
-    var molecularWeights = [Double]()
+    var amountsToDisplay = [String]()
     
+    // IBOutlets
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
@@ -30,49 +33,11 @@ class SolutionDetailViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        absoluteRelativeControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenAbsoluteAndRelative), for: .valueChanged)
-        
-        unitControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenGramAndMol), for: .valueChanged)
-        
-        nameLabel.text = solution.name?.uppercased()
-        
-        if let date = solution.created {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .medium
-            dateFormatter.timeStyle = .medium
-            dateFormatter.locale = Locale.current
-            
-            dateLabel.text = "Created on " + dateFormatter.string(from: date as Date)
-        }
-        
-        guard let compounds = solution.compounds, let amount = solution.amount else {
-            print("There is no information.")
-            return
-        }
-        
-        for compound in compounds {
-            guard let compound = compound as? Compound else {
-                print("It is not a compound.")
-                break
-            }
-            
-            guard let name = compound.name else {
-                print("No name found")
-                break
-            }
-            
-            guard let value = amount.value(forKey: name) as? Double else {
-                print("No value found")
-                break
-            }
-            
-            names.append(name)
-            amounts.append(value)
-            molecularWeights.append(compound.molecularWeight)
-            amountsMol.append(value/compound.molecularWeight)
-        }
-        
-        compoundsTableView.reloadData()
+        addTargetToSegmentedControls()
+        retrieveDataFromSolution()
+        displayNameAndDate()
+        displayAmounts()
+
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
@@ -117,56 +82,111 @@ class SolutionDetailViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func retrieveDataFromSolution() {
+        guard let compounds = solution.compounds, let amount = solution.amount else {
+            print("There is no information.")
+            return
+        }
+        
+        for compound in compounds {
+            guard let compound = compound as? Compound else {
+                print("It is not a compound.")
+                break
+            }
+            
+            molecularWeights.append(compound.molecularWeight)
+            
+            guard let name = compound.name else {
+                print("No name found")
+                break
+            }
+            
+            compoundNames.append(name)
+            
+            guard let value = amount.value(forKey: name) as? Double else {
+                print("No value found")
+                break
+            }
+            
+            amounts.append(value)
+            amountsMol.append(value/compound.molecularWeight)
+            amountsToDisplay.append("\(value)")
+        }
+    }
+    
+    func displayNameAndDate() {
+        if let name = solution.name {
+            nameLabel.text = name.uppercased()
+        }
+        
+        if let date = solution.created {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            dateFormatter.timeStyle = .medium
+            dateFormatter.locale = Locale.current
+            
+            dateLabel.text = "Created on " + dateFormatter.string(from: date as Date)
+        }
+    }
+    
+    func displayAmounts() {
+        let unit = unitControl.selectedSegmentIndex
+        let absolute = absoluteRelativeControl.selectedSegmentIndex
+        
+        var factor = 1.0
+        
+        if absolute == 1 {
+            if unit == 0 {
+                factor = 100.0 / amounts.reduce(0.0, { x, y in x + y })
+            } else {
+                factor = 100.0 / amountsMol.reduce(0.0, { x, y in x + y })
+            }
+        }
 
-    @objc func switchBetweenAbsoluteAndRelative() {
+        for k in 0..<amounts.count {
+            var amount: Double
+            
+            if unit == 0 {
+                amount = amounts[k] * factor
+            } else {
+                amount = amountsMol[k] * factor
+            }
+            
+            amountsToDisplay[k] = String(format: "%g", amount)
+        }
+
         compoundsTableView.reloadData()
     }
     
+    // Methods for UISegmentedControls
+    func addTargetToSegmentedControls() {
+        absoluteRelativeControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenAbsoluteAndRelative), for: .valueChanged)
+        unitControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenGramAndMol), for: .valueChanged)
+    }
+    
+    @objc func switchBetweenAbsoluteAndRelative() {
+        displayAmounts()
+    }
+    
     @objc func switchBetweenGramAndMol() {
-        compoundsTableView.reloadData()
+        displayAmounts()
     }
     
 }
 
 extension SolutionDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return names.count
+        return compoundNames.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CompoundsTableViewCell")!
         
-        cell.textLabel?.text = names[indexPath.row]
-        
-        var amount: Double
-        
-        switch unitControl.selectedSegmentIndex {
-        case 0:
-            amount = amounts[indexPath.row]
-        case 1:
-            amount = amountsMol[indexPath.row]
-        default:
-            amount = amounts[indexPath.row]
-        }
-        
-        var factor: Double
-        switch absoluteRelativeControl.selectedSegmentIndex {
-        case 0: factor = 1.0
-        case 1:
-            if unitControl.selectedSegmentIndex == 0 {
-                factor = 100.0 / amounts.reduce(0.0, { x, y in x + y })
-            } else if unitControl.selectedSegmentIndex == 1 {
-                factor = 100.0 / amountsMol.reduce(0.0, { x, y in x + y })
-            } else {
-                factor = 1.0
-            }
-        default: factor = 1.0
-        }
-        
-        cell.detailTextLabel?.text = String(amount * factor)
+        cell.textLabel?.text = compoundNames[indexPath.row]
+        cell.detailTextLabel?.text = amountsToDisplay[indexPath.row]
         
         return cell
     }
-    
     
 }

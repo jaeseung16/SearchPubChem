@@ -38,8 +38,14 @@ extension MakeSolutionTableViewCell: UITextFieldDelegate {
         textField.text = ""
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         delegate?.didEndEditing(self)
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
-    }}
+    }
+    
+}
