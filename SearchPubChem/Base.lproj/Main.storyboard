@@ -214,6 +214,7 @@
                         <outlet property="iupacNameLabel" destination="e9U-wc-Ue1" id="L3t-hX-61V"/>
                         <outlet property="iupacTitleLabel" destination="L0h-Bu-IlC" id="TE9-Fx-FOg"/>
                         <outlet property="nameToSearch" destination="yKj-Yu-Fiw" id="aLR-CC-wRm"/>
+                        <outlet property="saveButton" destination="Nc5-K7-TIy" id="R3k-Ci-ds5"/>
                         <outlet property="weightLabel" destination="zV9-c5-74X" id="eru-ga-OPu"/>
                         <outlet property="weightTitleLabel" destination="GGG-Z6-rQV" id="Arx-GQ-DlD"/>
                     </connections>
@@ -610,6 +611,7 @@
                     <connections>
                         <outlet property="addCompound" destination="gcM-Ms-CPm" id="ejO-AZ-Y7q"/>
                         <outlet property="labelForSolution" destination="sOm-K9-bpn" id="DSJ-oD-1Zy"/>
+                        <outlet property="saveButton" destination="JW2-Ls-VsE" id="Lnn-y6-P0b"/>
                         <outlet property="solutionTableView" destination="T3I-sH-c09" id="nWc-nw-lXK"/>
                     </connections>
                 </viewController>

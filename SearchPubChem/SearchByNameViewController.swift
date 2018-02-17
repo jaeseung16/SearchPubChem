@@ -23,6 +23,8 @@ class SearchByNameViewController: UIViewController {
     @IBOutlet weak var cidLabel: UILabel!
     @IBOutlet weak var iupacNameLabel: UILabel!
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
     let client = PubChemSearch()
     
     override func viewDidLoad() {
@@ -34,15 +36,17 @@ class SearchByNameViewController: UIViewController {
     }
     
     func hideLabels(_ yes: Bool) {
-            weightTitleLabel.isHidden = yes
-            cidTitleLabel.isHidden = yes
-            iupacTitleLabel.isHidden = yes
-            
-            compoundImageView.isHidden = yes
-            formulaLabel.isHidden = yes
-            weightLabel.isHidden = yes
-            cidLabel.isHidden = yes
-            iupacNameLabel.isHidden = yes
+        weightTitleLabel.isHidden = yes
+        cidTitleLabel.isHidden = yes
+        iupacTitleLabel.isHidden = yes
+        
+        compoundImageView.isHidden = yes
+        formulaLabel.isHidden = yes
+        weightLabel.isHidden = yes
+        cidLabel.isHidden = yes
+        iupacNameLabel.isHidden = yes
+        
+        saveButton.isEnabled = !yes
     }
     
     @IBAction func searchByName(_ sender: UIButton) {

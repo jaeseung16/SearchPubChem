@@ -15,6 +15,8 @@ class MakeSolutionViewController: UIViewController {
     @IBOutlet weak var addCompound: UIButton!
     @IBOutlet weak var solutionTableView: UITableView!
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
     let maxNumberOfCompounds = 10
     var compounds = [Compound]()
     var amounts = [Double]()
@@ -24,6 +26,7 @@ class MakeSolutionViewController: UIViewController {
         super.viewDidLoad()
 
         labelForSolution.text = ""
+        saveButton.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -114,6 +117,8 @@ class MakeSolutionViewController: UIViewController {
 
 extension MakeSolutionViewController: CompoundCollectionViewDelegate {
     func selectedCompounds(with compounds: [Compound]) {
+        saveButton.isEnabled = compounds.count > 0 ? true : false
+        
         self.compounds = compounds
         
         while amounts.count < compounds.count {
