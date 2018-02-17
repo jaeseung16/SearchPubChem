@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class CompoundDetailViewController: UIViewController {
+class CompoundDetailViewController: UIViewController, NSFetchedResultsControllerDelegate {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var formulaLabel: UILabel!
@@ -21,6 +21,20 @@ class CompoundDetailViewController: UIViewController {
     
     var compound: Compound!
     var solutions = [Solution]()
+    
+    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
+        didSet {
+            fetchedResultsController?.delegate = self
+            
+            if let fc = fetchedResultsController {
+                do {
+                    try fc.performFetch()
+                } catch let e as NSError {
+                    print("Error while trying to perform a search: \n\(e)\n\(fetchedResultsController)")
+                }
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,30 +50,17 @@ class CompoundDetailViewController: UIViewController {
             compoundImageView.image = UIImage(data: image)
         }
         
-        guard let solutions = compound.solutions else {
-            print("There are no solutions.")
-            return
-        }
-        
-        if solutions.count == 0 {
-            deleteButton.isEnabled = true
-        } else {
-            deleteButton.isEnabled = false
-        }
-        
-        for solution in solutions {
-            guard let solution = solution as? Solution else {
-                print("It is not a solution.")
-                break
+        if let solutions = fetchedResultsController?.fetchedObjects as? [Solution] {
+            if solutions.count == 0 {
+                deleteButton.isEnabled = true
+            } else {
+                deleteButton.isEnabled = false
             }
             
-            self.solutions.append(solution)
+            for solution in solutions {
+                self.solutions.append(solution)
+            }
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {

@@ -56,6 +56,19 @@ class ChemicalTableViewController: CoreDataTableViewController {
         let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "CompoundDetailViewController") as! CompoundDetailViewController
         detailViewController.compound = compound
         
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Solution")
+        let sortDescriptions = [NSSortDescriptor(key: "created", ascending: false)]
+        let predicate = NSPredicate(format: "compounds CONTAINS %@", argumentArray: [compound])
+        
+        fetchRequest.sortDescriptors = sortDescriptions
+        fetchRequest.predicate = predicate
+        
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let stack = delegate.stack
+        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
+        
+        detailViewController.fetchedResultsController = fc
+        
         present(detailViewController, animated: true, completion: nil)
     }
 
