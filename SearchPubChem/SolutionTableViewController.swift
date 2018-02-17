@@ -27,9 +27,9 @@ class SolutionTableViewController: CoreDataTableViewController {
         self.tableView.reloadData()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func fetchSolutions() {
+        let sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
+        performFetch(entityName: "Solution", sortDescriptors: sortDescriptors)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -70,16 +70,4 @@ class SolutionTableViewController: CoreDataTableViewController {
     }
     */
 
-}
-
-extension SolutionTableViewController {
-    func fetchSolutions() {
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let stack = delegate.stack
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Solution")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
-        
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
-    }
 }

@@ -33,53 +33,12 @@ class ChemicalTableViewController: CoreDataTableViewController {
         self.tableView.reloadData()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func fetchCompounds() {
+        let sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        performFetch(entityName: "Compound", sortDescriptors: sortDescriptors)
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        if let fc = fetchedResultsController {
-            return (fc.sections?.count)!
-        } else {
-            return 0
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let fc = fetchedResultsController {
-            return fc.sections![section].numberOfObjects
-        } else {
-            return 0
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if let fc = fetchedResultsController {
-            return fc.sections![section].name
-        } else {
-            return nil
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        if let fc = fetchedResultsController {
-            return fc.section(forSectionIndexTitle: title, at: index)
-        } else {
-            return 0
-        }
-    }
-    
-    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        if let fc = fetchedResultsController {
-            return fc.sectionIndexTitles
-        } else {
-            return nil
-        }
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
 
@@ -109,17 +68,4 @@ class ChemicalTableViewController: CoreDataTableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
-}
-
-extension ChemicalTableViewController {
-    func fetchCompounds() {
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let stack = delegate.stack
-        
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Compound")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
-        
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
-    }
 }
