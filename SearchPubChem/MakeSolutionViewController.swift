@@ -47,12 +47,9 @@ class MakeSolutionViewController: UIViewController {
 
     @IBAction func createSolution(_ sender: UIBarButtonItem) {
         guard labelForSolution.text != "" else {
-            print("Label should be given.")
-            return
-        }
-        
-        guard compounds.count > 0 else {
-            print("No compounds.")
+            let title = "No Label"
+            let message = "Try again after giving a label."
+            presentAlert(title: title, message: message)
             return
         }
         
@@ -75,7 +72,17 @@ class MakeSolutionViewController: UIViewController {
         
         let solution = Solution(name: labelForSolution.text!, compounds: compounds, amount: amountsWithUnit as NSObject, context: stack.context)
         
-        dismiss(animated: true, completion: nil)
+        let title = "Saved"
+        let message = "A new solution saved."
+        presentAlert(title: title, message: message) { _ in
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func presentAlert(title: String, message: String, completion: ((UIAlertAction) -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: completion))
+        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Navigation
