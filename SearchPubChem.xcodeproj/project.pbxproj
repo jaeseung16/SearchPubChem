@@ -12,6 +12,7 @@
 		902DFADF202788D8001E2AD6 /* CompoundCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902DFADE202788D8001E2AD6 /* CompoundCollectionViewController.swift */; };
 		902DFAE120278F15001E2AD6 /* CompoundCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902DFAE020278F15001E2AD6 /* CompoundCollectionViewCell.swift */; };
 		9074CD6A2038C7CB002E19EF /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9074CD692038C7CB002E19EF /* CoreDataTableViewController.swift */; };
+		9074CD6C203916FE002E19EF /* CompoundMiniDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9074CD6B203916FE002E19EF /* CompoundMiniDetailViewController.swift */; };
 		907FECB42014EDF800B0CEBF /* PubChemSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907FECB32014EDF800B0CEBF /* PubChemSearch.swift */; };
 		907FECB620152CD500B0CEBF /* CompoundDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907FECB520152CD500B0CEBF /* CompoundDetailViewController.swift */; };
 		9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */; };
@@ -56,6 +57,7 @@
 		902DFADE202788D8001E2AD6 /* CompoundCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundCollectionViewController.swift; sourceTree = "<group>"; };
 		902DFAE020278F15001E2AD6 /* CompoundCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundCollectionViewCell.swift; sourceTree = "<group>"; };
 		9074CD692038C7CB002E19EF /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
+		9074CD6B203916FE002E19EF /* CompoundMiniDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundMiniDetailViewController.swift; sourceTree = "<group>"; };
 		907FECB32014EDF800B0CEBF /* PubChemSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemSearch.swift; sourceTree = "<group>"; };
 		907FECB520152CD500B0CEBF /* CompoundDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundDetailViewController.swift; sourceTree = "<group>"; };
 		9081A37F201BEEB800A1FECC /* PubChemSolution.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PubChemSolution.xcdatamodel; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				9090E66E202A76F2007927DD /* SolutionTableViewController.swift */,
 				9090E66C202A6F0D007927DD /* SolutionDetailViewController.swift */,
 				9074CD692038C7CB002E19EF /* CoreDataTableViewController.swift */,
+				9074CD6B203916FE002E19EF /* CompoundMiniDetailViewController.swift */,
 			);
 			path = SearchPubChem;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				9081A388201BF7A900A1FECC /* Solution+CoreDataProperties.swift in Sources */,
 				909C0D8E202F92D50016C9E6 /* MakeSolutionTableViewCell.swift in Sources */,
 				909AE6D7200CF38800FEE529 /* ChemicalTableViewController.swift in Sources */,
+				9074CD6C203916FE002E19EF /* CompoundMiniDetailViewController.swift in Sources */,
 				9074CD6A2038C7CB002E19EF /* CoreDataTableViewController.swift in Sources */,
 				90267BE5201E5B1000F899A3 /* MakeSolutionViewController.swift in Sources */,
 			);
