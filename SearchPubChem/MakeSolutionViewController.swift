@@ -70,7 +70,7 @@ class MakeSolutionViewController: UIViewController {
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let stack = delegate.stack
         
-        let solution = Solution(name: labelForSolution.text!, compounds: compounds, amount: amountsWithUnit as NSObject, context: stack.context)
+        let solution = Solution(name: labelForSolution.text!.trimmingCharacters(in: .whitespaces), compounds: compounds, amount: amountsWithUnit as NSObject, context: stack.context)
         
         let title = "Saved"
         let message = "A new solution saved."

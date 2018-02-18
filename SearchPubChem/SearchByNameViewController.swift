@@ -50,7 +50,8 @@ class SearchByNameViewController: UIViewController {
     }
     
     @IBAction func searchByName(_ sender: UIButton) {
-        let name = nameToSearch.text!
+        let name = nameToSearch.text!.trimmingCharacters(in: .whitespaces)
+        nameToSearch.text = name
         
         client.searchCompound(by: name) { (success, compoundInformation) in
             if success {
