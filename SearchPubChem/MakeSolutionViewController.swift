@@ -122,6 +122,7 @@ class MakeSolutionViewController: UIViewController {
     
 }
 
+// MARK: - CompoundCollectionViewDelegate
 extension MakeSolutionViewController: CompoundCollectionViewDelegate {
     func selectedCompounds(with compounds: [Compound]) {
         saveButton.isEnabled = compounds.count > 0 ? true : false
@@ -135,6 +136,7 @@ extension MakeSolutionViewController: CompoundCollectionViewDelegate {
     }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension MakeSolutionViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -168,6 +170,7 @@ extension MakeSolutionViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - MakeSolutionTableViewCellDelegate
 extension MakeSolutionViewController: MakeSolutionTableViewCellDelegate {
     func didEndEditing(_ cell: MakeSolutionTableViewCell) {
         let indexPath = solutionTableView.indexPath(for: cell)

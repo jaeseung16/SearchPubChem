@@ -365,6 +365,7 @@
                         <outlet property="formulaLabel" destination="nTh-dh-0aX" id="dsJ-n3-Sva"/>
                         <outlet property="iupacLabel" destination="VoD-gt-1sv" id="vdo-vb-wyQ"/>
                         <outlet property="nameLabel" destination="8R7-Ci-gOQ" id="RcB-Fp-TGG"/>
+                        <outlet property="solutionsTableView" destination="l7h-0m-611" id="LG3-9H-4uL"/>
                         <outlet property="weightLabel" destination="Jak-ge-NCa" id="a4o-9D-auz"/>
                     </connections>
                 </viewController>

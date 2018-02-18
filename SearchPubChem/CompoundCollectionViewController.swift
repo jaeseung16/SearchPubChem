@@ -66,9 +66,7 @@ class CompoundCollectionViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
-    // MARK: UICollectionViewDataSource
-
+    
     @IBAction func selectionFinished(_ sender: UIButton) {
         delegate?.selectedCompounds(with: compounds)
         dismiss(animated: true, completion: nil)
@@ -78,9 +76,9 @@ class CompoundCollectionViewController: UIViewController {
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
-    
 }
 
+// MARK: UICollectionViewDataSource
 extension CompoundCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections

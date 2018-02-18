@@ -9,6 +9,10 @@
 import UIKit
 import CoreData
 
+protocol SolutionDetailViewControllerDelegate: AnyObject {
+    func remove(solution: Solution)
+}
+
 class SolutionDetailViewController: UIViewController {
     
     // MARK: - Variables
@@ -18,6 +22,8 @@ class SolutionDetailViewController: UIViewController {
     var amounts = [Double]()
     var amountsMol = [Double]()
     var amountsToDisplay = [String]()
+    
+    weak var delegate: SolutionDetailViewControllerDelegate?
     
     // IBOutlets
     @IBOutlet weak var nameLabel: UILabel!
@@ -45,17 +51,7 @@ class SolutionDetailViewController: UIViewController {
     }
     
     @IBAction func deleteAndDismiss(_ sender: UIBarButtonItem) {
-        // Get the stack
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let stack = delegate.stack
-        stack.context.delete(solution)
-        
-        if save(context: stack.context) {
-            print("Saved in SolutionDetailViewController.deleteAndDismiss(_:)")
-        } else {
-            print("Error while saving in SolutionDetailViewController.deleteAndDismiss(_:)")
-        }
-        
+        delegate?.remove(solution: solution)
         dismiss(animated: true, completion: nil)
     }
     

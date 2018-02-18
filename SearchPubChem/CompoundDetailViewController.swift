@@ -19,6 +19,8 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
     @IBOutlet weak var compoundImageView: UIImageView!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     
+    @IBOutlet weak var solutionsTableView: UITableView!
+    
     var compound: Compound!
     var solutions = [Solution]()
     
@@ -61,6 +63,12 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
                 self.solutions.append(solution)
             }
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        solutionsTableView.reloadData()
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
@@ -134,4 +142,30 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let solution = solutions[indexPath.row]
+        
+        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "SolutionDetailViewController") as! SolutionDetailViewController
+        detailViewController.solution = solution
+        detailViewController.delegate = self
+        
+        present(detailViewController, animated: true, completion: nil)
+    }
+    
+}
+
+extension CompoundDetailViewController: SolutionDetailViewControllerDelegate {
+    func remove(solution: Solution) {
+        if let index = solutions.index(of: solution) {
+            solutions.remove(at: index)
+            
+            fetchedResultsController?.managedObjectContext.delete(solution)
+            
+            if self.save(context: (fetchedResultsController?.managedObjectContext)!) {
+                print("Saved in CompoundDetailViewController.remove(solution:)")
+            } else {
+                print("Error while saving in CompoundDetailViewController.remove(solution:)")
+            }
+        }
+    }
 }

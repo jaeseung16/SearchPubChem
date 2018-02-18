@@ -31,6 +31,20 @@ class SolutionTableViewController: CoreDataTableViewController {
         let sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
         performFetch(entityName: "Solution", sortDescriptors: sortDescriptors)
     }
+    
+    func save(context: NSManagedObjectContext) -> Bool {
+        if context.hasChanges {
+            do {
+                try context.save()
+                return true
+            } catch {
+                return false
+            }
+        } else {
+            print("Context has not changed.")
+            return false
+        }
+    }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
@@ -56,6 +70,7 @@ class SolutionTableViewController: CoreDataTableViewController {
         
         let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "SolutionDetailViewController") as! SolutionDetailViewController
         detailViewController.solution = solution
+        detailViewController.delegate = self
         
         present(detailViewController, animated: true, completion: nil)
     }
@@ -70,4 +85,16 @@ class SolutionTableViewController: CoreDataTableViewController {
     }
     */
 
+}
+
+extension SolutionTableViewController: SolutionDetailViewControllerDelegate {
+    func remove(solution: Solution) {
+        fetchedResultsController?.managedObjectContext.delete(solution)
+        
+        if self.save(context: (fetchedResultsController?.managedObjectContext)!) {
+            print("Saved in SolutionTableViewController.remove(solution:)")
+        } else {
+            print("Error while saving in SolutionTableViewController.remove(solution:)")
+        }
+    }
 }
