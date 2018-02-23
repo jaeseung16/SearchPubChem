@@ -105,8 +105,14 @@ class SearchByNameViewController: UIViewController {
         let nameIUPAC = iupacNameLabel.text!
         let image = UIImagePNGRepresentation(compoundImageView.image!)!
         
-        let compound = Compound(name: name, formula: formula, molecularWeight: molecularWeight, CID: cid, nameIUPAC: nameIUPAC, context: stack.context)
-        compound.image = image as NSData
+        let compound = Compound(context: stack.context)
+        compound.name = name
+        compound.formula = formula
+        compound.molecularWeight = molecularWeight
+        compound.cid = cid
+        compound.nameIUPAC = nameIUPAC
+        compound.image = image
+        compound.created = Date()
         
         save(context: stack.context)
         

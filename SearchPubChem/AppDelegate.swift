@@ -76,16 +76,32 @@ extension AppDelegate {
             print("Error while dropping all objects in DB")
         }
         
-        let water = Compound(name: "water", formula: "H2O", molecularWeight: 18.015, CID: "962", nameIUPAC: "oxidane", context: stack.context)
-        water.setValue(-0.5, forKey: "partitionCoefficient")
-        water.image = UIImagePNGRepresentation(UIImage(named: "Water")!)! as NSData
+        let water = Compound()
+        water.name = "water"
+        water.formula = "H2O"
+        water.molecularWeight = 18.015
+        water.cid = "962"
+        water.nameIUPAC = "oxidane"
+        water.partitionCoefficient = -0.5
+        water.image = UIImagePNGRepresentation(UIImage(named: "Water")!)!
+        water.created = Date()
         
-        let sodiumChloride = Compound(name: "sodium chloride", formula: "NaCl", molecularWeight: 58.44, CID: "5234", nameIUPAC: "sodium chloride", context: stack.context)
-        sodiumChloride.image = UIImagePNGRepresentation(UIImage(named: "NaCl")!)! as NSData
+        let sodiumChloride = Compound()
+        sodiumChloride.name = "sodium chloride"
+        sodiumChloride.formula = "NaCl"
+        sodiumChloride.molecularWeight = 58.44
+        sodiumChloride.cid = "5234"
+        sodiumChloride.nameIUPAC = "sodium chloride"
+        sodiumChloride.image = UIImagePNGRepresentation(UIImage(named: "NaCl")!)
+        sodiumChloride.created = Date()
         
         let amounts = [water.name!: 1.0, sodiumChloride.name!: 0.05]
         
-        let saltyWater = Solution(name: "salty water", compounds: [water, sodiumChloride], amount: amounts as NSObject, context: stack.context)
+        let saltyWater = Solution()
+        saltyWater.name = "salty water"
+        saltyWater.compounds = [water, sodiumChloride]
+        saltyWater.amount = amounts as NSObject
+        saltyWater.created = Date()
         
         //saltyWater.addToCompounds([water, sodiumChloride])
     }
