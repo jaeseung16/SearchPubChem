@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 class CoreDataTableViewController: UITableViewController {
+    
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
         didSet {
             fetchedResultsController?.delegate = self
@@ -17,7 +18,7 @@ class CoreDataTableViewController: UITableViewController {
             tableView.reloadData()
         }
     }
-    
+ 
     // MARK: Initializers
     init(entityName: String, sortDescriptors: [NSSortDescriptor]) {
         super.init(style: .plain)

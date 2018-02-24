@@ -12,12 +12,20 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let dataController = DataController(modelName: "PubChemSolution")
     let stack = CoreDataStack(modelName: "PubChemSolution")!
  
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        dataController.load()
+        
+        let tabBarController = window?.rootViewController as! UITabBarController
+        let navigationViewController = tabBarController.viewControllers![0] as! UINavigationController
+        let chemicalTableViewController = navigationViewController.topViewController as! ChemicalTableViewController
+        chemicalTableViewController.dataController = dataController
+        
         checkIfFirstLaunch()
-        stack.autoSave(30)
+
         // Override point for customization after application launch.
         return true
     }
@@ -61,22 +69,32 @@ extension AppDelegate {
         }
     }
     
+    func saveViewContext() {
+        do {
+            try dataController.viewContext.save()
+        } catch {
+            print("Error whie saving in AppDelegate")
+        }
+    }
+    
+    
     func saveData() {
         do {
-            try stack.saveContext()
+            try dataController.viewContext.save()
         } catch {
             print("Error while saving")
         }
     }
     
+    
     func preloadData() {
         do {
-            try stack.dropAllData()
+            try dataController.dropAllData()
         } catch {
             print("Error while dropping all objects in DB")
         }
         
-        let water = Compound()
+        let water = Compound(context: dataController.viewContext)
         water.name = "water"
         water.formula = "H2O"
         water.molecularWeight = 18.015
@@ -86,7 +104,7 @@ extension AppDelegate {
         water.image = UIImagePNGRepresentation(UIImage(named: "Water")!)!
         water.created = Date()
         
-        let sodiumChloride = Compound()
+        let sodiumChloride = Compound(context: dataController.viewContext)
         sodiumChloride.name = "sodium chloride"
         sodiumChloride.formula = "NaCl"
         sodiumChloride.molecularWeight = 58.44
@@ -97,9 +115,9 @@ extension AppDelegate {
         
         let amounts = [water.name!: 1.0, sodiumChloride.name!: 0.05]
         
-        let saltyWater = Solution()
+        let saltyWater = Solution(context: dataController.viewContext)
         saltyWater.name = "salty water"
-        saltyWater.compounds = [water, sodiumChloride]
+        saltyWater.compounds = NSSet(array: [water, sodiumChloride])
         saltyWater.amount = amounts as NSObject
         saltyWater.created = Date()
         
