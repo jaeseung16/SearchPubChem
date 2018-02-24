@@ -21,19 +21,18 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
     
     @IBOutlet weak var solutionsTableView: UITableView!
     
-    var compound: Compound!
-    var solutions = [Solution]()
+    var dataController: DataController!
     
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
+    var compound: Compound!
+    
+    var fetchedResultsController: NSFetchedResultsController<Solution>! {
         didSet {
-            fetchedResultsController?.delegate = self
+            fetchedResultsController.delegate = self
             
-            if let fc = fetchedResultsController {
-                do {
-                    try fc.performFetch()
-                } catch let e as NSError {
-                    print("Error while trying to perform a search: \n\(e)\n\(fetchedResultsController)")
-                }
+            do {
+                try fetchedResultsController.performFetch()
+            } catch {
+                print("Solutions cannt be fetched for the compound: \(error.localizedDescription)")
             }
         }
     }
@@ -52,15 +51,11 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
             compoundImageView.image = UIImage(data: image)
         }
         
-        if let solutions = fetchedResultsController?.fetchedObjects as? [Solution] {
+        if let solutions = fetchedResultsController.fetchedObjects {
             if solutions.count == 0 {
                 deleteButton.isEnabled = true
             } else {
                 deleteButton.isEnabled = false
-            }
-            
-            for solution in solutions {
-                self.solutions.append(solution)
             }
         }
     }
@@ -76,32 +71,16 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
     }
     
     @IBAction func deleteAndDismiss(_ sender: UIBarButtonItem) {
-        // Get the stack
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let stack = delegate.stack
-        stack.context.delete(compound)
+        dataController.viewContext.delete(compound)
         
-        if save(context: stack.context) {
+        do {
+            try dataController.viewContext.save()
             print("Saved in CompoundDetailViewController.deleteAndDismiss(_:)")
-        } else {
+        } catch {
             print("Error while saving in CompoundDetailViewController.deleteAndDismiss(_:)")
         }
         
         dismiss(animated: true, completion: nil)
-    }
-    
-    func save(context: NSManagedObjectContext) -> Bool {
-        if context.hasChanges {
-            do {
-                try context.save()
-                return true
-            } catch {
-                return false
-            }
-        } else {
-            print("Context has not changed.")
-            return false
-        }
     }
     
     /*
@@ -118,19 +97,20 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
 
 extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return fetchedResultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return solutions.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SolutionMadeOfCompoundTableViewCell")!
         
-        cell.textLabel?.text = solutions[indexPath.row].name
+        let solution = fetchedResultsController.object(at: indexPath)
+        cell.textLabel?.text = solution.name
         
-        if let date = solutions[indexPath.row].created {
+        if let date = solution.created {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
             dateFormatter.timeStyle = .none
@@ -143,7 +123,7 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let solution = solutions[indexPath.row]
+        let solution = fetchedResultsController.object(at: indexPath)
         
         let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "SolutionDetailViewController") as! SolutionDetailViewController
         detailViewController.solution = solution
@@ -156,16 +136,14 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
 
 extension CompoundDetailViewController: SolutionDetailViewControllerDelegate {
     func remove(solution: Solution) {
-        if let index = solutions.index(of: solution) {
-            solutions.remove(at: index)
-            
-            fetchedResultsController?.managedObjectContext.delete(solution)
-            
-            if self.save(context: (fetchedResultsController?.managedObjectContext)!) {
-                print("Saved in CompoundDetailViewController.remove(solution:)")
-            } else {
-                print("Error while saving in CompoundDetailViewController.remove(solution:)")
-            }
+        dataController.viewContext.delete(solution)
+        solutionsTableView.reloadData()
+        
+        do {
+            try dataController.viewContext.save()
+            print("Saved in SolutionTableViewController.remove(solution:)")
+        } catch {
+            print("Error while saving in SolutionTableViewController.remove(solution:)")
         }
     }
 }

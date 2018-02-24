@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 
 class SearchByNameViewController: UIViewController {
+    
+    var dataController: DataController!
 
     @IBOutlet weak var nameToSearch: UITextField!
     
@@ -32,7 +34,6 @@ class SearchByNameViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         hideLabels(true)
-        
     }
     
     func hideLabels(_ yes: Bool) {
@@ -77,9 +78,7 @@ class SearchByNameViewController: UIViewController {
                             print("Cannot download the image.")
                         }
                     })
-                    
                 }
-                
             } else {
                 DispatchQueue.main.async {
                     let alert = UIAlertController(title: "Search Failed", message: "There is no compound matching the name \(name). Try again.", preferredStyle: .alert)
@@ -95,46 +94,24 @@ class SearchByNameViewController: UIViewController {
     }
     
     @IBAction func saveCompound(_ sender: UIBarButtonItem) {
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let stack = delegate.stack
+        let compound = Compound(context: dataController.viewContext)
         
-        let name = nameToSearch.text!
-        let formula = formulaLabel.text!
-        let molecularWeight = Double(weightLabel.text!)!
-        let cid = cidLabel.text!
-        let nameIUPAC = iupacNameLabel.text!
-        let image = UIImagePNGRepresentation(compoundImageView.image!)!
+        compound.name = nameToSearch.text!
+        compound.formula = formulaLabel.text!
+        compound.molecularWeight = Double(weightLabel.text!)!
+        compound.cid = cidLabel.text!
+        compound.nameIUPAC = iupacNameLabel.text!
+        compound.image = UIImagePNGRepresentation(compoundImageView.image!)!
         
-        let compound = Compound(context: stack.context)
-        compound.name = name
-        compound.formula = formula
-        compound.molecularWeight = molecularWeight
-        compound.cid = cid
-        compound.nameIUPAC = nameIUPAC
-        compound.image = image
-        compound.created = Date()
-        
-        save(context: stack.context)
+        do {
+            try dataController.viewContext.save()
+            print("Saved in SolutionTableViewController.remove(solution:)")
+        } catch {
+            print("Error while saving in SolutionTableViewController.remove(solution:)")
+        }
         
         dismiss(animated: true, completion: nil)
     }
-    
-    func save(context: NSManagedObjectContext) -> Bool {
-        if context.hasChanges {
-            do {
-                try context.save()
-                print("Context has changed and been saved.")
-                return true
-            } catch {
-                print("Context has changed but not been saved.")
-                return false
-            }
-        } else {
-            print("Context has not changed.")
-            return false
-        }
-    }
-
 }
 
 // MARK: - UITextFieldDelegate

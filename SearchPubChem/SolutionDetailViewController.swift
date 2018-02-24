@@ -55,20 +55,6 @@ class SolutionDetailViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    func save(context: NSManagedObjectContext) -> Bool {
-        if context.hasChanges {
-            do {
-                try context.save()
-                return true
-            } catch {
-                return false
-            }
-        } else {
-            print("Context has not changed.")
-            return false
-        }
-    }
-    
     /*
     // MARK: - Navigation
 

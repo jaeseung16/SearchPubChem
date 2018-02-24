@@ -9,16 +9,20 @@
 import UIKit
 import CoreData
 
-class SolutionTableViewController: CoreDataTableViewController {
+class SolutionTableViewController: UITableViewController {
 
     let tableViewCellIdentifier = "SolutionTableViewCell"
+    
+    var dataController: DataController!
+    
+    var fetchedResultsController: NSFetchedResultsController<Solution>!
     
     var solutions = [Solution]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchSolutions()
+        setUpFetchedResultsController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -27,9 +31,19 @@ class SolutionTableViewController: CoreDataTableViewController {
         self.tableView.reloadData()
     }
 
-    func fetchSolutions() {
-        let sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
-        performFetch(entityName: "Solution", sortDescriptors: sortDescriptors)
+    func setUpFetchedResultsController() {
+        let fetchRequest: NSFetchRequest<Solution> = Solution.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "created", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "solutions")
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("Solutions cannot be fetched: \(error.localizedDescription)")
+        }
     }
     
     func save(context: NSManagedObjectContext) -> Bool {
@@ -49,7 +63,7 @@ class SolutionTableViewController: CoreDataTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
         
-        let solution = fetchedResultsController?.object(at: indexPath) as! Solution
+        let solution = fetchedResultsController.object(at: indexPath)
         
         cell.textLabel?.text = solution.name
         
@@ -66,13 +80,33 @@ class SolutionTableViewController: CoreDataTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let solution = fetchedResultsController?.object(at: indexPath) as! Solution
+        let solution = fetchedResultsController.object(at: indexPath)
         
         let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "SolutionDetailViewController") as! SolutionDetailViewController
         detailViewController.solution = solution
         detailViewController.delegate = self
         
         present(detailViewController, animated: true, completion: nil)
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name ?? nil
+    }
+    
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return fetchedResultsController.section(forSectionIndexTitle: title, at: index)
+    }
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return fetchedResultsController.sectionIndexTitles
     }
 
     /*
@@ -89,12 +123,52 @@ class SolutionTableViewController: CoreDataTableViewController {
 
 extension SolutionTableViewController: SolutionDetailViewControllerDelegate {
     func remove(solution: Solution) {
-        fetchedResultsController?.managedObjectContext.delete(solution)
+        dataController.viewContext.delete(solution)
         
-        if self.save(context: (fetchedResultsController?.managedObjectContext)!) {
+        do {
+            try dataController.viewContext.save()
             print("Saved in SolutionTableViewController.remove(solution:)")
-        } else {
+        } catch {
             print("Error while saving in SolutionTableViewController.remove(solution:)")
         }
     }
 }
+
+// MARK: - ChemicalTableViewController: NSFetchedResultsControllerDelegate
+extension SolutionTableViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        let set = IndexSet(integer: sectionIndex)
+        
+        switch (type) {
+        case .insert:
+            tableView.insertSections(set, with: .fade)
+        case .delete:
+            tableView.deleteSections(set, with: .fade)
+        default:
+            break
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch(type) {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        case .update:
+            tableView.reloadRows(at: [indexPath!], with: .fade)
+        case .move:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+}
+

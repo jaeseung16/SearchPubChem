@@ -20,9 +20,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dataController.load()
         
         let tabBarController = window?.rootViewController as! UITabBarController
+        
+        let viewControllers = tabBarController.viewControllers!
+        
+        for viewController in viewControllers {
+            guard let navigationViewController = viewController as? UINavigationController else {
+                break
+            }
+            
+            if let topViewController = navigationViewController.topViewController as? ChemicalTableViewController {
+                topViewController.dataController = dataController
+            } else if let topViewController = navigationViewController.topViewController as? SolutionTableViewController {
+                topViewController.dataController = dataController
+            }
+        }
+        
+        /*
         let navigationViewController = tabBarController.viewControllers![0] as! UINavigationController
         let chemicalTableViewController = navigationViewController.topViewController as! ChemicalTableViewController
         chemicalTableViewController.dataController = dataController
+        */
         
         checkIfFirstLaunch()
 
@@ -100,7 +117,6 @@ extension AppDelegate {
         water.molecularWeight = 18.015
         water.cid = "962"
         water.nameIUPAC = "oxidane"
-        water.partitionCoefficient = -0.5
         water.image = UIImagePNGRepresentation(UIImage(named: "Water")!)!
         water.created = Date()
         

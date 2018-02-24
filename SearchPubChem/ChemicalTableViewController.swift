@@ -53,13 +53,6 @@ class ChemicalTableViewController: UITableViewController {
         }
     }
 
-    /*
-    func fetchCompounds() {
-        let sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        performFetch(entityName: "Compound", sortDescriptors: sortDescriptors)
-    }
-    */
-
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
@@ -76,33 +69,36 @@ class ChemicalTableViewController: UITableViewController {
         let compound = fetchedResultsController.object(at: indexPath)
         
         let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "CompoundDetailViewController") as! CompoundDetailViewController
-        detailViewController.compound = compound
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Solution")
-        let sortDescriptions = [NSSortDescriptor(key: "created", ascending: false)]
+        let fetchRequest: NSFetchRequest<Solution> = Solution.fetchRequest()
+        let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "compounds CONTAINS %@", argumentArray: [compound])
         
-        fetchRequest.sortDescriptors = sortDescriptions
+        fetchRequest.sortDescriptors = [sortDescription]
         fetchRequest.predicate = predicate
         
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let stack = delegate.stack
-        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
+        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
+        detailViewController.dataController = dataController
         detailViewController.fetchedResultsController = fc
+        detailViewController.compound = compound
         
         present(detailViewController, animated: true, completion: nil)
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if let searchByNameViewController = segue.destination as? SearchByNameViewController {
+            searchByNameViewController.dataController = dataController
+        }
     }
-    */
+    
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0

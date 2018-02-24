@@ -8,7 +8,6 @@
         <attribute name="molecularWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nameIUPAC" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="partitionCoefficient" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="solutions" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Solution" inverseName="compounds" inverseEntity="Solution" syncable="YES"/>
     </entity>
     <entity name="Solution" representedClassName=".Solution" syncable="YES" codeGenerationType="class">
@@ -18,7 +17,7 @@
         <relationship name="compounds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Compound" inverseName="solutions" inverseEntity="Compound" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Compound" positionX="-63" positionY="-18" width="128" height="180"/>
+        <element name="Compound" positionX="-63" positionY="-18" width="128" height="165"/>
         <element name="Solution" positionX="160" positionY="102" width="128" height="105"/>
     </elements>
 </model>

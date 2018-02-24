@@ -61,7 +61,7 @@
                     <navigationItem key="navigationItem" title="Compounds" id="Sm3-tP-py3">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="KuD-MV-Gpa">
                             <connections>
-                                <segue destination="zOn-VM-GxY" kind="presentation" id="LRF-Fw-lbO"/>
+                                <segue destination="zOn-VM-GxY" kind="presentation" identifier="SearchByName" id="LRF-Fw-lbO"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
