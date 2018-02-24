@@ -415,7 +415,7 @@
                     <navigationItem key="navigationItem" title="Solutions" id="P97-rg-cVl">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ron-iV-McB">
                             <connections>
-                                <segue destination="1lD-Sm-KLH" kind="presentation" id="5Og-F6-wHm"/>
+                                <segue destination="1lD-Sm-KLH" kind="presentation" identifier="MakeSolution" id="5Og-F6-wHm"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

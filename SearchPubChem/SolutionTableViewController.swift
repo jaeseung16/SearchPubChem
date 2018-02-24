@@ -45,20 +45,6 @@ class SolutionTableViewController: UITableViewController {
             fatalError("Solutions cannot be fetched: \(error.localizedDescription)")
         }
     }
-    
-    func save(context: NSManagedObjectContext) -> Bool {
-        if context.hasChanges {
-            do {
-                try context.save()
-                return true
-            } catch {
-                return false
-            }
-        } else {
-            print("Context has not changed.")
-            return false
-        }
-    }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
@@ -109,15 +95,16 @@ class SolutionTableViewController: UITableViewController {
         return fetchedResultsController.sectionIndexTitles
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if let makeSolutionViewController = segue.destination as? MakeSolutionViewController {
+            makeSolutionViewController.dataController = dataController
+        }
     }
-    */
+    
 
 }
 

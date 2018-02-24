@@ -25,16 +25,16 @@ class CompoundCollectionViewController: UIViewController {
     var maxNumberOfCompounds: Int?
     var compounds = [Compound]()
     
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
+    var dataController: DataController!
+    
+    var fetchedResultsController: NSFetchedResultsController<Compound>! {
         didSet {
-            fetchedResultsController?.delegate = self
+            fetchedResultsController.delegate = self
             
-            if let fc = fetchedResultsController {
-                do {
-                    try fc.performFetch()
-                } catch {
-                    print("Error while trying to perform a search: \n\(error)\n\(String(describing: fetchedResultsController))")
-                }
+            do {
+                try fetchedResultsController.performFetch()
+            } catch {
+                print("Compounds cannot be fetched for CompoundCollectionViewController: \(error.localizedDescription)")
             }
         }
     }
@@ -81,16 +81,11 @@ class CompoundCollectionViewController: UIViewController {
 // MARK: UICollectionViewDataSource
 extension CompoundCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+        return fetchedResultsController.sections?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let fc = fetchedResultsController {
-            return fc.sections![section].numberOfObjects
-        } else {
-            return 0
-        }
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -101,47 +96,41 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
         cell.compoundImageView.backgroundColor = .black
         //cell.activityIndicator.startAnimating()
         cell.compoundName.text = ""
+
+        let compound = fetchedResultsController.object(at: indexPath)
         
-        // If there is an item in 'fetchedResultsController', present it.
-        if let fc = fetchedResultsController {
-            let compound = fc.object(at: indexPath) as! Compound
-            
-            cell.compoundName.text = compound.name
-            
-            if let imageData = compound.image {
-                cell.compoundImageView.image = UIImage(data: imageData as Data)
-            }
+        cell.compoundName.text = compound.name
+        
+        if let imageData = compound.image {
+            cell.compoundImageView.image = UIImage(data: imageData as Data)
         }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        if let fc = fetchedResultsController {
-            let compound = fc.object(at: indexPath) as! Compound
+        let compound = fetchedResultsController.object(at: indexPath)
+        
+        if let index = compounds.index(of: compound){
+            compounds.remove(at: index)
             
-            if let index = compounds.index(of: compound){
-                compounds.remove(at: index)
-                
-                var cids = [String]()
-                for compound in compounds {
-                    cids.append(compound.name!)
-                }
-                selectedCompoundsLabel.text = cids.joined(separator: "/")
-                return false
-            } else {
-                compounds.append(compound)
-                
-                var cids = [String]()
-                for compound in compounds {
-                    cids.append(compound.name!)
-                }
-                selectedCompoundsLabel.text = cids.joined(separator: "/")
-                return true
+            var cids = [String]()
+            for compound in compounds {
+                cids.append(compound.name!)
             }
+            selectedCompoundsLabel.text = cids.joined(separator: "/")
+            return false
+        } else {
+            compounds.append(compound)
+            
+            var cids = [String]()
+            for compound in compounds {
+                cids.append(compound.name!)
+            }
+            selectedCompoundsLabel.text = cids.joined(separator: "/")
+            return true
         }
         
-        return false
     }
     
     // MARK: Methods for FlowLayout
@@ -179,22 +168,6 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
     }
 }
 
-extension CompoundCollectionViewController {
-    func save(context: NSManagedObjectContext) -> Bool {
-        if context.hasChanges {
-            do {
-                try context.save()
-                return true
-            } catch {
-                return false
-            }
-        } else {
-            print("Context has not changed.")
-            return false
-        }
-    }
-}
-
 // MARK: - NSFetchedResultsControllerDelegate
 extension CompoundCollectionViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
@@ -225,12 +198,11 @@ extension CompoundCollectionViewController: NSFetchedResultsControllerDelegate {
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        if let context = fetchedResultsController?.managedObjectContext {
-            if save(context: context) {
-                print("Saved in controllerDidChangeContent(_:)")
-            } else {
-                print("Error while saving in controllerDidChangeContent(_:)")
-            }
+        do {
+            try dataController.viewContext.save()
+            print("Saved in controllerDidChangeContent(_:)")
+        } catch {
+            print("Error while saving in controllerDidChangeContent(_:)")
         }
     }
 }

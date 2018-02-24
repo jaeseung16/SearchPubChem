@@ -22,6 +22,8 @@ class MakeSolutionViewController: UIViewController {
     var amounts = [Double]()
     var units = [Int]()
     
+    var dataController: DataController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -66,17 +68,17 @@ class MakeSolutionViewController: UIViewController {
             }
         }
         
-        // Get the stack
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let stack = delegate.stack
-        
-        let solution = Solution(context: stack.context)
+        let solution = Solution(context: dataController.viewContext)
         solution.name = labelForSolution.text!.trimmingCharacters(in: .whitespaces)
         solution.amount = amountsWithUnit as NSObject
-        solution.created = Date()
         solution.compounds = NSSet(array: compounds)
         
-        try? stack.context.save()
+        do {
+            try dataController.viewContext.save()
+            print("Successfully saved a new solution")
+        } catch {
+            print("There is an error while saving a new solution: \(error.localizedDescription)")
+        }
         
         let title = "Saved"
         let message = "A new solution saved."
@@ -99,22 +101,12 @@ class MakeSolutionViewController: UIViewController {
         // Pass the selected object to the new view controller.
         
         if (sender as? UIButton) != nil {
-            // Get the stack
-            let delegate = UIApplication.shared.delegate as! AppDelegate
-            let stack = delegate.stack
-            
             // Fetching compounds
-            let fr = NSFetchRequest<NSFetchRequestResult>(entityName: "Compound")
-            fr.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-            
-            let fc = NSFetchedResultsController(fetchRequest: fr, managedObjectContext: stack.context, sectionNameKeyPath: nil, cacheName: nil)
-            
-            do {
-                try fc.performFetch()
-            } catch {
-                print("Error while performing search: \n\(error)\n\(String(describing: fc))")
-                return
-            }
+            let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
+            let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+
+            let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
             
             // Set up the fetchedResultsController of CompoundCollectionViewController
             if let compoundCollectionViewController = segue.destination as? CompoundCollectionViewController {
