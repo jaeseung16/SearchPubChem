@@ -10,10 +10,22 @@ import UIKit
 
 class CompoundMiniDetailViewController: UIViewController {
 
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var formulaLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    
+    var compound: Compound!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        nameLabel.text = compound.name
+        formulaLabel.text = compound.formula
+        if let image = compound.image as Data? {
+            imageView.image = UIImage(data: image)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,7 +33,10 @@ class CompoundMiniDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    @IBAction func dismiss(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 

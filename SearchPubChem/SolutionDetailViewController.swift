@@ -17,8 +17,8 @@ class SolutionDetailViewController: UIViewController {
     
     // MARK: - Variables
     var solution: Solution!
-    var compoundNames = [String]()
-    var molecularWeights = [Double]()
+    
+    var compounds = [Compound]()
     var amounts = [Double]()
     var amountsMol = [Double]()
     var amountsToDisplay = [String]()
@@ -77,16 +77,9 @@ class SolutionDetailViewController: UIViewController {
                 break
             }
             
-            molecularWeights.append(compound.molecularWeight)
+            self.compounds.append(compound)
             
-            guard let name = compound.name else {
-                print("No name found")
-                break
-            }
-            
-            compoundNames.append(name)
-            
-            guard let value = amount.value(forKey: name) as? Double else {
+            guard let name = compound.name, let value = amount.value(forKey: name) as? Double else {
                 print("No value found")
                 break
             }
@@ -159,16 +152,25 @@ class SolutionDetailViewController: UIViewController {
 
 extension SolutionDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return compoundNames.count
+        return solution.compounds?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CompoundsTableViewCell")!
         
-        cell.textLabel?.text = compoundNames[indexPath.row]
+        cell.textLabel?.text = compounds[indexPath.row].name
         cell.detailTextLabel?.text = amountsToDisplay[indexPath.row]
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let compound = compounds[indexPath.row]
+        
+        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "CompoundMiniDetailViewController") as! CompoundMiniDetailViewController
+        
+        detailViewController.compound = compound
+        
+        present(detailViewController, animated: true, completion: nil)
+    }
 }

@@ -33,7 +33,7 @@ class SolutionTableViewController: UITableViewController {
 
     func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Solution> = Solution.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "created", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "created", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "solutions")
@@ -104,7 +104,6 @@ class SolutionTableViewController: UITableViewController {
             makeSolutionViewController.dataController = dataController
         }
     }
-    
 
 }
 
