@@ -55,6 +55,11 @@ class SolutionDetailViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func share(_ sender: UIBarButtonItem) {
+        
+        
+    }
+    
     /*
     // MARK: - Navigation
 

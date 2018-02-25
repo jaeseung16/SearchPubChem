@@ -11,6 +11,7 @@
         <capability name="Baseline standard spacing" minToolsVersion="9.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -637,11 +638,18 @@
                                                 <action selector="dismiss:" destination="VXg-BF-hCm" id="QcB-T4-JFT"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="CMh-H3-pNc">
-                                            <connections>
-                                                <action selector="deleteAndDismiss:" destination="VXg-BF-hCm" id="Zp4-ew-5QC"/>
-                                            </connections>
-                                        </barButtonItem>
+                                        <rightBarButtonItems>
+                                            <barButtonItem systemItem="trash" id="CMh-H3-pNc">
+                                                <connections>
+                                                    <action selector="deleteAndDismiss:" destination="VXg-BF-hCm" id="Zp4-ew-5QC"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem systemItem="action" id="2FS-49-EMF">
+                                                <connections>
+                                                    <action selector="share:" destination="VXg-BF-hCm" id="ilP-wu-WGk"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
