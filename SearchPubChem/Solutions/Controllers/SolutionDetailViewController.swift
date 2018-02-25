@@ -56,19 +56,40 @@ class SolutionDetailViewController: UIViewController {
     }
     
     @IBAction func share(_ sender: UIBarButtonItem) {
+        var csvString = "Compound, Amount (g), Amount (mol)\n"
         
+        for k in 0..<compounds.count {
+            csvString += "\(compounds[k].name ?? ""), \(amounts[k]), \(amountsMol[k])\n"
+        }
+        
+        print(csvString)
+        
+        guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return
+        }
+        
+        let csvFileURL = path.appendingPathComponent("/\(solution.name!).csv")
+        
+        do {
+            try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
+        } catch {
+            print("Failed to save the csv file")
+        }
+        
+        let activityViewController = UIActivityViewController(activityItems: [csvFileURL], applicationActivities: nil)
+        
+        activityViewController.completionWithItemsHandler = { (activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, activityError: Error?) in
+            do {
+                try FileManager.default.removeItem(at: csvFileURL)
+                print("Succeeded to remove the item")
+            } catch {
+                print("Failed to remove the item")
+            }
+        }
+        
+        present(activityViewController, animated: true, completion: nil)
         
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func retrieveDataFromSolution() {
         guard let compounds = solution.compounds, let amount = solution.amount else {

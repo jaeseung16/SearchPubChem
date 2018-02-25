@@ -82,7 +82,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CEc-xE-Vcl">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
-                                    <navigationItem title="PubChem Search" id="6fQ-Xe-Kds">
+                                    <navigationItem id="6fQ-Xe-Kds">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="hfe-CN-3kV">
                                             <connections>
                                                 <action selector="dismiss:" destination="zOn-VM-GxY" id="Ylv-Zv-pW1"/>
@@ -632,7 +632,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tyy-TC-fRL">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
-                                    <navigationItem title="Solution Detail View" id="nzh-aR-Ygo">
+                                    <navigationItem id="nzh-aR-Ygo">
                                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="7ng-5Z-gBt">
                                             <connections>
                                                 <action selector="dismiss:" destination="VXg-BF-hCm" id="QcB-T4-JFT"/>

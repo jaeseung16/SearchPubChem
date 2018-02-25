@@ -152,8 +152,8 @@
 		90778E0B204347F0002D9945 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9090E66C202A6F0D007927DD /* SolutionDetailViewController.swift */,
 				90267BE4201E5B1000F899A3 /* MakeSolutionViewController.swift */,
+				9090E66C202A6F0D007927DD /* SolutionDetailViewController.swift */,
 				9090E66E202A76F2007927DD /* SolutionTableViewController.swift */,
 			);
 			path = Controllers;
