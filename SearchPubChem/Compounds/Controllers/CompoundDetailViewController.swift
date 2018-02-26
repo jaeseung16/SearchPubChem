@@ -66,10 +66,6 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
         solutionsTableView.reloadData()
     }
     
-    @IBAction func dismiss(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     @IBAction func deleteAndDismiss(_ sender: UIBarButtonItem) {
         dataController.viewContext.delete(compound)
         
@@ -80,7 +76,8 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
             print("Error while saving in CompoundDetailViewController.deleteAndDismiss(_:)")
         }
         
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
+        //dismiss(animated: true, completion: nil)
     }
     
     /*

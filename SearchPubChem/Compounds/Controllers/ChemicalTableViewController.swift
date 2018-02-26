@@ -83,7 +83,8 @@ class ChemicalTableViewController: UITableViewController {
         detailViewController.fetchedResultsController = fc
         detailViewController.compound = compound
         
-        present(detailViewController, animated: true, completion: nil)
+        navigationController?.pushViewController(detailViewController, animated: true)
+        //present(detailViewController, animated: true, completion: nil)
     }
 
     

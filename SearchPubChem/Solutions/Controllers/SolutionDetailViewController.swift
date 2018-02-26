@@ -36,14 +36,12 @@ class SolutionDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
         
         addTargetToSegmentedControls()
         retrieveDataFromSolution()
         displayNameAndDate()
         displayAmounts()
-
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
@@ -61,9 +59,7 @@ class SolutionDetailViewController: UIViewController {
         for k in 0..<compounds.count {
             csvString += "\(compounds[k].name ?? ""), \(amounts[k]), \(amountsMol[k])\n"
         }
-        
-        print(csvString)
-        
+
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             return
         }
@@ -76,7 +72,7 @@ class SolutionDetailViewController: UIViewController {
             print("Failed to save the csv file")
         }
         
-        let activityViewController = UIActivityViewController(activityItems: [csvFileURL], applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: ["Sharing \(solution.name!).csv", csvFileURL], applicationActivities: nil)
         
         activityViewController.completionWithItemsHandler = { (activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, activityError: Error?) in
             do {
@@ -194,7 +190,6 @@ extension SolutionDetailViewController: UITableViewDelegate, UITableViewDataSour
         let compound = compounds[indexPath.row]
         
         let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "CompoundMiniDetailViewController") as! CompoundMiniDetailViewController
-        
         detailViewController.compound = compound
         
         present(detailViewController, animated: true, completion: nil)
