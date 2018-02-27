@@ -10,31 +10,24 @@ import UIKit
 import CoreData
 
 class ChemicalTableViewController: UITableViewController {
-
+    // MARK:- Properties
+    // Constants
     let tableViewCellIdentifier = "ChemicalTableViewCell"
     
+    // Variables
     var dataController: DataController!
-    
     var fetchedResultsController: NSFetchedResultsController<Compound>!
     
     var compounds = [Compound]()
     
+    // MARK:- Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpFetchedResultsController()
-        //fetchCompounds()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         self.tableView.reloadData()
     }
     
@@ -52,11 +45,16 @@ class ChemicalTableViewController: UITableViewController {
             fatalError("Compounds cannot be fetched: \(error.localizedDescription)")
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let searchByNameViewController = segue.destination as? SearchByNameViewController {
+            searchByNameViewController.dataController = dataController
+        }
+    }
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
-
         let compound = fetchedResultsController.object(at: indexPath)
         
         cell.textLabel?.text = compound.name
@@ -68,8 +66,7 @@ class ChemicalTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let compound = fetchedResultsController.object(at: indexPath)
         
-        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "CompoundDetailViewController") as! CompoundDetailViewController
-        
+        // Fetch the solutions containing the selected compound
         let fetchRequest: NSFetchRequest<Solution> = Solution.fetchRequest()
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "compounds CONTAINS %@", argumentArray: [compound])
@@ -79,27 +76,15 @@ class ChemicalTableViewController: UITableViewController {
         
         let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
+        // Set up a CompoundDetailViewController
+        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "CompoundDetailViewController") as! CompoundDetailViewController
+        
         detailViewController.dataController = dataController
         detailViewController.fetchedResultsController = fc
         detailViewController.compound = compound
         
         navigationController?.pushViewController(detailViewController, animated: true)
-        //present(detailViewController, animated: true, completion: nil)
     }
-
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        
-        if let searchByNameViewController = segue.destination as? SearchByNameViewController {
-            searchByNameViewController.dataController = dataController
-        }
-    }
-    
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
@@ -122,7 +107,7 @@ class ChemicalTableViewController: UITableViewController {
     }
 }
 
-// MARK: - ChemicalTableViewController: NSFetchedResultsControllerDelegate
+// MARK: - NSFetchedResultsControllerDelegate
 extension ChemicalTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
