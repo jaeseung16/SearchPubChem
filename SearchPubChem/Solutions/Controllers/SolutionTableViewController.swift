@@ -10,15 +10,17 @@ import UIKit
 import CoreData
 
 class SolutionTableViewController: UITableViewController {
-
+    // MARK: - Properties
+    // Constants
     let tableViewCellIdentifier = "SolutionTableViewCell"
     
-    var dataController: DataController!
-    
-    var fetchedResultsController: NSFetchedResultsController<Solution>!
-    
+    // Variables
     var solutions = [Solution]()
     
+    var dataController: DataController!
+    var fetchedResultsController: NSFetchedResultsController<Solution>!
+    
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,7 +47,8 @@ class SolutionTableViewController: UITableViewController {
             fatalError("Solutions cannot be fetched: \(error.localizedDescription)")
         }
     }
-
+    
+    // MARK: - Table View Data Source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
         
@@ -95,18 +98,15 @@ class SolutionTableViewController: UITableViewController {
         return fetchedResultsController.sectionIndexTitles
     }
 
-    
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let makeSolutionViewController = segue.destination as? MakeSolutionViewController {
             makeSolutionViewController.dataController = dataController
         }
     }
-
 }
 
+// MARK: - SolutionDetailViewControllerDelegate
 extension SolutionTableViewController: SolutionDetailViewControllerDelegate {
     func remove(solution: Solution) {
         dataController.viewContext.delete(solution)
@@ -120,7 +120,7 @@ extension SolutionTableViewController: SolutionDetailViewControllerDelegate {
     }
 }
 
-// MARK: - ChemicalTableViewController: NSFetchedResultsControllerDelegate
+// MARK: - NSFetchedResultsControllerDelegate
 extension SolutionTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()

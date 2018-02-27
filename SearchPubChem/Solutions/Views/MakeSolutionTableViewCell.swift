@@ -10,18 +10,20 @@ import UIKit
 
 protocol MakeSolutionTableViewCellDelegate: AnyObject {
     func didEndEditing(_ cell: MakeSolutionTableViewCell)
-    
     func didValueChanged(_ cell: MakeSolutionTableViewCell)
 }
 
 class MakeSolutionTableViewCell: UITableViewCell {
-
+    // MARK: - Properties
+    // Outlets
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
+    // Variable
     weak var delegate: MakeSolutionTableViewCellDelegate?
     
+    // MARK: - Methods
     override func awakeFromNib() {
         super.awakeFromNib()
         textField.delegate = self
@@ -33,6 +35,7 @@ class MakeSolutionTableViewCell: UITableViewCell {
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension MakeSolutionTableViewCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.text = ""
@@ -47,5 +50,4 @@ extension MakeSolutionTableViewCell: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
 }
