@@ -10,25 +10,26 @@ import UIKit
 import CoreData
 
 class SearchByNameViewController: UIViewController {
-    
-    var dataController: DataController!
-
+    // MARK: - Properties
+    // Outlets
     @IBOutlet weak var nameToSearch: UITextField!
-    
     @IBOutlet weak var weightTitleLabel: UILabel!
     @IBOutlet weak var cidTitleLabel: UILabel!
     @IBOutlet weak var iupacTitleLabel: UILabel!
-    
     @IBOutlet weak var compoundImageView: UIImageView!
     @IBOutlet weak var formulaLabel: UILabel!
     @IBOutlet weak var weightLabel: UILabel!
     @IBOutlet weak var cidLabel: UILabel!
     @IBOutlet weak var iupacNameLabel: UILabel!
-    
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
+    // Constants
     let client = PubChemSearch()
     
+    // Variables
+    var dataController: DataController!
+
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -50,6 +51,7 @@ class SearchByNameViewController: UIViewController {
         saveButton.isEnabled = !yes
     }
     
+    // Actions
     @IBAction func searchByName(_ sender: UIButton) {
         let name = nameToSearch.text!.trimmingCharacters(in: .whitespaces)
         nameToSearch.text = name

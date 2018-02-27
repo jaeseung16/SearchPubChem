@@ -168,7 +168,7 @@ class SolutionDetailViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension SolutionDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return solution.compounds?.count ?? 0

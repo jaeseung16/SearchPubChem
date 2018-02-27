@@ -10,20 +10,24 @@ import UIKit
 import CoreData
 
 class MakeSolutionViewController: UIViewController {
-
+    // MARK: - Properties
+    // Outlets
     @IBOutlet weak var labelForSolution: UITextField!
     @IBOutlet weak var addCompound: UIButton!
     @IBOutlet weak var solutionTableView: UITableView!
-    
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
+    // Constants
     let maxNumberOfCompounds = 10
+    
+    // Variables
     var compounds = [Compound]()
     var amounts = [Double]()
     var units = [Int]()
     
     var dataController: DataController!
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,6 +47,7 @@ class MakeSolutionViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // Actions
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
@@ -94,12 +99,7 @@ class MakeSolutionViewController: UIViewController {
     }
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        
         if (sender as? UIButton) != nil {
             // Fetching compounds
             let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
@@ -115,21 +115,6 @@ class MakeSolutionViewController: UIViewController {
                 compoundCollectionViewController.compounds = compounds
                 present(compoundCollectionViewController, animated: true, completion: nil)
             }
-        }
-    }
-    
-}
-
-// MARK: - CompoundCollectionViewDelegate
-extension MakeSolutionViewController: CompoundCollectionViewDelegate {
-    func selectedCompounds(with compounds: [Compound]) {
-        saveButton.isEnabled = compounds.count > 0 ? true : false
-        
-        self.compounds = compounds
-        
-        while amounts.count < compounds.count {
-            amounts.append(0.0)
-            units.append(0)
         }
     }
 }
@@ -165,6 +150,20 @@ extension MakeSolutionViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+// MARK: - CompoundCollectionViewDelegate
+extension MakeSolutionViewController: CompoundCollectionViewDelegate {
+    func selectedCompounds(with compounds: [Compound]) {
+        saveButton.isEnabled = compounds.count > 0 ? true : false
+        
+        self.compounds = compounds
+        
+        while amounts.count < compounds.count {
+            amounts.append(0.0)
+            units.append(0)
+        }
     }
 }
 

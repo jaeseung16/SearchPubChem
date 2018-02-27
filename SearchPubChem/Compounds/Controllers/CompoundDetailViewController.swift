@@ -80,6 +80,7 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
     }
 }
 
+// MARK: - UITableViewDataSource, UITableViewDelegate
 extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
@@ -119,6 +120,7 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
     
 }
 
+// MARK: - SolutionDetailViewControllerDelegate
 extension CompoundDetailViewController: SolutionDetailViewControllerDelegate {
     func remove(solution: Solution) {
         dataController.viewContext.delete(solution)
