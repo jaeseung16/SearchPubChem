@@ -15,9 +15,16 @@ protocol SolutionDetailViewControllerDelegate: AnyObject {
 
 class SolutionDetailViewController: UIViewController {
     
-    // MARK: - Variables
-    var solution: Solution!
+    // MARK: - Properties
+    // IBOutlets
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var absoluteRelativeControl: UISegmentedControl!
+    @IBOutlet weak var unitControl: UISegmentedControl!
+    @IBOutlet weak var compoundsTableView: UITableView!
     
+    // Vairables
+    var solution: Solution!
     var compounds = [Compound]()
     var amounts = [Double]()
     var amountsMol = [Double]()
@@ -25,31 +32,24 @@ class SolutionDetailViewController: UIViewController {
     
     weak var delegate: SolutionDetailViewControllerDelegate?
     
-    // IBOutlets
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    
-    @IBOutlet weak var absoluteRelativeControl: UISegmentedControl!
-    @IBOutlet weak var unitControl: UISegmentedControl!
-    
-    @IBOutlet weak var compoundsTableView: UITableView!
-    
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
+
         addTargetToSegmentedControls()
         retrieveDataFromSolution()
         displayNameAndDate()
         displayAmounts()
     }
     
+    // Actions
     @IBAction func deleteAndDismiss(_ sender: UIBarButtonItem) {
         delegate?.remove(solution: solution)
         navigationController?.popViewController(animated: true)
     }
     
     @IBAction func share(_ sender: UIBarButtonItem) {
+        // Build a csv file
         var csvString = "Compound, Amount (g), Amount (mol)\n"
         
         for k in 0..<compounds.count {
@@ -68,6 +68,7 @@ class SolutionDetailViewController: UIViewController {
             print("Failed to save the csv file")
         }
         
+        // Set up a UIActivityViewController
         let activityViewController = UIActivityViewController(activityItems: ["Sharing \(solution.name!).csv", csvFileURL], applicationActivities: nil)
         
         activityViewController.completionWithItemsHandler = { (activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, activityError: Error?) in
@@ -80,9 +81,9 @@ class SolutionDetailViewController: UIViewController {
         }
         
         present(activityViewController, animated: true, completion: nil)
-        
     }
     
+    // MARK: - Convinience methods
     func retrieveDataFromSolution() {
         guard let compounds = solution.compounds, let amount = solution.amount else {
             print("There is no information.")
@@ -116,7 +117,7 @@ class SolutionDetailViewController: UIViewController {
         if let date = solution.created {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
-            dateFormatter.timeStyle = .medium
+            dateFormatter.timeStyle = .none
             dateFormatter.locale = Locale.current
             
             dateLabel.text = "Created on " + dateFormatter.string(from: date as Date)
@@ -152,7 +153,7 @@ class SolutionDetailViewController: UIViewController {
         compoundsTableView.reloadData()
     }
     
-    // Methods for UISegmentedControls
+    // MARK: - UISegmentedControls
     func addTargetToSegmentedControls() {
         absoluteRelativeControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenAbsoluteAndRelative), for: .valueChanged)
         unitControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenGramAndMol), for: .valueChanged)
@@ -165,9 +166,9 @@ class SolutionDetailViewController: UIViewController {
     @objc func switchBetweenGramAndMol() {
         displayAmounts()
     }
-    
 }
 
+// MARK: - UITableViewDataSource
 extension SolutionDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return solution.compounds?.count ?? 0

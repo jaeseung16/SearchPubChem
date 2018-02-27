@@ -10,7 +10,8 @@ import UIKit
 import CoreData
 
 class CompoundDetailViewController: UIViewController, NSFetchedResultsControllerDelegate {
-
+    // MARK: - Properties
+    // Outlets
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var formulaLabel: UILabel!
     @IBOutlet weak var weightLabel: UILabel!
@@ -18,13 +19,12 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
     @IBOutlet weak var iupacLabel: UILabel!
     @IBOutlet weak var compoundImageView: UIImageView!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
-    
     @IBOutlet weak var solutionsTableView: UITableView!
     
-    var dataController: DataController!
-    
+    // Variables
     var compound: Compound!
     
+    var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Solution>! {
         didSet {
             fetchedResultsController.delegate = self
@@ -32,15 +32,25 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
             do {
                 try fetchedResultsController.performFetch()
             } catch {
-                print("Solutions cannt be fetched for the compound: \(error.localizedDescription)")
+                NSLog("Solutions cannt be fetched for the compound: \(error.localizedDescription)")
             }
         }
     }
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        configureView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        solutionsTableView.reloadData()
+    }
+    
+    func configureView() {
         nameLabel.text = compound.name?.uppercased()
         formulaLabel.text = compound.formula
         weightLabel.text = "\(String(describing: compound.molecularWeight)) gram/mol"
@@ -52,44 +62,22 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
         }
         
         if let solutions = fetchedResultsController.fetchedObjects {
-            if solutions.count == 0 {
-                deleteButton.isEnabled = true
-            } else {
-                deleteButton.isEnabled = false
-            }
+            deleteButton.isEnabled = (solutions.count == 0)
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        solutionsTableView.reloadData()
-    }
-    
+    // Actions
     @IBAction func deleteAndDismiss(_ sender: UIBarButtonItem) {
         dataController.viewContext.delete(compound)
         
         do {
             try dataController.viewContext.save()
-            print("Saved in CompoundDetailViewController.deleteAndDismiss(_:)")
         } catch {
-            print("Error while saving in CompoundDetailViewController.deleteAndDismiss(_:)")
+            NSLog("Error while saving: \(error.localizedDescription)")
         }
         
         navigationController?.popViewController(animated: true)
-        //dismiss(animated: true, completion: nil)
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelegate {
