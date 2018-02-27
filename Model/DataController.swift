@@ -10,14 +10,14 @@ import Foundation
 import CoreData
 
 class DataController {
+    // MARK: Properties
     let persistentContainer: NSPersistentContainer
     
     var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
-    var backgroundContext: NSManagedObjectContext!
-    
+    // MARK: - Methods
     init(modelName: String) {
         persistentContainer = NSPersistentContainer(name: modelName)
     }
@@ -37,15 +37,12 @@ class DataController {
             completion?()
         }
     }
-    
 }
 
-// MARK: - DataContoller (Removing Data)
+// MARK: - Extension
 extension DataController  {
+    // delete all the objects in the db. This won't delete the files, it will just leave empty tables.
     func dropAllData() throws {
-        // delete all the objects in the db. This won't delete the files, it will
-        // just leave empty tables.
-        
         let persistentStoreCoordinator = persistentContainer.persistentStoreCoordinator
         let persistentStore = persistentStoreCoordinator.persistentStores[0]
         let urlForPersistentStore = persistentStoreCoordinator.url(for: persistentStore)
@@ -53,11 +50,8 @@ extension DataController  {
         try persistentStoreCoordinator.destroyPersistentStore(at: urlForPersistentStore, ofType: NSSQLiteStoreType, options: nil)
         try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: urlForPersistentStore, options: nil)
     }
-}
 
-extension DataController {
     func autoSaveViewContext(interval: TimeInterval = 30) {
-        print("autosaving")
         guard interval > 0 else {
             print("The autosave interval cannot be negative.")
             return
@@ -66,9 +60,8 @@ extension DataController {
         if viewContext.hasChanges {
             do {
                 try viewContext.save()
-                print("Succeeded to autosave.")
             } catch {
-                print("Failed to autosave.")
+                NSLog("Failed to autosave: \(error.localizedDescription)")
             }
         }
         

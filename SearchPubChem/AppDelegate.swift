@@ -13,36 +13,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     let dataController = DataController(modelName: "PubChemSolution")
- 
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         dataController.load()
-        
-        let tabBarController = window?.rootViewController as! UITabBarController
-        
-        let viewControllers = tabBarController.viewControllers!
-        
-        for viewController in viewControllers {
-            guard let navigationViewController = viewController as? UINavigationController else {
-                break
-            }
-            
-            if let topViewController = navigationViewController.topViewController as? ChemicalTableViewController {
-                topViewController.dataController = dataController
-            } else if let topViewController = navigationViewController.topViewController as? SolutionTableViewController {
-                topViewController.dataController = dataController
-            }
-        }
-        
-        /*
-        let navigationViewController = tabBarController.viewControllers![0] as! UINavigationController
-        let chemicalTableViewController = navigationViewController.topViewController as! ChemicalTableViewController
-        chemicalTableViewController.dataController = dataController
-        */
-        
         checkIfFirstLaunch()
+        configureTabBarController()
 
-        // Override point for customization after application launch.
         return true
     }
 
@@ -73,8 +50,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-// MARK: - Convenient functions
+// MARK: - Convenient methods
 extension AppDelegate {
+    func saveData() {
+        do {
+            try dataController.viewContext.save()
+        } catch {
+            print("Error while saving")
+        }
+    }
+    
     func checkIfFirstLaunch() {
         if UserDefaults.standard.bool(forKey: "HasLaunchedBefore") {
             print("Not First Launch")
@@ -85,23 +70,22 @@ extension AppDelegate {
         }
     }
     
-    func saveViewContext() {
-        do {
-            try dataController.viewContext.save()
-        } catch {
-            print("Error whie saving in AppDelegate")
+    func configureTabBarController() {
+        let tabBarController = window?.rootViewController as! UITabBarController
+        let viewControllers = tabBarController.viewControllers!
+        
+        for viewController in viewControllers {
+            guard let navigationViewController = viewController as? UINavigationController else {
+                break
+            }
+            
+            if let topViewController = navigationViewController.topViewController as? ChemicalTableViewController {
+                topViewController.dataController = dataController
+            } else if let topViewController = navigationViewController.topViewController as? SolutionTableViewController {
+                topViewController.dataController = dataController
+            }
         }
     }
-    
-    
-    func saveData() {
-        do {
-            try dataController.viewContext.save()
-        } catch {
-            print("Error while saving")
-        }
-    }
-    
     
     func preloadData() {
         do {
@@ -117,7 +101,6 @@ extension AppDelegate {
         water.cid = "962"
         water.nameIUPAC = "oxidane"
         water.image = UIImagePNGRepresentation(UIImage(named: "Water")!)!
-        water.created = Date()
         
         let sodiumChloride = Compound(context: dataController.viewContext)
         sodiumChloride.name = "sodium chloride"
@@ -126,16 +109,12 @@ extension AppDelegate {
         sodiumChloride.cid = "5234"
         sodiumChloride.nameIUPAC = "sodium chloride"
         sodiumChloride.image = UIImagePNGRepresentation(UIImage(named: "NaCl")!)
-        sodiumChloride.created = Date()
-        
-        let amounts = [water.name!: 1.0, sodiumChloride.name!: 0.05]
         
         let saltyWater = Solution(context: dataController.viewContext)
         saltyWater.name = "salty water"
         saltyWater.compounds = NSSet(array: [water, sodiumChloride])
-        saltyWater.amount = amounts as NSObject
-        saltyWater.created = Date()
         
-        //saltyWater.addToCompounds([water, sodiumChloride])
+        let amounts = [water.name!: 1.0, sodiumChloride.name!: 0.05]
+        saltyWater.amount = amounts as NSObject
     }
 }
