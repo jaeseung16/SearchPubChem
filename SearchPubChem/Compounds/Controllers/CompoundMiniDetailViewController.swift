@@ -19,18 +19,11 @@ class CompoundMiniDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
         nameLabel.text = compound.name
         formulaLabel.text = compound.formula
         if let image = compound.image as Data? {
             imageView.image = UIImage(data: image)
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {

@@ -126,7 +126,7 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
         detailViewController.solution = solution
         detailViewController.delegate = self
         
-        present(detailViewController, animated: true, completion: nil)
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
     
 }

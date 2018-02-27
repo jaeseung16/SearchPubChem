@@ -44,13 +44,9 @@ class SolutionDetailViewController: UIViewController {
         displayAmounts()
     }
     
-    @IBAction func dismiss(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
-    }
-    
     @IBAction func deleteAndDismiss(_ sender: UIBarButtonItem) {
         delegate?.remove(solution: solution)
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func share(_ sender: UIBarButtonItem) {
