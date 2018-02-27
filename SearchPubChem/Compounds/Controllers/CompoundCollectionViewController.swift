@@ -9,24 +9,27 @@
 import UIKit
 import CoreData
 
-private let reuseIdentifier = "CompoundCollectionViewCell"
-
 protocol CompoundCollectionViewDelegate: AnyObject {
     func selectedCompounds(with compounds: [Compound])
 }
 
 class CompoundCollectionViewController: UIViewController {
-
+    // MARK: - Properties
+    // Outlets
     @IBOutlet weak var compoundCollectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var selectedCompoundsLabel: UILabel!
     
+    // Constants
+    let reuseIdentifier = "CompoundCollectionViewCell"
+    
+    // Variables
     weak var delegate: CompoundCollectionViewDelegate?
+    
     var maxNumberOfCompounds: Int?
     var compounds = [Compound]()
     
     var dataController: DataController!
-    
     var fetchedResultsController: NSFetchedResultsController<Compound>! {
         didSet {
             fetchedResultsController.delegate = self
@@ -34,11 +37,12 @@ class CompoundCollectionViewController: UIViewController {
             do {
                 try fetchedResultsController.performFetch()
             } catch {
-                print("Compounds cannot be fetched for CompoundCollectionViewController: \(error.localizedDescription)")
+                NSLog("Compounds cannot be fetched for CompoundCollectionViewController: \(error.localizedDescription)")
             }
         }
     }
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,33 +56,18 @@ class CompoundCollectionViewController: UIViewController {
         adjustFlowLayoutSize(size: self.view.frame.size)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
+    // Actions
     @IBAction func selectionFinished(_ sender: UIButton) {
         delegate?.selectedCompounds(with: compounds)
         dismiss(animated: true, completion: nil)
     }
-    
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
 }
 
-// MARK: UICollectionViewDataSource
+// MARK: - UICollectionViewDataSource
 extension CompoundCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
@@ -91,12 +80,13 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CompoundCollectionViewCell
         
+/*
         // Set the properties of 'cell' to default values
         cell.compoundImageView.image = nil
         cell.compoundImageView.backgroundColor = .black
-        //cell.activityIndicator.startAnimating()
         cell.compoundName.text = ""
-
+*/
+        
         let compound = fetchedResultsController.object(at: indexPath)
         
         cell.compoundName.text = compound.name
@@ -130,14 +120,13 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
             selectedCompoundsLabel.text = cids.joined(separator: "/")
             return true
         }
-        
     }
     
-    // MARK: Methods for FlowLayout
+    // MARK: - Methods for FlowLayout
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        // This method is called when the orientaition of a device changes even before the view controller is loaded.
-        // So checking whether flowLayout exists before updating the collection view
+        
+        // Checking whether flowLayout exists before updating the collection view
         if self.flowLayout != nil {
             self.flowLayout.invalidateLayout()
             adjustFlowLayoutSize(size: size)
@@ -156,15 +145,12 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
     }
     
     func cellSize(size: CGSize, space: CGFloat) -> CGFloat {
-        let height = size.height
-        let width = size.width
-        
         let numberInRowPortrait = 3.0
         let numberInRowLandscape = 5.0
         
-        let numberInRow = height > width ? CGFloat(numberInRowPortrait) : CGFloat(numberInRowLandscape)
+        let numberInRow = size.height > size.width ? CGFloat(numberInRowPortrait) : CGFloat(numberInRowLandscape)
         
-        return ( width - 2 * numberInRow * space ) / numberInRow
+        return ( size.width - 2 * numberInRow * space ) / numberInRow
     }
 }
 
