@@ -9,44 +9,48 @@
 import Foundation
 
 class PubChemSearch {
+    // MARK: - Properties
+    // Variable
     var session = URLSession.shared
     
+    // MARK: - Methods
     func downloadImage(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?) -> Void) {
         var component = URLComponents()
-        component.scheme = "https"
-        component.host = "pubchem.ncbi.nlm.nih.gov"
-        component.path = "/rest/pug/compound/cid/" + cid + "/PNG"
+        component.scheme = PubChemSearch.Constant.scheme
+        component.host = PubChemSearch.Constant.host
+        component.path = PubChemSearch.Constant.pathForCID + cid + PubChemSearch.QueryResult.png
         
         _ = dataTask(with: component.url!, completionHandler: { (data, error) in
-            /*
-            func sendError(_ error: String) {
-                let userInfo = [NSLocalizedDescriptionKey: error]
-                completionHandler(false, nil)
-            }*/
-            
-            guard let data = data else {
+            guard error == nil else {
+                NSLog("Error while downloading an image: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
                 completionHandler(false, nil)
                 return
             }
-            
-            print("\(data)")
+        
+            guard let data = data else {
+                NSLog("Missing image data)")
+                completionHandler(false, nil)
+                return
+            }
 
             completionHandler(true, data as NSData)
         })
     }
-
     
     func searchCompound(by name: String, completionHandler: @escaping (_ success: Bool, _ compoundInformation: [String: Any]?) -> Void) -> Void {
-        let properties = ["MolecularFormula", "MolecularWeight", "IUPACName"]
+        let properties = [PubChemSearch.PropertyKey.formula,
+                          PubChemSearch.PropertyKey.weight,
+                          PubChemSearch.PropertyKey.nameIUPAC]
         
-        searchCompound(by: name, for: properties) { (values, error) in
+        searchProperties(of: name, properties: properties) { (values, error) in
             guard (error == nil) else {
-                print("\(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
+                NSLog("Error while getting properties: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
                 completionHandler(false, nil)
                 return
             }
             
             guard let values = values else {
+                NSLog("Missing property values")
                 return
             }
             
@@ -55,21 +59,17 @@ class PubChemSearch {
             let molecularWeight = values["MolecularWeight"] as! Double
             let nameIUPAC = values["IUPACName"] as! String
             
-            let compoundInformation: [String: Any] = ["CID": cid, "MolecularFormula": molecularFormula,
-                                       "MolecularWeight": molecularWeight, "IUPACName": nameIUPAC]
-            
-            //let compound = Compound(name: name, formula: molecularFormula, molecularWeight: molecularWeight, CID: CID, nameIUPAC: nameIUPAC, image: nil)
-            
-            print("Compound: \(compoundInformation)")
+            let compoundInformation: [String: Any] = [PubChemSearch.PropertyKey.cid: cid,
+                                                      PubChemSearch.PropertyKey.formula: molecularFormula,
+                                                      PubChemSearch.PropertyKey.weight: molecularWeight,
+                                                      PubChemSearch.PropertyKey.nameIUPAC: nameIUPAC]
             
             completionHandler(true, compoundInformation)
         }
-
     }
     
-    // Change the name later
-    func searchCompound(by name: String, for properties: [String], completionHandler: @escaping (_ values: [String: AnyObject]?, _ error: NSError?) -> Void) {
-        let url = searchURL(by: name, for: properties)
+    func searchProperties(of name: String, properties: [String], completionHandler: @escaping (_ values: [String: AnyObject]?, _ error: NSError?) -> Void) {
+        let url = searchURL(of: name, for: properties)
         
         _ = dataTask(with: url) { (data, error) in
             func sendError(_ error: String) {
@@ -105,19 +105,19 @@ class PubChemSearch {
         }
     }
     
-    func searchURL(by name: String, for properties: [String]) -> URL {
-        var pathForProperties = "/property/"
+    func searchURL(of name: String, for properties: [String]) -> URL {
+        var pathForProperties = PubChemSearch.Constant.pathForProperties
         
         for property in properties {
             pathForProperties += property + ","
         }
         pathForProperties.remove(at: pathForProperties.index(before: pathForProperties.endIndex))
-        pathForProperties += "/json"
+        pathForProperties += PubChemSearch.QueryResult.json
         
         var component = URLComponents()
-        component.scheme = "https"
-        component.host = "pubchem.ncbi.nlm.nih.gov"
-        component.path = "/rest/pug/compound/name/" + name + pathForProperties
+        component.scheme = PubChemSearch.Constant.scheme
+        component.host = PubChemSearch.Constant.host
+        component.path = PubChemSearch.Constant.pathForName + name + pathForProperties
         
         return component.url!
     }
@@ -140,29 +140,29 @@ class PubChemSearch {
                 let statusCode = (response as? HTTPURLResponse)!.statusCode
                 var errorString: String
                 
-                // errorString based on
-                // https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest$_Toc494865562
-                switch(statusCode) {
-                case 400:
-                    errorString = "Request is improperly formed!"
-                case 404:
-                    errorString = "The input record was not found!"
-                case 405:
-                    errorString = "Request not allowed!"
-                case 503:
-                    errorString = "Too many requests or server is busy!"
-                case 504:
-                    errorString = "The request timed out!"
-                default:
-                    errorString = "Your request returned a stauts code other than 2xx!"
+                if let code = PubChemSearch.Status(rawValue: statusCode) {
+                    switch(code) {
+                    case .badRequest:
+                        errorString = "Request is improperly formed"
+                    case .notFound:
+                        errorString = "The input record was not found"
+                    case .notAllowed:
+                        errorString = "Request not allowed"
+                    case .serverBusy:
+                        errorString = "Too many requests or server is busy"
+                    case .timeOut:
+                        errorString = "The request timed out"
+                    default:
+                        errorString = "Your request returned a stauts code other than 2xx"
+                    }
+                    sendError(errorString + ": HTTP Status = \(statusCode)")
                 }
                 
-                sendError(errorString)
                 return
             }
             
             guard let data = data else {
-                sendError("No data was returned by the request!")
+                sendError("No data was returned by the request")
                 return
             }
             
