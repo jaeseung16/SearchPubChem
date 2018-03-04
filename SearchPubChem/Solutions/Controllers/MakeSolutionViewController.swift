@@ -155,7 +155,7 @@ extension MakeSolutionViewController: UITextFieldDelegate {
 
 // MARK: - CompoundCollectionViewDelegate
 extension MakeSolutionViewController: CompoundCollectionViewDelegate {
-    func selectedCompounds(with compounds: [Compound]) {
+    func selectedCompounds(_ compounds: [Compound], with title: String) {
         saveButton.isEnabled = compounds.count > 0 ? true : false
         
         self.compounds = compounds
@@ -163,6 +163,10 @@ extension MakeSolutionViewController: CompoundCollectionViewDelegate {
         while amounts.count < compounds.count {
             amounts.append(0.0)
             units.append(0)
+        }
+        
+        if labelForSolution.text == "" {
+            labelForSolution.text = title
         }
     }
 }

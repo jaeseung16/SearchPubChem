@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol CompoundCollectionViewDelegate: AnyObject {
-    func selectedCompounds(with compounds: [Compound])
+    func selectedCompounds(_ compounds: [Compound], with title: String)
 }
 
 class CompoundCollectionViewController: UIViewController {
@@ -58,7 +58,12 @@ class CompoundCollectionViewController: UIViewController {
     
     // Actions
     @IBAction func selectionFinished(_ sender: UIButton) {
-        delegate?.selectedCompounds(with: compounds)
+        if let title = selectedCompoundsLabel.text {
+            delegate?.selectedCompounds(compounds, with: title)
+        } else {
+            delegate?.selectedCompounds(compounds, with: "")
+        }
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -78,16 +83,9 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CompoundCollectionViewCell
-        
-/*
-        // Set the properties of 'cell' to default values
-        cell.compoundImageView.image = nil
-        cell.compoundImageView.backgroundColor = .black
-        cell.compoundName.text = ""
-*/
-        
         let compound = fetchedResultsController.object(at: indexPath)
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CompoundCollectionViewCell
         
         cell.compoundName.text = compound.name
         
@@ -109,6 +107,7 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
                 cids.append(compound.name!)
             }
             selectedCompoundsLabel.text = cids.joined(separator: "/")
+            
             return false
         } else {
             compounds.append(compound)
@@ -118,6 +117,7 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
                 cids.append(compound.name!)
             }
             selectedCompoundsLabel.text = cids.joined(separator: "/")
+            
             return true
         }
     }
