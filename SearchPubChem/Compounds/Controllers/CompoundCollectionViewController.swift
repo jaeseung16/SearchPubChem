@@ -46,13 +46,7 @@ class CompoundCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var cids = [String]()
-        
-        for compound in compounds {
-            cids.append(compound.name!)
-        }
-        
-        selectedCompoundsLabel.text = cids.joined(separator: "/")
+        setSelectedCompoundsLabel()
         adjustFlowLayoutSize(size: self.view.frame.size)
     }
     
@@ -69,6 +63,14 @@ class CompoundCollectionViewController: UIViewController {
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func setSelectedCompoundsLabel() {
+        var cids = [String]()
+        for compound in compounds {
+            cids.append(compound.name!)
+        }
+        selectedCompoundsLabel.text = cids.joined(separator: "/")
     }
 }
 
@@ -101,23 +103,11 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
         
         if let index = compounds.index(of: compound){
             compounds.remove(at: index)
-            
-            var cids = [String]()
-            for compound in compounds {
-                cids.append(compound.name!)
-            }
-            selectedCompoundsLabel.text = cids.joined(separator: "/")
-            
+            setSelectedCompoundsLabel()
             return false
         } else {
             compounds.append(compound)
-            
-            var cids = [String]()
-            for compound in compounds {
-                cids.append(compound.name!)
-            }
-            selectedCompoundsLabel.text = cids.joined(separator: "/")
-            
+            setSelectedCompoundsLabel()
             return true
         }
     }
