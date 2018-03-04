@@ -12,13 +12,13 @@ import CoreData
 class ChemicalTableViewController: UITableViewController {
     // MARK:- Properties
     // Constants
+    let detailViewControllerIdentifier = "CompoundDetailViewController"
     let tableViewCellIdentifier = "ChemicalTableViewCell"
     
     // Variables
+    var compounds = [Compound]()
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Compound>!
-    
-    var compounds = [Compound]()
     
     // MARK:- Methods
     override func viewDidLoad() {
@@ -77,7 +77,7 @@ class ChemicalTableViewController: UITableViewController {
         let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
         // Set up a CompoundDetailViewController
-        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "CompoundDetailViewController") as! CompoundDetailViewController
+        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! CompoundDetailViewController
         
         detailViewController.dataController = dataController
         detailViewController.fetchedResultsController = fc
