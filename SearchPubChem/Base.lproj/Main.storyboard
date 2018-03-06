@@ -486,7 +486,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
                                         <state key="normal" title="Add Compounds"/>
                                         <connections>
-                                            <segue destination="Op3-KS-PYq" kind="show" id="qcz-qj-sGK"/>
+                                            <action selector="addCompounds:" destination="1lD-Sm-KLH" eventType="touchUpInside" id="k5l-vH-OWH"/>
                                         </connections>
                                     </button>
                                 </subviews>

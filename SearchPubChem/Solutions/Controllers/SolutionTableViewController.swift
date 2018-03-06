@@ -113,9 +113,9 @@ extension SolutionTableViewController: SolutionDetailViewControllerDelegate {
         
         do {
             try dataController.viewContext.save()
-            print("Saved in SolutionTableViewController.remove(solution:)")
+            NSLog("Saved in SolutionTableViewController.remove(solution:)")
         } catch {
-            print("Error while saving in SolutionTableViewController.remove(solution:)")
+            NSLog("Error while saving in SolutionTableViewController.remove(solution:)")
         }
     }
 }

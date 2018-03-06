@@ -19,6 +19,7 @@ class MakeSolutionViewController: UIViewController {
     
     // Constants
     let maxNumberOfCompounds = 10
+    let collectionViewControllerIdentifier = "CompoundCollectionViewController"
     
     // Variables
     var compounds = [Compound]()
@@ -46,6 +47,23 @@ class MakeSolutionViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
+    @IBAction func addCompounds(_ sender: UIButton) {
+        // Fetching compounds
+        let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        // Set up the fetchedResultsController of CompoundCollectionViewController
+        let compoundCollectionViewController = storyboard?.instantiateViewController(withIdentifier: collectionViewControllerIdentifier) as! CompoundCollectionViewController
+        
+        compoundCollectionViewController.fetchedResultsController = fc
+        compoundCollectionViewController.delegate = self
+        compoundCollectionViewController.compounds = compounds
+        present(compoundCollectionViewController, animated: true, completion: nil)
+    }
+    
     @IBAction func createSolution(_ sender: UIBarButtonItem) {
         guard labelForSolution.text != "" else {
             let title = "No Label"
@@ -74,9 +92,9 @@ class MakeSolutionViewController: UIViewController {
         
         do {
             try dataController.viewContext.save()
-            print("Successfully saved a new solution")
+            NSLog("Successfully saved a new solution")
         } catch {
-            print("There is an error while saving a new solution: \(error.localizedDescription)")
+            NSLog("There is an error while saving a new solution: \(error.localizedDescription)")
         }
         
         let title = "Saved"
@@ -90,26 +108,6 @@ class MakeSolutionViewController: UIViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: completion))
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (sender as? UIButton) != nil {
-            // Fetching compounds
-            let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
-            let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-            fetchRequest.sortDescriptors = [sortDescriptor]
-
-            let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-            
-            // Set up the fetchedResultsController of CompoundCollectionViewController
-            if let compoundCollectionViewController = segue.destination as? CompoundCollectionViewController {
-                compoundCollectionViewController.fetchedResultsController = fc
-                compoundCollectionViewController.delegate = self
-                compoundCollectionViewController.compounds = compounds
-                present(compoundCollectionViewController, animated: true, completion: nil)
-            }
-        }
     }
 }
 
