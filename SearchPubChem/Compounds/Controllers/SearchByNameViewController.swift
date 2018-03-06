@@ -22,6 +22,7 @@ class SearchByNameViewController: UIViewController {
     @IBOutlet weak var cidLabel: UILabel!
     @IBOutlet weak var iupacNameLabel: UILabel!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // Constants
     let client = PubChemSearch()
@@ -35,6 +36,19 @@ class SearchByNameViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         hideLabels(true)
+        showNetworkIndicators(false)
+        enableSaveButton(false)
+    }
+    
+    func enableSaveButton(_ yes: Bool) {
+        saveButton.isEnabled = yes
+    }
+    
+    func showNetworkIndicators(_ yes: Bool) {
+        DispatchQueue.main.async {
+            self.activityIndicator.isHidden = !yes
+            UIApplication.shared.isNetworkActivityIndicatorVisible = yes
+        }
     }
     
     func hideLabels(_ yes: Bool) {
@@ -47,8 +61,6 @@ class SearchByNameViewController: UIViewController {
         weightLabel.isHidden = yes
         cidLabel.isHidden = yes
         iupacNameLabel.isHidden = yes
-        
-        saveButton.isEnabled = !yes
     }
     
     // Actions
@@ -56,7 +68,12 @@ class SearchByNameViewController: UIViewController {
         let name = nameToSearch.text!.trimmingCharacters(in: .whitespaces)
         nameToSearch.text = name
         
+        hideLabels(true)
+        showNetworkIndicators(true)
+        
         client.searchCompound(by: name) { (success, compoundInformation) in
+            self.showNetworkIndicators(false)
+            
             if success {
                 guard let information = compoundInformation else {
                     print("There is no compound.")
@@ -70,14 +87,22 @@ class SearchByNameViewController: UIViewController {
                     self.iupacNameLabel.text = (information["IUPACName"] as! String)
                     
                     self.hideLabels(false)
+                    self.showNetworkIndicators(true)
                     
                     self.client.downloadImage(for: self.cidLabel.text!, completionHandler: { (success, data) in
+                        self.showNetworkIndicators(false)
+                        
                         if success {
                             DispatchQueue.main.async {
                                 self.compoundImageView.image = UIImage(data: data! as Data)
+                                self.enableSaveButton(true)
                             }
                         } else {
-                            print("Cannot download the image.")
+                            DispatchQueue.main.async {
+                                let alert = UIAlertController(title: "No Image", message: "Failed to download the molecular structure for \(name).", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+                                self.present(alert, animated: true, completion: nil)
+                            }
                         }
                     })
                 }
@@ -107,9 +132,9 @@ class SearchByNameViewController: UIViewController {
         
         do {
             try dataController.viewContext.save()
-            print("Saved in SolutionTableViewController.remove(solution:)")
+            NSLog("Saved in SolutionTableViewController.remove(solution:)")
         } catch {
-            print("Error while saving in SolutionTableViewController.remove(solution:)")
+            NSLog("Error while saving in SolutionTableViewController.remove(solution:)")
         }
         
         dismiss(animated: true, completion: nil)
@@ -120,6 +145,7 @@ class SearchByNameViewController: UIViewController {
 extension SearchByNameViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         textField.text = ""
+        enableSaveButton(false)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

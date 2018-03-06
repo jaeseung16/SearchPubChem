@@ -129,8 +129,6 @@ extension MakeSolutionViewController: UITableViewDelegate, UITableViewDataSource
         cell.label.text = compounds[indexPath.row].name
         cell.delegate = self
 
-        print(compounds)
-        
         return cell
     }
 }
@@ -172,12 +170,10 @@ extension MakeSolutionViewController: MakeSolutionTableViewCellDelegate {
         if let text = cell.textField.text, let amount = Double(text) {
             amounts[indexPath!.row] = amount
         }
-        print("\(amounts)")
     }
     
     @objc func didValueChanged(_ cell: MakeSolutionTableViewCell) {
         let indexPath = solutionTableView.indexPath(for: cell)
         units[indexPath!.row] = cell.segmentedControl.selectedSegmentIndex
-        print("\(units)")
     }
 }
