@@ -57,7 +57,12 @@ class ChemicalTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
         let compound = fetchedResultsController.object(at: indexPath)
         
-        cell.textLabel?.text = compound.name
+        if let count = compound.solutions?.count, let name = compound.name, count > 0 {
+            cell.textLabel?.text = name + " 💧"
+        } else {
+            cell.textLabel?.text = compound.name
+        }
+        
         cell.detailTextLabel?.text = compound.formula
 
         return cell
