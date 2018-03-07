@@ -190,5 +190,6 @@ extension SolutionDetailViewController: UITableViewDelegate, UITableViewDataSour
         detailViewController.compound = compound
         
         present(detailViewController, animated: true, completion: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -89,6 +89,7 @@ class ChemicalTableViewController: UITableViewController {
         detailViewController.compound = compound
         
         navigationController?.pushViewController(detailViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

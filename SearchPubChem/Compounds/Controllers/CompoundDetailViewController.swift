@@ -116,6 +116,7 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
         detailViewController.delegate = self
         
         navigationController?.pushViewController(detailViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

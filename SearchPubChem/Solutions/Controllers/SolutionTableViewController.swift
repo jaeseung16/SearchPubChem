@@ -76,6 +76,7 @@ class SolutionTableViewController: UITableViewController {
         detailViewController.delegate = self
         
         navigationController?.pushViewController(detailViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
