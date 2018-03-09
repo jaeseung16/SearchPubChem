@@ -357,11 +357,18 @@
                         <viewLayoutGuide key="safeArea" id="srm-hO-zfs"/>
                     </view>
                     <navigationItem key="navigationItem" id="jZn-bI-HTZ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="rTp-86-fqx">
-                            <connections>
-                                <action selector="deleteAndDismiss:" destination="8uc-ZR-Vbf" id="Qjg-jf-sUc"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="trash" id="rTp-86-fqx">
+                                <connections>
+                                    <action selector="deleteAndDismiss:" destination="8uc-ZR-Vbf" id="Qjg-jf-sUc"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="search" id="qt7-aZ-Ui8">
+                                <connections>
+                                    <action selector="searchPubChem:" destination="8uc-ZR-Vbf" id="DlI-XK-QQX"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>

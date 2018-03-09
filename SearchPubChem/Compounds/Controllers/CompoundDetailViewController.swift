@@ -78,6 +78,22 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
         
         navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func searchPubChem(_ sender: UIBarButtonItem) {
+        var component = URLComponents()
+        component.scheme = "https"
+        component.host = "pubchem.ncbi.nlm.nih.gov"
+        component.path = "/compound/\(compound.cid!)"
+        
+        guard let url = component.url else {
+            print("Cannot get a url")
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
