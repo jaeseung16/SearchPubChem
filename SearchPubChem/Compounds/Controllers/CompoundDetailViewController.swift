@@ -80,13 +80,8 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
     }
     
     @IBAction func searchPubChem(_ sender: UIBarButtonItem) {
-        var component = URLComponents()
-        component.scheme = "https"
-        component.host = "pubchem.ncbi.nlm.nih.gov"
-        component.path = "/compound/\(compound.cid!)"
-        
-        guard let url = component.url else {
-            print("Cannot get a url")
+        let client = PubChemSearch()
+        guard let url = client.urlForPubChem(with: compound) else {
             return
         }
         

@@ -15,6 +15,7 @@ extension PubChemSearch {
         static let pathForCID = "/rest/pug/compound/cid/"
         static let pathForName = "/rest/pug/compound/name/"
         static let pathForProperties = "/property/"
+        static let pathForWeb = "/compound/"
     }
     
     struct PropertyKey {

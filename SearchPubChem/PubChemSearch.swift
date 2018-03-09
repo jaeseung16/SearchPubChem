@@ -14,6 +14,19 @@ class PubChemSearch {
     var session = URLSession.shared
     
     // MARK: - Methods
+    func urlForPubChem(with compound: Compound) -> URL? {
+        guard let cid = compound.cid else {
+            return nil
+        }
+        
+        var component = URLComponents()
+        component.scheme = PubChemSearch.Constant.scheme
+        component.host = PubChemSearch.Constant.host
+        component.path = PubChemSearch.Constant.pathForWeb + "\(cid)"
+        
+        return component.url
+    }
+    
     func downloadImage(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?) -> Void) {
         var component = URLComponents()
         component.scheme = PubChemSearch.Constant.scheme
