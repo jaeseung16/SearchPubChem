@@ -21,6 +21,11 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     @IBOutlet weak var solutionsTableView: UITableView!
     
+    // Constants
+    let detailViewControllerIdentifier = "SolutionDetailViewController"
+    let tableViewCellIdentifier = "SolutionMadeOfCompoundTableViewCell"
+    let webViewControllerIdentifer = "WebPubChemViewController"
+    
     // Variables
     var compound: Compound!
     
@@ -85,13 +90,7 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
             return
         }
         
-        /*
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
- */
-        
-        let webViewController = storyboard?.instantiateViewController(withIdentifier: "WebPubChemViewController") as! WebPubChemViewController
+        let webViewController = storyboard?.instantiateViewController(withIdentifier: webViewControllerIdentifer) as! WebPubChemViewController
         webViewController.url = url
         
         navigationController?.pushViewController(webViewController, animated: true)
@@ -110,7 +109,7 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SolutionMadeOfCompoundTableViewCell")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)!
         
         let solution = fetchedResultsController.object(at: indexPath)
         cell.textLabel?.text = solution.name
@@ -130,7 +129,7 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let solution = fetchedResultsController.object(at: indexPath)
         
-        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "SolutionDetailViewController") as! SolutionDetailViewController
+        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! SolutionDetailViewController
         detailViewController.solution = solution
         detailViewController.delegate = self
         
@@ -148,9 +147,9 @@ extension CompoundDetailViewController: SolutionDetailViewControllerDelegate {
         
         do {
             try dataController.viewContext.save()
-            print("Saved in SolutionTableViewController.remove(solution:)")
+            NSLog("Saved in SolutionTableViewController.remove(solution:)")
         } catch {
-            print("Error while saving in SolutionTableViewController.remove(solution:)")
+            NSLog("Error while saving in SolutionTableViewController.remove(solution:)")
         }
     }
 }
