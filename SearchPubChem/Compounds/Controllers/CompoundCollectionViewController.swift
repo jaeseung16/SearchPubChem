@@ -21,7 +21,7 @@ class CompoundCollectionViewController: UIViewController {
     @IBOutlet weak var selectedCompoundsLabel: UILabel!
     
     // Constants
-    let reuseIdentifier = "CompoundCollectionViewCell"
+    let collectionViewCellIdentifier = "CompoundCollectionViewCell"
     
     // Variables
     weak var delegate: CompoundCollectionViewDelegate?
@@ -87,7 +87,7 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let compound = fetchedResultsController.object(at: indexPath)
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CompoundCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellIdentifier, for: indexPath) as! CompoundCollectionViewCell
         
         cell.compoundName.text = compound.name
         
@@ -176,9 +176,9 @@ extension CompoundCollectionViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         do {
             try dataController.viewContext.save()
-            print("Saved in controllerDidChangeContent(_:)")
+            NSLog("Saved in controllerDidChangeContent(_:)")
         } catch {
-            print("Error while saving in controllerDidChangeContent(_:)")
+            NSLog("Error while saving in controllerDidChangeContent(_:)")
         }
     }
 }
