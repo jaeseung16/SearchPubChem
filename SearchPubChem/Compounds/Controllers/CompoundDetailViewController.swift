@@ -85,9 +85,17 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
             return
         }
         
+        /*
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
+ */
+        
+        let webViewController = storyboard?.instantiateViewController(withIdentifier: "WebPubChemViewController") as! WebPubChemViewController
+        webViewController.url = url
+        
+        navigationController?.pushViewController(webViewController, animated: true)
+        
     }
 }
 
