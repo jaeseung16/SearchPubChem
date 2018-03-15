@@ -26,12 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        
         saveData()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
         saveData()
     }
 
@@ -56,14 +58,12 @@ extension AppDelegate {
         do {
             try dataController.viewContext.save()
         } catch {
-            print("Error while saving")
+            NSLog("Error while saving")
         }
     }
     
     func checkIfFirstLaunch() {
-        if UserDefaults.standard.bool(forKey: "HasLaunchedBefore") {
-            print("Not First Launch")
-        } else {
+        if !UserDefaults.standard.bool(forKey: "HasLaunchedBefore") {
             UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
             UserDefaults.standard.synchronize()
             preloadData()
@@ -91,7 +91,7 @@ extension AppDelegate {
         do {
             try dataController.dropAllData()
         } catch {
-            print("Error while dropping all objects in DB")
+            NSLog("Error while dropping all objects in DB")
         }
         
         let water = Compound(context: dataController.viewContext)

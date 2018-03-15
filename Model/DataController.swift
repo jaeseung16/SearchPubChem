@@ -11,8 +11,10 @@ import CoreData
 
 class DataController {
     // MARK: Properties
+    // Constants
     let persistentContainer: NSPersistentContainer
     
+    // Variables
     var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
@@ -39,7 +41,6 @@ class DataController {
     }
 }
 
-// MARK: - Extension
 extension DataController  {
     // delete all the objects in the db. This won't delete the files, it will just leave empty tables.
     func dropAllData() throws {
@@ -53,7 +54,7 @@ extension DataController  {
 
     func autoSaveViewContext(interval: TimeInterval = 30) {
         guard interval > 0 else {
-            print("The autosave interval cannot be negative.")
+            NSLog("The autosave interval cannot be negative.")
             return
         }
         

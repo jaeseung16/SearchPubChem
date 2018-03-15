@@ -12,6 +12,7 @@ import CoreData
 class SolutionTableViewController: UITableViewController {
     // MARK: - Properties
     // Constants
+    let detailvViewControllerIdentifier = "SolutionDetailViewController"
     let tableViewCellIdentifier = "SolutionTableViewCell"
     
     // Variables
@@ -71,7 +72,7 @@ class SolutionTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let solution = fetchedResultsController.object(at: indexPath)
         
-        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "SolutionDetailViewController") as! SolutionDetailViewController
+        let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: detailvViewControllerIdentifier) as! SolutionDetailViewController
         detailViewController.solution = solution
         detailViewController.delegate = self
         
