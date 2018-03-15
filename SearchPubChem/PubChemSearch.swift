@@ -14,18 +14,6 @@ class PubChemSearch {
     var session = URLSession.shared
     
     // MARK: - Methods
-    func urlForPubChem(with compound: Compound) -> URL? {
-        guard let cid = compound.cid else {
-            return nil
-        }
-        
-        var component = URLComponents()
-        component.scheme = PubChemSearch.Constant.scheme
-        component.host = PubChemSearch.Constant.host
-        component.path = PubChemSearch.Constant.pathForWeb + "\(cid)"
-        
-        return component.url
-    }
     
     func downloadImage(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?) -> Void) {
         var component = URLComponents()
@@ -64,6 +52,7 @@ class PubChemSearch {
             
             guard let values = values else {
                 NSLog("Missing property values")
+                completionHandler(false, nil)
                 return
             }
             
@@ -91,7 +80,7 @@ class PubChemSearch {
             }
             
             guard let data = data else {
-                completionHandler(nil, error)
+                sendError("Cannot get the data!")
                 return
             }
             
@@ -133,6 +122,19 @@ class PubChemSearch {
         component.path = PubChemSearch.Constant.pathForName + name + pathForProperties
         
         return component.url!
+    }
+    
+    func urlForPubChem(with compound: Compound) -> URL? {
+        guard let cid = compound.cid else {
+            return nil
+        }
+        
+        var component = URLComponents()
+        component.scheme = PubChemSearch.Constant.scheme
+        component.host = PubChemSearch.Constant.host
+        component.path = PubChemSearch.Constant.pathForWeb + "\(cid)"
+        
+        return component.url
     }
     
     func dataTask(with url: URL, completionHandler: @escaping (_ data: Data?, _ error: NSError?) -> Void) -> URLSessionTask {

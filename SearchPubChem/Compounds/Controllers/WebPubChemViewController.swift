@@ -9,12 +9,15 @@
 import UIKit
 import WebKit
 
-class WebPubChemViewController: UIViewController, WKUIDelegate {
-
+class WebPubChemViewController: UIViewController {
+    // MARK: - Properties
+    // Outlets
     @IBOutlet weak var webView: WKWebView!
     
+    // Variables
     var url: URL!
     
+    // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 

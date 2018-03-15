@@ -12,17 +12,22 @@ import CoreData
 class SearchByNameViewController: UIViewController {
     // MARK: - Properties
     // Outlets
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
     @IBOutlet weak var nameToSearch: UITextField!
-    @IBOutlet weak var weightTitleLabel: UILabel!
+    
+    @IBOutlet weak var compoundImageView: UIImageView!
+    
     @IBOutlet weak var cidTitleLabel: UILabel!
     @IBOutlet weak var iupacTitleLabel: UILabel!
-    @IBOutlet weak var compoundImageView: UIImageView!
+    @IBOutlet weak var weightTitleLabel: UILabel!
+    
     @IBOutlet weak var formulaLabel: UILabel!
-    @IBOutlet weak var weightLabel: UILabel!
     @IBOutlet weak var cidLabel: UILabel!
     @IBOutlet weak var iupacNameLabel: UILabel!
-    @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var weightLabel: UILabel!
     
     // Constants
     let client = PubChemSearch()
@@ -34,7 +39,6 @@ class SearchByNameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         hideLabels(true)
         showNetworkIndicators(false)
         enableSaveButton(false)
@@ -52,15 +56,16 @@ class SearchByNameViewController: UIViewController {
     }
     
     func hideLabels(_ yes: Bool) {
-        weightTitleLabel.isHidden = yes
         cidTitleLabel.isHidden = yes
         iupacTitleLabel.isHidden = yes
-        
-        compoundImageView.isHidden = yes
+        weightTitleLabel.isHidden = yes
+
         formulaLabel.isHidden = yes
-        weightLabel.isHidden = yes
         cidLabel.isHidden = yes
         iupacNameLabel.isHidden = yes
+        weightLabel.isHidden = yes
+        
+        compoundImageView.isHidden = yes
     }
     
     // Actions
