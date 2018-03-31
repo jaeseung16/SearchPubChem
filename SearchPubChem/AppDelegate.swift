@@ -67,6 +67,7 @@ extension AppDelegate {
             UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
             UserDefaults.standard.synchronize()
             preloadData()
+            saveData()
         }
     }
     
