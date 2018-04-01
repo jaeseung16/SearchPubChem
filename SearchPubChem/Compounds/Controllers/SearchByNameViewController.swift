@@ -129,6 +129,7 @@ class SearchByNameViewController: UIViewController {
         let compound = Compound(context: dataController.viewContext)
         
         compound.name = nameToSearch.text!
+        compound.firstCharacterInName = String(compound.name!.first!).uppercased()
         compound.formula = formulaLabel.text!
         compound.molecularWeight = Double(weightLabel.text!)!
         compound.cid = cidLabel.text!

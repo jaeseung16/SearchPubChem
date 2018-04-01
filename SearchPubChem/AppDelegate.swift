@@ -89,6 +89,7 @@ extension AppDelegate {
         // Example Compound 1: Water
         let water = Compound(context: dataController.viewContext)
         water.name = "water"
+        water.firstCharacterInName = "W"
         water.formula = "H2O"
         water.molecularWeight = 18.015
         water.cid = "962"
@@ -98,6 +99,7 @@ extension AppDelegate {
         // Example Compound 2: Sodium Chloride
         let sodiumChloride = Compound(context: dataController.viewContext)
         sodiumChloride.name = "sodium chloride"
+        sodiumChloride.firstCharacterInName = "S"
         sodiumChloride.formula = "NaCl"
         sodiumChloride.molecularWeight = 58.44
         sodiumChloride.cid = "5234"

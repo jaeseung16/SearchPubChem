@@ -14,4 +14,14 @@ extension Compound {
         super.awakeFromInsert()
         created = Date()
     }
+    
+    public override func awakeFromFetch() {
+        super.awakeFromFetch()
+        
+        guard let char = name?.first else {
+            return
+        }
+        
+        firstCharacterInName = String(char).uppercased()
+    }
 }

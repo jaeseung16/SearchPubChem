@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D102" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14133" systemVersion="17E199" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0">
     <entity name="Compound" representedClassName=".Compound" syncable="YES" codeGenerationType="class">
         <attribute name="cid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="firstCharacterInName" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="formula" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="molecularWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -17,7 +18,7 @@
         <relationship name="compounds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Compound" inverseName="solutions" inverseEntity="Compound" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Compound" positionX="-63" positionY="-18" width="128" height="165"/>
+        <element name="Compound" positionX="-63" positionY="-18" width="128" height="178"/>
         <element name="Solution" positionX="160" positionY="102" width="128" height="105"/>
     </elements>
 </model>

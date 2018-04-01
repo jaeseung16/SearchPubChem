@@ -33,10 +33,10 @@ class ChemicalTableViewController: UITableViewController {
     
     func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "compounds")
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
         fetchedResultsController.delegate = self
         
         do {
@@ -56,7 +56,7 @@ class ChemicalTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
         let compound = fetchedResultsController.object(at: indexPath)
-        
+
         if let count = compound.solutions?.count, let name = compound.name, count > 0 {
             cell.textLabel?.text = name + " 💧"
         } else {
