@@ -14,11 +14,8 @@ class PubChemSearch {
     var session = URLSession.shared
     
     // MARK: - Methods
-    
     func downloadImage(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?) -> Void) {
-        var component = URLComponents()
-        component.scheme = PubChemSearch.Constant.scheme
-        component.host = PubChemSearch.Constant.host
+        var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForCID + cid + PubChemSearch.QueryResult.png
         
         _ = dataTask(with: component.url!, completionHandler: { (data, error) in
@@ -116,9 +113,7 @@ class PubChemSearch {
         pathForProperties.remove(at: pathForProperties.index(before: pathForProperties.endIndex))
         pathForProperties += PubChemSearch.QueryResult.json
         
-        var component = URLComponents()
-        component.scheme = PubChemSearch.Constant.scheme
-        component.host = PubChemSearch.Constant.host
+        var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForName + name + pathForProperties
         
         return component.url!
@@ -129,12 +124,18 @@ class PubChemSearch {
             return nil
         }
         
-        var component = URLComponents()
-        component.scheme = PubChemSearch.Constant.scheme
-        component.host = PubChemSearch.Constant.host
+        var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForWeb + "\(cid)"
         
         return component.url
+    }
+    
+    func commonURLComponents() -> URLComponents {
+        var component = URLComponents()
+        component.scheme = PubChemSearch.Constant.scheme
+        component.host = PubChemSearch.Constant.host
+        
+        return component
     }
     
     func dataTask(with url: URL, completionHandler: @escaping (_ data: Data?, _ error: NSError?) -> Void) -> URLSessionTask {

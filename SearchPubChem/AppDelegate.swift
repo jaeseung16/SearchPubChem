@@ -10,7 +10,6 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
     let dataController = DataController(modelName: "PubChemSolution")
     
@@ -24,16 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-        
         saveData()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        
         saveData()
     }
 
@@ -48,8 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 
 // MARK: - Convenient methods
@@ -58,7 +49,7 @@ extension AppDelegate {
         do {
             try dataController.viewContext.save()
         } catch {
-            NSLog("Error while saving")
+            NSLog("Error while saving by AppDelegate")
         }
     }
     
@@ -95,6 +86,7 @@ extension AppDelegate {
             NSLog("Error while dropping all objects in DB")
         }
         
+        // Example Compound 1: Water
         let water = Compound(context: dataController.viewContext)
         water.name = "water"
         water.formula = "H2O"
@@ -103,6 +95,7 @@ extension AppDelegate {
         water.nameIUPAC = "oxidane"
         water.image = UIImagePNGRepresentation(UIImage(named: "Water")!)!
         
+        // Example Compound 2: Sodium Chloride
         let sodiumChloride = Compound(context: dataController.viewContext)
         sodiumChloride.name = "sodium chloride"
         sodiumChloride.formula = "NaCl"
@@ -111,6 +104,7 @@ extension AppDelegate {
         sodiumChloride.nameIUPAC = "sodium chloride"
         sodiumChloride.image = UIImagePNGRepresentation(UIImage(named: "NaCl")!)
         
+        // Example Solution: Sodium Chloride Aqueous Solution
         let saltyWater = Solution(context: dataController.viewContext)
         saltyWater.name = "salty water"
         saltyWater.compounds = NSSet(array: [water, sodiumChloride])
