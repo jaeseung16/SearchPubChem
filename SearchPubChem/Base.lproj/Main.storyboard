@@ -562,30 +562,28 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0.0" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yN5-LZ-gKI">
-                                                            <rect key="frame" x="171.5" y="0.0" width="77.5" height="43.5"/>
+                                                            <rect key="frame" x="171.5" y="0.0" width="86" height="43.5"/>
                                                             <nil key="textColor"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                                         </textField>
-                                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="80G-gf-48k">
-                                                            <rect key="frame" x="249" y="0.0" width="94" height="44.5"/>
+                                                        <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Hb-6j-BvK">
+                                                            <rect key="frame" x="257.5" y="0.0" width="85.5" height="43.5"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" secondItem="80G-gf-48k" secondAttribute="height" multiplier="93:43" id="guS-pV-5Zm"/>
+                                                                <constraint firstAttribute="height" constant="43.5" id="svM-Lc-aXh"/>
                                                             </constraints>
-                                                            <segments>
-                                                                <segment title="gram"/>
-                                                                <segment title="mg"/>
-                                                            </segments>
-                                                        </segmentedControl>
+                                                            <connections>
+                                                                <outlet property="dataSource" destination="FXN-nV-lpa" id="6xM-Og-TWH"/>
+                                                                <outlet property="delegate" destination="FXN-nV-lpa" id="QYJ-re-IuY"/>
+                                                            </connections>
+                                                        </pickerView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="80G-gf-48k" firstAttribute="top" secondItem="Sr9-b7-9iT" secondAttribute="top" id="F45-Ug-jtk"/>
+                                                        <constraint firstItem="8Hb-6j-BvK" firstAttribute="height" secondItem="yN5-LZ-gKI" secondAttribute="height" id="Ezk-FW-XMa"/>
                                                         <constraint firstItem="yN5-LZ-gKI" firstAttribute="leading" secondItem="P6s-ZB-R9T" secondAttribute="trailing" id="SAG-C4-TOW"/>
-                                                        <constraint firstItem="80G-gf-48k" firstAttribute="leading" secondItem="yN5-LZ-gKI" secondAttribute="trailing" id="h8n-m7-b6n"/>
+                                                        <constraint firstItem="8Hb-6j-BvK" firstAttribute="width" secondItem="yN5-LZ-gKI" secondAttribute="width" id="ZQ0-tj-u61"/>
                                                         <constraint firstItem="yN5-LZ-gKI" firstAttribute="top" secondItem="Sr9-b7-9iT" secondAttribute="top" id="khK-HJ-1EP"/>
                                                         <constraint firstAttribute="bottom" secondItem="yN5-LZ-gKI" secondAttribute="bottom" id="qWV-5J-13i"/>
-                                                        <constraint firstAttribute="trailing" secondItem="80G-gf-48k" secondAttribute="trailing" id="ruo-iE-rH2"/>
-                                                        <constraint firstAttribute="bottom" secondItem="80G-gf-48k" secondAttribute="bottom" id="yvv-gN-B02"/>
                                                     </constraints>
                                                 </stackView>
                                             </subviews>
@@ -599,8 +597,8 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="label" destination="P6s-ZB-R9T" id="Psx-rm-cET"/>
-                                            <outlet property="segmentedControl" destination="80G-gf-48k" id="6j7-fj-xMu"/>
                                             <outlet property="textField" destination="yN5-LZ-gKI" id="6yT-4R-jdU"/>
+                                            <outlet property="unitPickerView" destination="8Hb-6j-BvK" id="5tm-p7-zft"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

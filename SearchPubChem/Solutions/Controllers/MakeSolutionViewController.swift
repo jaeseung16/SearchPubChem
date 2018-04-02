@@ -9,6 +9,10 @@
 import UIKit
 import CoreData
 
+enum Units: Int {
+    case gram = 0, mg, mol, mM
+}
+
 class MakeSolutionViewController: UIViewController {
     // MARK: - Properties
     // Outlets
@@ -53,7 +57,7 @@ class MakeSolutionViewController: UIViewController {
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
         
         // Set up the fetchedResultsController of CompoundCollectionViewController
         let compoundCollectionViewController = storyboard?.instantiateViewController(withIdentifier: collectionViewControllerIdentifier) as! CompoundCollectionViewController
@@ -78,10 +82,20 @@ class MakeSolutionViewController: UIViewController {
             let name = compounds[index].name!
             let amount = amounts[index]
             
-            if units[index] == 1 {
-                amountsWithUnit[name] = amount / 1000.0
-            } else {
+            guard let unit = Units(rawValue: units[index]) else {
+                NSLog("Invalid unit")
+                continue
+            }
+            
+            switch unit {
+            case .gram:
                 amountsWithUnit[name] = amount
+            case .mg:
+                amountsWithUnit[name] = amount / 1000.0
+            case .mol:
+                amountsWithUnit[name] = amount * compounds[index].molecularWeight
+            case .mM:
+                amountsWithUnit[name] = amount * compounds[index].molecularWeight / 1000.0
             }
         }
         
@@ -155,6 +169,12 @@ extension MakeSolutionViewController: CompoundCollectionViewDelegate {
             units.append(0)
         }
         
+        while amounts.count > compounds.count {
+            amounts.removeLast()
+            units.removeLast()
+        }
+        
+        // If a label for a solution is not given yet, set it to 'title'
         if labelForSolution.text == "" {
             labelForSolution.text = title
         }
@@ -172,6 +192,6 @@ extension MakeSolutionViewController: MakeSolutionTableViewCellDelegate {
     
     @objc func didValueChanged(_ cell: MakeSolutionTableViewCell) {
         let indexPath = solutionTableView.indexPath(for: cell)
-        units[indexPath!.row] = cell.segmentedControl.selectedSegmentIndex
+        units[indexPath!.row] = cell.unitPickerView.selectedRow(inComponent: 0)
     }
 }

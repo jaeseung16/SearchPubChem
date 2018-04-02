@@ -18,20 +18,17 @@ class MakeSolutionTableViewCell: UITableViewCell {
     // Outlets
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var unitPickerView: UIPickerView!
     
     // Variable
     weak var delegate: MakeSolutionTableViewCellDelegate?
     
+    let units = ["gram", "mg", "mol", "mM"]
+        
     // MARK: - Methods
     override func awakeFromNib() {
         super.awakeFromNib()
         textField.delegate = self
-        segmentedControl.addTarget(self, action: #selector(segmentControlChanged), for: .valueChanged)
-    }
-    
-    @objc func segmentControlChanged() {
-        delegate?.didValueChanged(self)
     }
 }
 
@@ -49,5 +46,28 @@ extension MakeSolutionTableViewCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+// MARK: - UIPickerViewDataSource and UIPickerViewDelegate
+extension MakeSolutionTableViewCell: UIPickerViewDataSource, UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return units.count
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let label = UILabel()
+        label.text = units[row]
+        label.textAlignment = .center
+        
+        return label
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        delegate?.didValueChanged(self)
     }
 }
