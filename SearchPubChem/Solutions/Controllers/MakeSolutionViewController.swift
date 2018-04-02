@@ -190,7 +190,7 @@ extension MakeSolutionViewController: MakeSolutionTableViewCellDelegate {
         }
     }
     
-    @objc func didValueChanged(_ cell: MakeSolutionTableViewCell) {
+    func didValueChanged(_ cell: MakeSolutionTableViewCell) {
         let indexPath = solutionTableView.indexPath(for: cell)
         units[indexPath!.row] = cell.unitPickerView.selectedRow(inComponent: 0)
     }

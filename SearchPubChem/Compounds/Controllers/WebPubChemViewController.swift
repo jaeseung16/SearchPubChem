@@ -20,8 +20,18 @@ class WebPubChemViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        webView.navigationDelegate = self
 
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         let request = URLRequest(url: url)
         webView.load(request)
+    }
+}
+
+extension WebPubChemViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }
