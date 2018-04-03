@@ -19,7 +19,7 @@ Search the open chemistry database ‘PubChem’ at the National Institutes of H
 ### Compounds
 
 1. Selecting the **Compounds** tab will present a table of compounds.
-  - If there are any solutions made of a compound, 💧 will appear next to the compound's name.
+  - If there are any solutions made of a compound, 💧 will appear next to the compound's name.
 2. When a compound is selected, a view with the detailed information will appear. Follow the instruction in **Details for a compound**.
 3. When the **+** button is selected, a view for search will appear. Follow the instruction in **Search for a compound**.
 
