@@ -54,10 +54,10 @@ Choose compounds downloaded from PubChem and make a solution. The app allows to 
 1. Click **<Solutions** to return back to the table of compounds.
 2. Click the **action** icon to share a csv file containig the information about the solution.
 3. Click the **trashcan** icon to delete the solution.
-4. Choose between `actual` and `%` to display the actual or percent amounts of individual compounds.
+4. Choose between *actual* and *%* to display the actual or percent amounts of individual compounds.
 5. Choose the unit between `gram` and `mol`.
-  - When `gram` is selected, `actual` displays the amounts in the unit of gram or `%` does in the percentage of weights.
-  - When `mol` is selected, `actual` displays the amounts in the unit of mol or `%` does in the percentage of the number of molecules.
+  - When *gram* is selected, *actual* displays the amounts in the unit of gram or *%* does in the percentage of weights.
+  - When *mol* is selected, *actual* displays the amounts in the unit of mol or *%* does in the percentage of the number of molecules.
 6. Select one of compounds to display its structure and formula. See **Mini details for a compound** below.
 
 ### Making a solution
@@ -65,7 +65,7 @@ Choose compounds downloaded from PubChem and make a solution. The app allows to 
 1. Enter a label for a new soltion.
 2. Click **Add Compounds** to bring a collection of compounds. See **Compounds collection** below.
 3. The names of the compounds selected from **Compouns collection** will be displayed in the table view.
-4. The unit for the amount can be chosen among 'gram', 'mg', 'mol', and 'mM'.
+4. The unit for the amount can be chosen among *gram*, *mg*, *mol*, and *mM*.
 5. The amount may be entered.
 6. Click **Save** to create and add a new solution.
 7. Click **Cancel** anytime to dismiss the scene.
