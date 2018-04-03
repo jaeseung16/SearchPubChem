@@ -73,8 +73,9 @@ Choose compounds downloaded from PubChem and make a solution. The app allows to 
 
 1. Select or deselect compounds by clikcing the images of compounds.
 2. Selected compounds will be displayed.
-3. Cleck **Done** to return back to **Making a solution**.
-4. Click **Cancel** anytime to dismiss the scene.
+3. Click **+** to bring a view for searching a compound. See **Search for a compound**.
+4. Click **Done** to return back to **Making a solution**.
+5. Click **Cancel** anytime to dismiss the scene.
 
 ### Mini details for a compound
 
