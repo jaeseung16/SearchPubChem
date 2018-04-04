@@ -70,10 +70,15 @@ class MakeSolutionViewController: UIViewController {
     
     @IBAction func createSolution(_ sender: UIBarButtonItem) {
         guard labelForSolution.text != "" else {
-            let title = "No Label"
-            let message = "Try again after giving a label."
-            presentAlert(title: title, message: message)
+            presentAlert(title: "No Label", message: "Try again after giving a label.")
             return
+        }
+        
+        for unit in units {
+            guard let _ = Units(rawValue: unit) else {
+                presentAlert(title: "Invalid Units", message: "Please check the units")
+                return
+            }
         }
         
         var amountsWithUnit: [String: Double] = [:]
@@ -83,8 +88,7 @@ class MakeSolutionViewController: UIViewController {
             let amount = amounts[index]
             
             guard let unit = Units(rawValue: units[index]) else {
-                NSLog("Invalid unit")
-                continue
+                return
             }
             
             switch unit {
@@ -111,9 +115,7 @@ class MakeSolutionViewController: UIViewController {
             NSLog("There is an error while saving a new solution: \(error.localizedDescription)")
         }
         
-        let title = "Saved"
-        let message = "A new solution saved."
-        presentAlert(title: title, message: message) { _ in
+        presentAlert(title: "Saved", message: "A new solution saved.") { _ in
             self.dismiss(animated: true, completion: nil)
         }
     }

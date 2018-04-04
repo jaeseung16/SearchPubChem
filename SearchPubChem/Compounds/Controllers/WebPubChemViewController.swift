@@ -22,7 +22,7 @@ class WebPubChemViewController: UIViewController {
         super.viewDidLoad()
         
         webView.navigationDelegate = self
-
+        
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         let request = URLRequest(url: url)
