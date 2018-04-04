@@ -14,7 +14,6 @@ protocol SolutionDetailViewControllerDelegate: AnyObject {
 }
 
 class SolutionDetailViewController: UIViewController {
-    
     // MARK: - Properties
     // IBOutlets
     @IBOutlet weak var nameLabel: UILabel!
@@ -36,7 +35,6 @@ class SolutionDetailViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
         addTargetToSegmentedControls()
         retrieveDataFromSolution()
         displayNameAndDate()
@@ -51,17 +49,21 @@ class SolutionDetailViewController: UIViewController {
     
     @IBAction func share(_ sender: UIBarButtonItem) {
         // Build a csv file
-        var csvString = "Compound, Amount (g), Amount (mol)\n"
+        var csvString = "Compound, Molecular Weight (gram/mol), Amount (g), Amount (mol)\n"
         
         for k in 0..<compounds.count {
-            csvString += "\(compounds[k].name ?? ""), \(amounts[k]), \(amountsMol[k])\n"
+            csvString += "\(compounds[k].name ?? ""), "
+            csvString += "\(String(compounds[k].molecularWeight)), "
+            csvString += "\(amounts[k]), "
+            csvString += "\(amountsMol[k])\n"
         }
 
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             return
         }
         
-        let csvFileURL = path.appendingPathComponent("/\(solution.name!).csv")
+        let filename = solution.name!.replacingOccurrences(of: "/", with: "-")
+        let csvFileURL = path.appendingPathComponent("\(filename).csv")
         
         do {
             try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
@@ -69,7 +71,7 @@ class SolutionDetailViewController: UIViewController {
             print("Failed to save the csv file")
         }
         
-        // Set up a UIActivityViewController
+        // Prepare and present an activityViewController
         let activityViewController = UIActivityViewController(activityItems: ["Sharing \(solution.name!).csv", csvFileURL], applicationActivities: nil)
         
         activityViewController.completionWithItemsHandler = { (activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, activityError: Error?) in
@@ -157,6 +159,7 @@ class SolutionDetailViewController: UIViewController {
     // MARK: - UISegmentedControls
     func addTargetToSegmentedControls() {
         absoluteRelativeControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenAbsoluteAndRelative), for: .valueChanged)
+        
         unitControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenGramAndMol), for: .valueChanged)
     }
     
@@ -186,8 +189,8 @@ extension SolutionDetailViewController: UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let compound = compounds[indexPath.row]
-        
         let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "CompoundMiniDetailViewController") as! CompoundMiniDetailViewController
+        
         detailViewController.compound = compound
         
         present(detailViewController, animated: true, completion: nil)
