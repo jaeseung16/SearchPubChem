@@ -136,9 +136,9 @@ class SolutionDetailViewController: UIViewController {
         
         if absolute == 1 {
             if unit == 0 {
-                factor = 100.0 / amounts.reduce(0.0, { x, y in x + y })
+                factor = 100.0 / sumOf(amounts)
             } else {
-                factor = 100.0 / amountsMol.reduce(0.0, { x, y in x + y })
+                factor = 100.0 / sumOf(amountsMol)
             }
         }
 
@@ -155,6 +155,10 @@ class SolutionDetailViewController: UIViewController {
         }
 
         compoundsTableView.reloadData()
+    }
+    
+    func sumOf(_ amounts: [Double]) -> Double {
+        return amounts.reduce(0.0, { x, y in x + y })
     }
     
     // MARK: - UISegmentedControls
