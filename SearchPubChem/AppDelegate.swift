@@ -71,7 +71,7 @@ extension AppDelegate {
                 break
             }
             
-            if let topViewController = navigationViewController.topViewController as? ChemicalTableViewController {
+            if let topViewController = navigationViewController.topViewController as? CompoundTableViewController {
                 topViewController.dataController = dataController
             } else if let topViewController = navigationViewController.topViewController as? SolutionTableViewController {
                 topViewController.dataController = dataController

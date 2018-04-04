@@ -24,6 +24,7 @@ class CompoundCollectionViewController: UIViewController {
     let collectionViewCellIdentifier = "CompoundCollectionViewCell"
     
     // Variables
+    // delegate will be set by a presenting view controller
     weak var delegate: CompoundCollectionViewDelegate?
     
     var maxNumberOfCompounds: Int?
@@ -45,7 +46,6 @@ class CompoundCollectionViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setSelectedCompoundsLabel()
         adjustFlowLayoutSize(size: self.view.frame.size)
     }
@@ -72,6 +72,12 @@ class CompoundCollectionViewController: UIViewController {
         }
         selectedCompoundsLabel.text = cids.joined(separator: "/")
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let searchByNameViewController = segue.destination as? SearchByNameViewController {
+            searchByNameViewController.dataController = dataController
+        }
+    }
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
@@ -86,7 +92,6 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let compound = fetchedResultsController.object(at: indexPath)
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellIdentifier, for: indexPath) as! CompoundCollectionViewCell
         
         cell.compoundName.text = compound.name

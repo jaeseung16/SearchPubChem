@@ -19,7 +19,7 @@
         <!--Compounds-->
         <scene sceneID="uXb-dG-gYF">
             <objects>
-                <tableViewController storyboardIdentifier="ChemicalTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="uzZ-wp-mfF" customClass="ChemicalTableViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ChemicalTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="uzZ-wp-mfF" customClass="CompoundTableViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="xdb-7v-v9V">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -562,13 +562,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0.0" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yN5-LZ-gKI">
-                                                            <rect key="frame" x="171.5" y="0.0" width="86" height="43.5"/>
+                                                            <rect key="frame" x="171.5" y="0.0" width="110" height="43.5"/>
                                                             <nil key="textColor"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                                                         </textField>
                                                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Hb-6j-BvK">
-                                                            <rect key="frame" x="257.5" y="0.0" width="85.5" height="43.5"/>
+                                                            <rect key="frame" x="281.5" y="0.0" width="61.5" height="43.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="43.5" id="svM-Lc-aXh"/>
                                                             </constraints>
@@ -581,7 +581,7 @@
                                                     <constraints>
                                                         <constraint firstItem="8Hb-6j-BvK" firstAttribute="height" secondItem="yN5-LZ-gKI" secondAttribute="height" id="Ezk-FW-XMa"/>
                                                         <constraint firstItem="yN5-LZ-gKI" firstAttribute="leading" secondItem="P6s-ZB-R9T" secondAttribute="trailing" id="SAG-C4-TOW"/>
-                                                        <constraint firstItem="8Hb-6j-BvK" firstAttribute="width" secondItem="yN5-LZ-gKI" secondAttribute="width" id="ZQ0-tj-u61"/>
+                                                        <constraint firstItem="8Hb-6j-BvK" firstAttribute="width" secondItem="yN5-LZ-gKI" secondAttribute="width" multiplier="9:16" id="ZQ0-tj-u61"/>
                                                         <constraint firstItem="yN5-LZ-gKI" firstAttribute="top" secondItem="Sr9-b7-9iT" secondAttribute="top" id="khK-HJ-1EP"/>
                                                         <constraint firstAttribute="bottom" secondItem="yN5-LZ-gKI" secondAttribute="bottom" id="qWV-5J-13i"/>
                                                     </constraints>
@@ -898,7 +898,11 @@
                                                 <action selector="dismiss:" destination="Op3-KS-PYq" id="7Pk-sp-L2k"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="kdJ-91-WGE"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="kdJ-91-WGE">
+                                            <connections>
+                                                <segue destination="zOn-VM-GxY" kind="presentation" id="0cz-Z3-EZB"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -1069,4 +1073,7 @@
         <image name="Solution" width="45" height="45"/>
         <image name="Solution_Selected" width="45" height="45"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="LRF-Fw-lbO"/>
+    </inferredMetricsTieBreakers>
 </document>

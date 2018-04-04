@@ -30,6 +30,7 @@ class SolutionDetailViewController: UIViewController {
     var amountsMol = [Double]()
     var amountsToDisplay = [String]()
     
+    // delegate will be set by a presenting view controller
     weak var delegate: SolutionDetailViewControllerDelegate?
     
     // MARK: - Methods

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ChemicalTableViewController: UITableViewController {
+class CompoundTableViewController: UITableViewController {
     // MARK:- Properties
     // Constants
     let detailViewControllerIdentifier = "CompoundDetailViewController"
@@ -31,6 +31,12 @@ class ChemicalTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let searchByNameViewController = segue.destination as? SearchByNameViewController {
+            searchByNameViewController.dataController = dataController
+        }
+    }
+    
     func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
@@ -46,17 +52,12 @@ class ChemicalTableViewController: UITableViewController {
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let searchByNameViewController = segue.destination as? SearchByNameViewController {
-            searchByNameViewController.dataController = dataController
-        }
-    }
-
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
         let compound = fetchedResultsController.object(at: indexPath)
 
+        // If there is a solution made of a compound, indicate it at the end of its name
         if let count = compound.solutions?.count, let name = compound.name, count > 0 {
             cell.textLabel?.text = name + " 💧"
         } else {
@@ -114,7 +115,7 @@ class ChemicalTableViewController: UITableViewController {
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
-extension ChemicalTableViewController: NSFetchedResultsControllerDelegate {
+extension CompoundTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }

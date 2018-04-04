@@ -45,13 +45,11 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         solutionsTableView.reloadData()
     }
     
@@ -94,7 +92,6 @@ class CompoundDetailViewController: UIViewController, NSFetchedResultsController
         webViewController.url = url
         
         navigationController?.pushViewController(webViewController, animated: true)
-        
     }
 }
 
@@ -110,8 +107,8 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)!
-        
         let solution = fetchedResultsController.object(at: indexPath)
+        
         cell.textLabel?.text = solution.name
         
         if let date = solution.created {
@@ -128,15 +125,15 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let solution = fetchedResultsController.object(at: indexPath)
-        
         let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! SolutionDetailViewController
+        
         detailViewController.solution = solution
         detailViewController.delegate = self
         
         navigationController?.pushViewController(detailViewController, animated: true)
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
 }
 
 // MARK: - SolutionDetailViewControllerDelegate

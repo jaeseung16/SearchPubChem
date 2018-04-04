@@ -35,14 +35,12 @@ class MakeSolutionViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
         labelForSolution.text = ""
         saveButton.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         solutionTableView.reloadData()
     }
     
@@ -62,9 +60,11 @@ class MakeSolutionViewController: UIViewController {
         // Set up the fetchedResultsController of CompoundCollectionViewController
         let compoundCollectionViewController = storyboard?.instantiateViewController(withIdentifier: collectionViewControllerIdentifier) as! CompoundCollectionViewController
         
+        compoundCollectionViewController.dataController = dataController
         compoundCollectionViewController.fetchedResultsController = fc
         compoundCollectionViewController.delegate = self
         compoundCollectionViewController.compounds = compounds
+        
         present(compoundCollectionViewController, animated: true, completion: nil)
     }
     

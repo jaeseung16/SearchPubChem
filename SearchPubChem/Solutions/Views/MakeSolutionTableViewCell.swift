@@ -62,7 +62,7 @@ extension MakeSolutionTableViewCell: UIPickerViewDataSource, UIPickerViewDelegat
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         let label = UILabel()
         label.text = units[row]
-        label.textAlignment = .center
+        label.textAlignment = .right
         
         return label
     }

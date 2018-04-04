@@ -42,8 +42,8 @@ class DataController {
 }
 
 extension DataController  {
-    // delete all the objects in the db. This won't delete the files, it will just leave empty tables.
     func dropAllData() throws {
+        // delete all the objects in the db. This won't delete the files, it will just leave empty tables.
         let persistentStoreCoordinator = persistentContainer.persistentStoreCoordinator
         let persistentStore = persistentStoreCoordinator.persistentStores[0]
         let urlForPersistentStore = persistentStoreCoordinator.url(for: persistentStore)
