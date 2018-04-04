@@ -38,7 +38,6 @@ class SearchByNameViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
         hideLabels(true)
         showNetworkIndicators(false)
         enableSaveButton(false)
@@ -68,6 +67,14 @@ class SearchByNameViewController: UIViewController {
         compoundImageView.isHidden = yes
     }
     
+    fileprivate func presentAlert(title: String, message: String) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
     // Actions
     @IBAction func searchByName(_ sender: UIButton) {
         let name = nameToSearch.text!.trimmingCharacters(in: .whitespaces)
@@ -81,7 +88,7 @@ class SearchByNameViewController: UIViewController {
             
             if success {
                 guard let information = compoundInformation else {
-                    print("There is no compound.")
+                    NSLog("There is no infromation for a compound")
                     return
                 }
 
@@ -103,20 +110,12 @@ class SearchByNameViewController: UIViewController {
                                 self.enableSaveButton(true)
                             }
                         } else {
-                            DispatchQueue.main.async {
-                                let alert = UIAlertController(title: "No Image", message: "Failed to download the molecular structure for \(name).", preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-                                self.present(alert, animated: true, completion: nil)
-                            }
+                            self.presentAlert(title: "No Image", message: "Failed to download the molecular structure for \(name).")
                         }
                     })
                 }
             } else {
-                DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Search Failed", message: "There is no compound matching the name \(name). Try again.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                }
+                self.presentAlert(title: "Search Failed", message: "There is no compound matching the name \(name). Try again.")
             }
         }
     }
