@@ -24,19 +24,18 @@ class SolutionTableViewController: UITableViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpFetchedResultsController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         self.tableView.reloadData()
     }
 
     func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Solution> = Solution.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "created", ascending: false)
+        
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "solutions")
@@ -51,9 +50,8 @@ class SolutionTableViewController: UITableViewController {
     
     // MARK: - Table View Data Source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
-        
         let solution = fetchedResultsController.object(at: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
         
         cell.textLabel?.text = solution.name
         
@@ -71,8 +69,8 @@ class SolutionTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let solution = fetchedResultsController.object(at: indexPath)
-        
         let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: detailvViewControllerIdentifier) as! SolutionDetailViewController
+        
         detailViewController.solution = solution
         detailViewController.delegate = self
         

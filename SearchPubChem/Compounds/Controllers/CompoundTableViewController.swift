@@ -40,6 +40,7 @@ class CompoundTableViewController: UITableViewController {
     func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
+        
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")

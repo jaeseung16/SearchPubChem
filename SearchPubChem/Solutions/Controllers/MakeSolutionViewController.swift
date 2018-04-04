@@ -53,6 +53,7 @@ class MakeSolutionViewController: UIViewController {
         // Fetching compounds
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
