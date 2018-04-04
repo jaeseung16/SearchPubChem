@@ -49,11 +49,12 @@ class SolutionDetailViewController: UIViewController {
     
     @IBAction func share(_ sender: UIBarButtonItem) {
         // Build a csv file
-        var csvString = "Compound, Molecular Weight (gram/mol), Amount (g), Amount (mol)\n"
+        var csvString = "CID, Compound, Molecular Weight (gram/mol), Amount (g), Amount (mol)\n"
         
         for k in 0..<compounds.count {
-            csvString += "\(compounds[k].name ?? ""), "
-            csvString += "\(String(compounds[k].molecularWeight)), "
+            csvString += "\(compounds[k].cid!), "
+            csvString += "\(compounds[k].name!), "
+            csvString += "\(compounds[k].molecularWeight), "
             csvString += "\(amounts[k]), "
             csvString += "\(amountsMol[k])\n"
         }
