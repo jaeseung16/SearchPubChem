@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class CompoundDetailViewController: UIViewController, NSFetchedResultsControllerDelegate {
+class CompoundDetailViewController: UIViewController {
     // MARK: - Properties
     // Outlets
     @IBOutlet weak var nameLabel: UILabel!
@@ -148,5 +148,43 @@ extension CompoundDetailViewController: SolutionDetailViewControllerDelegate {
         } catch {
             NSLog("Error while saving in SolutionTableViewController.remove(solution:)")
         }
+    }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
+extension CompoundDetailViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        solutionsTableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        let set = IndexSet(integer: sectionIndex)
+        
+        switch (type) {
+        case .insert:
+            solutionsTableView.insertSections(set, with: .fade)
+        case .delete:
+            solutionsTableView.deleteSections(set, with: .fade)
+        default:
+            break
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch(type) {
+        case .insert:
+            solutionsTableView.insertRows(at: [newIndexPath!], with: .fade)
+        case .delete:
+            solutionsTableView.deleteRows(at: [indexPath!], with: .fade)
+        case .update:
+            solutionsTableView.reloadRows(at: [indexPath!], with: .fade)
+        case .move:
+            solutionsTableView.deleteRows(at: [indexPath!], with: .fade)
+            solutionsTableView.insertRows(at: [newIndexPath!], with: .fade)
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        solutionsTableView.endUpdates()
     }
 }
