@@ -76,6 +76,11 @@ class PubChemSearch {
                 completionHandler(nil, NSError(domain: "dataTask", code: 1, userInfo: userInfo))
             }
             
+            guard (error == nil) else {
+                sendError("There was an error with your request: \(error!)")
+                return
+            }
+            
             guard let data = data else {
                 sendError("Cannot get the data!")
                 return
@@ -139,7 +144,8 @@ class PubChemSearch {
     }
     
     func dataTask(with url: URL, completionHandler: @escaping (_ data: Data?, _ error: NSError?) -> Void) -> URLSessionTask {
-        let request = URLRequest(url: url)
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 15
         
         let task = session.dataTask(with: request) { (data, response, error) in
             func sendError(_ error: String) {

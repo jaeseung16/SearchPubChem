@@ -121,6 +121,7 @@ class SearchByNameViewController: UIViewController {
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
+        showNetworkIndicators(false)
         dismiss(animated: true, completion: nil)
     }
     
