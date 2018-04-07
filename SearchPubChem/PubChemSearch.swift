@@ -14,28 +14,28 @@ class PubChemSearch {
     var session = URLSession.shared
     
     // MARK: - Methods
-    func downloadImage(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?) -> Void) {
+    func downloadImage(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?, _ errorString: String?) -> Void) {
         var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForCID + cid + PubChemSearch.QueryResult.png
         
         _ = dataTask(with: component.url!, completionHandler: { (data, error) in
             guard error == nil else {
                 NSLog("Error while downloading an image: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
-                completionHandler(false, nil)
+                completionHandler(false, nil, error!.userInfo[NSLocalizedDescriptionKey] as? String)
                 return
             }
         
             guard let data = data else {
-                NSLog("Missing image data)")
-                completionHandler(false, nil)
+                NSLog("Missing image data")
+                completionHandler(false, nil, "Missing image data")
                 return
             }
 
-            completionHandler(true, data as NSData)
+            completionHandler(true, data as NSData, nil)
         })
     }
     
-    func searchCompound(by name: String, completionHandler: @escaping (_ success: Bool, _ compoundInformation: [String: Any]?) -> Void) -> Void {
+    func searchCompound(by name: String, completionHandler: @escaping (_ success: Bool, _ compoundInformation: [String: Any]?, _ errorString: String?) -> Void) -> Void {
         let properties = [PubChemSearch.PropertyKey.formula,
                           PubChemSearch.PropertyKey.weight,
                           PubChemSearch.PropertyKey.nameIUPAC]
@@ -43,13 +43,13 @@ class PubChemSearch {
         searchProperties(of: name, properties: properties) { (values, error) in
             guard (error == nil) else {
                 NSLog("Error while getting properties: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
-                completionHandler(false, nil)
+                completionHandler(false, nil, error!.userInfo[NSLocalizedDescriptionKey] as? String)
                 return
             }
             
             guard let values = values else {
                 NSLog("Missing property values")
-                completionHandler(false, nil)
+                completionHandler(false, nil, "Missing property values")
                 return
             }
             
@@ -63,7 +63,7 @@ class PubChemSearch {
                                                       PubChemSearch.PropertyKey.weight: molecularWeight,
                                                       PubChemSearch.PropertyKey.nameIUPAC: nameIUPAC]
             
-            completionHandler(true, compoundInformation)
+            completionHandler(true, compoundInformation, nil)
         }
     }
     
@@ -77,7 +77,7 @@ class PubChemSearch {
             }
             
             guard (error == nil) else {
-                sendError("There was an error with your request: \(error!)")
+                completionHandler(nil, error)
                 return
             }
             

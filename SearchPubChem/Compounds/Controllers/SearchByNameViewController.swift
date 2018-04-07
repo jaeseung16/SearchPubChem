@@ -83,8 +83,10 @@ class SearchByNameViewController: UIViewController {
         hideLabels(true)
         showNetworkIndicators(true)
         
-        client.searchCompound(by: name) { (success, compoundInformation) in
+        client.searchCompound(by: name) { (success, compoundInformation, errorString) in
             self.showNetworkIndicators(false)
+            
+            let networkErrorString = "The Internet connection appears to be offline"
             
             if success {
                 guard let information = compoundInformation else {
@@ -101,7 +103,7 @@ class SearchByNameViewController: UIViewController {
                     self.hideLabels(false)
                     self.showNetworkIndicators(true)
                     
-                    self.client.downloadImage(for: self.cidLabel.text!, completionHandler: { (success, data) in
+                    self.client.downloadImage(for: self.cidLabel.text!, completionHandler: { (success, data, errorString) in
                         self.showNetworkIndicators(false)
                         
                         if success {
@@ -110,12 +112,22 @@ class SearchByNameViewController: UIViewController {
                                 self.enableSaveButton(true)
                             }
                         } else {
-                            self.presentAlert(title: "No Image", message: "Failed to download the molecular structure for \(name).")
+                            guard let errorString = errorString, errorString.contains(networkErrorString) else {
+                                let errorString = "Failed to download the molecular structure for \'\(name)\'"
+                                self.presentAlert(title: "No Image", message: errorString)
+                                return
+                            }
+                            self.presentAlert(title: "No Image", message: networkErrorString)
                         }
                     })
                 }
             } else {
-                self.presentAlert(title: "Search Failed", message: "There is no compound matching the name \(name). Try again.")
+                guard let errorString = errorString, errorString.contains(networkErrorString) else {
+                    let errorString = "There is no compound matching the name \'\(name)\'"
+                    self.presentAlert(title: "Search Failed", message: errorString)
+                    return
+                }
+                self.presentAlert(title: "Search Failed", message: networkErrorString)
             }
         }
     }
