@@ -402,6 +402,9 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Pmn-IN-vsl">
+                                <rect key="frame" x="178" y="356" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -409,11 +412,14 @@
                             <constraint firstItem="t0f-VR-8Su" firstAttribute="top" secondItem="HEh-1Y-pPR" secondAttribute="top" id="Dlg-ft-zuB"/>
                             <constraint firstItem="t0f-VR-8Su" firstAttribute="leading" secondItem="HEh-1Y-pPR" secondAttribute="leading" id="IMH-Yq-KII"/>
                             <constraint firstItem="t0f-VR-8Su" firstAttribute="bottom" secondItem="HEh-1Y-pPR" secondAttribute="bottom" id="RYO-ep-SCb"/>
+                            <constraint firstItem="Pmn-IN-vsl" firstAttribute="centerY" secondItem="HEh-1Y-pPR" secondAttribute="centerY" id="bAb-vd-CPL"/>
+                            <constraint firstItem="Pmn-IN-vsl" firstAttribute="centerX" secondItem="HEh-1Y-pPR" secondAttribute="centerX" id="xfB-uY-FS8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HEh-1Y-pPR"/>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="Pmn-IN-vsl" id="LKR-RA-Pwk"/>
                         <outlet property="webView" destination="t0f-VR-8Su" id="TNe-27-Hna"/>
                     </connections>
                 </viewController>

@@ -144,8 +144,7 @@ class PubChemSearch {
     }
     
     func dataTask(with url: URL, completionHandler: @escaping (_ data: Data?, _ error: NSError?) -> Void) -> URLSessionTask {
-        var request = URLRequest(url: url)
-        request.timeoutInterval = 15
+        let request = URLRequest(url: url, timeoutInterval: 15)
         
         let task = session.dataTask(with: request) { (data, response, error) in
             func sendError(_ error: String) {

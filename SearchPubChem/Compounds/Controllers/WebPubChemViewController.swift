@@ -13,6 +13,7 @@ class WebPubChemViewController: UIViewController {
     // MARK: - Properties
     // Outlets
     @IBOutlet weak var webView: WKWebView!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     // Variables
     var url: URL!
@@ -23,26 +24,31 @@ class WebPubChemViewController: UIViewController {
         
         webView.navigationDelegate = self
         
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        navigationItem.hidesBackButton = true
+        showNetworkIndicator(true)
         
-        let request = URLRequest(url: url)
+        let request = URLRequest(url: url, timeoutInterval: 15)
         webView.load(request)
+    }
+    
+    func showNetworkIndicator(_ yes: Bool) {
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = yes
+            self.navigationItem.hidesBackButton = yes
+            self.activityIndicatorView.isHidden = !yes
+        }
     }
 }
 
 extension WebPubChemViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        navigationItem.hidesBackButton = false
+        showNetworkIndicator(false)
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        self.navigationItem.hidesBackButton = false
+        showNetworkIndicator(false)
         
         let alert = UIAlertController(title: "Cannot load the webpage", message: "It seems that there is a problem with the network or the PubChem server", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 }
