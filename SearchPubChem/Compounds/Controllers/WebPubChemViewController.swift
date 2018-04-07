@@ -24,6 +24,7 @@ class WebPubChemViewController: UIViewController {
         webView.navigationDelegate = self
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        navigationItem.hidesBackButton = true
         
         let request = URLRequest(url: url)
         webView.load(request)
@@ -32,6 +33,16 @@ class WebPubChemViewController: UIViewController {
 
 extension WebPubChemViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        navigationItem.hidesBackButton = false
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        self.navigationItem.hidesBackButton = false
+        
+        let alert = UIAlertController(title: "Cannot load the webpage", message: "It seems that there is a problem with the network or the PubChem server", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
