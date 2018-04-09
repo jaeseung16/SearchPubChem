@@ -17,3 +17,15 @@ extension UIViewController {
         }
     }
 }
+
+// MARK: - UITextFieldDelegate
+extension UIViewController: UITextFieldDelegate {
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
+    }
+    
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

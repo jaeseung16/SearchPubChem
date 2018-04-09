@@ -142,18 +142,6 @@ extension MakeSolutionViewController: UITableViewDelegate, UITableViewDataSource
     }
 }
 
-// MARK: - UITextFieldDelegate
-extension MakeSolutionViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.text = ""
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-}
-
 // MARK: - CompoundCollectionViewDelegate
 extension MakeSolutionViewController: CompoundCollectionViewDelegate {
     func selectedCompounds(_ compounds: [Compound], with title: String) {

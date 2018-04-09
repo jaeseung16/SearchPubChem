@@ -152,14 +152,9 @@ class SearchByNameViewController: UIViewController {
 }
 
 // MARK: - UITextFieldDelegate
-extension SearchByNameViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.text = ""
+extension SearchByNameViewController {
+    override func textFieldDidBeginEditing(_ textField: UITextField) {
+        super.textFieldDidBeginEditing(textField)
         enableSaveButton(false)
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }
