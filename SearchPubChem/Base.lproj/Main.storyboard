@@ -386,10 +386,10 @@
             </objects>
             <point key="canvasLocation" x="1278" y="-798"/>
         </scene>
-        <!--Web Pub Chem View Controller-->
+        <!--PubChem @ NIH-->
         <scene sceneID="ITt-W8-kmS">
             <objects>
-                <viewController storyboardIdentifier="WebPubChemViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Yba-R1-Y9i" customClass="WebPubChemViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebPubChemViewController" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Yba-R1-Y9i" customClass="WebPubChemViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TNL-GZ-lbi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -417,6 +417,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HEh-1Y-pPR"/>
                     </view>
+                    <navigationItem key="navigationItem" title="PubChem @ NIH" id="p1T-xq-pf4"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="activityIndicatorView" destination="Pmn-IN-vsl" id="LKR-RA-Pwk"/>
@@ -1080,6 +1081,6 @@
         <image name="Solution_Selected" width="45" height="45"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LRF-Fw-lbO"/>
+        <segue reference="0cz-Z3-EZB"/>
     </inferredMetricsTieBreakers>
 </document>
