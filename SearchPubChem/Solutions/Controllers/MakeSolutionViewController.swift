@@ -120,12 +120,6 @@ class MakeSolutionViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
-    
-    func presentAlert(title: String, message: String, completion: ((UIAlertAction) -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: completion))
-        self.present(alert, animated: true, completion: nil)
-    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource

@@ -18,6 +18,7 @@
 		907FECB620152CD500B0CEBF /* CompoundDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907FECB520152CD500B0CEBF /* CompoundDetailViewController.swift */; };
 		9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */; };
 		908CD7092040F44000A3C316 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908CD7082040F44000A3C316 /* DataController.swift */; };
+		908E7137207C1D0A007918AE /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */; };
 		908ECAC6205210D000B7DEE0 /* WebPubChemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908ECAC5205210D000B7DEE0 /* WebPubChemViewController.swift */; };
 		9090E66D202A6F0D007927DD /* SolutionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9090E66C202A6F0D007927DD /* SolutionDetailViewController.swift */; };
 		9090E66F202A76F2007927DD /* SolutionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9090E66E202A76F2007927DD /* SolutionTableViewController.swift */; };
@@ -61,6 +62,7 @@
 		907FECB520152CD500B0CEBF /* CompoundDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundDetailViewController.swift; sourceTree = "<group>"; };
 		9081A37F201BEEB800A1FECC /* PubChemSolution.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PubChemSolution.xcdatamodel; sourceTree = "<group>"; };
 		908CD7082040F44000A3C316 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		908ECAC5205210D000B7DEE0 /* WebPubChemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPubChemViewController.swift; sourceTree = "<group>"; };
 		9090E66C202A6F0D007927DD /* SolutionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionDetailViewController.swift; sourceTree = "<group>"; };
 		9090E66E202A76F2007927DD /* SolutionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionTableViewController.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */,
 				902DFADC2027636B001E2AD6 /* Assets.xcassets */,
 				909AE6B4200CF2F000FEE529 /* Info.plist */,
+				908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */,
 			);
 			path = SearchPubChem;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				907FECB620152CD500B0CEBF /* CompoundDetailViewController.swift in Sources */,
 				908ECAC6205210D000B7DEE0 /* WebPubChemViewController.swift in Sources */,
 				907FECB42014EDF800B0CEBF /* PubChemSearch.swift in Sources */,
+				908E7137207C1D0A007918AE /* UIViewController+Extensions.swift in Sources */,
 				908CD7092040F44000A3C316 /* DataController.swift in Sources */,
 				902DFADF202788D8001E2AD6 /* CompoundCollectionViewController.swift in Sources */,
 				902DFAE120278F15001E2AD6 /* CompoundCollectionViewCell.swift in Sources */,

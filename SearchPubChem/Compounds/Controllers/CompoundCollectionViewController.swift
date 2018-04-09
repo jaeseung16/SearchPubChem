@@ -47,7 +47,7 @@ class CompoundCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setSelectedCompoundsLabel()
-        adjustFlowLayoutSize(size: self.view.frame.size)
+        adjustFlowLayoutSize(size: view.frame.size)
     }
     
     // Actions
@@ -122,8 +122,8 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
         super.viewWillTransition(to: size, with: coordinator)
         
         // Checking whether flowLayout exists before updating the collection view
-        if self.flowLayout != nil {
-            self.flowLayout.invalidateLayout()
+        if flowLayout != nil {
+            flowLayout.invalidateLayout()
             adjustFlowLayoutSize(size: size)
         }
     }
@@ -133,10 +133,10 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
         let width = cellSize(size: size, space: space)
         let height = width
         
-        self.flowLayout.minimumInteritemSpacing = space
-        self.flowLayout.minimumLineSpacing = 2 * space
-        self.flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
-        self.flowLayout.itemSize = CGSize(width: width, height: height)
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.minimumLineSpacing = 2 * space
+        flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
+        flowLayout.itemSize = CGSize(width: width, height: height)
     }
     
     func cellSize(size: CGSize, space: CGFloat) -> CGFloat {

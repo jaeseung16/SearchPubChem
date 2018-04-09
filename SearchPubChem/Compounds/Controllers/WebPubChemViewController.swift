@@ -47,8 +47,8 @@ extension WebPubChemViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         showNetworkIndicator(false)
         
-        let alert = UIAlertController(title: "Cannot load the webpage", message: "It seems that there is a problem with the network or the PubChem server", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
+        let title = "Cannot load the webpage"
+        let message = "It seems that there is a problem with the network or the PubChem server"
+        presentAlert(title: title, message: message)
     }
 }

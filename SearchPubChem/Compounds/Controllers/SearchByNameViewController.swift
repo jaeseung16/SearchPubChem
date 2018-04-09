@@ -67,14 +67,6 @@ class SearchByNameViewController: UIViewController {
         compoundImageView.isHidden = yes
     }
     
-    fileprivate func presentAlert(title: String, message: String) {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
     // Actions
     @IBAction func searchByName(_ sender: UIButton) {
         let name = nameToSearch.text!.trimmingCharacters(in: .whitespaces)
