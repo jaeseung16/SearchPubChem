@@ -14,6 +14,8 @@ class WebPubChemViewController: UIViewController {
     // Outlets
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var reloadBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var stopBarButtonItem: UIBarButtonItem!
     
     // Variables
     var url: URL!
@@ -21,21 +23,39 @@ class WebPubChemViewController: UIViewController {
     // MARK: - Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         webView.navigationDelegate = self
-        
-        showNetworkIndicator(true)
-        
-        let request = URLRequest(url: url, timeoutInterval: 15)
-        webView.load(request)
+        loadContent()
+        enableStopBarButton(true)
+    }
+    
+    func enableStopBarButton(_ yes: Bool) {
+        reloadBarButtonItem.isEnabled = !yes
+        stopBarButtonItem.isEnabled = yes
     }
     
     func showNetworkIndicator(_ yes: Bool) {
-        DispatchQueue.main.async {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = yes
-            self.navigationItem.hidesBackButton = yes
-            self.activityIndicatorView.isHidden = !yes
-        }
+        UIApplication.shared.isNetworkActivityIndicatorVisible = yes
+        navigationItem.hidesBackButton = yes
+        activityIndicatorView.isHidden = !yes
+        
+        enableStopBarButton(yes)
+    }
+    
+    func loadContent() {
+        let request = URLRequest(url: url, timeoutInterval: 15)
+        webView.load(request)
+        
+        showNetworkIndicator(true)
+    }
+    
+    // Actions
+    @IBAction func stopLoading(_ sender: UIBarButtonItem) {
+        webView.stopLoading()
+        showNetworkIndicator(false)
+    }
+    
+    @IBAction func reload(_ sender: UIBarButtonItem) {
+        loadContent()
     }
 }
 

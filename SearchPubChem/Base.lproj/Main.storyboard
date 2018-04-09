@@ -417,10 +417,25 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HEh-1Y-pPR"/>
                     </view>
-                    <navigationItem key="navigationItem" title="PubChem @ NIH" id="p1T-xq-pf4"/>
+                    <navigationItem key="navigationItem" title="PubChem @ NIH" id="p1T-xq-pf4">
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="stop" id="cM9-Xp-Yf1">
+                                <connections>
+                                    <action selector="stopLoading:" destination="Yba-R1-Y9i" id="QKk-U8-7pJ"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="refresh" id="ohE-eV-Odm">
+                                <connections>
+                                    <action selector="reload:" destination="Yba-R1-Y9i" id="Gd1-II-2QS"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="activityIndicatorView" destination="Pmn-IN-vsl" id="LKR-RA-Pwk"/>
+                        <outlet property="reloadBarButtonItem" destination="ohE-eV-Odm" id="V0m-QX-gFL"/>
+                        <outlet property="stopBarButtonItem" destination="cM9-Xp-Yf1" id="bwZ-vN-ZNz"/>
                         <outlet property="webView" destination="t0f-VR-8Su" id="TNe-27-Hna"/>
                     </connections>
                 </viewController>
