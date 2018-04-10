@@ -64,7 +64,7 @@ Choose compounds downloaded from PubChem and make a solution. The app allows to 
 
 1. Enter a label for a new soltion.
 2. Click **Add Compounds** to bring a collection of compounds. See **Compounds collection** below.
-3. The names of the compounds selected from **Compouns collection** will be displayed in the table view.
+3. The names of the compounds selected from **Compounds collection** will be displayed in the table view.
 4. The unit for the amount can be chosen among *gram*, *mg*, *mol*, and *mM*.
 5. The amount may be entered.
 6. Click **Save** to create and add a new solution.
