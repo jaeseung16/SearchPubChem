@@ -3,7 +3,9 @@
 The app allows to search compounds through ‘PubChem’ and helps to keep information on solutions made of those compounds.
 
 * The app is written and tested on `Swift 4.1` and `Xcode 9.3`.
-* The app is available on App Store: https://itunes.apple.com/us/app/id1369742632
+* The app is available on App Store.
+
+[![App Store Badge](https://linkmaker.itunes.apple.com/assets/shared/badges/en-us/appstore-lrg.svg)](https://itunes.apple.com/us/app/search-pubchem/id1369742632?mt=8)
 
 # Installation
 
