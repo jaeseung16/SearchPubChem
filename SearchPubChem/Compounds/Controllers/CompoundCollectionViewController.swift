@@ -106,7 +106,7 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let compound = fetchedResultsController.object(at: indexPath)
         
-        if let index = compounds.index(of: compound){
+        if let index = compounds.firstIndex(of: compound){
             compounds.remove(at: index)
             setSelectedCompoundsLabel()
             return false
@@ -175,6 +175,8 @@ extension CompoundCollectionViewController: NSFetchedResultsControllerDelegate {
         case .move:
             compoundCollectionView.deleteItems(at: [indexPath!])
             compoundCollectionView.insertItems(at: [newIndexPath!])
+        @unknown default:
+            fatalError()
         }
     }
     

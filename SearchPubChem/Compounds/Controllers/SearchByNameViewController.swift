@@ -138,7 +138,7 @@ class SearchByNameViewController: UIViewController {
         compound.molecularWeight = Double(weightLabel.text!)!
         compound.cid = cidLabel.text!
         compound.nameIUPAC = iupacNameLabel.text!
-        compound.image = UIImagePNGRepresentation(compoundImageView.image!)!
+        compound.image = compoundImageView.image!.pngData()!
         
         do {
             try dataController.viewContext.save()

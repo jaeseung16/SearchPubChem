@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let dataController = DataController(modelName: "PubChemSolution")
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         dataController.load()
         checkIfFirstLaunch()
@@ -94,7 +94,7 @@ extension AppDelegate {
         water.molecularWeight = 18.015
         water.cid = "962"
         water.nameIUPAC = "oxidane"
-        water.image = UIImagePNGRepresentation(UIImage(named: "Water")!)!
+        water.image = UIImage(named: "Water")!.pngData()!
         
         // Example Compound 2: Sodium Chloride
         let sodiumChloride = Compound(context: dataController.viewContext)
@@ -104,7 +104,7 @@ extension AppDelegate {
         sodiumChloride.molecularWeight = 58.44
         sodiumChloride.cid = "5234"
         sodiumChloride.nameIUPAC = "sodium chloride"
-        sodiumChloride.image = UIImagePNGRepresentation(UIImage(named: "NaCl")!)
+        sodiumChloride.image = UIImage(named: "NaCl")!.pngData()
         
         // Example Solution: Sodium Chloride Aqueous Solution
         let saltyWater = Solution(context: dataController.viewContext)
