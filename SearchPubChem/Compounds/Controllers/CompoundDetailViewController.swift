@@ -181,6 +181,8 @@ extension CompoundDetailViewController: NSFetchedResultsControllerDelegate {
         case .move:
             solutionsTableView.deleteRows(at: [indexPath!], with: .fade)
             solutionsTableView.insertRows(at: [newIndexPath!], with: .fade)
+        @unknown default:
+            <#fatalError()#>
         }
     }
     
