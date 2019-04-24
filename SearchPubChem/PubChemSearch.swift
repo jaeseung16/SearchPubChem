@@ -89,14 +89,14 @@ class PubChemSearch {
             let parsedResult: [String: AnyObject]!
             
             do {
-                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
+                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject]
             } catch {
                 sendError("Cannot parse JSON!")
                 return
             }
             
             guard let propertyTable = parsedResult["PropertyTable"] as? [String: AnyObject] else {
-                sendError("There is no PropertyTable in: \(parsedResult)")
+                sendError("There is no PropertyTable in: \(String(describing: parsedResult))")
                 return
             }
             
