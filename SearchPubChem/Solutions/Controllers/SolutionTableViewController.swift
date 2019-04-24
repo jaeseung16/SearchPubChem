@@ -151,7 +151,7 @@ extension SolutionTableViewController: NSFetchedResultsControllerDelegate {
             tableView.deleteRows(at: [indexPath!], with: .fade)
             tableView.insertRows(at: [newIndexPath!], with: .fade)
         @unknown default:
-            <#fatalError()#>
+            fatalError("Unknown change type: \(type)")
         }
     }
     

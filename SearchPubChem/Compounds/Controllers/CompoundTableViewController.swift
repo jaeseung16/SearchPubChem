@@ -146,7 +146,7 @@ extension CompoundTableViewController: NSFetchedResultsControllerDelegate {
             tableView.deleteRows(at: [indexPath!], with: .fade)
             tableView.insertRows(at: [newIndexPath!], with: .fade)
         @unknown default:
-            <#fatalError()#>
+            fatalError("Unkown change type: \(type)")
         }
     }
     

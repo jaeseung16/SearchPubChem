@@ -182,7 +182,7 @@ extension CompoundDetailViewController: NSFetchedResultsControllerDelegate {
             solutionsTableView.deleteRows(at: [indexPath!], with: .fade)
             solutionsTableView.insertRows(at: [newIndexPath!], with: .fade)
         @unknown default:
-            <#fatalError()#>
+            fatalError("Unknown change type: \(type)")
         }
     }
     
