@@ -30,6 +30,11 @@ extension PubChemSearch {
         static let png = "/png"
     }
     
+    struct RecordType {
+        static let twoD = "2d"
+        static let threeD = "3d"
+    }
+    
     // Status Codes from https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest$_Toc494865562
     enum Status: Int {
         case success = 200
