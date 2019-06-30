@@ -14,6 +14,27 @@ class PubChemSearch {
     var session = URLSession.shared
     
     // MARK: - Methods
+    func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?, _ errorString: String?) -> Void) {
+        var component = commonURLComponents()
+        component.path = PubChemSearch.Constant.pathForCID + cid + "/record_type=3d"
+        
+        _ = dataTask(with: component.url!, completionHandler: { (data, error) in
+            guard error == nil else {
+                NSLog("Error while downloading 3d data: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
+                completionHandler(false, nil, error!.userInfo[NSLocalizedDescriptionKey] as? String)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("Missing 3d data")
+                completionHandler(false, nil, "Missing image data")
+                return
+            }
+            
+            completionHandler(true, data as NSData, nil)
+        })
+    }
+    
     func downloadImage(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?, _ errorString: String?) -> Void) {
         var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForCID + cid + PubChemSearch.QueryResult.png
