@@ -14,24 +14,47 @@ class PubChemSearch {
     var session = URLSession.shared
     
     // MARK: - Methods
-    func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?, _ errorString: String?) -> Void) {
+    func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ data: NSData?, _ errorString: String?) -> Void) {
         var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForCID + cid + "/JSON"
         component.query = "\(QueryString.recordType)=\(RecordType.threeD)"
         
         _ = dataTask(with: component.url!, completionHandler: { (data, error) in
+            func sendError(_ error: String) {
+                completionHandler(false, nil, error)
+            }
+            
             guard error == nil else {
                 NSLog("Error while downloading 3d data: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
-                completionHandler(false, nil, error!.userInfo[NSLocalizedDescriptionKey] as? String)
+                sendError(error!.userInfo[NSLocalizedDescriptionKey] as! String)
                 return
             }
             
             guard let data = data else {
                 NSLog("Missing 3d data")
-                completionHandler(false, nil, "Missing image data")
+                sendError("Missing image data")
                 return
             }
             
+            let parsedResult: [String: AnyObject]!
+            
+            do {
+                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject]
+            } catch {
+                sendError("Cannot parse JSON!")
+                return
+            }
+            
+            guard let propertyTable = parsedResult["PC_Compounds"] as? [[String: AnyObject]] else {
+                sendError("There is no PropertyTable in: \(String(describing: parsedResult))")
+                return
+            }
+            
+            guard let coords = propertyTable[0]["coords"] as? [[String: AnyObject]] else {
+                sendError("There is no coords in: \(propertyTable)")
+                return
+            }
+            print("\(String(describing: coords[0]["conformers"]))")
             completionHandler(true, data as NSData, nil)
         })
     }

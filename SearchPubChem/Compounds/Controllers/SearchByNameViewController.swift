@@ -128,7 +128,7 @@ class SearchByNameViewController: UIViewController {
                                 self.presentAlert(title: "No 3D Data", message: errorString)
                                 return
                             }
-                            self.presentAlert(title: "No 3D Data", message: networkErrorString)
+                            self.presentAlert(title: "No 3D Data", message: errorString)
                         }
                     })
                     
