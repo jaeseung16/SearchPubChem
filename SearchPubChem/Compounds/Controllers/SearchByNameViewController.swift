@@ -112,6 +112,26 @@ class SearchByNameViewController: UIViewController {
                             self.presentAlert(title: "No Image", message: networkErrorString)
                         }
                     })
+                    
+                    self.client.download3DData(for: self.cidLabel.text!, completionHandler: { (success, data, errorString) in
+                        //self.showNetworkIndicators(false)
+                        
+                        if success {
+                            DispatchQueue.main.async {
+                                //self.compoundImageView.image = UIImage(data: data! as Data)
+                                //self.enableSaveButton(true)
+                                self.presentAlert(title: "Download 3D Data", message: "Succeeded")
+                            }
+                        } else {
+                            guard let errorString = errorString, errorString.contains(networkErrorString) else {
+                                let errorString = "Failed to download 3d data for \'\(name)\'"
+                                self.presentAlert(title: "No 3D Data", message: errorString)
+                                return
+                            }
+                            self.presentAlert(title: "No 3D Data", message: networkErrorString)
+                        }
+                    })
+                    
                 }
             } else {
                 guard let errorString = errorString, errorString.contains(networkErrorString) else {
