@@ -30,6 +30,10 @@ extension PubChemSearch {
         static let png = "/png"
     }
     
+    struct QueryString {
+        static let recordType = "record_type"
+    }
+    
     struct RecordType {
         static let twoD = "2d"
         static let threeD = "3d"

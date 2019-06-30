@@ -16,7 +16,8 @@ class PubChemSearch {
     // MARK: - Methods
     func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?, _ errorString: String?) -> Void) {
         var component = commonURLComponents()
-        component.path = PubChemSearch.Constant.pathForCID + cid + "/record_type=3d"
+        component.path = PubChemSearch.Constant.pathForCID + cid + "/JSON"
+        component.query = "\(QueryString.recordType)=\(RecordType.threeD)"
         
         _ = dataTask(with: component.url!, completionHandler: { (data, error) in
             guard error == nil else {
