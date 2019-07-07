@@ -21,6 +21,7 @@ class PubChemSearch {
         
         _ = dataTask(with: component.url!, completionHandler: { (data, error) in
             func sendError(_ error: String) {
+                print(error)
                 completionHandler(false, nil, error)
             }
             
@@ -50,11 +51,40 @@ class PubChemSearch {
                 return
             }
             
+            guard let atoms = propertyTable[0]["atoms"] as? [String: AnyObject] else {
+                sendError("There is no atoms in: \(propertyTable)")
+                return
+            }
+            
+            guard let atomIds = atoms["aid"] as? [Int], let elements = atoms["element"] as? [Int] else {
+                sendError("There is no atoms in: \(propertyTable)")
+                return
+            }
+            
             guard let coords = propertyTable[0]["coords"] as? [[String: AnyObject]] else {
                 sendError("There is no coords in: \(propertyTable)")
                 return
             }
-            print("\(String(describing: coords[0]["conformers"]))")
+            
+            guard let coordIds = coords[0]["aid"] as? [Int] else {
+                sendError("There is no atoms in: \(coords)")
+                return
+            }
+            
+            guard let conformers = coords[0]["conformers"] as? [[String: AnyObject]] else {
+                sendError("There is no conformers in: \(coords)")
+                return
+            }
+            
+            guard let xs = conformers[0]["x"] as? [Double], let ys = conformers[0]["y"] as? [Double], let zs = conformers[0]["z"] as? [Double] else {
+                sendError("There is no xyz's in: \(conformers)")
+                return
+            }
+            
+            for id in coordIds.indices {
+                print("\(elements[id]) - (\(xs[id]), \(ys[id]), \(zs[id]))")
+            }
+            
             completionHandler(true, data as NSData, nil)
         })
     }
