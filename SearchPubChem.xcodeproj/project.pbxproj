@@ -33,6 +33,7 @@
 		90A28688204638ED00FF796A /* PubChemSearchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A28687204638ED00FF796A /* PubChemSearchConstants.swift */; };
 		90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069322E4EFBF0054E7C2 /* Conformer.swift */; };
 		90CE069622E4F0250054E7C2 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069522E4F0250054E7C2 /* Element.swift */; };
+		90CE069822E4F2220054E7C2 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069722E4F2220054E7C2 /* Atom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		90A28687204638ED00FF796A /* PubChemSearchConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemSearchConstants.swift; sourceTree = "<group>"; };
 		90CE069322E4EFBF0054E7C2 /* Conformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conformer.swift; sourceTree = "<group>"; };
 		90CE069522E4F0250054E7C2 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
+		90CE069722E4F2220054E7C2 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 				908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */,
 				90CE069322E4EFBF0054E7C2 /* Conformer.swift */,
 				90CE069522E4F0250054E7C2 /* Element.swift */,
+				90CE069722E4F2220054E7C2 /* Atom.swift */,
 			);
 			path = SearchPubChem;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				902DFAE120278F15001E2AD6 /* CompoundCollectionViewCell.swift in Sources */,
 				9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */,
 				9090E66D202A6F0D007927DD /* SolutionDetailViewController.swift in Sources */,
+				90CE069822E4F2220054E7C2 /* Atom.swift in Sources */,
 				909C0D8E202F92D50016C9E6 /* MakeSolutionTableViewCell.swift in Sources */,
 				909AE6D7200CF38800FEE529 /* CompoundTableViewController.swift in Sources */,
 				9074CD6C203916FE002E19EF /* CompoundMiniDetailViewController.swift in Sources */,
