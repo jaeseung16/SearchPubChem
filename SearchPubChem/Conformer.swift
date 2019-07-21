@@ -8,7 +8,13 @@
 
 import Foundation
 
-class Conformer {
+class Conformer: CustomStringConvertible {
+    var description: String {
+        get {
+            return "\(self.atoms)"
+        }
+    }
+    
     var atoms: [Atom]
     
     init() {

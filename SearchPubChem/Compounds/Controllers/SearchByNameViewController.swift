@@ -34,6 +34,7 @@ class SearchByNameViewController: UIViewController {
     
     // Variables
     var dataController: DataController!
+    var conformer: Conformer?
 
     // MARK: - Methods
     override func viewDidLoad() {
@@ -120,7 +121,18 @@ class SearchByNameViewController: UIViewController {
                             DispatchQueue.main.async {
                                 //self.compoundImageView.image = UIImage(data: data! as Data)
                                 //self.enableSaveButton(true)
+                                
+                                guard let atoms = data else {
+                                    let errorString = "There is a problem with data \'\(String(describing: data))\'"
+                                    self.presentAlert(title: "No 3D Data", message: errorString)
+                                    return
+                                }
+                                
                                 self.presentAlert(title: "Download 3D Data", message: "Succeeded")
+                                self.conformer = Conformer()
+                                self.conformer?.atoms = atoms
+                                
+                                print(self.conformer!)
                             }
                         } else {
                             guard let errorString = errorString, errorString.contains(networkErrorString) else {

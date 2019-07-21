@@ -14,7 +14,7 @@ class PubChemSearch {
     var session = URLSession.shared
     
     // MARK: - Methods
-    func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ data: NSData?, _ errorString: String?) -> Void) {
+    func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ atoms: [Atom]?, _ errorString: String?) -> Void) {
         var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForCID + cid + "/JSON"
         component.query = "\(QueryString.recordType)=\(RecordType.threeD)"
@@ -56,7 +56,7 @@ class PubChemSearch {
                 return
             }
             
-            guard let atomIds = atoms[Conformer.aid.rawValue] as? [Int], let elements = atoms["element"] as? [Int] else {
+            guard let _ = atoms[Conformer.aid.rawValue] as? [Int], let elements = atoms["element"] as? [Int] else {
                 sendError("There is no atoms in: \(propertyTable)")
                 return
             }
@@ -101,13 +101,29 @@ class PubChemSearch {
                 return
             }
             
+//            for id in coordIds.indices {
+//                print("\(elements[id]) - (\(xs[id]), \(ys[id]), \(zs[id]))")
+//            }
+//
+            var atomArray = [Atom]()
             for id in coordIds.indices {
-                print("\(elements[id]) - (\(xs[id]), \(ys[id]), \(zs[id]))")
+                let atom = Atom()
+                atom.element = elementArray[id]
+                atom.location = [Double](arrayLiteral: xs[id], ys[id], zs[id])
+                
+                switch elementArray[id].atomicNumber {
+                case 6:
+                    atom.color = .darkGray
+                case 8:
+                    atom.color = .red
+                default:
+                    atom.color = .lightGray
+                }
+                
+                atomArray.append(atom)
             }
             
-            
-            
-            completionHandler(true, data as NSData, nil)
+            completionHandler(true, atomArray, nil)
         })
     }
     

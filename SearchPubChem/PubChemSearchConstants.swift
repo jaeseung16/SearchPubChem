@@ -57,7 +57,7 @@ extension PubChemSearch {
         case atoms = "atoms"
         case aid = "aid"
         case coords = "coords"
-        case conformers = "confromers"
+        case conformers = "conformers"
         case x = "x"
         case y = "y"
         case z = "z"
