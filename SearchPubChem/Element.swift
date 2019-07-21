@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Element {
+struct Element: Hashable {
     var atomicNumber: Int
     var name: String
     var radius: Int // covalent radius from https://en.wikipedia.org/wiki/Covalent_radius
@@ -21,4 +21,9 @@ class Element {
         name = "hydrogen"
         radius = 31
     }
+    
+    static func == (lhs: Element, rhs: Element) -> Bool {
+        return lhs.atomicNumber == rhs.atomicNumber
+    }
+    
 }
