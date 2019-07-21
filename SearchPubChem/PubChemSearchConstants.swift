@@ -51,5 +51,16 @@ extension PubChemSearch {
         case serverBusy = 503
         case timeOut = 504
     }
+    
+    enum Conformer: String {
+        case pcCompounds = "PC_Compounds"
+        case atoms = "atoms"
+        case aid = "aid"
+        case coords = "coords"
+        case conformers = "confromers"
+        case x = "x"
+        case y = "y"
+        case z = "z"
+    }
 }
 

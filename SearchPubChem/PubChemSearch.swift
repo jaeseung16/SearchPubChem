@@ -46,37 +46,37 @@ class PubChemSearch {
                 return
             }
             
-            guard let propertyTable = parsedResult["PC_Compounds"] as? [[String: AnyObject]] else {
+            guard let propertyTable = parsedResult[Conformer.pcCompounds.rawValue] as? [[String: AnyObject]] else {
                 sendError("There is no PropertyTable in: \(String(describing: parsedResult))")
                 return
             }
             
-            guard let atoms = propertyTable[0]["atoms"] as? [String: AnyObject] else {
+            guard let atoms = propertyTable[0][Conformer.atoms.rawValue] as? [String: AnyObject] else {
                 sendError("There is no atoms in: \(propertyTable)")
                 return
             }
             
-            guard let atomIds = atoms["aid"] as? [Int], let elements = atoms["element"] as? [Int] else {
+            guard let atomIds = atoms[Conformer.aid.rawValue] as? [Int], let elements = atoms["element"] as? [Int] else {
                 sendError("There is no atoms in: \(propertyTable)")
                 return
             }
             
-            guard let coords = propertyTable[0]["coords"] as? [[String: AnyObject]] else {
+            guard let coords = propertyTable[0][Conformer.coords.rawValue] as? [[String: AnyObject]] else {
                 sendError("There is no coords in: \(propertyTable)")
                 return
             }
             
-            guard let coordIds = coords[0]["aid"] as? [Int] else {
+            guard let coordIds = coords[0][Conformer.aid.rawValue] as? [Int] else {
                 sendError("There is no atoms in: \(coords)")
                 return
             }
             
-            guard let conformers = coords[0]["conformers"] as? [[String: AnyObject]] else {
+            guard let conformers = coords[0][Conformer.conformers.rawValue] as? [[String: AnyObject]] else {
                 sendError("There is no conformers in: \(coords)")
                 return
             }
             
-            guard let xs = conformers[0]["x"] as? [Double], let ys = conformers[0]["y"] as? [Double], let zs = conformers[0]["z"] as? [Double] else {
+            guard let xs = conformers[0][Conformer.x.rawValue] as? [Double], let ys = conformers[0][Conformer.y.rawValue] as? [Double], let zs = conformers[0][Conformer.z.rawValue] as? [Double] else {
                 sendError("There is no xyz's in: \(conformers)")
                 return
             }
