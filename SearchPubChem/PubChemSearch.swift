@@ -61,6 +61,26 @@ class PubChemSearch {
                 return
             }
             
+            var elementArray = [Element]()
+            for element in elements {
+                var atom = Element()
+                atom.atomicNumber = element
+                
+                switch element {
+                case 6:
+                    atom.name = "carbon"
+                    atom.radius = 73
+                case 8:
+                    atom.name = "oxygen"
+                    atom.radius = 66
+                default:
+                    atom.name = "hydrogen"
+                    atom.radius = 31
+                }
+                
+                elementArray.append(atom)
+            }
+            
             guard let coords = propertyTable[0][Conformer.coords.rawValue] as? [[String: AnyObject]] else {
                 sendError("There is no coords in: \(propertyTable)")
                 return
@@ -84,6 +104,8 @@ class PubChemSearch {
             for id in coordIds.indices {
                 print("\(elements[id]) - (\(xs[id]), \(ys[id]), \(zs[id]))")
             }
+            
+            
             
             completionHandler(true, data as NSData, nil)
         })
