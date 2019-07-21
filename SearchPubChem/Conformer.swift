@@ -9,5 +9,9 @@
 import Foundation
 
 class Conformer {
+    var atoms: [Atom]
     
+    init() {
+        atoms = [Atom]()
+    }
 }
