@@ -31,6 +31,7 @@
 		909AE6D7200CF38800FEE529 /* CompoundTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6D6200CF38800FEE529 /* CompoundTableViewController.swift */; };
 		909C0D8E202F92D50016C9E6 /* MakeSolutionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909C0D8D202F92D50016C9E6 /* MakeSolutionTableViewCell.swift */; };
 		90A28688204638ED00FF796A /* PubChemSearchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A28687204638ED00FF796A /* PubChemSearchConstants.swift */; };
+		90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069322E4EFBF0054E7C2 /* Conformer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		909AE6D6200CF38800FEE529 /* CompoundTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundTableViewController.swift; sourceTree = "<group>"; };
 		909C0D8D202F92D50016C9E6 /* MakeSolutionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeSolutionTableViewCell.swift; sourceTree = "<group>"; };
 		90A28687204638ED00FF796A /* PubChemSearchConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemSearchConstants.swift; sourceTree = "<group>"; };
+		90CE069322E4EFBF0054E7C2 /* Conformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conformer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 				902DFADC2027636B001E2AD6 /* Assets.xcassets */,
 				909AE6B4200CF2F000FEE529 /* Info.plist */,
 				908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */,
+				90CE069322E4EFBF0054E7C2 /* Conformer.swift */,
 			);
 			path = SearchPubChem;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */,
+				90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */,
 				9090E66F202A76F2007927DD /* SolutionTableViewController.swift in Sources */,
 				9090EC2120101262003280BD /* SearchByNameViewController.swift in Sources */,
 				90725F9B204217540083E1FC /* Compound+Extensions.swift in Sources */,
