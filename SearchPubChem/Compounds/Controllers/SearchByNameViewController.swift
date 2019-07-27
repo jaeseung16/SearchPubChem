@@ -44,6 +44,13 @@ class SearchByNameViewController: UIViewController {
         enableSaveButton(false)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let conformerViewController = segue.destination as? ConformerViewController {
+            
+        }
+        
+    }
+    
     func enableSaveButton(_ yes: Bool) {
         saveButton.isEnabled = yes
     }

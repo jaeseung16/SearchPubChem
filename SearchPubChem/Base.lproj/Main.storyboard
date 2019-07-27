@@ -183,6 +183,13 @@
                                     <constraint firstAttribute="width" constant="50" id="aec-0d-g9I"/>
                                 </constraints>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0eT-8J-CaV">
+                                <rect key="frame" x="150" y="498" width="74" height="30"/>
+                                <state key="normal" title="Conformer"/>
+                                <connections>
+                                    <segue destination="Syk-vo-ohJ" kind="presentation" id="FV2-fk-L3q"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -191,6 +198,7 @@
                             <constraint firstItem="IiW-AH-UYn" firstAttribute="centerX" secondItem="ynd-aS-3Rl" secondAttribute="centerX" id="Adi-HX-ijX"/>
                             <constraint firstItem="ynd-aS-3Rl" firstAttribute="trailing" secondItem="lNa-hp-vmx" secondAttribute="trailing" constant="8" id="FO1-if-Bl2"/>
                             <constraint firstItem="CEc-xE-Vcl" firstAttribute="trailing" secondItem="ynd-aS-3Rl" secondAttribute="trailing" id="Hgw-ob-K6Y"/>
+                            <constraint firstItem="0eT-8J-CaV" firstAttribute="centerX" secondItem="yVS-zL-TgO" secondAttribute="centerX" id="IqT-Xf-51i"/>
                             <constraint firstItem="IiW-AH-UYn" firstAttribute="centerY" secondItem="ynd-aS-3Rl" secondAttribute="centerY" id="Jsf-tT-OYj"/>
                             <constraint firstItem="ez7-BZ-WeO" firstAttribute="top" secondItem="CEc-xE-Vcl" secondAttribute="bottom" constant="8" id="LGI-my-3ig"/>
                             <constraint firstItem="yVS-zL-TgO" firstAttribute="leading" secondItem="ynd-aS-3Rl" secondAttribute="leading" constant="16" id="Pxd-x1-WlM"/>
@@ -202,6 +210,7 @@
                             <constraint firstItem="lNa-hp-vmx" firstAttribute="leading" secondItem="ynd-aS-3Rl" secondAttribute="leading" constant="8" id="ZgZ-gb-zmO"/>
                             <constraint firstItem="ynd-aS-3Rl" firstAttribute="trailing" secondItem="ez7-BZ-WeO" secondAttribute="trailing" constant="8" id="eRl-2D-eEf"/>
                             <constraint firstItem="CEc-xE-Vcl" firstAttribute="top" secondItem="ynd-aS-3Rl" secondAttribute="top" id="hyo-tW-Hjg"/>
+                            <constraint firstItem="0eT-8J-CaV" firstAttribute="bottom" secondItem="yVS-zL-TgO" secondAttribute="bottom" id="l1r-Fq-zJV"/>
                             <constraint firstItem="yVS-zL-TgO" firstAttribute="top" secondItem="ez7-BZ-WeO" secondAttribute="bottom" constant="1" id="qog-Nw-KHz"/>
                             <constraint firstItem="lNa-hp-vmx" firstAttribute="top" secondItem="yVS-zL-TgO" secondAttribute="bottom" constant="8" id="tSz-8m-jKZ"/>
                             <constraint firstItem="yVS-zL-TgO" firstAttribute="top" secondItem="Ifk-aW-ZW4" secondAttribute="bottom" constant="-27.5" id="un8-f1-ecE"/>
@@ -238,7 +247,7 @@
         <!--Conformer View Controller-->
         <scene sceneID="D9g-ay-ekm">
             <objects>
-                <viewController id="Syk-vo-ohJ" customClass="ConformerViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConfomerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Syk-vo-ohJ" customClass="ConformerViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="a0N-dI-GRi">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -250,7 +259,11 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
                                     <navigationItem id="1X4-1y-c02">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="RHr-aW-GfY"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="RHr-aW-GfY">
+                                            <connections>
+                                                <action selector="dismiss:" destination="Syk-vo-ohJ" id="kZr-jV-U7c"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -1128,6 +1141,6 @@
         <image name="Solution_Selected" width="45" height="45"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0cz-Z3-EZB"/>
+        <segue reference="LRF-Fw-lbO"/>
     </inferredMetricsTieBreakers>
 </document>
