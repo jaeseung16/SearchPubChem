@@ -34,6 +34,7 @@
 		90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069322E4EFBF0054E7C2 /* Conformer.swift */; };
 		90CE069622E4F0250054E7C2 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069522E4F0250054E7C2 /* Element.swift */; };
 		90CE069822E4F2220054E7C2 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069722E4F2220054E7C2 /* Atom.swift */; };
+		90D322D922ECFEAB0050EFE5 /* ConformerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D322D822ECFEAB0050EFE5 /* ConformerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		90CE069322E4EFBF0054E7C2 /* Conformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conformer.swift; sourceTree = "<group>"; };
 		90CE069522E4F0250054E7C2 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		90CE069722E4F2220054E7C2 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
+		90D322D822ECFEAB0050EFE5 /* ConformerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 				9074CD6B203916FE002E19EF /* CompoundMiniDetailViewController.swift */,
 				9090EC2020101262003280BD /* SearchByNameViewController.swift */,
 				908ECAC5205210D000B7DEE0 /* WebPubChemViewController.swift */,
+				90D322D822ECFEAB0050EFE5 /* ConformerViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 				9090E66D202A6F0D007927DD /* SolutionDetailViewController.swift in Sources */,
 				90CE069822E4F2220054E7C2 /* Atom.swift in Sources */,
 				909C0D8E202F92D50016C9E6 /* MakeSolutionTableViewCell.swift in Sources */,
+				90D322D922ECFEAB0050EFE5 /* ConformerViewController.swift in Sources */,
 				909AE6D7200CF38800FEE529 /* CompoundTableViewController.swift in Sources */,
 				9074CD6C203916FE002E19EF /* CompoundMiniDetailViewController.swift in Sources */,
 				90A28688204638ED00FF796A /* PubChemSearchConstants.swift in Sources */,
