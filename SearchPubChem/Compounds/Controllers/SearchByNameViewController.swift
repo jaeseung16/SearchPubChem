@@ -46,7 +46,11 @@ class SearchByNameViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let conformerViewController = segue.destination as? ConformerViewController {
-            
+            guard let conformer = self.conformer else {
+                print("No 3D Data")
+                return
+            }
+                conformerViewController.conformer = conformer
         }
         
     }
@@ -138,6 +142,7 @@ class SearchByNameViewController: UIViewController {
                                 self.presentAlert(title: "Download 3D Data", message: "Succeeded")
                                 self.conformer = Conformer()
                                 self.conformer?.atoms = atoms
+                                self.conformer?.cid = self.cidLabel.text!
                                 
                                 print(self.conformer!)
                             }

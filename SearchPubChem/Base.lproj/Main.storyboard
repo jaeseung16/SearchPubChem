@@ -281,6 +281,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Gjl-0h-YRE"/>
                     </view>
+                    <connections>
+                        <outlet property="confomerSCNView" destination="0SF-2s-bqU" id="e5c-CX-YUX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tv5-CX-ctg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
