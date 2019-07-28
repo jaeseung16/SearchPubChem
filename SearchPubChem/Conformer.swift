@@ -11,13 +11,15 @@ import Foundation
 class Conformer: CustomStringConvertible {
     var description: String {
         get {
-            return "\(self.atoms)"
+            return "cid = \(self.cid), " + "atoms = \(self.atoms)"
         }
     }
     
     var atoms: [Atom]
+    var cid: String
     
     init() {
         atoms = [Atom]()
+        cid = "0"
     }
 }
