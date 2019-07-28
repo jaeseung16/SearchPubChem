@@ -61,23 +61,25 @@ class PubChemSearch {
                 return
             }
             
-            var elementArray = [Element]()
+            var elementArray = [Atom]()
             for element in elements {
-                var atom = Element()
-                atom.atomicNumber = element
-                
-                switch element {
-                case 6:
-                    atom.name = "carbon"
-                    atom.radius = 73
-                case 8:
-                    atom.name = "oxygen"
-                    atom.radius = 66
-                default:
-                    atom.name = "hydrogen"
-                    atom.radius = 31
+                guard let elem = Elements(rawValue: element) else {
+                    print("Not a valid number for an element: \(element)")
+                    continue
                 }
                 
+                let atom = Atom()
+                atom.element = elem.getElement()
+                switch elem {
+                case .hydrogen:
+                    atom.color = .lightGray
+                case .carbon:
+                    atom.color = .darkGray
+                case .oxygen:
+                    atom.color = .red
+                default:
+                    atom.color = .lightGray
+                }
                 elementArray.append(atom)
             }
             
@@ -105,25 +107,11 @@ class PubChemSearch {
 //                print("\(elements[id]) - (\(xs[id]), \(ys[id]), \(zs[id]))")
 //            }
 //
-            var atomArray = [Atom]()
             for id in coordIds.indices {
-                let atom = Atom()
-                atom.element = elementArray[id]
-                atom.location = [Double](arrayLiteral: xs[id], ys[id], zs[id])
-                
-                switch elementArray[id].atomicNumber {
-                case 6:
-                    atom.color = .darkGray
-                case 8:
-                    atom.color = .red
-                default:
-                    atom.color = .lightGray
-                }
-                
-                atomArray.append(atom)
+                elementArray[id].location = [Double](arrayLiteral: xs[id], ys[id], zs[id])
             }
             
-            completionHandler(true, atomArray, nil)
+            completionHandler(true, elementArray, nil)
         })
     }
     
