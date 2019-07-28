@@ -12,7 +12,7 @@ import UIKit
 class Atom: CustomStringConvertible{
     var description: String {
         get {
-            return "\(self.element), \(self.location)"
+            return "\(self.element), \(self.color), \(self.location)"
         }
     }
     
