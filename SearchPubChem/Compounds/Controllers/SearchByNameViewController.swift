@@ -29,6 +29,8 @@ class SearchByNameViewController: UIViewController {
     @IBOutlet weak var iupacNameLabel: UILabel!
     @IBOutlet weak var weightLabel: UILabel!
     
+    @IBOutlet weak var conformerButton: UIButton!
+    
     // Constants
     let client = PubChemSearch()
     
@@ -42,6 +44,7 @@ class SearchByNameViewController: UIViewController {
         hideLabels(true)
         showNetworkIndicators(false)
         enableSaveButton(false)
+        conformerButton.isHidden = true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -130,20 +133,17 @@ class SearchByNameViewController: UIViewController {
                         
                         if success {
                             DispatchQueue.main.async {
-                                //self.compoundImageView.image = UIImage(data: data! as Data)
-                                //self.enableSaveButton(true)
-                                
                                 guard let atoms = data else {
                                     let errorString = "There is a problem with data \'\(String(describing: data))\'"
                                     self.presentAlert(title: "No 3D Data", message: errorString)
                                     return
                                 }
                                 
-                                self.presentAlert(title: "Download 3D Data", message: "Succeeded")
                                 self.conformer = Conformer()
                                 self.conformer?.atoms = atoms
                                 self.conformer?.cid = self.cidLabel.text!
                                 
+                                self.conformerButton.isHidden = false
                                 print(self.conformer!)
                             }
                         } else {

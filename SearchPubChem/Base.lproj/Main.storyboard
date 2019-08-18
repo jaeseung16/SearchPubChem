@@ -184,7 +184,7 @@
                                 </constraints>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0eT-8J-CaV">
-                                <rect key="frame" x="150" y="498" width="74" height="30"/>
+                                <rect key="frame" x="150.5" y="498" width="74" height="30"/>
                                 <state key="normal" title="Conformer"/>
                                 <connections>
                                     <segue destination="Syk-vo-ohJ" kind="presentation" id="FV2-fk-L3q"/>
@@ -222,6 +222,7 @@
                         <outlet property="cidLabel" destination="Rz8-zO-5DK" id="XAv-qD-l8x"/>
                         <outlet property="cidTitleLabel" destination="wI7-RM-LBU" id="ooS-Vz-e8B"/>
                         <outlet property="compoundImageView" destination="yVS-zL-TgO" id="9dy-R3-PsC"/>
+                        <outlet property="conformerButton" destination="0eT-8J-CaV" id="sAt-Zz-FZc"/>
                         <outlet property="formulaLabel" destination="Ifk-aW-ZW4" id="q05-Ye-TuA"/>
                         <outlet property="iupacNameLabel" destination="e9U-wc-Ue1" id="L3t-hX-61V"/>
                         <outlet property="iupacTitleLabel" destination="L0h-Bu-IlC" id="TE9-Fx-FOg"/>
@@ -242,7 +243,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1278" y="-1498"/>
+            <point key="canvasLocation" x="1277.5999999999999" y="-1498.2008995502249"/>
         </scene>
         <!--Conformer View Controller-->
         <scene sceneID="D9g-ay-ekm">
