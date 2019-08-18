@@ -13,7 +13,7 @@ class ConformerViewController: UIViewController {
 
     @IBOutlet weak var confomerSCNView: SCNView!
     
-    var conformer: Conformer!
+    var conformer: Conformers!
     var geometryNode: SCNNode!
     var currentAngle: Float = 0.0
     
@@ -102,7 +102,7 @@ extension ConformerViewController {
 //        return molecule
 //    }
     
-    func createSCNNode(for conformer: Conformer) -> SCNNode {
+    func createSCNNode(for conformer: Conformers) -> SCNNode {
         let atomsNode = SCNNode()
         
         for atom in conformer.atoms {

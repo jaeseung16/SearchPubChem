@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Conformer: CustomStringConvertible {
+class Conformers: CustomStringConvertible {
     var description: String {
         get {
             return "cid = \(self.cid), " + "atoms = \(self.atoms)"

@@ -36,7 +36,7 @@ class SearchByNameViewController: UIViewController {
     
     // Variables
     var dataController: DataController!
-    var conformer: Conformer?
+    var conformer: Conformers?
 
     // MARK: - Methods
     override func viewDidLoad() {
@@ -139,7 +139,7 @@ class SearchByNameViewController: UIViewController {
                                     return
                                 }
                                 
-                                self.conformer = Conformer()
+                                self.conformer = Conformers()
                                 self.conformer?.atoms = atoms
                                 self.conformer?.cid = self.cidLabel.text!
                                 
