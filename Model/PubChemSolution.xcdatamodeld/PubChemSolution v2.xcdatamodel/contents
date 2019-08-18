@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18G87" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0">
+    <entity name="Atom" representedClassName="Atom" syncable="YES" codeGenerationType="class">
+        <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <relationship name="conformer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Conformer" inverseName="atoms" inverseEntity="Conformer" syncable="YES"/>
+        <relationship name="element" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Element" inverseName="atoms" inverseEntity="Element" syncable="YES"/>
+    </entity>
     <entity name="Compound" representedClassName=".Compound" syncable="YES" codeGenerationType="class">
         <attribute name="cid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -14,7 +20,13 @@
     </entity>
     <entity name="Conformer" representedClassName="Conformer" syncable="YES" codeGenerationType="class">
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="atoms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Atom" inverseName="conformer" inverseEntity="Atom" syncable="YES"/>
         <relationship name="compound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Compound" inverseName="conformers" inverseEntity="Compound" syncable="YES"/>
+    </entity>
+    <entity name="Element" representedClassName="Element" syncable="YES" codeGenerationType="class">
+        <attribute name="atomicNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="radius" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="atoms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Atom" inverseName="element" inverseEntity="Atom" syncable="YES"/>
     </entity>
     <entity name="Solution" representedClassName=".Solution" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Transformable" syncable="YES"/>
@@ -25,6 +37,8 @@
     <elements>
         <element name="Compound" positionX="-63" positionY="-18" width="128" height="193"/>
         <element name="Solution" positionX="162.07421875" positionY="33.59765625" width="128" height="103"/>
-        <element name="Conformer" positionX="123.5625" positionY="-63.9609375" width="128" height="73"/>
+        <element name="Conformer" positionX="123.5625" positionY="-63.9609375" width="128" height="88"/>
+        <element name="Atom" positionX="72" positionY="63" width="128" height="105"/>
+        <element name="Element" positionX="90" positionY="81" width="128" height="90"/>
     </elements>
 </model>

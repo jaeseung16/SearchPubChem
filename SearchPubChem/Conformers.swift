@@ -15,11 +15,11 @@ class Conformers: CustomStringConvertible {
         }
     }
     
-    var atoms: [Atom]
+    var atoms: [Atoms]
     var cid: String
     
     init() {
-        atoms = [Atom]()
+        atoms = [Atoms]()
         cid = "0"
     }
 }

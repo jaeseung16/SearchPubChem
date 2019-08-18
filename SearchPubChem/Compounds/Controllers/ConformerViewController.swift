@@ -126,7 +126,7 @@ extension ConformerViewController {
 //        return atomsNode
 //    }
     
-    func createSCNNode(for atom: Atom) -> SCNGeometry {
+    func createSCNNode(for atom: Atoms) -> SCNGeometry {
         let atomNode = SCNSphere(radius: CGFloat(atom.element.radius) / 200.0)
         atomNode.firstMaterial?.diffuse.contents = atom.color
         atomNode.firstMaterial?.specular.contents = UIColor.white

@@ -20,8 +20,8 @@ enum Elements: Int {
     case fluorine
     case neon
     
-    public func getElement() -> Element {
-        var elementToReturn = Element()
+    public func getElement() -> ElementStruct {
+        var elementToReturn = ElementStruct()
         elementToReturn.atomicNumber = self.rawValue
         switch(self) {
         case .hydrogen:

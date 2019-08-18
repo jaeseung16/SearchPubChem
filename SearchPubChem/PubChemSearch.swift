@@ -14,7 +14,7 @@ class PubChemSearch {
     var session = URLSession.shared
     
     // MARK: - Methods
-    func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ atoms: [Atom]?, _ errorString: String?) -> Void) {
+    func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ atoms: [Atoms]?, _ errorString: String?) -> Void) {
         var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForCID + cid + "/JSON"
         component.query = "\(QueryString.recordType)=\(RecordType.threeD)"
@@ -61,14 +61,14 @@ class PubChemSearch {
                 return
             }
             
-            var elementArray = [Atom]()
+            var elementArray = [Atoms]()
             for element in elements {
                 guard let elem = Elements(rawValue: element) else {
                     print("Not a valid number for an element: \(element)")
                     continue
                 }
                 
-                let atom = Atom()
+                let atom = Atoms()
                 atom.element = elem.getElement()
                 switch elem {
                 case .hydrogen:

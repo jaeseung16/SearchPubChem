@@ -9,19 +9,19 @@
 import Foundation
 import UIKit
 
-class Atom: CustomStringConvertible{
+class Atoms: CustomStringConvertible{
     var description: String {
         get {
             return "\(self.element), \(self.color), \(self.location)"
         }
     }
     
-    var element: Element
+    var element: ElementStruct
     var color: UIColor
     var location: [Double]
     
     init() {
-        element = Element()
+        element = ElementStruct()
         color = .lightGray
         location = [0.0, 0.0, 0.0]
     }
