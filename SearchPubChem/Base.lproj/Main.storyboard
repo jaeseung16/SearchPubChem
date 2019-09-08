@@ -374,9 +374,14 @@
                                     <outlet property="delegate" destination="8uc-ZR-Vbf" id="fdx-ZK-YCZ"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eC8-2o-ejQ">
+                                <rect key="frame" x="337" y="71" width="30" height="30"/>
+                                <state key="normal" title="3D"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="eC8-2o-ejQ" firstAttribute="centerY" secondItem="8R7-Ci-gOQ" secondAttribute="centerY" id="1Co-fS-M3w"/>
                             <constraint firstItem="qG5-sT-ZvM" firstAttribute="top" secondItem="srm-hO-zfs" secondAttribute="top" id="3Sd-i4-Le2"/>
                             <constraint firstItem="l7h-0m-611" firstAttribute="leading" secondItem="srm-hO-zfs" secondAttribute="leading" constant="8" id="6Yp-MA-uNz"/>
                             <constraint firstItem="iNo-HF-YcG" firstAttribute="leading" secondItem="qG5-sT-ZvM" secondAttribute="leading" id="6mj-Nu-xcO"/>
@@ -387,6 +392,7 @@
                             <constraint firstItem="Jak-ge-NCa" firstAttribute="leading" secondItem="qG5-sT-ZvM" secondAttribute="leading" id="MjW-lH-Xld"/>
                             <constraint firstItem="Jak-ge-NCa" firstAttribute="top" secondItem="nTh-dh-0aX" secondAttribute="bottom" constant="8" id="SLD-8K-sBI"/>
                             <constraint firstItem="VoD-gt-1sv" firstAttribute="trailing" secondItem="qG5-sT-ZvM" secondAttribute="trailing" id="TBZ-12-S6A"/>
+                            <constraint firstItem="eC8-2o-ejQ" firstAttribute="trailing" secondItem="qG5-sT-ZvM" secondAttribute="trailing" id="UUR-l3-8rT"/>
                             <constraint firstItem="srm-hO-zfs" firstAttribute="trailing" secondItem="l7h-0m-611" secondAttribute="trailing" constant="8" id="cXW-vr-fRV"/>
                             <constraint firstItem="nTh-dh-0aX" firstAttribute="top" secondItem="8R7-Ci-gOQ" secondAttribute="bottom" constant="8" id="cg3-B9-3JP"/>
                             <constraint firstItem="VoD-gt-1sv" firstAttribute="top" secondItem="iNo-HF-YcG" secondAttribute="bottom" constant="8" id="e5W-eV-Co1"/>
@@ -423,6 +429,7 @@
                     <connections>
                         <outlet property="cidLabel" destination="iNo-HF-YcG" id="izF-qO-0z8"/>
                         <outlet property="compoundImageView" destination="qG5-sT-ZvM" id="1xr-Lt-wDh"/>
+                        <outlet property="conformerButton" destination="eC8-2o-ejQ" id="jVv-35-hJm"/>
                         <outlet property="deleteButton" destination="rTp-86-fqx" id="s6g-2P-VFo"/>
                         <outlet property="formulaLabel" destination="nTh-dh-0aX" id="dsJ-n3-Sva"/>
                         <outlet property="iupacLabel" destination="VoD-gt-1sv" id="vdo-vb-wyQ"/>

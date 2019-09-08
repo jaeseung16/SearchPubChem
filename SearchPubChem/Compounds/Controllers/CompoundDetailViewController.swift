@@ -19,7 +19,8 @@ class CompoundDetailViewController: UIViewController {
     @IBOutlet weak var iupacLabel: UILabel!
     @IBOutlet weak var compoundImageView: UIImageView!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
-    @IBOutlet weak var solutionsTableView: UITableView!
+    @IBOutlet weak var solutionsTableView: UITableView!    
+    @IBOutlet weak var conformerButton: UIButton!
     
     // Constants
     let detailViewControllerIdentifier = "SolutionDetailViewController"
@@ -67,6 +68,12 @@ class CompoundDetailViewController: UIViewController {
         if let solutions = fetchedResultsController.fetchedObjects {
             deleteButton.isEnabled = (solutions.count == 0)
         }
+        
+        if let conformers = fetchedResultsController.fetchedObjects {
+            print("\(conformers)")
+            conformerButton.isHidden = (conformers.count == 0)
+        }
+    
     }
     
     // Actions
