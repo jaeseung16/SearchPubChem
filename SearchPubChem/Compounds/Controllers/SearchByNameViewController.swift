@@ -36,7 +36,15 @@ class SearchByNameViewController: UIViewController {
     
     // Variables
     var dataController: DataController!
-    var conformer: Conformers?
+    var conformer: Conformers? {
+        willSet {
+            if newValue == nil {
+                conformerButton.isHidden = true
+            } else {
+                conformerButton.isHidden = false
+            }
+        }
+    }
 
     // MARK: - Methods
     override func viewDidLoad() {
@@ -80,6 +88,7 @@ class SearchByNameViewController: UIViewController {
         weightLabel.isHidden = yes
         
         compoundImageView.isHidden = yes
+        conformer = nil
     }
     
     // Actions
@@ -143,7 +152,6 @@ class SearchByNameViewController: UIViewController {
                                 self.conformer?.atoms = atoms
                                 self.conformer?.cid = self.cidLabel.text!
                                 
-                                self.conformerButton.isHidden = false
                                 print(self.conformer!)
                             }
                         } else {
