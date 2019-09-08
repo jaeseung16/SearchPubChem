@@ -120,8 +120,6 @@ class SearchByNameViewController: UIViewController {
                     self.showNetworkIndicators(true)
                     
                     self.client.downloadImage(for: self.cidLabel.text!, completionHandler: { (success, data, errorString) in
-                        self.showNetworkIndicators(false)
-                        
                         if success {
                             DispatchQueue.main.async {
                                 self.compoundImageView.image = UIImage(data: data! as Data)
@@ -138,7 +136,7 @@ class SearchByNameViewController: UIViewController {
                     })
                     
                     self.client.download3DData(for: self.cidLabel.text!, completionHandler: { (success, data, errorString) in
-                        //self.showNetworkIndicators(false)
+                        self.showNetworkIndicators(false)
                         
                         if success {
                             DispatchQueue.main.async {
