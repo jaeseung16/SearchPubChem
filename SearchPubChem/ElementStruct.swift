@@ -30,6 +30,9 @@ enum Elements: Int {
         case .carbon:
             elementToReturn.name = "carbon"
             elementToReturn.radius = 170
+        case .nitrogen:
+            elementToReturn.name = "nitrogen"
+            elementToReturn.radius = 155
         case .oxygen:
             elementToReturn.name = "oxygen"
             elementToReturn.radius = 152

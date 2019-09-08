@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PubChemSearch {
     // MARK: - Properties
@@ -72,13 +73,15 @@ class PubChemSearch {
                 atom.element = elem.getElement()
                 switch elem {
                 case .hydrogen:
-                    atom.color = .lightGray
+                    atom.color = .black
                 case .carbon:
                     atom.color = .darkGray
+                case .nitrogen:
+                    atom.color = UIColor(displayP3Red: 34/255, green: 51/255, blue: 255/255, alpha: 1.0)
                 case .oxygen:
                     atom.color = .red
                 default:
-                    atom.color = .lightGray
+                    atom.color = UIColor(displayP3Red: 221/255, green: 119/255, blue: 255/255, alpha: 1.0)
                 }
                 elementArray.append(atom)
             }
