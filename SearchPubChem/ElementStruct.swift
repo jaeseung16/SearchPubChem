@@ -19,6 +19,14 @@ enum Elements: Int {
     case oxygen
     case fluorine
     case neon
+    case sodium
+    case magnesium
+    case aluiminium
+    case silicon
+    case phosphorus
+    case sulfur
+    case chlorine
+    case argon
     
     public func getElement() -> ElementStruct {
         var elementToReturn = ElementStruct()
