@@ -15,7 +15,7 @@ class PubChemSearch {
     var session = URLSession.shared
     
     // MARK: - Methods
-    func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ atoms: [Atoms]?, _ errorString: String?) -> Void) {
+    func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ conformerId: String, _ atoms: [Atoms]?, _ errorString: String?) -> Void) {
         var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForCID + cid + "/JSON"
         component.query = "\(QueryString.recordType)=\(RecordType.threeD)"
@@ -23,7 +23,7 @@ class PubChemSearch {
         _ = dataTask(with: component.url!, completionHandler: { (data, error) in
             func sendError(_ error: String) {
                 print(error)
-                completionHandler(false, nil, error)
+                completionHandler(false, "", nil, error)
             }
             
             guard error == nil else {
@@ -62,6 +62,7 @@ class PubChemSearch {
                 return
             }
             
+            print("\(elements)")
             var elementArray = [Atoms]()
             for element in elements {
                 guard let elem = Elements(rawValue: element) else {
@@ -106,6 +107,26 @@ class PubChemSearch {
                 return
             }
             
+            guard let infos = conformers[0][Conformer.data.rawValue] as? [[String: Any]] else {
+                sendError("There is no conformer id in: \(conformers[0][Conformer.data.rawValue])")
+                return
+            }
+            
+            var conformerId = ""
+            for info in infos {
+                guard let urn = info["urn"] as? [String: Any], let label = urn["label"] as? String else {
+                    continue
+                }
+                
+                if label == "Conformer" {
+                    guard let value = info["value"] as? [String: Any], let sval = value["sval"] as? String else {
+                        sendError("There is no conformer id in: \(info["value"])")
+                        return
+                    }
+                    conformerId = sval
+                }
+            }
+            
 //            for id in coordIds.indices {
 //                print("\(elements[id]) - (\(xs[id]), \(ys[id]), \(zs[id]))")
 //            }
@@ -114,7 +135,7 @@ class PubChemSearch {
                 elementArray[id].location = [Double](arrayLiteral: xs[id], ys[id], zs[id])
             }
             
-            completionHandler(true, elementArray, nil)
+            completionHandler(true, conformerId, elementArray, nil)
         })
     }
     

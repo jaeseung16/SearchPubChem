@@ -17,9 +17,11 @@ class Conformers: CustomStringConvertible {
     
     var atoms: [Atoms]
     var cid: String
+    var conformerId: String
     
     init() {
         atoms = [Atoms]()
-        cid = "0"
+        cid = ""
+        conformerId = ""
     }
 }

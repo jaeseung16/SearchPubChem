@@ -61,6 +61,7 @@ extension PubChemSearch {
         case x = "x"
         case y = "y"
         case z = "z"
+        case data = "data"
     }
 }
 

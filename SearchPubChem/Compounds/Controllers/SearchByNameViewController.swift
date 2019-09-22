@@ -135,7 +135,7 @@ class SearchByNameViewController: UIViewController {
                         }
                     })
                     
-                    self.client.download3DData(for: self.cidLabel.text!, completionHandler: { (success, data, errorString) in
+                    self.client.download3DData(for: self.cidLabel.text!, completionHandler: { (success, conformerId, data, errorString) in
                         self.showNetworkIndicators(false)
                         
                         if success {
@@ -149,6 +149,7 @@ class SearchByNameViewController: UIViewController {
                                 self.conformer = Conformers()
                                 self.conformer?.atoms = atoms
                                 self.conformer?.cid = self.cidLabel.text!
+                                self.conformer?.conformerId = conformerId
                                 
                                 print(self.conformer!)
                             }
@@ -189,6 +190,12 @@ class SearchByNameViewController: UIViewController {
         compound.cid = cidLabel.text!
         compound.nameIUPAC = iupacNameLabel.text!
         compound.image = compoundImageView.image!.pngData()!
+       
+        let conformer = Conformer(context: dataController.viewContext)
+        if let conformers = self.conformer {
+            conformer.atoms = NSSet(array: conformers.atoms)
+            conformer.compound = compound
+        }
         
         do {
             try dataController.viewContext.save()
