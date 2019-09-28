@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14903" systemVersion="18G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0">
-    <entity name="Atom" representedClassName="Atom" syncable="YES" codeGenerationType="class">
-        <attribute name="color" optional="YES" attributeType="Transformable"/>
-        <attribute name="location" optional="YES" attributeType="Transformable"/>
-        <relationship name="conformer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Conformer" inverseName="atoms" inverseEntity="Conformer"/>
-        <relationship name="element" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Element" inverseName="atoms" inverseEntity="Element"/>
-    </entity>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14903" systemVersion="18G103" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0">
     <entity name="Compound" representedClassName=".Compound" syncable="YES" codeGenerationType="class">
         <attribute name="cid" optional="YES" attributeType="String"/>
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -15,19 +9,16 @@
         <attribute name="molecularWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nameIUPAC" optional="YES" attributeType="String"/>
-        <relationship name="conformers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Conformer" inverseName="compound" inverseEntity="Conformer"/>
+        <relationship name="conformers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ConformerEntity" inverseName="compound" inverseEntity="ConformerEntity"/>
         <relationship name="solutions" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Solution" inverseName="compounds" inverseEntity="Solution"/>
     </entity>
-    <entity name="Conformer" representedClassName="Conformer" syncable="YES" codeGenerationType="class">
+    <entity name="ConformerEntity" representedClassName="ConformerEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="atoms" optional="YES" attributeType="Transformable" customClassName="[String]"/>
         <attribute name="conformerId" optional="YES" attributeType="String"/>
+        <attribute name="coordX" optional="YES" attributeType="Transformable" customClassName="[Double]"/>
+        <attribute name="coordY" optional="YES" attributeType="Transformable" customClassName="[Double]"/>
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="atoms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Atom" inverseName="conformer" inverseEntity="Atom"/>
         <relationship name="compound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Compound" inverseName="conformers" inverseEntity="Compound"/>
-    </entity>
-    <entity name="Element" representedClassName="Element" syncable="YES" codeGenerationType="class">
-        <attribute name="atomicNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="radius" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <relationship name="atoms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Atom" inverseName="element" inverseEntity="Atom"/>
     </entity>
     <entity name="Solution" representedClassName=".Solution" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Transformable"/>
@@ -36,10 +27,8 @@
         <relationship name="compounds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Compound" inverseName="solutions" inverseEntity="Compound"/>
     </entity>
     <elements>
-        <element name="Atom" positionX="72" positionY="63" width="128" height="105"/>
         <element name="Compound" positionX="-63" positionY="-18" width="128" height="193"/>
-        <element name="Conformer" positionX="123.5625" positionY="-63.9609375" width="128" height="103"/>
-        <element name="Element" positionX="90" positionY="81" width="128" height="90"/>
+        <element name="ConformerEntity" positionX="123.5625" positionY="-63.9609375" width="128" height="133"/>
         <element name="Solution" positionX="162.07421875" positionY="33.59765625" width="128" height="103"/>
     </elements>
 </model>

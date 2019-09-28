@@ -32,10 +32,10 @@
 		909AE6D7200CF38800FEE529 /* CompoundTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6D6200CF38800FEE529 /* CompoundTableViewController.swift */; };
 		909C0D8E202F92D50016C9E6 /* MakeSolutionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909C0D8D202F92D50016C9E6 /* MakeSolutionTableViewCell.swift */; };
 		90A28688204638ED00FF796A /* PubChemSearchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A28687204638ED00FF796A /* PubChemSearchConstants.swift */; };
-		90C008AB2309A60C0057217E /* Conformer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C008AA2309A60C0057217E /* Conformer+Extensions.swift */; };
-		90CE069422E4EFBF0054E7C2 /* Conformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069322E4EFBF0054E7C2 /* Conformers.swift */; };
+		90C008AB2309A60C0057217E /* ConformerEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */; };
+		90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069322E4EFBF0054E7C2 /* Conformer.swift */; };
 		90CE069622E4F0250054E7C2 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069522E4F0250054E7C2 /* Element.swift */; };
-		90CE069822E4F2220054E7C2 /* Atoms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069722E4F2220054E7C2 /* Atoms.swift */; };
+		90CE069822E4F2220054E7C2 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069722E4F2220054E7C2 /* Atom.swift */; };
 		90D322D922ECFEAB0050EFE5 /* ConformerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D322D822ECFEAB0050EFE5 /* ConformerViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -89,10 +89,10 @@
 		909C0D8D202F92D50016C9E6 /* MakeSolutionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeSolutionTableViewCell.swift; sourceTree = "<group>"; };
 		90A28687204638ED00FF796A /* PubChemSearchConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemSearchConstants.swift; sourceTree = "<group>"; };
 		90C008A92309A5020057217E /* PubChemSolution v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PubChemSolution v2.xcdatamodel"; sourceTree = "<group>"; };
-		90C008AA2309A60C0057217E /* Conformer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Conformer+Extensions.swift"; sourceTree = "<group>"; };
-		90CE069322E4EFBF0054E7C2 /* Conformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conformers.swift; sourceTree = "<group>"; };
+		90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConformerEntity+Extensions.swift"; sourceTree = "<group>"; };
+		90CE069322E4EFBF0054E7C2 /* Conformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conformer.swift; sourceTree = "<group>"; };
 		90CE069522E4F0250054E7C2 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
-		90CE069722E4F2220054E7C2 /* Atoms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atoms.swift; sourceTree = "<group>"; };
+		90CE069722E4F2220054E7C2 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
 		90D322D822ECFEAB0050EFE5 /* ConformerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,7 +126,7 @@
 			children = (
 				90725F9A204217540083E1FC /* Compound+Extensions.swift */,
 				90725F9C204217830083E1FC /* Solution+Extensions.swift */,
-				90C008AA2309A60C0057217E /* Conformer+Extensions.swift */,
+				90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */,
 			);
 			path = "Managed Object Extensions";
 			sourceTree = "<group>";
@@ -223,9 +223,9 @@
 				902DFADC2027636B001E2AD6 /* Assets.xcassets */,
 				909AE6B4200CF2F000FEE529 /* Info.plist */,
 				908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */,
-				90CE069322E4EFBF0054E7C2 /* Conformers.swift */,
+				90CE069322E4EFBF0054E7C2 /* Conformer.swift */,
 				90CE069522E4F0250054E7C2 /* Element.swift */,
-				90CE069722E4F2220054E7C2 /* Atoms.swift */,
+				90CE069722E4F2220054E7C2 /* Atom.swift */,
 				9065BF5A22EE2F7400350083 /* ElementStruct.swift */,
 			);
 			path = SearchPubChem;
@@ -397,7 +397,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */,
-				90CE069422E4EFBF0054E7C2 /* Conformers.swift in Sources */,
+				90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */,
 				9090E66F202A76F2007927DD /* SolutionTableViewController.swift in Sources */,
 				9090EC2120101262003280BD /* SearchByNameViewController.swift in Sources */,
 				90725F9B204217540083E1FC /* Compound+Extensions.swift in Sources */,
@@ -412,9 +412,9 @@
 				902DFAE120278F15001E2AD6 /* CompoundCollectionViewCell.swift in Sources */,
 				9065BF5B22EE2F7400350083 /* ElementStruct.swift in Sources */,
 				9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */,
-				90C008AB2309A60C0057217E /* Conformer+Extensions.swift in Sources */,
+				90C008AB2309A60C0057217E /* ConformerEntity+Extensions.swift in Sources */,
 				9090E66D202A6F0D007927DD /* SolutionDetailViewController.swift in Sources */,
-				90CE069822E4F2220054E7C2 /* Atoms.swift in Sources */,
+				90CE069822E4F2220054E7C2 /* Atom.swift in Sources */,
 				909C0D8E202F92D50016C9E6 /* MakeSolutionTableViewCell.swift in Sources */,
 				90D322D922ECFEAB0050EFE5 /* ConformerViewController.swift in Sources */,
 				909AE6D7200CF38800FEE529 /* CompoundTableViewController.swift in Sources */,

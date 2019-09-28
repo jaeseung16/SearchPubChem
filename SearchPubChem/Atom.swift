@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Atoms: CustomStringConvertible{
+class Atom: CustomStringConvertible{
     var description: String {
         get {
             return "\(self.element), \(self.color), \(self.location)"

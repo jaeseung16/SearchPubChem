@@ -36,7 +36,7 @@ class SearchByNameViewController: UIViewController {
     
     // Variables
     var dataController: DataController!
-    var conformer: Conformers? {
+    var conformers: Conformer? {
         willSet {
             if newValue == nil {
                 conformerButton.isHidden = true
@@ -57,7 +57,7 @@ class SearchByNameViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let conformerViewController = segue.destination as? ConformerViewController {
-            guard let conformer = self.conformer else {
+            guard let conformer = self.conformers else {
                 print("No 3D Data")
                 return
             }
@@ -88,7 +88,7 @@ class SearchByNameViewController: UIViewController {
         weightLabel.isHidden = yes
         
         compoundImageView.isHidden = yes
-        conformer = nil
+        conformers = nil
     }
     
     // Actions
@@ -146,12 +146,12 @@ class SearchByNameViewController: UIViewController {
                                     return
                                 }
                                 
-                                self.conformer = Conformers()
-                                self.conformer?.atoms = atoms
-                                self.conformer?.cid = self.cidLabel.text!
-                                self.conformer?.conformerId = conformerId
+                                self.conformers = Conformer()
+                                self.conformers?.atoms = atoms
+                                self.conformers?.cid = self.cidLabel.text!
+                                self.conformers?.conformerId = conformerId
                                 
-                                print(self.conformer!)
+                                print(self.conformers!)
                             }
                         } else {
                             guard let errorString = errorString, errorString.contains(networkErrorString) else {
@@ -191,10 +191,10 @@ class SearchByNameViewController: UIViewController {
         compound.nameIUPAC = iupacNameLabel.text!
         compound.image = compoundImageView.image!.pngData()!
        
-        let conformer = Conformer(context: dataController.viewContext)
-        if let conformers = self.conformer {
-            conformer.atoms = NSSet(array: conformers.atoms)
+        let conformer = ConformerEntity(context: dataController.viewContext)
+        if let conformers = self.conformers {
             conformer.compound = compound
+            conformer.conformerId = conformers.conformerId
         }
         
         do {

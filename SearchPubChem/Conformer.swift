@@ -8,19 +8,19 @@
 
 import Foundation
 
-class Conformers: CustomStringConvertible {
+class Conformer: CustomStringConvertible {
     var description: String {
         get {
             return "cid = \(self.cid), " + "atoms = \(self.atoms)"
         }
     }
     
-    var atoms: [Atoms]
+    var atoms: [Atom]
     var cid: String
     var conformerId: String
     
     init() {
-        atoms = [Atoms]()
+        atoms = [Atom]()
         cid = ""
         conformerId = ""
     }

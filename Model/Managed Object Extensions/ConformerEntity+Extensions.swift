@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-extension Conformer {
+extension ConformerEntity {
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         created = Date()
