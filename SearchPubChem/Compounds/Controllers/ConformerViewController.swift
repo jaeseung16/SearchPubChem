@@ -127,8 +127,13 @@ extension ConformerViewController {
 //    }
     
     func createSCNNode(for atom: Atom) -> SCNGeometry {
-        let atomNode = SCNSphere(radius: CGFloat(atom.element.radius) / 200.0)
-        atomNode.firstMaterial?.diffuse.contents = atom.color
+        guard let element = Elements(rawValue: atom.number) else {
+            print("No such element: atomic number = \(atom.number)")
+            return SCNGeometry()
+        }
+        
+        let atomNode = SCNSphere(radius: CGFloat(element.getRadius()) / 200.0)
+        atomNode.firstMaterial?.diffuse.contents = element.getColor()
         atomNode.firstMaterial?.specular.contents = UIColor.white
         print("atomNode = \(atomNode), atom.color = \(String(describing: atomNode.firstMaterial?.diffuse.contents))")
         return atomNode

@@ -38,7 +38,7 @@ class CompoundDetailViewController: UIViewController {
             do {
                 try fetchedResultsController.performFetch()
             } catch {
-                NSLog("Solutions cannt be fetched for the compound: \(error.localizedDescription)")
+                NSLog("Solutions cannot be fetched for the compound: \(error.localizedDescription)")
             }
         }
     }
@@ -68,9 +68,26 @@ class CompoundDetailViewController: UIViewController {
         if let solutions = fetchedResultsController.fetchedObjects {
             deleteButton.isEnabled = (solutions.count == 0)
         }
+    
+        let fetchRequest: NSFetchRequest<ConformerEntity> = ConformerEntity.fetchRequest()
+        let sortDescription = NSSortDescriptor(key: "created", ascending: false)
+        let predicate = NSPredicate(format: "compound == %@", argumentArray: [compound as Any])
+
+        fetchRequest.sortDescriptors = [sortDescription]
+        fetchRequest.predicate = predicate
+       
+        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
-        if let conformers = fetchedResultsController.fetchedObjects {
-            print("\(conformers)")
+        fc.delegate = self
+        
+        do {
+            try fc.performFetch()
+        } catch {
+            NSLog("Conformers cannot be fetched for the compound: \(error.localizedDescription)")
+        }
+        
+        if let conformers = fc.fetchedObjects {
+            print("conformers = \(conformers)")
             conformerButton.isHidden = (conformers.count == 0)
         }
     

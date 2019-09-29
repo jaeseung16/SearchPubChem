@@ -12,17 +12,15 @@ import UIKit
 class Atom: CustomStringConvertible{
     var description: String {
         get {
-            return "\(self.element), \(self.color), \(self.location)"
+            return "\(self.number), \(self.location)"
         }
     }
     
-    var element: ElementStruct
-    var color: UIColor
+    var number: Int
     var location: [Double]
     
     init() {
-        element = ElementStruct()
-        color = .lightGray
+        number = 1
         location = [0.0, 0.0, 0.0]
     }
 }

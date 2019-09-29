@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14903" systemVersion="18G103" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0">
+    <entity name="AtomEntity" representedClassName=".AtomEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="atomicNumber" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="coordX" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="coordY" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="coordZ" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="conformer" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ConformerEntity" inverseName="atoms" inverseEntity="ConformerEntity"/>
+    </entity>
     <entity name="Compound" representedClassName=".Compound" syncable="YES" codeGenerationType="class">
         <attribute name="cid" optional="YES" attributeType="String"/>
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -9,16 +17,14 @@
         <attribute name="molecularWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nameIUPAC" optional="YES" attributeType="String"/>
-        <relationship name="conformers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ConformerEntity" inverseName="compound" inverseEntity="ConformerEntity"/>
+        <relationship name="conformers" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="ConformerEntity" inverseName="compound" inverseEntity="ConformerEntity"/>
         <relationship name="solutions" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Solution" inverseName="compounds" inverseEntity="Solution"/>
     </entity>
-    <entity name="ConformerEntity" representedClassName="ConformerEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="atoms" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+    <entity name="ConformerEntity" representedClassName=".ConformerEntity" syncable="YES" codeGenerationType="class">
         <attribute name="conformerId" optional="YES" attributeType="String"/>
-        <attribute name="coordX" optional="YES" attributeType="Transformable" customClassName="[Double]"/>
-        <attribute name="coordY" optional="YES" attributeType="Transformable" customClassName="[Double]"/>
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="compound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Compound" inverseName="conformers" inverseEntity="Compound"/>
+        <relationship name="atoms" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="AtomEntity" inverseName="conformer" inverseEntity="AtomEntity"/>
+        <relationship name="compound" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Compound" inverseName="conformers" inverseEntity="Compound"/>
     </entity>
     <entity name="Solution" representedClassName=".Solution" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Transformable"/>
@@ -28,7 +34,8 @@
     </entity>
     <elements>
         <element name="Compound" positionX="-63" positionY="-18" width="128" height="193"/>
-        <element name="ConformerEntity" positionX="123.5625" positionY="-63.9609375" width="128" height="133"/>
+        <element name="ConformerEntity" positionX="123.5625" positionY="-63.9609375" width="128" height="103"/>
         <element name="Solution" positionX="162.07421875" positionY="33.59765625" width="128" height="103"/>
+        <element name="AtomEntity" positionX="54" positionY="45" width="128" height="133"/>
     </elements>
 </model>

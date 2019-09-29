@@ -65,25 +65,8 @@ class PubChemSearch {
             print("\(elements)")
             var elementArray = [Atom]()
             for element in elements {
-                guard let elem = Elements(rawValue: element) else {
-                    print("Not a valid number for an element: \(element)")
-                    continue
-                }
-                
                 let atom = Atom()
-                atom.element = elem.getElement()
-                switch elem {
-                case .hydrogen:
-                    atom.color = .black
-                case .carbon:
-                    atom.color = .darkGray
-                case .nitrogen:
-                    atom.color = UIColor(displayP3Red: 34/255, green: 51/255, blue: 255/255, alpha: 1.0)
-                case .oxygen:
-                    atom.color = .red
-                default:
-                    atom.color = UIColor(displayP3Red: 221/255, green: 119/255, blue: 255/255, alpha: 1.0)
-                }
+                atom.number = element
                 elementArray.append(atom)
             }
             
@@ -108,7 +91,7 @@ class PubChemSearch {
             }
             
             guard let infos = conformers[0][Conformer.data.rawValue] as? [[String: Any]] else {
-                sendError("There is no conformer id in: \(conformers[0][Conformer.data.rawValue])")
+                sendError("There is no conformer id in: \(String(describing: conformers[0][Conformer.data.rawValue]))")
                 return
             }
             
@@ -120,7 +103,7 @@ class PubChemSearch {
                 
                 if label == "Conformer" {
                     guard let value = info["value"] as? [String: Any], let sval = value["sval"] as? String else {
-                        sendError("There is no conformer id in: \(info["value"])")
+                        sendError("There is no conformer id in: \(String(describing: info["value"]))")
                         return
                     }
                     conformerId = sval
