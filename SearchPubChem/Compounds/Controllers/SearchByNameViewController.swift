@@ -63,7 +63,6 @@ class SearchByNameViewController: UIViewController {
             }
                 conformerViewController.conformer = conformer
         }
-        
     }
     
     func enableSaveButton(_ yes: Bool) {

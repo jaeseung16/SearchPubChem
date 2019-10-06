@@ -29,6 +29,7 @@ class CompoundDetailViewController: UIViewController {
     
     // Variables
     var compound: Compound!
+    var conformer: Conformer?
     
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Solution>! {
@@ -52,6 +53,16 @@ class CompoundDetailViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         solutionsTableView.reloadData()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let conformerViewController = segue.destination as? ConformerViewController {
+            guard let conformer = self.conformer else {
+                print("No 3D Data")
+                return
+            }
+                conformerViewController.conformer = conformer
+        }
     }
     
     func configureView() {
@@ -87,10 +98,42 @@ class CompoundDetailViewController: UIViewController {
         }
         
         if let conformers = fc.fetchedObjects {
-            print("conformers = \(conformers)")
             conformerButton.isHidden = (conformers.count == 0)
+            
+            if conformers.count > 0 {
+                let fetchRequest2: NSFetchRequest<AtomEntity> = AtomEntity.fetchRequest()
+                let sortDescription = NSSortDescriptor(key: "created", ascending: false)
+                let predicate2 = NSPredicate(format: "conformer == %@", argumentArray: [conformers[0] as Any])
+
+                fetchRequest2.sortDescriptors = [sortDescription]
+                fetchRequest2.predicate = predicate2
+                
+                let fc2 = NSFetchedResultsController(fetchRequest: fetchRequest2, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+                 
+                fc2.delegate = self
+                 
+                do {
+                    try fc2.performFetch()
+                } catch {
+                    NSLog("Conformers cannot be fetched for the compound: \(error.localizedDescription)")
+                }
+                
+                if let atoms = fc2.fetchedObjects {
+                    conformer = Conformer()
+                    conformer?.cid = compound.cid ?? ""
+                    conformer?.conformerId = conformers[0].conformerId ?? ""
+                    
+                    conformer?.atoms = [Atom]()
+                    for atom in atoms {
+                        let a = Atom()
+                        a.number = Int(atom.atomicNumber)
+                        a.location = [atom.coordX, atom.coordY, atom.coordZ]
+                        
+                        conformer?.atoms.append(a)
+                    }
+                }
+            }
         }
-    
     }
     
     // Actions

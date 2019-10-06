@@ -369,6 +369,9 @@
                                     <constraint firstAttribute="height" constant="40" id="yKa-Wn-nZv"/>
                                 </constraints>
                                 <state key="normal" title="3D"/>
+                                <connections>
+                                    <segue destination="Syk-vo-ohJ" kind="presentation" id="ZWP-yt-4rg"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1142,6 +1145,7 @@
         <image name="Solution_Selected" width="45" height="45"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ZWP-yt-4rg"/>
         <segue reference="LRF-Fw-lbO"/>
     </inferredMetricsTieBreakers>
 </document>
