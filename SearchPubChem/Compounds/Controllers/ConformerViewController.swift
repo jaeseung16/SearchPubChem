@@ -15,7 +15,7 @@ class ConformerViewController: UIViewController {
     
     var conformer: Conformer!
     var geometryNode: SCNNode!
-    var currentAngle: Float = 0.0
+    var rotation: SCNMatrix4 = SCNMatrix4Identity
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,13 +50,22 @@ class ConformerViewController: UIViewController {
 
     @objc func panGesture(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: sender.view!)
-        var newAngle = Float(translation.x*(.pi)/180.0)
-        newAngle += currentAngle
         
-        geometryNode.transform = SCNMatrix4MakeRotation(newAngle, 0, 1, 0)
+        var rotationAxis = [CGFloat]()
+        rotationAxis.append(translation.y)
+        rotationAxis.append(translation.x)
+        
+        let length = sqrt( translation.x * translation.x + translation.y * translation.y )
+        let newAngle = Float(length) * .pi / 180.0
+        
+        let newRotationMake = SCNMatrix4MakeRotation(newAngle, Float(rotationAxis[0]), Float(rotationAxis[1]), 0)
+        
+        let newRotation = SCNMatrix4Mult(self.rotation, SCNMatrix4Mult(newRotationMake, SCNMatrix4Invert(self.rotation)))
+        
+        geometryNode.transform = SCNMatrix4Mult(newRotation, self.rotation)
         
         if(sender.state == UIGestureRecognizer.State.ended) {
-            currentAngle = newAngle
+            self.rotation = SCNMatrix4Mult(newRotation, self.rotation)
         }
     }
     
