@@ -15,7 +15,7 @@ class PubChemSearch {
     var session = URLSession.shared
     
     // MARK: - Methods
-    func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ conformerId: String, _ atoms: [Atom]?, _ errorString: String?) -> Void) {
+    func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ conformer: Conformer?, _ errorString: String?) -> Void) {
         var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForCID + cid + "/JSON"
         component.query = "\(QueryString.recordType)=\(RecordType.threeD)"
@@ -23,7 +23,7 @@ class PubChemSearch {
         _ = dataTask(with: component.url!, completionHandler: { (data, error) in
             func sendError(_ error: String) {
                 print(error)
-                completionHandler(false, "", nil, error)
+                completionHandler(false, nil, error)
             }
             
             guard error == nil else {
@@ -47,51 +47,44 @@ class PubChemSearch {
                 return
             }
             
-            guard let pcCompounds = parsedResult[Conformer.pcCompounds.rawValue] as? [[String: AnyObject]] else {
+            guard let pcCompounds = parsedResult[ConformerEnum.pcCompounds.rawValue] as? [[String: AnyObject]] else {
                 sendError("There is no pcCompounds in: \(String(describing: parsedResult))")
                 return
             }
             
-            guard let atoms = pcCompounds[0][Conformer.atoms.rawValue] as? [String: AnyObject] else {
+            guard let atoms = pcCompounds[0][ConformerEnum.atoms.rawValue] as? [String: AnyObject] else {
                 sendError("There is no atoms in: \(pcCompounds)")
                 return
             }
             
-            guard let _ = atoms[Conformer.aid.rawValue] as? [Int], let elements = atoms["element"] as? [Int] else {
+            guard let _ = atoms[ConformerEnum.aid.rawValue] as? [Int], let elements = atoms["element"] as? [Int] else {
                 sendError("There is no elements in: \(atoms)")
                 return
             }
             
-            var elementArray = [Atom]()
-            for element in elements {
-                let atom = Atom()
-                atom.number = element
-                elementArray.append(atom)
-            }
-            
-            guard let coords = pcCompounds[0][Conformer.coords.rawValue] as? [[String: AnyObject]] else {
+            guard let coords = pcCompounds[0][ConformerEnum.coords.rawValue] as? [[String: AnyObject]] else {
                 sendError("There is no coords in: \(pcCompounds)")
                 return
             }
             
-            guard let coordIds = coords[0][Conformer.aid.rawValue] as? [Int] else {
+            guard let coordIds = coords[0][ConformerEnum.aid.rawValue] as? [Int] else {
                 sendError("There is no coordIds in: \(coords)")
                 return
             }
             
-            guard let conformers = coords[0][Conformer.conformers.rawValue] as? [[String: AnyObject]] else {
+            guard let conformers = coords[0][ConformerEnum.conformers.rawValue] as? [[String: AnyObject]] else {
                 sendError("There is no conformers in: \(coords)")
                 return
             }
             
-            guard let xs = conformers[0][Conformer.x.rawValue] as? [Double],
-                let ys = conformers[0][Conformer.y.rawValue] as? [Double],
-                let zs = conformers[0][Conformer.z.rawValue] as? [Double] else {
+            guard let xs = conformers[0][ConformerEnum.x.rawValue] as? [Double],
+                let ys = conformers[0][ConformerEnum.y.rawValue] as? [Double],
+                let zs = conformers[0][ConformerEnum.z.rawValue] as? [Double] else {
                 sendError("There is no xyz locations in: \(conformers[0])")
                 return
             }
             
-            guard let infos = conformers[0][Conformer.data.rawValue] as? [[String: Any]] else {
+            guard let infos = conformers[0][ConformerEnum.data.rawValue] as? [[String: Any]] else {
                 sendError("There is no data in: \(conformers[0])")
                 return
             }
@@ -111,11 +104,20 @@ class PubChemSearch {
                 }
             }
             
+        
+            var conformer = Conformer()
+            conformer.cid = cid
+            conformer.conformerId = conformerId
+            
             for id in coordIds.indices {
-                elementArray[id].location = [Double](arrayLiteral: xs[id], ys[id], zs[id])
+                let atom = Atom()
+                atom.number = elements[id]
+                atom.location = [Double](arrayLiteral: xs[id], ys[id], zs[id])
+                
+                conformer.atoms.append(atom)
             }
             
-            completionHandler(true, conformerId, elementArray, nil)
+            completionHandler(true, conformer, nil)
         })
     }
     

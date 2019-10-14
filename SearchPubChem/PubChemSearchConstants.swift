@@ -52,7 +52,7 @@ extension PubChemSearch {
         case timeOut = 504
     }
     
-    enum Conformer: String {
+    enum ConformerEnum: String {
         case pcCompounds = "PC_Compounds"
         case atoms = "atoms"
         case aid = "aid"

@@ -134,23 +134,13 @@ class SearchByNameViewController: UIViewController {
                         }
                     })
                     
-                    self.client.download3DData(for: self.cidLabel.text!, completionHandler: { (success, conformerId, data, errorString) in
+                    self.client.download3DData(for: self.cidLabel.text!, completionHandler: { (success, conformer, errorString) in
                         self.showNetworkIndicators(false)
                         
-                        if success {
+                        if success, let conformer = conformer {
                             DispatchQueue.main.async {
-                                guard let atoms = data else {
-                                    let errorString = "There is a problem with data \'\(String(describing: data))\'"
-                                    self.presentAlert(title: "No 3D Data", message: errorString)
-                                    return
-                                }
-                                
-                                self.conformer = Conformer()
-                                self.conformer?.atoms = atoms
-                                self.conformer?.cid = self.cidLabel.text!
-                                self.conformer?.conformerId = conformerId
-                                
-                                print(self.conformer!)
+                                self.conformer = conformer
+                                print("\(self.conformer)")
                             }
                         } else {
                             guard let errorString = errorString, errorString.contains(networkErrorString) else {
