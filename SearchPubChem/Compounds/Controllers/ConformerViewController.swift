@@ -11,7 +11,7 @@ import SceneKit
 
 class ConformerViewController: UIViewController {
 
-    @IBOutlet weak var confomerSCNView: SCNView!
+    @IBOutlet weak var conformerSCNView: SCNView!
     
     var conformer: Conformer!
     var geometryNode: SCNNode!
@@ -20,53 +20,51 @@ class ConformerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        confomerSCNView.backgroundColor = .lightGray
-        confomerSCNView.scene = sceneSetup()
-        
-        geometryNode = createSCNNode(for: conformer)
-        print("\(String(describing: geometryNode))")
-        confomerSCNView.scene?.rootNode.addChildNode(geometryNode)
-        
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGesture(sender:)))
-        confomerSCNView.addGestureRecognizer(panRecognizer)
-        
-        view.addSubview(confomerSCNView)
+        setupGeometryNode()
+        setupConformerSCNView()
+        view.addSubview(conformerSCNView)
     }
     
+    func setupGeometryNode() {
+        geometryNode = createSCNNode(for: conformer)
+        print("\(String(describing: geometryNode))")
+    }
+    
+    func setupConformerSCNView() {
+        conformerSCNView.backgroundColor = .lightGray
+        conformerSCNView.scene = sceneSetup()
+        conformerSCNView.scene?.rootNode.addChildNode(geometryNode)
+        
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGesture(sender:)))
+        conformerSCNView.addGestureRecognizer(panRecognizer)
+    }
 
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     @objc func panGesture(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: sender.view!)
-        
-        var rotationAxis = [CGFloat]()
-        rotationAxis.append(translation.y)
-        rotationAxis.append(translation.x)
-        
-        let length = sqrt( translation.x * translation.x + translation.y * translation.y )
-        let newAngle = Float(length) * .pi / 180.0
-        
-        let newRotationMake = SCNMatrix4MakeRotation(newAngle, Float(rotationAxis[0]), Float(rotationAxis[1]), 0)
-        
-        let newRotation = SCNMatrix4Mult(self.rotation, SCNMatrix4Mult(newRotationMake, SCNMatrix4Invert(self.rotation)))
-        
+        let newRotation = coordinateTransform(for: makeRotation(from: translation), with: self.rotation)
         geometryNode.transform = SCNMatrix4Mult(newRotation, self.rotation)
         
         if(sender.state == UIGestureRecognizer.State.ended) {
             self.rotation = SCNMatrix4Mult(newRotation, self.rotation)
         }
+    }
+    
+    func makeRotation(from translation: CGPoint) -> SCNMatrix4 {
+        let length = sqrt( translation.x * translation.x + translation.y * translation.y )
+        let angle = Float(length) * .pi / 180.0
+        let rotationAxis = [CGFloat](arrayLiteral: translation.y / length, translation.x / length)
+        let rotation = SCNMatrix4MakeRotation(angle, Float(rotationAxis[0]), Float(rotationAxis[1]), 0)
+        return rotation
+    }
+    
+    func coordinateTransform(for rotation: SCNMatrix4, with reference: SCNMatrix4) -> SCNMatrix4 {
+        let inverseOfReference = SCNMatrix4Invert(reference)
+        let transformed = SCNMatrix4Mult(reference, SCNMatrix4Mult(rotation, inverseOfReference))
+        return transformed
     }
     
 }
