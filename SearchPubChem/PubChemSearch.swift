@@ -34,7 +34,7 @@ class PubChemSearch {
             
             guard let data = data else {
                 NSLog("Missing 3d data")
-                sendError("Missing image data")
+                sendError("Missing 3d data")
                 return
             }
             
@@ -47,22 +47,21 @@ class PubChemSearch {
                 return
             }
             
-            guard let propertyTable = parsedResult[Conformer.pcCompounds.rawValue] as? [[String: AnyObject]] else {
-                sendError("There is no PropertyTable in: \(String(describing: parsedResult))")
+            guard let pcCompounds = parsedResult[Conformer.pcCompounds.rawValue] as? [[String: AnyObject]] else {
+                sendError("There is no pcCompounds in: \(String(describing: parsedResult))")
                 return
             }
             
-            guard let atoms = propertyTable[0][Conformer.atoms.rawValue] as? [String: AnyObject] else {
-                sendError("There is no atoms in: \(propertyTable)")
+            guard let atoms = pcCompounds[0][Conformer.atoms.rawValue] as? [String: AnyObject] else {
+                sendError("There is no atoms in: \(pcCompounds)")
                 return
             }
             
             guard let _ = atoms[Conformer.aid.rawValue] as? [Int], let elements = atoms["element"] as? [Int] else {
-                sendError("There is no atoms in: \(propertyTable)")
+                sendError("There is no elements in: \(atoms)")
                 return
             }
             
-            print("\(elements)")
             var elementArray = [Atom]()
             for element in elements {
                 let atom = Atom()
@@ -70,13 +69,13 @@ class PubChemSearch {
                 elementArray.append(atom)
             }
             
-            guard let coords = propertyTable[0][Conformer.coords.rawValue] as? [[String: AnyObject]] else {
-                sendError("There is no coords in: \(propertyTable)")
+            guard let coords = pcCompounds[0][Conformer.coords.rawValue] as? [[String: AnyObject]] else {
+                sendError("There is no coords in: \(pcCompounds)")
                 return
             }
             
             guard let coordIds = coords[0][Conformer.aid.rawValue] as? [Int] else {
-                sendError("There is no atoms in: \(coords)")
+                sendError("There is no coordIds in: \(coords)")
                 return
             }
             
@@ -85,13 +84,15 @@ class PubChemSearch {
                 return
             }
             
-            guard let xs = conformers[0][Conformer.x.rawValue] as? [Double], let ys = conformers[0][Conformer.y.rawValue] as? [Double], let zs = conformers[0][Conformer.z.rawValue] as? [Double] else {
-                sendError("There is no xyz's in: \(conformers)")
+            guard let xs = conformers[0][Conformer.x.rawValue] as? [Double],
+                let ys = conformers[0][Conformer.y.rawValue] as? [Double],
+                let zs = conformers[0][Conformer.z.rawValue] as? [Double] else {
+                sendError("There is no xyz locations in: \(conformers[0])")
                 return
             }
             
             guard let infos = conformers[0][Conformer.data.rawValue] as? [[String: Any]] else {
-                sendError("There is no conformer id in: \(String(describing: conformers[0][Conformer.data.rawValue]))")
+                sendError("There is no data in: \(conformers[0])")
                 return
             }
             
@@ -110,10 +111,6 @@ class PubChemSearch {
                 }
             }
             
-//            for id in coordIds.indices {
-//                print("\(elements[id]) - (\(xs[id]), \(ys[id]), \(zs[id]))")
-//            }
-//
             for id in coordIds.indices {
                 elementArray[id].location = [Double](arrayLiteral: xs[id], ys[id], zs[id])
             }
