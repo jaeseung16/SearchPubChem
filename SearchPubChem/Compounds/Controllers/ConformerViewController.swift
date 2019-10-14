@@ -37,6 +37,11 @@ class ConformerViewController: UIViewController {
         
         let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGesture(sender:)))
         conformerSCNView.addGestureRecognizer(panRecognizer)
+        
+        let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinchGesture(sender:)))
+        conformerSCNView.addGestureRecognizer(pinchRecognizer)
+        
+        print("gestureRecognizer = \(String(describing: conformerSCNView.gestureRecognizers))")
     }
 
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
@@ -48,8 +53,18 @@ class ConformerViewController: UIViewController {
         let newRotation = coordinateTransform(for: makeRotation(from: translation), with: self.rotation)
         geometryNode.transform = SCNMatrix4Mult(newRotation, self.rotation)
         
-        if(sender.state == UIGestureRecognizer.State.ended) {
+        if (sender.state == UIGestureRecognizer.State.ended) {
             self.rotation = SCNMatrix4Mult(newRotation, self.rotation)
+        }
+    }
+    
+    @objc func pinchGesture(sender: UIPinchGestureRecognizer) {
+        let scale = Float(sender.scale)
+        let newScale = SCNMatrix4MakeScale(scale, scale, scale)
+        geometryNode.transform = SCNMatrix4Mult(newScale, self.rotation)
+        
+        if (sender.state == UIGestureRecognizer.State.ended) {
+            self.rotation = SCNMatrix4Mult(newScale, self.rotation)
         }
     }
     
