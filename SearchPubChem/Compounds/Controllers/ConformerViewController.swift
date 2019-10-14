@@ -96,21 +96,6 @@ extension ConformerViewController {
         return scene
     }
     
-//    func setMolecule() -> Molecule {
-//        let molecule = Molecule()
-//
-//        let hydrogen = Atom(number: 1, radius: 1.2 / 2.0, color: .lightGray )
-//        let carbon = Atom(number: 6, radius: 1.7 / 2.0, color: .darkGray )
-//        let oxygen = Atom(number: 8, radius: 1.52 / 2.0, color: .red )
-//
-//        molecule.atoms = [oxygen, oxygen, oxygen, oxygen, carbon, carbon, carbon, carbon, carbon, carbon, carbon, carbon, carbon, hydrogen, hydrogen, hydrogen, hydrogen, hydrogen, hydrogen, hydrogen, hydrogen]
-//        molecule.x = [1.2333, -0.6952, 0.7958, 1.7813, -0.0857, -0.7927, -0.7288, -2.1426, -2.0787, -2.7855, -0.1409, 2.1094, 3.5305, -0.1851, -2.7247, -2.5797, -3.8374, 3.729, 4.2045, 3.7105, -0.2555]
-//        molecule.y = [0.554, -2.7148, -2.1843, 0.8105, 0.6088, -0.5515, 1.8464, -0.4741, 1.9238, 0.7636, -1.8536, 0.6715, 0.5996, 2.7545, -1.3605, 2.8872, 0.8238, 1.4184, 0.6969, -0.3659, -3.5916]
-//        molecule.z = [0.7792, -0.7502, 0.8685, -1.4821, 0.4403, 0.1244, 0.4133, -0.2184, 0.0706, -0.2453, 0.1477, -0.3113, 0.1635, 0.6593, -0.4564, 0.0506, -0.509, 0.8593, -0.6924, 0.6426, -0.7337]
-//
-//        return molecule
-//    }
-    
     func createSCNNode(for conformer: Conformer) -> SCNNode {
         let atomsNode = SCNNode()
         
@@ -122,18 +107,6 @@ extension ConformerViewController {
   
         return atomsNode
     }
-    
-//    func createSCNNode(for molecule: Molecule) -> SCNNode {
-//        let atomsNode = SCNNode()
-//
-//        for index in 0..<molecule.atoms.count {
-//            let atomNode = SCNNode(geometry: createSCNNode(for: molecule.atoms[index]))
-//            atomNode.position = SCNVector3Make(Float(molecule.x[index]), Float(molecule.y[index]), Float(molecule.z[index]))
-//            atomsNode.addChildNode(atomNode)
-//        }
-//
-//        return atomsNode
-//    }
     
     func createSCNNode(for atom: Atom) -> SCNGeometry {
         guard let element = Elements(rawValue: atom.number) else {
@@ -147,45 +120,5 @@ extension ConformerViewController {
         print("atomNode = \(atomNode), atom.color = \(String(describing: atomNode.firstMaterial?.diffuse.contents))")
         return atomNode
     }
-    
-//    class Molecule {
-//        var atoms: [Atom]
-//        var x: [Double]
-//        var y: [Double]
-//        var z: [Double]
-//
-//
-//        init() {
-//            self.atoms = [Atom]()
-//            self.x = [Double]()
-//            self.y = [Double]()
-//            self.z = [Double]()
-//        }
-//
-//    }
-    
-//    class Atom {
-//        let number: Int
-//        let radius: Double
-//        let color: UIColor
-//
-//        init() {
-//            self.number = 0
-//            self.radius = 0.0
-//            self.color = .black
-//        }
-//
-//        init(number: Int) {
-//            self.number = number
-//            self.radius = 0.0
-//            self.color = .black
-//        }
-//
-//        init(number: Int, radius: Double, color: UIColor) {
-//            self.number = number
-//            self.radius = radius
-//            self.color = color
-//        }
-//    }
 }
 
