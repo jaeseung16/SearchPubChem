@@ -112,7 +112,7 @@ extension ConformerViewController {
             return SCNGeometry()
         }
         
-        let atomNode = SCNSphere(radius: CGFloat(element.getRadius()) / 200.0)
+        let atomNode = SCNSphere(radius: CGFloat(element.getVanDerWaalsRadius()) / 200.0)
         atomNode.firstMaterial?.diffuse.contents = element.getColor()
         atomNode.firstMaterial?.specular.contents = UIColor.white
         print("atomNode = \(atomNode), atom.color = \(String(describing: atomNode.firstMaterial?.diffuse.contents))")

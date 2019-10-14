@@ -17,7 +17,7 @@ enum Elements: Int {
         elementToReturn.atomicNumber = self.rawValue
         elementToReturn.name = String(reflecting: self)
         elementToReturn.color = self.getColor()
-        elementToReturn.radius = self.getRadius()
+        elementToReturn.radius = self.getVanDerWaalsRadius()
         return elementToReturn;
     }
     
@@ -301,6 +301,250 @@ enum Elements: Int {
             radius = 165
         case .oganesson:
             radius = 157
+        }
+        return radius
+    }
+    
+    public func getVanDerWaalsRadius() -> Int {
+        let UNKNOWN = -1
+        var radius = Int()
+        switch(self) {
+        case .hydrogen:
+            radius = 120
+        case .helium:
+            radius = 140
+        case .lithium:
+            radius = 182
+        case .berylium:
+            radius = 153
+        case .boron:
+            radius = 192
+        case .carbon:
+            radius = 170
+        case .nitrogen:
+            radius = 155
+        case .oxygen:
+            radius = 152
+        case .fluorine:
+            radius = 147
+        case .neon:
+            radius = 154
+        case .sodium:
+            radius = 227
+        case .magnesium:
+            radius = 173
+        case .aluiminium:
+            radius = 184
+        case .silicon:
+            radius = 210
+        case .phosphorus:
+            radius = 180
+        case .sulfur:
+            radius = 180
+        case .chlorine:
+            radius = 175
+        case .argon:
+            radius = 188
+        case .potassium:
+            radius = 275
+        case .calcium:
+            radius = 231
+        case .scandium:
+            radius = 211
+        case .titanium:
+            radius = UNKNOWN
+        case .vanadium:
+            radius = UNKNOWN
+        case .chromium:
+            radius = UNKNOWN
+        case .manganese:
+            radius = UNKNOWN
+        case .iron:
+            radius = UNKNOWN
+        case .cobalt:
+            radius = UNKNOWN
+        case .nickel:
+            radius = 163
+        case .copper:
+            radius = 140
+        case .zinc:
+            radius = 139
+        case .gallium:
+            radius = 187
+        case .germanium:
+            radius = 211
+        case .arsenic:
+            radius = 185
+        case .selenium:
+            radius = 190
+        case .bromine:
+            radius = 185
+        case .krypton:
+            radius = 202
+        case .rubidium:
+            radius = 303
+        case .strontium:
+            radius = 249
+        case .yttrium:
+            radius = UNKNOWN
+        case .zirconium:
+            radius = UNKNOWN
+        case .niobium:
+            radius = UNKNOWN
+        case .molybdenum:
+            radius = UNKNOWN
+        case .technetium:
+            radius = UNKNOWN
+        case .ruthenium:
+            radius = UNKNOWN
+        case .rhodium:
+            radius = UNKNOWN
+        case .palladium:
+            radius = 163
+        case .silver:
+            radius = 172
+        case .cadmium:
+            radius = 158
+        case .indium:
+            radius = 193
+        case .tin:
+            radius = 217
+        case .antimony:
+            radius = 206
+        case .tellurium:
+            radius = 206
+        case .iodine:
+            radius = 198
+        case .xenon:
+            radius = 216
+        case .caesium:
+            radius = 343
+        case .barium:
+            radius = 268
+        case .lanthanum:
+            radius = UNKNOWN
+        case .cerium:
+            radius = UNKNOWN
+        case .praseodymium:
+            radius = UNKNOWN
+        case .neodymium:
+            radius = UNKNOWN
+        case .promethium:
+            radius = UNKNOWN
+        case .samarium:
+            radius = UNKNOWN
+        case .europium:
+            radius = UNKNOWN
+        case .gadolinium:
+            radius = UNKNOWN
+        case .terbium:
+            radius = UNKNOWN
+        case .dysprosium:
+            radius = UNKNOWN
+        case .holmium:
+            radius = UNKNOWN
+        case .erbium:
+            radius = UNKNOWN
+        case .thulium:
+            radius = UNKNOWN
+        case .ytterbium:
+            radius = UNKNOWN
+        case .lutetium:
+            radius = UNKNOWN
+        case .hafnium:
+            radius = UNKNOWN
+        case .tantalum:
+            radius = UNKNOWN
+        case .tungsten:
+            radius = UNKNOWN
+        case .rhenium:
+            radius = UNKNOWN
+        case .osmium:
+            radius = UNKNOWN
+        case .iridium:
+            radius = UNKNOWN
+        case .platinum:
+            radius = 175
+        case .gold:
+            radius = 166
+        case .mercury:
+            radius = 155
+        case .thallium:
+            radius = 196
+        case .lead:
+            radius = 202
+        case .bismuth:
+            radius = 207
+        case .polonium:
+            radius = 197
+        case .astatine:
+            radius = 202
+        case .radon:
+            radius = 220
+        case .francium:
+            radius = 348
+        case .radium:
+            radius = 283
+        case .actinium:
+            radius = UNKNOWN
+        case .thorium:
+            radius = UNKNOWN
+        case .protactinium:
+            radius = UNKNOWN
+        case .uranium:
+            radius = 186
+        case .neptunium:
+            radius = UNKNOWN
+        case .plutonium:
+            radius = UNKNOWN
+        case .americium:
+            radius = UNKNOWN
+        case .curium:
+            radius = UNKNOWN
+        case .berkelium:
+            radius = UNKNOWN
+        case .californium:
+            radius = UNKNOWN
+        case .einsteinium:
+            radius = UNKNOWN
+        case .fermium:
+            radius = UNKNOWN
+        case .mendelevium:
+            radius = UNKNOWN
+        case .nobelium:
+            radius = UNKNOWN
+        case .lawrencium:
+            radius = UNKNOWN
+        case .rutherfordium:
+            radius = UNKNOWN
+        case .dubnium:
+            radius = UNKNOWN
+        case .seaborgium:
+            radius = UNKNOWN
+        case .bohrium:
+            radius = UNKNOWN
+        case .hassium:
+            radius = UNKNOWN
+        case .meitnerium:
+            radius = UNKNOWN
+        case .darmstadtium:
+            radius = UNKNOWN
+        case .roentgenium:
+            radius = UNKNOWN
+        case .copernicium:
+            radius = UNKNOWN
+        case .nihonium:
+            radius = UNKNOWN
+        case .flerovium:
+            radius = UNKNOWN
+        case .moscovium:
+            radius = UNKNOWN
+        case .livermorium:
+            radius = UNKNOWN
+        case .tennessine:
+            radius = UNKNOWN
+        case .oganesson:
+            radius = UNKNOWN
         }
         return radius
     }
