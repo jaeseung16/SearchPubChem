@@ -265,10 +265,22 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Formula" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YEX-uz-jbA">
+                                <rect key="frame" x="8" y="101" width="398" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="iX2-Oj-4LE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Gjl-0h-YRE" firstAttribute="trailing" secondItem="YEX-uz-jbA" secondAttribute="trailing" constant="8" id="0iA-c3-Svg"/>
                             <constraint firstItem="Aex-e3-6iz" firstAttribute="top" secondItem="Gjl-0h-YRE" secondAttribute="top" id="5FU-iG-4Z3"/>
+                            <constraint firstItem="YEX-uz-jbA" firstAttribute="centerX" secondItem="Gjl-0h-YRE" secondAttribute="centerX" id="7w6-mi-2D8"/>
+                            <constraint firstItem="YEX-uz-jbA" firstAttribute="top" secondItem="Oca-vf-PAM" secondAttribute="bottom" constant="8" id="BiN-Yj-84G"/>
                             <constraint firstItem="Aex-e3-6iz" firstAttribute="trailing" secondItem="Gjl-0h-YRE" secondAttribute="trailing" id="FnZ-2I-2LJ"/>
                             <constraint firstItem="0SF-2s-bqU" firstAttribute="top" secondItem="Aex-e3-6iz" secondAttribute="bottom" id="NTv-jd-yUP"/>
                             <constraint firstItem="0SF-2s-bqU" firstAttribute="leading" secondItem="Gjl-0h-YRE" secondAttribute="leading" id="OEz-ZG-w4E"/>
@@ -276,6 +288,7 @@
                             <constraint firstItem="Oca-vf-PAM" firstAttribute="top" secondItem="0SF-2s-bqU" secondAttribute="top" constant="8" id="UmM-C5-YlY"/>
                             <constraint firstItem="0SF-2s-bqU" firstAttribute="trailing" secondItem="Gjl-0h-YRE" secondAttribute="trailing" id="bP3-xV-qgV"/>
                             <constraint firstItem="0SF-2s-bqU" firstAttribute="top" secondItem="Aex-e3-6iz" secondAttribute="bottom" id="dEt-Bz-OzM"/>
+                            <constraint firstItem="YEX-uz-jbA" firstAttribute="leading" secondItem="Gjl-0h-YRE" secondAttribute="leading" constant="8" id="ecZ-d2-9FG"/>
                             <constraint firstItem="Oca-vf-PAM" firstAttribute="leading" secondItem="Gjl-0h-YRE" secondAttribute="leading" constant="8" id="jLb-cQ-WWh"/>
                             <constraint firstItem="0SF-2s-bqU" firstAttribute="bottom" secondItem="Gjl-0h-YRE" secondAttribute="bottom" id="oaw-Rj-Nc2"/>
                             <constraint firstItem="Gjl-0h-YRE" firstAttribute="trailing" secondItem="Oca-vf-PAM" secondAttribute="trailing" constant="8" id="xWH-aR-fwh"/>
@@ -284,6 +297,7 @@
                     </view>
                     <connections>
                         <outlet property="conformerSCNView" destination="0SF-2s-bqU" id="e5c-CX-YUX"/>
+                        <outlet property="formulaLabel" destination="YEX-uz-jbA" id="IWK-Z1-9Zo"/>
                         <outlet property="nameLabel" destination="Oca-vf-PAM" id="h0W-Ku-CmS"/>
                     </connections>
                 </viewController>

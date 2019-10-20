@@ -64,6 +64,7 @@ class CompoundDetailViewController: UIViewController {
             
             conformerViewController.conformer = conformer
             conformerViewController.name = compound.name?.uppercased()
+            conformerViewController.formula = compound.formula
         }
     }
     

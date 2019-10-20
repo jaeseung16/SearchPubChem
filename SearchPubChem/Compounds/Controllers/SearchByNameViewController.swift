@@ -63,6 +63,7 @@ class SearchByNameViewController: UIViewController {
             }
             conformerViewController.conformer = conformer
             conformerViewController.name = nameToSearch.text
+            conformerViewController.formula = formulaLabel.text
         }
     }
     

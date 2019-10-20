@@ -13,11 +13,13 @@ class ConformerViewController: UIViewController {
 
     @IBOutlet weak var conformerSCNView: SCNView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var formulaLabel: UILabel!
     
     var conformer: Conformer!
     var geometryNode: SCNNode!
     var rotation: SCNMatrix4 = SCNMatrix4Identity
     var name: String!
+    var formula: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +30,9 @@ class ConformerViewController: UIViewController {
         
         nameLabel.text = name
         view.addSubview(nameLabel)
+        
+        formulaLabel.text = formula
+        view.addSubview(formulaLabel)
     }
     
     func setupGeometryNode() {
