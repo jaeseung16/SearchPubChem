@@ -61,7 +61,9 @@ class CompoundDetailViewController: UIViewController {
                 print("No 3D Data")
                 return
             }
-                conformerViewController.conformer = conformer
+            
+            conformerViewController.conformer = conformer
+            conformerViewController.name = compound.name?.uppercased()
         }
     }
     

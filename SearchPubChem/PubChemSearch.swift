@@ -105,7 +105,7 @@ class PubChemSearch {
             }
             
         
-            var conformer = Conformer()
+            let conformer = Conformer()
             conformer.cid = cid
             conformer.conformerId = conformerId
             

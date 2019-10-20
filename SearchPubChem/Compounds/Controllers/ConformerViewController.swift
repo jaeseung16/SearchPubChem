@@ -12,10 +12,12 @@ import SceneKit
 class ConformerViewController: UIViewController {
 
     @IBOutlet weak var conformerSCNView: SCNView!
+    @IBOutlet weak var nameLabel: UILabel!
     
     var conformer: Conformer!
     var geometryNode: SCNNode!
     var rotation: SCNMatrix4 = SCNMatrix4Identity
+    var name: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +25,9 @@ class ConformerViewController: UIViewController {
         setupGeometryNode()
         setupConformerSCNView()
         view.addSubview(conformerSCNView)
+        
+        nameLabel.text = name
+        view.addSubview(nameLabel)
     }
     
     func setupGeometryNode() {

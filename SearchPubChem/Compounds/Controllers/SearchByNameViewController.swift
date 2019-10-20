@@ -61,7 +61,8 @@ class SearchByNameViewController: UIViewController {
                 print("No 3D Data")
                 return
             }
-                conformerViewController.conformer = conformer
+            conformerViewController.conformer = conformer
+            conformerViewController.name = nameToSearch.text
         }
     }
     
@@ -140,7 +141,7 @@ class SearchByNameViewController: UIViewController {
                         if success, let conformer = conformer {
                             DispatchQueue.main.async {
                                 self.conformer = conformer
-                                print("\(self.conformer)")
+                                print("\(String(describing: self.conformer))")
                             }
                         } else {
                             guard let errorString = errorString, errorString.contains(networkErrorString) else {
