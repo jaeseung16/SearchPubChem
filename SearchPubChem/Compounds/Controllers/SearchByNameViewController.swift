@@ -33,6 +33,7 @@ class SearchByNameViewController: UIViewController {
     
     // Constants
     let client = PubChemSearch()
+    let networkErrorString = "The Internet connection appears to be offline"
     
     // Variables
     var dataController: DataController!
@@ -103,8 +104,6 @@ class SearchByNameViewController: UIViewController {
         client.searchCompound(by: name) { (success, compoundInformation, errorString) in
             self.showNetworkIndicators(false)
             
-            let networkErrorString = "The Internet connection appears to be offline"
-            
             if success {
                 guard let information = compoundInformation else {
                     NSLog("There is no infromation for a compound")
@@ -120,50 +119,56 @@ class SearchByNameViewController: UIViewController {
                     self.hideLabels(false)
                     self.showNetworkIndicators(true)
                     
-                    self.client.downloadImage(for: self.cidLabel.text!, completionHandler: { (success, data, errorString) in
-                        if success {
-                            DispatchQueue.main.async {
-                                self.compoundImageView.image = UIImage(data: data! as Data)
-                                self.enableSaveButton(true)
-                            }
-                        } else {
-                            guard let errorString = errorString, errorString.contains(networkErrorString) else {
-                                let errorString = "Failed to download the molecular structure for \'\(name)\'"
-                                self.presentAlert(title: "No Image", message: errorString)
-                                return
-                            }
-                            self.presentAlert(title: "No Image", message: networkErrorString)
-                        }
-                    })
-                    
-                    self.client.download3DData(for: self.cidLabel.text!, completionHandler: { (success, conformer, errorString) in
-                        self.showNetworkIndicators(false)
-                        
-                        if success, let conformer = conformer {
-                            DispatchQueue.main.async {
-                                self.conformer = conformer
-                                print("\(String(describing: self.conformer))")
-                            }
-                        } else {
-                            guard let errorString = errorString, errorString.contains(networkErrorString) else {
-                                let errorString = "Failed to download 3d data for \'\(name)\'"
-                                self.presentAlert(title: "No 3D Data", message: errorString)
-                                return
-                            }
-                            self.presentAlert(title: "No 3D Data", message: errorString)
-                        }
-                    })
-                    
+                    self.downloadImage(for: self.cidLabel.text!)
+                    self.download3DData(for: name)
                 }
             } else {
-                guard let errorString = errorString, errorString.contains(networkErrorString) else {
+                guard let errorString = errorString, errorString.contains(self.networkErrorString) else {
                     let errorString = "There is no compound matching the name \'\(name)\'"
                     self.presentAlert(title: "Search Failed", message: errorString)
                     return
                 }
-                self.presentAlert(title: "Search Failed", message: networkErrorString)
+                self.presentAlert(title: "Search Failed", message: self.networkErrorString)
             }
         }
+    }
+    
+    private func downloadImage(for cid: String) {
+        self.client.downloadImage(for: cid, completionHandler: { (success, data, errorString) in
+            if success {
+                DispatchQueue.main.async {
+                    self.compoundImageView.image = UIImage(data: data! as Data)
+                    self.enableSaveButton(true)
+                }
+            } else {
+                guard let errorString = errorString, errorString.contains(self.networkErrorString) else {
+                    let errorString = "Failed to download the molecular structure for \'\(cid)\'"
+                    self.presentAlert(title: "No Image", message: errorString)
+                    return
+                }
+                self.presentAlert(title: "No Image", message: self.networkErrorString)
+            }
+        })
+    }
+    
+    private func download3DData(for name: String) {
+        self.client.download3DData(for: self.cidLabel.text!, completionHandler: { (success, conformer, errorString) in
+            self.showNetworkIndicators(false)
+            
+            if success, let conformer = conformer {
+                DispatchQueue.main.async {
+                    self.conformer = conformer
+                    print("\(String(describing: self.conformer))")
+                }
+            } else {
+                guard let errorString = errorString, errorString.contains(self.networkErrorString) else {
+                    let errorString = "Failed to download 3d data for \'\(name)\'"
+                    self.presentAlert(title: "No 3D Data", message: errorString)
+                    return
+                }
+                self.presentAlert(title: "No 3D Data", message: errorString)
+            }
+        })
     }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
