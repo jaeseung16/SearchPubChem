@@ -186,6 +186,7 @@ class SearchByNameViewController: UIViewController {
         compound.cid = cidLabel.text!
         compound.nameIUPAC = iupacNameLabel.text!
         compound.image = compoundImageView.image!.pngData()!
+        compound.conformerDownloaded = true
        
         let conformerEntity = ConformerEntity(context: dataController.viewContext)
         if let conformer = self.conformer {

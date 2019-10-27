@@ -82,6 +82,45 @@ class CompoundDetailViewController: UIViewController {
         if let solutions = fetchedResultsController.fetchedObjects {
             deleteButton.isEnabled = (solutions.count == 0)
         }
+        
+        guard compound.conformerDownloaded else {
+            conformerButton.isHidden = true
+            let client = PubChemSearch()
+            client.download3DData(for: self.compound.cid!, completionHandler: { (success, conformer, errorString) in
+                //self.showNetworkIndicators(false)
+                if success, let conformer = conformer {
+                    print("conformer = \(String(describing: conformer))")
+                    DispatchQueue.main.async {
+                        self.conformer = conformer
+                        
+                        let conformerEntity = ConformerEntity(context: self.dataController.viewContext)
+                        if let conformer = self.conformer {
+                            conformerEntity.compound = self.compound
+                            conformerEntity.conformerId = conformer.conformerId
+                        
+                            for atom in conformer.atoms {
+                                let atomEntity = AtomEntity(context: self.dataController.viewContext)
+                                atomEntity.atomicNumber = Int16(atom.number)
+                                atomEntity.coordX = atom.location[0]
+                                atomEntity.coordY = atom.location[1]
+                                atomEntity.coordZ = atom.location[2]
+                                atomEntity.conformer = conformerEntity
+                            }
+                        }
+                    }
+                }
+                
+                self.compound.conformerDownloaded = true
+                do {
+                    try self.dataController.viewContext.save()
+                    NSLog("Saved in SearchByNameViewController.saveCompound(:)")
+                } catch {
+                    NSLog("Error while saving in SearchByNameViewController.saveCompound(:)")
+                }
+            })
+            
+            return
+        }
     
         let fetchRequest: NSFetchRequest<ConformerEntity> = ConformerEntity.fetchRequest()
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
