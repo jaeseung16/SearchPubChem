@@ -21,6 +21,7 @@ class CompoundDetailViewController: UIViewController {
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     @IBOutlet weak var solutionsTableView: UITableView!    
     @IBOutlet weak var conformerButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // Constants
     let detailViewControllerIdentifier = "SolutionDetailViewController"
@@ -69,6 +70,7 @@ class CompoundDetailViewController: UIViewController {
     }
     
     func configureView() {
+        activityIndicator.isHidden = true
         nameLabel.text = compound.name?.uppercased()
         formulaLabel.text = compound.formula
         weightLabel.text = "\(String(describing: compound.molecularWeight)) gram/mol"
@@ -84,12 +86,12 @@ class CompoundDetailViewController: UIViewController {
         }
         
         guard compound.conformerDownloaded else {
+            activityIndicator.isHidden = false
             conformerButton.isHidden = true
             let client = PubChemSearch()
             client.download3DData(for: self.compound.cid!, completionHandler: { (success, conformer, errorString) in
                 //self.showNetworkIndicators(false)
                 if success, let conformer = conformer {
-                    print("conformer = \(String(describing: conformer))")
                     DispatchQueue.main.async {
                         self.conformer = conformer
                         
@@ -116,6 +118,13 @@ class CompoundDetailViewController: UIViewController {
                     NSLog("Saved in SearchByNameViewController.saveCompound(:)")
                 } catch {
                     NSLog("Error while saving in SearchByNameViewController.saveCompound(:)")
+                }
+                
+                DispatchQueue.main.async {
+                    self.activityIndicator.isHidden = true
+                    if self.conformer != nil {
+                        self.conformerButton.isHidden = false
+                    }
                 }
             })
             

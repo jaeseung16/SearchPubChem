@@ -400,6 +400,13 @@
                                     <segue destination="Syk-vo-ohJ" kind="presentation" id="ZWP-yt-4rg"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="38X-ah-JGw">
+                                <rect key="frame" x="182" y="262" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="G6k-e3-gpT"/>
+                                    <constraint firstAttribute="height" constant="50" id="Ha5-TE-f6h"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -410,6 +417,7 @@
                             <constraint firstItem="srm-hO-zfs" firstAttribute="trailing" secondItem="qG5-sT-ZvM" secondAttribute="trailing" constant="8" id="8F9-EO-KYa"/>
                             <constraint firstItem="srm-hO-zfs" firstAttribute="trailing" secondItem="8R7-Ci-gOQ" secondAttribute="trailing" constant="8" id="AfT-z3-oR4"/>
                             <constraint firstItem="qG5-sT-ZvM" firstAttribute="top" secondItem="8R7-Ci-gOQ" secondAttribute="top" constant="-8" id="H4d-nx-iBV"/>
+                            <constraint firstItem="38X-ah-JGw" firstAttribute="centerX" secondItem="qG5-sT-ZvM" secondAttribute="centerX" id="Jfr-Pv-msY"/>
                             <constraint firstItem="nTh-dh-0aX" firstAttribute="trailing" secondItem="qG5-sT-ZvM" secondAttribute="trailing" id="MHm-tL-mPO"/>
                             <constraint firstItem="Jak-ge-NCa" firstAttribute="leading" secondItem="qG5-sT-ZvM" secondAttribute="leading" id="MjW-lH-Xld"/>
                             <constraint firstItem="Jak-ge-NCa" firstAttribute="top" secondItem="nTh-dh-0aX" secondAttribute="bottom" constant="8" id="SLD-8K-sBI"/>
@@ -417,6 +425,7 @@
                             <constraint firstItem="eC8-2o-ejQ" firstAttribute="trailing" secondItem="qG5-sT-ZvM" secondAttribute="trailing" id="UUR-l3-8rT"/>
                             <constraint firstItem="srm-hO-zfs" firstAttribute="trailing" secondItem="l7h-0m-611" secondAttribute="trailing" constant="8" id="cXW-vr-fRV"/>
                             <constraint firstItem="nTh-dh-0aX" firstAttribute="top" secondItem="8R7-Ci-gOQ" secondAttribute="bottom" constant="8" id="cg3-B9-3JP"/>
+                            <constraint firstItem="38X-ah-JGw" firstAttribute="centerY" secondItem="qG5-sT-ZvM" secondAttribute="centerY" id="dAL-Xh-sRK"/>
                             <constraint firstItem="VoD-gt-1sv" firstAttribute="top" secondItem="iNo-HF-YcG" secondAttribute="bottom" constant="8" id="e5W-eV-Co1"/>
                             <constraint firstItem="l7h-0m-611" firstAttribute="top" secondItem="gg1-HF-MTX" secondAttribute="bottom" id="eek-6g-umd"/>
                             <constraint firstItem="srm-hO-zfs" firstAttribute="trailing" secondItem="gg1-HF-MTX" secondAttribute="trailing" constant="8" id="fXs-zF-V5i"/>
@@ -449,6 +458,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="38X-ah-JGw" id="YFK-xv-dIF"/>
                         <outlet property="cidLabel" destination="iNo-HF-YcG" id="izF-qO-0z8"/>
                         <outlet property="compoundImageView" destination="qG5-sT-ZvM" id="1xr-Lt-wDh"/>
                         <outlet property="conformerButton" destination="eC8-2o-ejQ" id="jVv-35-hJm"/>
