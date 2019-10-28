@@ -871,6 +871,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -888,7 +889,7 @@
                                 <color key="highlightedColor" cocoaTouchSystemColor="darkTextColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="t5z-oA-muX" firstAttribute="trailing" secondItem="EwZ-8B-fkL" secondAttribute="trailing" constant="8" id="0Ys-em-wLQ"/>
                             <constraint firstItem="mCi-eh-928" firstAttribute="leading" secondItem="t5z-oA-muX" secondAttribute="leading" constant="8" id="4GM-kE-azI"/>
