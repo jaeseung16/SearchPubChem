@@ -163,6 +163,8 @@ extension MakeSolutionViewController: CompoundCollectionViewDelegate {
         if labelForSolution.text == "" {
             labelForSolution.text = title
         }
+        
+        solutionTableView.reloadData()
     }
 }
 
