@@ -17,7 +17,7 @@ enum Elements: Int {
         elementToReturn.atomicNumber = self.rawValue
         elementToReturn.name = String(reflecting: self)
         elementToReturn.color = self.getColor()
-        elementToReturn.radius = self.getVanDerWaalsRadius()
+        elementToReturn.radius = self.getVanDerWaalsRadius() > 0 ? self.getVanDerWaalsRadius() : self.getRadius()
         return elementToReturn;
     }
     
