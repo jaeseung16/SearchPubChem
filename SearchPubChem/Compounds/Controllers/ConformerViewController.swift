@@ -37,7 +37,6 @@ class ConformerViewController: UIViewController {
     
     func setupGeometryNode() {
         geometryNode = createSCNNode(for: conformer)
-        print("\(String(describing: geometryNode))")
     }
     
     func setupConformerSCNView() {
@@ -50,8 +49,6 @@ class ConformerViewController: UIViewController {
         
         let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinchGesture(sender:)))
         conformerSCNView.addGestureRecognizer(pinchRecognizer)
-        
-        print("gestureRecognizer = \(String(describing: conformerSCNView.gestureRecognizers))")
     }
 
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
@@ -136,11 +133,13 @@ extension ConformerViewController {
             print("No such element: atomic number = \(atom.number)")
             return SCNGeometry()
         }
+
+        let radius = element.getVanDerWaalsRadius() > 0 ? element.getVanDerWaalsRadius() : element.getRadius()
         
-        let atomNode = SCNSphere(radius: CGFloat(element.getVanDerWaalsRadius()) / 200.0)
+        let atomNode = SCNSphere(radius: CGFloat(radius) / 200.0)
         atomNode.firstMaterial?.diffuse.contents = element.getColor()
         atomNode.firstMaterial?.specular.contents = UIColor.white
-        print("atomNode = \(atomNode), atom.color = \(String(describing: atomNode.firstMaterial?.diffuse.contents))")
+        
         return atomNode
     }
 }
