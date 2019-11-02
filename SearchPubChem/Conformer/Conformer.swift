@@ -8,13 +8,7 @@
 
 import Foundation
 
-class Conformer: CustomStringConvertible {
-    var description: String {
-        get {
-            return "cid = \(self.cid), " + "atoms = \(self.atoms)"
-        }
-    }
-    
+class Conformer {
     var atoms: [Atom]
     var cid: String
     var conformerId: String
@@ -23,5 +17,13 @@ class Conformer: CustomStringConvertible {
         atoms = [Atom]()
         cid = ""
         conformerId = ""
+    }    
+}
+
+extension Conformer: CustomStringConvertible {
+    var description: String {
+        get {
+            return "cid = \(self.cid), " + "atoms = \(self.atoms)"
+        }
     }
 }

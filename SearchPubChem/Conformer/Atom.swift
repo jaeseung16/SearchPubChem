@@ -9,18 +9,20 @@
 import Foundation
 import UIKit
 
-class Atom: CustomStringConvertible{
-    var description: String {
-        get {
-            return "\(self.number), \(self.location)"
-        }
-    }
-    
+class Atom {
     var number: Int
     var location: [Double]
     
     init() {
         number = 1
         location = [0.0, 0.0, 0.0]
+    }
+}
+
+extension Atom: CustomStringConvertible {
+    var description: String {
+        get {
+            return "\(self.number), \(self.location)"
+        }
     }
 }
