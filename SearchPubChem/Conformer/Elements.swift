@@ -17,7 +17,7 @@ enum Elements: Int {
         elementToReturn.atomicNumber = self.rawValue
         elementToReturn.name = String(reflecting: self)
         elementToReturn.color = self.getColor()
-        elementToReturn.radius = self.getVanDerWaalsRadius() > 0 ? self.getVanDerWaalsRadius() : self.getRadius()
+        elementToReturn.radius = self.getVanDerWaalsRadius() > 0 ? self.getVanDerWaalsRadius() : self.getCovalentRadius()
         return elementToReturn;
     }
     
@@ -62,7 +62,7 @@ enum Elements: Int {
     
     // https://en.wikipedia.org/wiki/Covalent_radius
     // TODO: Different values for multiple bonds?
-    public func getRadius() -> Int {
+    public func getCovalentRadius() -> Int {
         var radius = Int()
         switch(self) {
         case .hydrogen:

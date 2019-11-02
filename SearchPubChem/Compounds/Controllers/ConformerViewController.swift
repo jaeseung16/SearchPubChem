@@ -134,7 +134,7 @@ extension ConformerViewController {
             return SCNGeometry()
         }
 
-        let radius = element.getVanDerWaalsRadius() > 0 ? element.getVanDerWaalsRadius() : element.getRadius()
+        let radius = element.getVanDerWaalsRadius() > 0 ? element.getVanDerWaalsRadius() : element.getCovalentRadius()
         
         let atomNode = SCNSphere(radius: CGFloat(radius) / 200.0)
         atomNode.firstMaterial?.diffuse.contents = element.getColor()
