@@ -26,7 +26,11 @@ class MakeSolutionViewController: UIViewController {
     let collectionViewControllerIdentifier = "CompoundCollectionViewController"
     
     // Variables
-    var compounds = [Compound]()
+    var compounds = [Compound]() {
+        didSet {
+            solutionTableView.reloadData()
+        }
+    }
     var amounts = [Double]()
     var units = [Int]()
     
@@ -41,7 +45,6 @@ class MakeSolutionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        solutionTableView.reloadData()
     }
     
     // Actions
@@ -163,8 +166,6 @@ extension MakeSolutionViewController: CompoundCollectionViewDelegate {
         if labelForSolution.text == "" {
             labelForSolution.text = title
         }
-        
-        solutionTableView.reloadData()
     }
 }
 
