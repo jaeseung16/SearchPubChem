@@ -38,10 +38,7 @@ class CompoundTableViewController: UITableViewController {
     }
     
     func setUpFetchedResultsController() {
-        let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
-        
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        let fetchRequest: NSFetchRequest<Compound> = setupFetchRequest()
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
         fetchedResultsController.delegate = self
@@ -53,45 +50,63 @@ class CompoundTableViewController: UITableViewController {
         }
     }
     
+    func setupFetchRequest() -> NSFetchRequest<Compound> {
+        let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        return fetchRequest
+    }
+    
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
         let compound = fetchedResultsController.object(at: indexPath)
-
-        // If there is a solution made of a compound, indicate it at the end of its name
-        if let count = compound.solutions?.count, let name = compound.name, count > 0 {
-            cell.textLabel?.text = name + " 💧"
-        } else {
-            cell.textLabel?.text = compound.name
-        }
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
+        cell.textLabel?.text = cellTextLabel(for: compound)
         cell.detailTextLabel?.text = compound.formula
-
         return cell
+    }
+    
+    func cellTextLabel(for compound: Compound) -> String? {
+        var textLabel: String?
+        if let count = compound.solutions?.count, let name = compound.name, count > 0 {
+            textLabel = name + " 💧"
+        } else {
+            textLabel = compound.name
+        }
+        return textLabel
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let compound = fetchedResultsController.object(at: indexPath)
-        
-        // Fetch the solutions containing the selected compound
-        let fetchRequest: NSFetchRequest<Solution> = Solution.fetchRequest()
+        let detailViewController = setupCompoundDetailViewController(for: compound)
+        navigationController?.pushViewController(detailViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func setupCompoundDetailViewController(for compound: Compound) -> CompoundDetailViewController {
+        let fetchRequest = buildSolutionFetchRequest(for: compound)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        return setupCompoundDetailViewController(for: compound, with: fetchedResultsController)
+    }
+    
+    func buildSolutionFetchRequest(for compound: Compound) -> NSFetchRequest<Solution> {
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "compounds CONTAINS %@", argumentArray: [compound])
         
+        let fetchRequest: NSFetchRequest<Solution> = Solution.fetchRequest()
         fetchRequest.sortDescriptors = [sortDescription]
         fetchRequest.predicate = predicate
-        
-        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        // Set up a CompoundDetailViewController
+        return fetchRequest
+    }
+    
+    func setupCompoundDetailViewController(for compound: Compound, with fetchedResultsController: NSFetchedResultsController<Solution>) -> CompoundDetailViewController {
         let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! CompoundDetailViewController
-        
         detailViewController.dataController = dataController
-        detailViewController.fetchedResultsController = fc
+        detailViewController.fetchedResultsController = fetchedResultsController
         detailViewController.compound = compound
-        
-        navigationController?.pushViewController(detailViewController, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
+        return detailViewController
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
