@@ -80,15 +80,17 @@ class CompoundTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let compound = fetchedResultsController.object(at: indexPath)
-        let detailViewController = setupCompoundDetailViewController(for: compound)
+        let detailViewController = setupDetailViewController(for: compound)
         navigationController?.pushViewController(detailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func setupCompoundDetailViewController(for compound: Compound) -> CompoundDetailViewController {
+    func setupDetailViewController(for compound: Compound) -> CompoundDetailViewController {
         let fetchRequest = buildSolutionFetchRequest(for: compound)
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        return setupCompoundDetailViewController(for: compound, with: fetchedResultsController)
+        let detailViewController = setupDetailViewController(with: fetchedResultsController)
+        detailViewController.compound = compound
+        return detailViewController
     }
     
     func buildSolutionFetchRequest(for compound: Compound) -> NSFetchRequest<Solution> {
@@ -101,11 +103,10 @@ class CompoundTableViewController: UITableViewController {
         return fetchRequest
     }
     
-    func setupCompoundDetailViewController(for compound: Compound, with fetchedResultsController: NSFetchedResultsController<Solution>) -> CompoundDetailViewController {
+    func setupDetailViewController(with fetchedResultsController: NSFetchedResultsController<Solution>) -> CompoundDetailViewController {
         let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! CompoundDetailViewController
         detailViewController.dataController = dataController
         detailViewController.fetchedResultsController = fetchedResultsController
-        detailViewController.compound = compound
         return detailViewController
     }
     
