@@ -224,33 +224,37 @@ extension CompoundDetailViewController: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)!
         let solution = fetchedResultsController.object(at: indexPath)
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)!
         cell.textLabel?.text = solution.name
-        
+        cell.detailTextLabel?.text = buildDetailTextLabel(with: solution)
+        return cell
+    }
+    
+    func buildDetailTextLabel(with solution: Solution) -> String? {
+        var text: String?
         if let date = solution.created {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
             dateFormatter.timeStyle = .none
             dateFormatter.locale = Locale.current
-            
-            cell.detailTextLabel?.text = dateFormatter.string(from: date as Date)
+            text = dateFormatter.string(from: date)
         }
-        
-        return cell
+        return text
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let solution = fetchedResultsController.object(at: indexPath)
+        let detailViewController = setupDetailViewController(for: solution)
+        navigationController?.pushViewController(detailViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func setupDetailViewController(for solution: Solution) -> SolutionDetailViewController {
         let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! SolutionDetailViewController
-        
         detailViewController.solution = solution
         detailViewController.delegate = self
-        
-        navigationController?.pushViewController(detailViewController, animated: true)
-        
-        tableView.deselectRow(at: indexPath, animated: true)
+        return detailViewController
     }
 }
 
