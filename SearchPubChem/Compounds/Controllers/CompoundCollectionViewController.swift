@@ -105,16 +105,17 @@ extension CompoundCollectionViewController: UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let compound = fetchedResultsController.object(at: indexPath)
+        var selected = false
         
         if let index = compounds.firstIndex(of: compound){
             compounds.remove(at: index)
-            setSelectedCompoundsLabel()
-            return false
         } else {
             compounds.append(compound)
-            setSelectedCompoundsLabel()
-            return true
+            selected = true
         }
+        
+        setSelectedCompoundsLabel()
+        return selected
     }
     
     // MARK: - Methods for FlowLayout
