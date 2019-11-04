@@ -59,7 +59,6 @@ class CompoundDetailViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let conformerViewController = segue.destination as? ConformerViewController {
             guard let conformer = self.conformer else {
-                print("No 3D Data")
                 return
             }
             
@@ -130,14 +129,26 @@ class CompoundDetailViewController: UIViewController {
             
             return
         }
+        
+        if let conformers = findConformers() {
+            conformerButton.isHidden = (conformers.count == 0)
+            
+            if !conformerButton.isHidden {
+                if let atoms = findAtoms(for: conformers[0]) {
+                    populateConformer(for: conformers[0], with: atoms)
+                }
+            }
+        }
+    }
     
-        let fetchRequest: NSFetchRequest<ConformerEntity> = ConformerEntity.fetchRequest()
+    func findConformers() -> [ConformerEntity]? {
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "compound == %@", argumentArray: [compound as Any])
 
+        let fetchRequest: NSFetchRequest<ConformerEntity> = ConformerEntity.fetchRequest()
         fetchRequest.sortDescriptors = [sortDescription]
         fetchRequest.predicate = predicate
-       
+        
         let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
         fc.delegate = self
@@ -148,42 +159,42 @@ class CompoundDetailViewController: UIViewController {
             NSLog("Conformers cannot be fetched for the compound: \(error.localizedDescription)")
         }
         
-        if let conformers = fc.fetchedObjects {
-            conformerButton.isHidden = (conformers.count == 0)
-            
-            if conformers.count > 0 {
-                let fetchRequest2: NSFetchRequest<AtomEntity> = AtomEntity.fetchRequest()
-                let sortDescription = NSSortDescriptor(key: "created", ascending: false)
-                let predicate2 = NSPredicate(format: "conformer == %@", argumentArray: [conformers[0] as Any])
+        return fc.fetchedObjects
+    }
+    
+    func findAtoms(for conformer: ConformerEntity) -> [AtomEntity]? {
+        let sortDescription = NSSortDescriptor(key: "created", ascending: false)
+        let predicate = NSPredicate(format: "conformer == %@", argumentArray: [conformer as Any])
 
-                fetchRequest2.sortDescriptors = [sortDescription]
-                fetchRequest2.predicate = predicate2
-                
-                let fc2 = NSFetchedResultsController(fetchRequest: fetchRequest2, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-                 
-                fc2.delegate = self
-                 
-                do {
-                    try fc2.performFetch()
-                } catch {
-                    NSLog("Conformers cannot be fetched for the compound: \(error.localizedDescription)")
-                }
-                
-                if let atoms = fc2.fetchedObjects {
-                    conformer = Conformer()
-                    conformer?.cid = compound.cid ?? ""
-                    conformer?.conformerId = conformers[0].conformerId ?? ""
-                    
-                    conformer?.atoms = [Atom]()
-                    for atom in atoms {
-                        let a = Atom()
-                        a.number = Int(atom.atomicNumber)
-                        a.location = [atom.coordX, atom.coordY, atom.coordZ]
-                        
-                        conformer?.atoms.append(a)
-                    }
-                }
-            }
+        let fetchRequest: NSFetchRequest<AtomEntity> = AtomEntity.fetchRequest()
+        fetchRequest.sortDescriptors = [sortDescription]
+        fetchRequest.predicate = predicate
+        
+        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+         
+        fc.delegate = self
+         
+        do {
+            try fc.performFetch()
+        } catch {
+            NSLog("Conformers cannot be fetched for the compound: \(error.localizedDescription)")
+        }
+        
+        return fc.fetchedObjects
+    }
+    
+    func populateConformer(for conformerEntity: ConformerEntity, with atomEntities: [AtomEntity]) {
+        conformer = Conformer()
+        conformer?.cid = compound.cid ?? ""
+        conformer?.conformerId = conformerEntity.conformerId ?? ""
+        
+        conformer?.atoms = [Atom]()
+        for atomEntity in atomEntities {
+            let atom = Atom()
+            atom.number = Int(atomEntity.atomicNumber)
+            atom.location = [atomEntity.coordX, atomEntity.coordY, atomEntity.coordZ]
+            
+            conformer?.atoms.append(atom)
         }
     }
     
