@@ -87,46 +87,7 @@ class CompoundDetailViewController: UIViewController {
         guard compound.conformerDownloaded else {
             activityIndicator.isHidden = false
             conformerButton.isHidden = true
-            let client = PubChemSearch()
-            client.download3DData(for: self.compound.cid!, completionHandler: { (success, conformer, errorString) in
-                //self.showNetworkIndicators(false)
-                if success, let conformer = conformer {
-                    DispatchQueue.main.async {
-                        self.conformer = conformer
-                        
-                        let conformerEntity = ConformerEntity(context: self.dataController.viewContext)
-                        if let conformer = self.conformer {
-                            conformerEntity.compound = self.compound
-                            conformerEntity.conformerId = conformer.conformerId
-                        
-                            for atom in conformer.atoms {
-                                let atomEntity = AtomEntity(context: self.dataController.viewContext)
-                                atomEntity.atomicNumber = Int16(atom.number)
-                                atomEntity.coordX = atom.location[0]
-                                atomEntity.coordY = atom.location[1]
-                                atomEntity.coordZ = atom.location[2]
-                                atomEntity.conformer = conformerEntity
-                            }
-                        }
-                    }
-                }
-                
-                self.compound.conformerDownloaded = true
-                do {
-                    try self.dataController.viewContext.save()
-                    NSLog("Saved in SearchByNameViewController.saveCompound(:)")
-                } catch {
-                    NSLog("Error while saving in SearchByNameViewController.saveCompound(:)")
-                }
-                
-                DispatchQueue.main.async {
-                    self.activityIndicator.isHidden = true
-                    if self.conformer != nil {
-                        self.conformerButton.isHidden = false
-                    }
-                }
-            })
-            
+            downloadConformer()
             return
         }
         
@@ -141,6 +102,52 @@ class CompoundDetailViewController: UIViewController {
         }
     }
     
+    func downloadConformer() {
+        let client = PubChemSearch()
+        client.download3DData(for: self.compound.cid!, completionHandler: { (success, conformer, errorString) in
+            //self.showNetworkIndicators(false)
+            if success, let conformer = conformer {
+                //DispatchQueue.main.async {
+                self.conformer = conformer
+                self.populateConformerEntity()
+                //}
+            }
+            
+            self.compound.conformerDownloaded = true
+            
+            do {
+                try self.dataController.viewContext.save()
+                NSLog("Saved in CompoundDetailViewController.downloadConformer(:)")
+            } catch {
+                NSLog("Error while saving in CompoundDetailViewController.downloadConformer(:)")
+            }
+            
+            DispatchQueue.main.async {
+                self.activityIndicator.isHidden = true
+                if self.conformer != nil {
+                    self.conformerButton.isHidden = false
+                }
+            }
+        })
+    }
+    
+    func populateConformerEntity() {
+        let conformerEntity = ConformerEntity(context: dataController.viewContext)
+        if let conformer = self.conformer {
+            conformerEntity.compound = compound
+            conformerEntity.conformerId = conformer.conformerId
+        
+            for atom in conformer.atoms {
+                let atomEntity = AtomEntity(context: dataController.viewContext)
+                atomEntity.atomicNumber = Int16(atom.number)
+                atomEntity.coordX = atom.location[0]
+                atomEntity.coordY = atom.location[1]
+                atomEntity.coordZ = atom.location[2]
+                atomEntity.conformer = conformerEntity
+            }
+        }
+    }
+    
     func findConformers() -> [ConformerEntity]? {
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "compound == %@", argumentArray: [compound as Any])
@@ -149,17 +156,7 @@ class CompoundDetailViewController: UIViewController {
         fetchRequest.sortDescriptors = [sortDescription]
         fetchRequest.predicate = predicate
         
-        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        fc.delegate = self
-        
-        do {
-            try fc.performFetch()
-        } catch {
-            NSLog("Conformers cannot be fetched for the compound: \(error.localizedDescription)")
-        }
-        
-        return fc.fetchedObjects
+        return fetchObjects(fetchRequest: fetchRequest)
     }
     
     func findAtoms(for conformer: ConformerEntity) -> [AtomEntity]? {
@@ -169,7 +166,11 @@ class CompoundDetailViewController: UIViewController {
         let fetchRequest: NSFetchRequest<AtomEntity> = AtomEntity.fetchRequest()
         fetchRequest.sortDescriptors = [sortDescription]
         fetchRequest.predicate = predicate
-        
+
+        return fetchObjects(fetchRequest: fetchRequest)
+    }
+    
+    func fetchObjects<T>(fetchRequest: NSFetchRequest<T>) -> [T]? {
         let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
          
         fc.delegate = self
@@ -177,7 +178,7 @@ class CompoundDetailViewController: UIViewController {
         do {
             try fc.performFetch()
         } catch {
-            NSLog("Conformers cannot be fetched for the compound: \(error.localizedDescription)")
+            NSLog("Objects \(T.self) cannot be fetched for the compound \(String(describing: self.compound)): \(error.localizedDescription)")
         }
         
         return fc.fetchedObjects
