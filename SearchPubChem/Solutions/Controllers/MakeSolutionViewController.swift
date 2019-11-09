@@ -90,26 +90,8 @@ class MakeSolutionViewController: UIViewController {
             }
         }
         
-        var amountsWithUnit: [String: Double] = [:]
-        
-        for index in 0..<compounds.count {
-            let name = compounds[index].name!
-            let amount = amounts[index]
-            
-            guard let unit = Units(rawValue: units[index]) else {
-                return
-            }
-            
-            switch unit {
-            case .gram:
-                amountsWithUnit[name] = amount
-            case .mg:
-                amountsWithUnit[name] = amount / 1000.0
-            case .mol:
-                amountsWithUnit[name] = amount * compounds[index].molecularWeight
-            case .mM:
-                amountsWithUnit[name] = amount * compounds[index].molecularWeight / 1000.0
-            }
+        guard let amountsWithUnit = getAmountsWithUnit() else {
+            return
         }
         
         let solution = Solution(context: dataController.viewContext)
@@ -127,6 +109,32 @@ class MakeSolutionViewController: UIViewController {
         presentAlert(title: "Saved", message: "A new solution saved.") { _ in
             self.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    func getAmountsWithUnit() -> [String:Double]? {
+        var amountsWithUnit: [String: Double] = [:]
+        
+        for index in 0..<compounds.count {
+            let name = compounds[index].name!
+            let amount = amounts[index]
+            
+            guard let unit = Units(rawValue: units[index]) else {
+                return nil
+            }
+            
+            switch unit {
+            case .gram:
+                amountsWithUnit[name] = amount
+            case .mg:
+                amountsWithUnit[name] = amount / 1000.0
+            case .mol:
+                amountsWithUnit[name] = amount * compounds[index].molecularWeight
+            case .mM:
+                amountsWithUnit[name] = amount * compounds[index].molecularWeight / 1000.0
+            }
+        }
+        
+        return amountsWithUnit
     }
 }
 
