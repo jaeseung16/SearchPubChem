@@ -49,15 +49,7 @@ class SolutionDetailViewController: UIViewController {
     
     @IBAction func share(_ sender: UIBarButtonItem) {
         // Build a csv file
-        var csvString = "CID, Compound, Molecular Weight (gram/mol), Amount (g), Amount (mol)\n"
-        
-        for k in 0..<compounds.count {
-            csvString += "\(compounds[k].cid!), "
-            csvString += "\(compounds[k].name!), "
-            csvString += "\(compounds[k].molecularWeight), "
-            csvString += "\(amounts[k]), "
-            csvString += "\(amountsMol[k])\n"
-        }
+        let csvString = buildStringForCSV()
 
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             return
@@ -72,12 +64,29 @@ class SolutionDetailViewController: UIViewController {
             print("Failed to save the csv file")
         }
         
-        // Prepare and present an activityViewController
-        let activityViewController = UIActivityViewController(activityItems: ["Sharing \(solution.name!).csv", csvFileURL], applicationActivities: nil)
+        setupAndPresentActivityViewController(string: "Sharing \(solution.name!).csv", url: csvFileURL)
+    }
+    
+    func buildStringForCSV() -> String {
+        var csvString = "CID, Compound, Molecular Weight (gram/mol), Amount (g), Amount (mol)\n"
+        
+        for k in 0..<compounds.count {
+            csvString += "\(compounds[k].cid!), "
+            csvString += "\(compounds[k].name!), "
+            csvString += "\(compounds[k].molecularWeight), "
+            csvString += "\(amounts[k]), "
+            csvString += "\(amountsMol[k])\n"
+        }
+        
+        return csvString
+    }
+    
+    func setupAndPresentActivityViewController(string: String, url: URL) {
+        let activityViewController = UIActivityViewController(activityItems: [string, url], applicationActivities: nil)
         
         activityViewController.completionWithItemsHandler = { (activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, activityError: Error?) in
             do {
-                try FileManager.default.removeItem(at: csvFileURL)
+                try FileManager.default.removeItem(at: url)
                 print("Succeeded to remove the item")
             } catch {
                 print("Failed to remove the item")
@@ -185,18 +194,14 @@ extension SolutionDetailViewController: UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CompoundsTableViewCell")!
-        
         cell.textLabel?.text = compounds[indexPath.row].name
         cell.detailTextLabel?.text = amountsToDisplay[indexPath.row]
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let compound = compounds[indexPath.row]
         let detailViewController = storyboard?.instantiateViewController(withIdentifier: "CompoundMiniDetailViewController") as! CompoundMiniDetailViewController
-        
-        detailViewController.compound = compound
+        detailViewController.compound = compounds[indexPath.row]
         
         present(detailViewController, animated: true, completion: nil)
         tableView.deselectRow(at: indexPath, animated: true)
