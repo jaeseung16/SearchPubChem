@@ -53,23 +53,28 @@ class MakeSolutionViewController: UIViewController {
     }
 
     @IBAction func addCompounds(_ sender: UIButton) {
-        // Fetching compounds
-        let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-        
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
-        
-        // Set up the fetchedResultsController of CompoundCollectionViewController
+        let compoundCollectionViewController = setupCompoundCollectionViewController()
+        present(compoundCollectionViewController, animated: true, completion: nil)
+    }
+    
+    func setupCompoundCollectionViewController() -> CompoundCollectionViewController {
         let compoundCollectionViewController = storyboard?.instantiateViewController(withIdentifier: collectionViewControllerIdentifier) as! CompoundCollectionViewController
-        
+               
         compoundCollectionViewController.dataController = dataController
-        compoundCollectionViewController.fetchedResultsController = fc
+        compoundCollectionViewController.fetchedResultsController = setupFetchedResultsControllerForCompound()
         compoundCollectionViewController.delegate = self
         compoundCollectionViewController.compounds = compounds
         
-        present(compoundCollectionViewController, animated: true, completion: nil)
+        return compoundCollectionViewController
+    }
+    
+    func setupFetchedResultsControllerForCompound() -> NSFetchedResultsController<Compound> {
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        
+        let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
     }
     
     @IBAction func createSolution(_ sender: UIBarButtonItem) {
