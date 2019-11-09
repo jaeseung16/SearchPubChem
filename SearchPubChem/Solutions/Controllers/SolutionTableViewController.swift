@@ -33,9 +33,9 @@ class SolutionTableViewController: UITableViewController {
     }
 
     func setUpFetchedResultsController() {
-        let fetchRequest: NSFetchRequest<Solution> = Solution.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "created", ascending: false)
         
+        let fetchRequest: NSFetchRequest<Solution> = Solution.fetchRequest()
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "solutions")
@@ -51,31 +51,23 @@ class SolutionTableViewController: UITableViewController {
     // MARK: - Table View Data Source
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let solution = fetchedResultsController.object(at: indexPath)
-        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
-        
-        cell.textLabel?.text = solution.name
-        
-        if let date = solution.created {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .medium
-            dateFormatter.timeStyle = .none
-            dateFormatter.locale = Locale.current
-            
-            cell.detailTextLabel?.text = dateFormatter.string(from: date as Date)
-        }
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath) as! SolutionTableViewCell
+        cell.populate(with: solution)
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let solution = fetchedResultsController.object(at: indexPath)
-        let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailvViewControllerIdentifier) as! SolutionDetailViewController
-        
-        detailViewController.solution = solution
-        detailViewController.delegate = self
-        
+        let detailViewController = setupDetailViewController(for: solution)
         navigationController?.pushViewController(detailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func setupDetailViewController(for solution: Solution) -> SolutionDetailViewController {
+        let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailvViewControllerIdentifier) as! SolutionDetailViewController
+        detailViewController.solution = solution
+        detailViewController.delegate = self
+        return detailViewController
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
