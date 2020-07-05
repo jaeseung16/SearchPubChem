@@ -142,39 +142,29 @@ class PubChemSearch {
         })
     }
     
-    func searchCompound(by name: String, completionHandler: @escaping (_ success: Bool, _ compoundInformation: [String: Any]?, _ errorString: String?) -> Void) -> Void {
+    func searchCompound(by name: String, completionHandler: @escaping (_ success: Bool, _ compoundProperties: Properties?, _ errorString: String?) -> Void) -> Void {
         let properties = [PubChemSearch.PropertyKey.formula,
                           PubChemSearch.PropertyKey.weight,
                           PubChemSearch.PropertyKey.nameIUPAC]
         
-        searchProperties(of: name, properties: properties) { (values, error) in
+        searchProperties(of: name, properties: properties) { (properties, error) in
             guard (error == nil) else {
                 NSLog("Error while getting properties: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
                 completionHandler(false, nil, error!.userInfo[NSLocalizedDescriptionKey] as? String)
                 return
             }
             
-            guard let values = values else {
+            guard let properties = properties else {
                 NSLog("Missing property values")
                 completionHandler(false, nil, "Missing property values")
                 return
             }
             
-            let cid = String(values["CID"] as! Int)
-            let molecularFormula = values["MolecularFormula"] as! String
-            let molecularWeight = values["MolecularWeight"] as! Double
-            let nameIUPAC = values["IUPACName"] as! String
-            
-            let compoundInformation: [String: Any] = [PubChemSearch.PropertyKey.cid: cid,
-                                                      PubChemSearch.PropertyKey.formula: molecularFormula,
-                                                      PubChemSearch.PropertyKey.weight: molecularWeight,
-                                                      PubChemSearch.PropertyKey.nameIUPAC: nameIUPAC]
-            
-            completionHandler(true, compoundInformation, nil)
+            completionHandler(true, properties, nil)
         }
     }
     
-    func searchProperties(of name: String, properties: [String], completionHandler: @escaping (_ values: [String: AnyObject]?, _ error: NSError?) -> Void) {
+    func searchProperties(of name: String, properties: [String], completionHandler: @escaping (_ properties: Properties?, _ error: NSError?) -> Void) {
         let url = searchURL(of: name, for: properties)
         
         _ = dataTask(with: url) { (data, error) in
@@ -193,26 +183,16 @@ class PubChemSearch {
                 return
             }
             
-            let parsedResult: [String: AnyObject]!
-            
+            let decoder = JSONDecoder()
+            var compoundDTO : CompoundDTO
             do {
-                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject]
+                compoundDTO = try decoder.decode(CompoundDTO.self, from: data)
             } catch {
                 sendError("Cannot parse JSON!")
                 return
             }
             
-            guard let propertyTable = parsedResult["PropertyTable"] as? [String: AnyObject] else {
-                sendError("There is no PropertyTable in: \(String(describing: parsedResult))")
-                return
-            }
-            
-            guard let properties = propertyTable["Properties"] as? [[String: AnyObject]] else {
-                sendError("There is no properties in: \(propertyTable)")
-                return
-            }
-            
-            completionHandler(properties[0], nil)
+            completionHandler(compoundDTO.propertyTable.properties[0], nil)
         }
     }
     
