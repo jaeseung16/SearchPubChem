@@ -101,20 +101,20 @@ class SearchByNameViewController: UIViewController {
         hideLabels(true)
         showNetworkIndicators(true)
         
-        client.searchCompound(by: name) { (success, compoundInformation, errorString) in
+        client.searchCompound(by: name) { (success, compoundProperties, errorString) in
             self.showNetworkIndicators(false)
             
             if success {
-                guard let information = compoundInformation else {
+                guard let compoundProperties = compoundProperties else {
                     NSLog("There is no infromation for a compound")
                     return
                 }
 
                 DispatchQueue.main.async {
-                    self.formulaLabel.text = (information["MolecularFormula"] as! String)
-                    self.weightLabel.text = String(information["MolecularWeight"] as! Double)
-                    self.cidLabel.text = (information["CID"] as! String)
-                    self.iupacNameLabel.text = (information["IUPACName"] as! String)
+                    self.formulaLabel.text = compoundProperties.MolecularFormula
+                    self.weightLabel.text = String(compoundProperties.MolecularWeight)
+                    self.cidLabel.text = String(compoundProperties.CID)
+                    self.iupacNameLabel.text = compoundProperties.IUPACName
                     
                     self.hideLabels(false)
                     self.showNetworkIndicators(true)
