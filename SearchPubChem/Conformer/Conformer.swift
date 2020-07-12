@@ -23,7 +23,7 @@ class Conformer {
 extension Conformer: CustomStringConvertible {
     var description: String {
         get {
-            return "cid = \(self.cid), " + "atoms = \(self.atoms)"
+            return "cid = \(self.cid), " + "atoms = \(self.atoms)" + ", conformerId = \(self.conformerId)"
         }
     }
 }
