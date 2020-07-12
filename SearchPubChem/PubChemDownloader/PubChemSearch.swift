@@ -38,87 +38,66 @@ class PubChemSearch {
                 return
             }
             
-            let parsedResult: [String: AnyObject]!
+            let dto: ConformerDTO? = self.decode(from: data)
             
-            do {
-                parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject]
-            } catch {
-                sendError("Cannot parse JSON!")
+            guard let conformerDTO = dto else {
+                print("Error while parsing data as conformerDTO = \(String(describing: dto))")
                 return
             }
-            
-            guard let pcCompounds = parsedResult[ConformerEnum.pcCompounds.rawValue] as? [[String: AnyObject]] else {
-                sendError("There is no pcCompounds in: \(String(describing: parsedResult))")
-                return
-            }
-            
-            guard let atoms = pcCompounds[0][ConformerEnum.atoms.rawValue] as? [String: AnyObject] else {
-                sendError("There is no atoms in: \(pcCompounds)")
-                return
-            }
-            
-            guard let _ = atoms[ConformerEnum.aid.rawValue] as? [Int], let elements = atoms["element"] as? [Int] else {
-                sendError("There is no elements in: \(atoms)")
-                return
-            }
-            
-            guard let coords = pcCompounds[0][ConformerEnum.coords.rawValue] as? [[String: AnyObject]] else {
-                sendError("There is no coords in: \(pcCompounds)")
-                return
-            }
-            
-            guard let coordIds = coords[0][ConformerEnum.aid.rawValue] as? [Int] else {
-                sendError("There is no coordIds in: \(coords)")
-                return
-            }
-            
-            guard let conformers = coords[0][ConformerEnum.conformers.rawValue] as? [[String: AnyObject]] else {
-                sendError("There is no conformers in: \(coords)")
-                return
-            }
-            
-            guard let xs = conformers[0][ConformerEnum.x.rawValue] as? [Double],
-                let ys = conformers[0][ConformerEnum.y.rawValue] as? [Double],
-                let zs = conformers[0][ConformerEnum.z.rawValue] as? [Double] else {
-                sendError("There is no xyz locations in: \(conformers[0])")
-                return
-            }
-            
-            guard let infos = conformers[0][ConformerEnum.data.rawValue] as? [[String: Any]] else {
-                sendError("There is no data in: \(conformers[0])")
-                return
-            }
-            
-            var conformerId = ""
-            for info in infos {
-                guard let urn = info["urn"] as? [String: Any], let label = urn["label"] as? String else {
-                    continue
-                }
-                
-                if label == "Conformer" {
-                    guard let value = info["value"] as? [String: Any], let sval = value["sval"] as? String else {
-                        sendError("There is no conformer id in: \(String(describing: info["value"]))")
-                        return
-                    }
-                    conformerId = sval
-                }
-            }
-            
-        
-            let conformer = Conformer()
-            conformer.cid = cid
-            conformer.conformerId = conformerId
-            
-            for id in coordIds.indices {
-                let atom = Atom()
-                atom.number = elements[id]
-                atom.location = [Double](arrayLiteral: xs[id], ys[id], zs[id])
-                
-                conformer.atoms.append(atom)
-            }
+            let conformer = self.populateConformer(from: conformerDTO.pcCompounds[0])
             
             completionHandler(true, conformer, nil)
         })
+    }
+    
+    func decode<T: Codable>(from data: Data) -> T? {
+        let decoder = JSONDecoder()
+        var dto: T
+        do {
+            dto = try decoder.decode(T.self, from: data)
+        } catch {
+            print("Cannot parse data as type \(T.self)")
+            return nil
+        }
+        
+        return dto
+    }
+    
+    func populateConformer(from pcCompound: PCCompound) -> Conformer {
+        let conformer = Conformer()
+        conformer.cid = "\(pcCompound.id.cid)"
+        conformer.conformerId = getConformerId(from: pcCompound)
+        
+        for id in pcCompound.atoms.aid {
+            let atom = Atom()
+            atom.number = pcCompound.atoms.element[id-1]
+            atom.location = getAtomLocation(index: id-1, from: pcCompound.coords[0].conformers[0])
+            conformer.atoms.append(atom)
+        }
+        
+        return conformer
+    }
+    
+    func getConformerId(from pcCompound: PCCompound) -> String {
+        var value: String?
+        for coordData in pcCompound.coords[0].conformers[0].data {
+            if (coordData.urn.label == "Conformer") {
+                guard let sval = coordData.value.sval else {
+                    print("Cannot parse coordData.value.sval = \(String(describing: coordData.value.sval))")
+                    continue
+                }
+                value = sval
+            }
+        }
+        return value ?? ""
+    }
+    
+    func getAtomLocation(index: Int, from conformerData: ConformerData) -> [Double] {
+        let x = conformerData.x[index]
+        let y = conformerData.y[index]
+        let z = conformerData.z[index]
+        
+        return [Double](arrayLiteral: x, y, z)
     }
     
     func downloadImage(for cid: String, completionHandler: @escaping (_ success: Bool, _ image: NSData?, _ errorString: String?) -> Void) {
@@ -183,12 +162,9 @@ class PubChemSearch {
                 return
             }
             
-            let decoder = JSONDecoder()
-            var compoundDTO : CompoundDTO
-            do {
-                compoundDTO = try decoder.decode(CompoundDTO.self, from: data)
-            } catch {
-                sendError("Cannot parse JSON!")
+            let dto : CompoundDTO? = self.decode(from: data)
+            guard let compoundDTO = dto else {
+                sendError("Error while pasring data as compoundDTO = \(String(describing: dto))")
                 return
             }
             
