@@ -17,8 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         dataController.load()
         checkIfFirstLaunch()
-        configureTabBarController()
-
+        if let tabBarController = window?.rootViewController as? UITabBarController {
+            configure(tabBarController)
+            print("iPhone")
+        } else if let splitViewController = window?.rootViewController as? UISplitViewController {
+            configure(splitViewController)
+            print("iPad")
+        }
+               
         return true
     }
 
@@ -62,8 +68,7 @@ extension AppDelegate {
         }
     }
     
-    func configureTabBarController() {
-        let tabBarController = window?.rootViewController as! UITabBarController
+    func configure(_ tabBarController: UITabBarController) {
         let viewControllers = tabBarController.viewControllers!
         
         for viewController in viewControllers {
@@ -77,6 +82,22 @@ extension AppDelegate {
                 topViewController.dataController = dataController
             }
         }
+    }
+    
+    func configure(_ splitViewController: UISplitViewController) {
+        let viewControllers = splitViewController.viewControllers
+        
+        print("viewControllers=\(viewControllers)")
+        
+        guard let navigationViewController = viewControllers[0] as? UINavigationController else {
+            return
+        }
+        
+        guard let topViewController = navigationViewController.topViewController as? iPadMasterTableViewController else {
+            return
+        }
+        
+        topViewController.dataController = dataController
     }
     
     func preloadData() {
