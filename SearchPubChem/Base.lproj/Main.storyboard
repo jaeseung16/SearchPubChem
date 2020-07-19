@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9aS-nl-Vwi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9aS-nl-Vwi">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1220,14 +1220,14 @@
             <point key="canvasLocation" x="-239" y="-798"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ZWP-yt-4rg"/>
+        <segue reference="0cz-Z3-EZB"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="Compound" width="45.333332061767578" height="45.333332061767578"/>
         <image name="Compound_Selected" width="45.333332061767578" height="45.333332061767578"/>
         <image name="Solution" width="45" height="45"/>
         <image name="Solution_Selected" width="45" height="45"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="FV2-fk-L3q"/>
-        <segue reference="0cz-Z3-EZB"/>
-    </inferredMetricsTieBreakers>
 </document>
