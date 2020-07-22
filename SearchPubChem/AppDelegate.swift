@@ -89,7 +89,7 @@ extension AppDelegate {
         
         print("viewControllers=\(viewControllers)")
         
-        guard let navigationViewController = viewControllers[0] as? UINavigationController else {
+        guard let navigationViewController = viewControllers.first as? UINavigationController else {
             return
         }
         
