@@ -18,6 +18,7 @@ class iPadCompoundCollectionViewController: UIViewController {
     //@IBOutlet weak var selectedCompoundsLabel: UILabel!
     
     let collectionViewCellIdentifier = "iPadCompoundCollectionViewCell"
+    let detailViewControllerIdentifier = "iPadCompoundDetailViewController"
 
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Compound>! {
@@ -45,9 +46,9 @@ class iPadCompoundCollectionViewController: UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //if let searchByNameViewController = segue.destination as? SearchByNameViewController {
-        //    searchByNameViewController.dataController = dataController
-        //}
+        if let searchByNameViewController = segue.destination as? SearchByNameViewController {
+            searchByNameViewController.dataController = dataController
+        }
     }
     
 
@@ -90,8 +91,41 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
         
         setSelectedCompoundsLabel()
         */
-        return false
+        return true
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let compound = fetchedResultsController.object(at: indexPath)
+        let detailViewController = setupDetailViewController(for: compound)
+        present(detailViewController, animated: true, completion: nil)
+        //collectionView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func setupDetailViewController(for compound: Compound) -> iPadCompoundDetailViewController {
+        let fetchRequest = buildSolutionFetchRequest(for: compound)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let detailViewController = setupDetailViewController(with: fetchedResultsController)
+        detailViewController.compound = compound
+        return detailViewController
+    }
+    
+    func buildSolutionFetchRequest(for compound: Compound) -> NSFetchRequest<Solution> {
+        let sortDescription = NSSortDescriptor(key: "created", ascending: false)
+        let predicate = NSPredicate(format: "compounds CONTAINS %@", argumentArray: [compound])
+        
+        let fetchRequest: NSFetchRequest<Solution> = Solution.fetchRequest()
+        fetchRequest.sortDescriptors = [sortDescription]
+        fetchRequest.predicate = predicate
+        return fetchRequest
+    }
+    
+    func setupDetailViewController(with fetchedResultsController: NSFetchedResultsController<Solution>) -> iPadCompoundDetailViewController {
+        let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! iPadCompoundDetailViewController
+        detailViewController.dataController = dataController
+        detailViewController.fetchedResultsController = fetchedResultsController
+        return detailViewController
+    }
+    
     
     // MARK: - Methods for FlowLayout
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -116,8 +150,8 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
     }
     
     func cellSize(size: CGSize, space: CGFloat) -> CGFloat {
-        let numberInRowPortrait = 3.0
-        let numberInRowLandscape = 5.0
+        let numberInRowPortrait = 4.0
+        let numberInRowLandscape = 6.0
         
         let numberInRow = size.height > size.width ? CGFloat(numberInRowPortrait) : CGFloat(numberInRowLandscape)
         
