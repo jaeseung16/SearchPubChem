@@ -39,6 +39,7 @@
 		90BAD4D924C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BAD4D824C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift */; };
 		90C008AB2309A60C0057217E /* ConformerEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */; };
 		90C2FF7524B6946D00C33F4C /* ConformerDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C2FF7424B6946D00C33F4C /* ConformerDTO.swift */; };
+		90C3993C24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C3993B24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift */; };
 		90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069322E4EFBF0054E7C2 /* Conformer.swift */; };
 		90CE069622E4F0250054E7C2 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069522E4F0250054E7C2 /* Element.swift */; };
 		90CE069822E4F2220054E7C2 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069722E4F2220054E7C2 /* Atom.swift */; };
@@ -104,6 +105,7 @@
 		90C008A92309A5020057217E /* PubChemSolution v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PubChemSolution v2.xcdatamodel"; sourceTree = "<group>"; };
 		90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConformerEntity+Extensions.swift"; sourceTree = "<group>"; };
 		90C2FF7424B6946D00C33F4C /* ConformerDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerDTO.swift; sourceTree = "<group>"; };
+		90C3993B24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundDetailViewController.swift; sourceTree = "<group>"; };
 		90CE069322E4EFBF0054E7C2 /* Conformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conformer.swift; sourceTree = "<group>"; };
 		90CE069522E4F0250054E7C2 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		90CE069722E4F2220054E7C2 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				90E94B1724C11EC900A169D2 /* iPadMasterTableViewController.swift */,
 				90BAD4D624C4AA5E00EE5D3E /* iPadCompoundCollectionViewController.swift */,
 				90BAD4D824C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift */,
+				90C3993B24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift */,
 			);
 			path = iPad;
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 				909AE6D7200CF38800FEE529 /* CompoundTableViewController.swift in Sources */,
 				9074CD6C203916FE002E19EF /* CompoundMiniDetailViewController.swift in Sources */,
 				90A28688204638ED00FF796A /* PubChemSearchConstants.swift in Sources */,
+				90C3993C24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift in Sources */,
 				90267BE5201E5B1000F899A3 /* MakeSolutionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
