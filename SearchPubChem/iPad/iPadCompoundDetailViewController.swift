@@ -25,7 +25,7 @@ class iPadCompoundDetailViewController: UIViewController {
     
     // Constants
     let detailViewControllerIdentifier = "SolutionDetailViewController"
-    let tableViewCellIdentifier = "SolutionMadeOfCompoundTableViewCell"
+    let tableViewCellIdentifier = "iPadSolutionMadeOfCompoundTableViewCell"
     let webViewControllerIdentifer = "WebPubChemViewController"
     
     var dataController: DataController!
@@ -106,7 +106,6 @@ class iPadCompoundDetailViewController: UIViewController {
             }
         }
     }
-
         
     func downloadConformer() {
         let client = PubChemSearch()
@@ -224,7 +223,7 @@ class iPadCompoundDetailViewController: UIViewController {
             return
         }
         
-        let webViewController = storyboard?.instantiateViewController(withIdentifier: webViewControllerIdentifer) as! WebPubChemViewController
+        let webViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: webViewControllerIdentifer) as! WebPubChemViewController
         webViewController.url = url
         
         navigationController?.pushViewController(webViewController, animated: true)
@@ -264,12 +263,12 @@ extension iPadCompoundDetailViewController: UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let solution = fetchedResultsController.object(at: indexPath)
         let detailViewController = setupDetailViewController(for: solution)
-        navigationController?.pushViewController(detailViewController, animated: true)
+        present(detailViewController, animated: true, completion: nil)
         tableView.deselectRow(at: indexPath, animated: true)
     }
         
     func setupDetailViewController(for solution: Solution) -> SolutionDetailViewController {
-        let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! SolutionDetailViewController
+        let detailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! SolutionDetailViewController
         detailViewController.solution = solution
         detailViewController.delegate = self
         return detailViewController
