@@ -21,26 +21,36 @@ class iPadCompoundCollectionViewController: UIViewController {
     let detailViewControllerIdentifier = "iPadCompoundDetailViewController"
 
     var dataController: DataController!
-    var fetchedResultsController: NSFetchedResultsController<Compound>! {
-        didSet {
-            fetchedResultsController.delegate = self
-            
-            do {
-                try fetchedResultsController.performFetch()
-            } catch {
-                NSLog("Compounds cannot be fetched for CompoundCollectionViewController: \(error.localizedDescription)")
-            }
-        }
-    }
+    var fetchedResultsController: NSFetchedResultsController<Compound>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setUpFetchedResultsController()
         adjustFlowLayoutSize(size: view.frame.size)
     }
     
-
+    func setUpFetchedResultsController() {
+        let fetchRequest: NSFetchRequest<Compound> = setupFetchRequest()
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("Compounds cannot be fetched: \(error.localizedDescription)")
+        }
+    }
+    
+    func setupFetchRequest() -> NSFetchRequest<Compound> {
+        let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        return fetchRequest
+    }
     
     // MARK: - Navigation
 
@@ -182,6 +192,7 @@ extension iPadCompoundCollectionViewController: NSFetchedResultsControllerDelega
         case .delete:
             compoundCollectionView.deleteItems(at: [indexPath!])
         case .update:
+            print("compoundCollectionView = \(compoundCollectionView)")
             compoundCollectionView.reloadItems(at: [indexPath!])
         case .move:
             compoundCollectionView.deleteItems(at: [indexPath!])

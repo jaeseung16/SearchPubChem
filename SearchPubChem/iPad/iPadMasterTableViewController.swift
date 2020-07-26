@@ -38,7 +38,7 @@ class iPadMasterTableViewController: UITableViewController {
         compoundCollectionViewController = UIStoryboard(name: "iPad", bundle: nil).instantiateViewController(withIdentifier: collectionViewControllerIdentifier) as? iPadCompoundCollectionViewController
                
         compoundCollectionViewController?.dataController = dataController
-        compoundCollectionViewController?.fetchedResultsController = setupFetchedResultsControllerForCompound()
+        //compoundCollectionViewController?.fetchedResultsController = setupFetchedResultsControllerForCompound()
         //compoundCollectionViewController?.delegate = self
         //compoundCollectionViewController?.compounds = compounds
     }
