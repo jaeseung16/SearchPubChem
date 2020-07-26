@@ -118,7 +118,7 @@
                     <navigationItem key="navigationItem" title="Compounds" id="5wG-Dl-4fN">
                         <barButtonItem key="rightBarButtonItem" largeContentSizeImage="plus" catalog="system" systemItem="add" id="bTw-vO-EF4">
                             <connections>
-                                <segue destination="71O-wO-qxf" kind="presentation" id="OI7-2s-9zp"/>
+                                <segue destination="71O-wO-qxf" kind="show" id="OI7-2s-9zp"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -599,6 +599,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="XT2-Ov-w7G"/>
                     </view>
+                    <navigationItem key="navigationItem" id="hh1-po-8OR"/>
                     <connections>
                         <outlet property="activityIndicator" destination="ehp-pV-StF" id="LOz-PU-GEP"/>
                         <outlet property="cidLabel" destination="cWt-ks-Qeh" id="Rk7-XV-AKI"/>

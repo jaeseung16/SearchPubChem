@@ -97,7 +97,8 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let compound = fetchedResultsController.object(at: indexPath)
         let detailViewController = setupDetailViewController(for: compound)
-        present(detailViewController, animated: true, completion: nil)
+        navigationController?.pushViewController(detailViewController, animated: true)
+        //present(detailViewController, animated: true, completion: nil)
         //collectionView.deselectRow(at: indexPath, animated: true)
     }
     
