@@ -81,9 +81,7 @@ class iPadMasterTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let detailViewController = splitViewController?.viewControllers.last as? UINavigationController {
-            if detailViewController.topViewController != nil {
-                detailViewController.popViewController(animated: true)
-            }
+            detailViewController.popToRootViewController(animated: true)
             switch indexPath.row {
             case 0:
                 if compoundCollectionViewController! != detailViewController.topViewController {
