@@ -153,7 +153,7 @@
                 <splitViewController id="Kq7-Vg-kL9" sceneMemberID="viewController">
                     <connections>
                         <segue destination="LUs-fC-VMW" kind="relationship" relationship="masterViewController" id="KJb-af-f8f"/>
-                        <segue destination="YmI-BV-2RI" kind="relationship" relationship="detailViewController" id="pVo-8b-cZJ"/>
+                        <segue destination="BGw-rm-eol" kind="relationship" relationship="detailViewController" id="Uvb-Fw-2Q0"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kYe-dW-edv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -407,20 +407,33 @@
             </objects>
             <point key="canvasLocation" x="1579.5021961932648" y="-569.53125"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="XgM-nF-LG9">
+        <!--View Controller-->
+        <scene sceneID="woI-Jx-rlr">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YmI-BV-2RI" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fRf-Gu-eBt">
-                        <rect key="frame" x="0.0" y="0.0" width="990.5" height="50"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Oh0-l7-Sz5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController id="Frx-ft-IL0" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="I00-iz-pOf">
+                        <rect key="frame" x="0.0" y="0.0" width="990.5" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Water" translatesAutoresizingMaskIntoConstraints="NO" id="79B-Yp-6mZ">
+                                <rect key="frame" x="345.5" y="377" width="300" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="79B-Yp-6mZ" secondAttribute="height" multiplier="1:1" id="B6Z-Ul-Rsm"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="79B-Yp-6mZ" firstAttribute="centerY" secondItem="Xey-Mr-SQT" secondAttribute="centerY" id="FgW-Rc-NkO"/>
+                            <constraint firstItem="79B-Yp-6mZ" firstAttribute="centerX" secondItem="Xey-Mr-SQT" secondAttribute="centerX" id="OOF-iL-RBd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Xey-Mr-SQT"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="7dR-Rr-rtO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wdp-Y8-Upg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-107" y="92"/>
+            <point key="canvasLocation" x="-107" y="797"/>
         </scene>
         <!--Search By Name View Controller-->
         <scene sceneID="3nt-Lt-R1V">
@@ -651,10 +664,29 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cMX-m4-1Kv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="812" y="781"/>
+            <point key="canvasLocation" x="812" y="797"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Jgq-JX-l4a">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="BGw-rm-eol" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="QNI-bB-TmZ">
+                        <rect key="frame" x="0.0" y="0.0" width="990.5" height="50"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Frx-ft-IL0" kind="relationship" relationship="rootViewController" id="y6c-te-cAW"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bMa-eY-IMz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-107" y="92"/>
         </scene>
     </scenes>
     <resources>
+        <image name="Water" width="300" height="300"/>
         <image name="plus" catalog="system" width="128" height="113"/>
     </resources>
 </document>
