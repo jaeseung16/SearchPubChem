@@ -40,6 +40,8 @@
 		90C008AB2309A60C0057217E /* ConformerEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */; };
 		90C2FF7524B6946D00C33F4C /* ConformerDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C2FF7424B6946D00C33F4C /* ConformerDTO.swift */; };
 		90C3993C24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C3993B24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift */; };
+		90C9C21624CF94E300E247BE /* iPadWebPubChemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C9C21524CF94E300E247BE /* iPadWebPubChemViewController.swift */; };
+		90C9C21924CF969E00E247BE /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90C9C21824CF969E00E247BE /* WebKit.framework */; };
 		90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069322E4EFBF0054E7C2 /* Conformer.swift */; };
 		90CE069622E4F0250054E7C2 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069522E4F0250054E7C2 /* Element.swift */; };
 		90CE069822E4F2220054E7C2 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069722E4F2220054E7C2 /* Atom.swift */; };
@@ -106,6 +108,8 @@
 		90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConformerEntity+Extensions.swift"; sourceTree = "<group>"; };
 		90C2FF7424B6946D00C33F4C /* ConformerDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerDTO.swift; sourceTree = "<group>"; };
 		90C3993B24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundDetailViewController.swift; sourceTree = "<group>"; };
+		90C9C21524CF94E300E247BE /* iPadWebPubChemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadWebPubChemViewController.swift; sourceTree = "<group>"; };
+		90C9C21824CF969E00E247BE /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		90CE069322E4EFBF0054E7C2 /* Conformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conformer.swift; sourceTree = "<group>"; };
 		90CE069522E4F0250054E7C2 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		90CE069722E4F2220054E7C2 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90C9C21924CF969E00E247BE /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +233,7 @@
 				909AE6BC200CF2F000FEE529 /* SearchPubChemTests */,
 				909AE6C7200CF2F000FEE529 /* SearchPubChemUITests */,
 				909AE6A6200CF2F000FEE529 /* Products */,
+				90C9C21724CF969E00E247BE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -306,8 +312,17 @@
 				90BAD4D624C4AA5E00EE5D3E /* iPadCompoundCollectionViewController.swift */,
 				90BAD4D824C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift */,
 				90C3993B24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift */,
+				90C9C21524CF94E300E247BE /* iPadWebPubChemViewController.swift */,
 			);
 			path = iPad;
+			sourceTree = "<group>";
+		};
+		90C9C21724CF969E00E247BE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				90C9C21824CF969E00E247BE /* WebKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -460,6 +475,7 @@
 				90ACC15A2377201300158299 /* SolutionTableViewCell.swift in Sources */,
 				909AE6A9200CF2F000FEE529 /* AppDelegate.swift in Sources */,
 				907FECB620152CD500B0CEBF /* CompoundDetailViewController.swift in Sources */,
+				90C9C21624CF94E300E247BE /* iPadWebPubChemViewController.swift in Sources */,
 				908ECAC6205210D000B7DEE0 /* WebPubChemViewController.swift in Sources */,
 				907FECB42014EDF800B0CEBF /* PubChemSearch.swift in Sources */,
 				90A09DE524B124EA0089C6C0 /* CompoundDTO.swift in Sources */,
