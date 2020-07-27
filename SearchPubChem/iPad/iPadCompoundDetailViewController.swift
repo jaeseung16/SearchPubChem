@@ -26,7 +26,7 @@ class iPadCompoundDetailViewController: UIViewController {
     // Constants
     let detailViewControllerIdentifier = "SolutionDetailViewController"
     let tableViewCellIdentifier = "iPadSolutionMadeOfCompoundTableViewCell"
-    let webViewControllerIdentifer = "WebPubChemViewController"
+    let webViewControllerIdentifer = "iPadWebPubChemViewController"
     
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Solution>! {
@@ -222,10 +222,10 @@ class iPadCompoundDetailViewController: UIViewController {
         guard let url = client.urlForPubChem(with: compound) else {
             return
         }
-        
-        let webViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: webViewControllerIdentifer) as! WebPubChemViewController
+        print("url = \(url)")
+        let webViewController = storyboard?.instantiateViewController(withIdentifier: webViewControllerIdentifer) as! iPadWebPubChemViewController
         webViewController.url = url
-        
+        print("webViewController = \(webViewController)")
         navigationController?.pushViewController(webViewController, animated: true)
     }
 }
@@ -268,7 +268,7 @@ extension iPadCompoundDetailViewController: UITableViewDataSource, UITableViewDe
     }
         
     func setupDetailViewController(for solution: Solution) -> SolutionDetailViewController {
-        let detailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! SolutionDetailViewController
+        let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! SolutionDetailViewController
         detailViewController.solution = solution
         detailViewController.delegate = self
         return detailViewController
