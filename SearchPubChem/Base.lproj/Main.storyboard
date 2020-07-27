@@ -500,63 +500,6 @@
             </objects>
             <point key="canvasLocation" x="1278" y="-798"/>
         </scene>
-        <!--PubChem @ NIH-->
-        <scene sceneID="ITt-W8-kmS">
-            <objects>
-                <viewController storyboardIdentifier="WebPubChemViewController" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Yba-R1-Y9i" customClass="WebPubChemViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="TNL-GZ-lbi">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t0f-VR-8Su">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Pmn-IN-vsl">
-                                <rect key="frame" x="197" y="465" width="20" height="20"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="t0f-VR-8Su" firstAttribute="trailing" secondItem="HEh-1Y-pPR" secondAttribute="trailing" id="0Jo-vH-Il3"/>
-                            <constraint firstItem="t0f-VR-8Su" firstAttribute="top" secondItem="HEh-1Y-pPR" secondAttribute="top" id="Dlg-ft-zuB"/>
-                            <constraint firstItem="t0f-VR-8Su" firstAttribute="leading" secondItem="HEh-1Y-pPR" secondAttribute="leading" id="IMH-Yq-KII"/>
-                            <constraint firstItem="t0f-VR-8Su" firstAttribute="bottom" secondItem="HEh-1Y-pPR" secondAttribute="bottom" id="RYO-ep-SCb"/>
-                            <constraint firstItem="Pmn-IN-vsl" firstAttribute="centerY" secondItem="HEh-1Y-pPR" secondAttribute="centerY" id="bAb-vd-CPL"/>
-                            <constraint firstItem="Pmn-IN-vsl" firstAttribute="centerX" secondItem="HEh-1Y-pPR" secondAttribute="centerX" id="xfB-uY-FS8"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="HEh-1Y-pPR"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="PubChem @ NIH" id="p1T-xq-pf4">
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="stop" id="cM9-Xp-Yf1">
-                                <connections>
-                                    <action selector="stopLoading:" destination="Yba-R1-Y9i" id="QKk-U8-7pJ"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem systemItem="refresh" id="ohE-eV-Odm">
-                                <connections>
-                                    <action selector="reload:" destination="Yba-R1-Y9i" id="Gd1-II-2QS"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <connections>
-                        <outlet property="activityIndicatorView" destination="Pmn-IN-vsl" id="LKR-RA-Pwk"/>
-                        <outlet property="reloadBarButtonItem" destination="ohE-eV-Odm" id="V0m-QX-gFL"/>
-                        <outlet property="stopBarButtonItem" destination="cM9-Xp-Yf1" id="bwZ-vN-ZNz"/>
-                        <outlet property="webView" destination="t0f-VR-8Su" id="TNe-27-Hna"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EN0-sg-ZDn" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2922" y="-798"/>
-        </scene>
         <!--Solutions-->
         <scene sceneID="urY-Q0-Jdk">
             <objects>
@@ -1219,9 +1162,66 @@
             </objects>
             <point key="canvasLocation" x="-239" y="-798"/>
         </scene>
+        <!--PubChem @ NIH-->
+        <scene sceneID="kwz-IB-jUL">
+            <objects>
+                <viewController storyboardIdentifier="WebPubChemViewController" hidesBottomBarWhenPushed="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="asW-Xm-OEU" customClass="WebPubChemViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="apa-0A-XCp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9cX-jw-gDY">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ns1-Fm-CLw">
+                                <rect key="frame" x="197" y="465" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ns1-Fm-CLw" firstAttribute="centerY" secondItem="iaB-qW-Wqo" secondAttribute="centerY" id="7uu-47-9sA"/>
+                            <constraint firstItem="9cX-jw-gDY" firstAttribute="leading" secondItem="iaB-qW-Wqo" secondAttribute="leading" id="AvM-do-5hl"/>
+                            <constraint firstItem="9cX-jw-gDY" firstAttribute="trailing" secondItem="iaB-qW-Wqo" secondAttribute="trailing" id="FZO-aT-hLE"/>
+                            <constraint firstItem="ns1-Fm-CLw" firstAttribute="centerX" secondItem="iaB-qW-Wqo" secondAttribute="centerX" id="Q8f-sG-kgg"/>
+                            <constraint firstItem="9cX-jw-gDY" firstAttribute="top" secondItem="iaB-qW-Wqo" secondAttribute="top" id="mqd-I9-wA4"/>
+                            <constraint firstItem="9cX-jw-gDY" firstAttribute="bottom" secondItem="iaB-qW-Wqo" secondAttribute="bottom" id="sq0-2z-KWr"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="iaB-qW-Wqo"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="PubChem @ NIH" id="tp1-VT-lxk">
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="stop" id="QdP-Cu-52U">
+                                <connections>
+                                    <action selector="stopLoading:" destination="asW-Xm-OEU" id="oCC-de-b1b"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="refresh" id="1AK-q9-Er7">
+                                <connections>
+                                    <action selector="reload:" destination="asW-Xm-OEU" id="eDK-Dq-RPh"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="ns1-Fm-CLw" id="PQj-AN-WBD"/>
+                        <outlet property="reloadBarButtonItem" destination="1AK-q9-Er7" id="DC8-34-Bqr"/>
+                        <outlet property="stopBarButtonItem" destination="QdP-Cu-52U" id="61i-6o-Cea"/>
+                        <outlet property="webView" destination="9cX-jw-gDY" id="BE9-hI-BHw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="850-BW-1y1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2922" y="-798"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ZWP-yt-4rg"/>
+        <segue reference="FV2-fk-L3q"/>
         <segue reference="0cz-Z3-EZB"/>
     </inferredMetricsTieBreakers>
     <resources>
