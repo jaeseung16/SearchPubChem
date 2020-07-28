@@ -9,6 +9,10 @@
 import UIKit
 import CoreData
 
+protocol iPadCompoundDetailViewControllerDelegate: AnyObject {
+    func remove(compound: Compound)
+}
+
 class iPadCompoundDetailViewController: UIViewController {
     // MARK: - Properties
     // Outlets
@@ -22,6 +26,9 @@ class iPadCompoundDetailViewController: UIViewController {
     @IBOutlet weak var solutionsTableView: UITableView!
     @IBOutlet weak var conformerButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    // delegate will be set by a presenting view controller
+    weak var delegate: iPadCompoundDetailViewControllerDelegate?
     
     // Constants
     let detailViewControllerIdentifier = "SolutionDetailViewController"
@@ -206,14 +213,7 @@ class iPadCompoundDetailViewController: UIViewController {
                 
     // Actions
     @IBAction func deleteAndDismiss(_ sender: UIBarButtonItem) {
-        dataController.viewContext.delete(compound)
-        
-        do {
-            try dataController.viewContext.save()
-        } catch {
-            NSLog("Error while saving: \(error.localizedDescription)")
-        }
-        
+        delegate?.remove(compound: compound)
         navigationController?.popViewController(animated: true)
     }
                 
