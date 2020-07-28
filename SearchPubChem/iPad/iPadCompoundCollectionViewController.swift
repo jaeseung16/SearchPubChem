@@ -31,6 +31,10 @@ class iPadCompoundCollectionViewController: UIViewController {
         adjustFlowLayoutSize(size: view.frame.size)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        compoundCollectionView.reloadData()
+    }
+    
     func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Compound> = setupFetchRequest()
         
@@ -61,7 +65,6 @@ class iPadCompoundCollectionViewController: UIViewController {
         }
     }
     
-
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
@@ -107,9 +110,10 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let compound = fetchedResultsController.object(at: indexPath)
         let detailViewController = setupDetailViewController(for: compound)
+        detailViewController.delegate = self
         navigationController?.pushViewController(detailViewController, animated: true)
         //present(detailViewController, animated: true, completion: nil)
-        //collectionView.deselectRow(at: indexPath, animated: true)
+        collectionView.deselectItem(at: indexPath, animated: false)
     }
     
     func setupDetailViewController(for compound: Compound) -> iPadCompoundDetailViewController {
@@ -192,7 +196,6 @@ extension iPadCompoundCollectionViewController: NSFetchedResultsControllerDelega
         case .delete:
             compoundCollectionView.deleteItems(at: [indexPath!])
         case .update:
-            print("compoundCollectionView = \(compoundCollectionView)")
             compoundCollectionView.reloadItems(at: [indexPath!])
         case .move:
             compoundCollectionView.deleteItems(at: [indexPath!])
@@ -208,6 +211,18 @@ extension iPadCompoundCollectionViewController: NSFetchedResultsControllerDelega
             NSLog("Saved in controllerDidChangeContent(_:)")
         } catch {
             NSLog("Error while saving in controllerDidChangeContent(_:)")
+        }
+    }
+}
+
+// MARK: - iPadCompoundDetailViewControllerDelegate
+extension iPadCompoundCollectionViewController: iPadCompoundDetailViewControllerDelegate {
+    func remove(compound: Compound) {
+        dataController.viewContext.delete(compound)
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("Compounds cannot be fetched: \(error.localizedDescription)")
         }
     }
 }
