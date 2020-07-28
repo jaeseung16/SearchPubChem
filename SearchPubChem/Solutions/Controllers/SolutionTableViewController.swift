@@ -64,7 +64,7 @@ class SolutionTableViewController: UITableViewController {
     }
     
     func setupDetailViewController(for solution: Solution) -> SolutionDetailViewController {
-        let detailViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: detailvViewControllerIdentifier) as! SolutionDetailViewController
+        let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailvViewControllerIdentifier) as! SolutionDetailViewController
         detailViewController.solution = solution
         detailViewController.delegate = self
         return detailViewController
