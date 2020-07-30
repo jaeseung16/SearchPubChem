@@ -94,6 +94,9 @@ class SolutionDetailViewController: UIViewController {
         }
         
         present(activityViewController, animated: true, completion: nil)
+        if let popoverPresentationController = activityViewController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+        }
     }
     
     // MARK: - Convinience methods
