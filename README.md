@@ -86,7 +86,7 @@ Choose compounds downloaded from PubChem and make a solution. The app allows to 
 1. Click **Done** to return back to **Details for a solution**.
 
 
-# Version History
+## Version History
 
 ### ver 2.1
 
