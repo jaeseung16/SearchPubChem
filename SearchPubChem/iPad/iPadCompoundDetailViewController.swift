@@ -56,7 +56,6 @@ class iPadCompoundDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         configureView()
     }
     
@@ -64,7 +63,6 @@ class iPadCompoundDetailViewController: UIViewController {
         super.viewDidAppear(animated)
         solutionsTableView.reloadData()
     }
-
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -77,7 +75,6 @@ class iPadCompoundDetailViewController: UIViewController {
             conformerViewController.name = compound.name?.uppercased()
             conformerViewController.formula = compound.formula
         }
-        
     }
     
     func configureView() {
@@ -117,12 +114,9 @@ class iPadCompoundDetailViewController: UIViewController {
     func downloadConformer() {
         let client = PubChemSearch()
         client.download3DData(for: self.compound.cid!, completionHandler: { (success, conformer, errorString) in
-            //self.showNetworkIndicators(false)
             if success, let conformer = conformer {
-                //DispatchQueue.main.async {
                 self.conformer = conformer
                 self.populateConformerEntity()
-                //}
             }
                             
             self.compound.conformerDownloaded = true
@@ -329,15 +323,5 @@ extension iPadCompoundDetailViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         solutionsTableView.endUpdates()
     }
-
+    
 }
-
-               
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-
