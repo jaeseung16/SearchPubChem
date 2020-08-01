@@ -86,10 +86,18 @@ Choose compounds downloaded from PubChem and make a solution. The app allows to 
 1. Click **Done** to return back to **Details for a solution**.
 
 
-# Version Information
+# Version History
 
 ### ver 2.1
 
 1. Fix the 'magnifier' icon for opening the PubChem page for the compound
 2. Enhance JSON parsing using Codable types
 3. Update the interface for iPad
+
+### ver 2.0 (11/9/2019)
+
+1. Supporting 3D conformers
+   - If a 3D conformer is available from PubChem, it will be downloaded. Check whether "Conformer" appears at the bottom of the image downloaded after a search is finished. Also, check whether "3D" appears at the upper right corner of the image of a molecule. The conformer scene supports the pan and pinch gestures!
+2. Supporting the dark mode
+
+### ver 1.0 (Apr 11, 2018)
