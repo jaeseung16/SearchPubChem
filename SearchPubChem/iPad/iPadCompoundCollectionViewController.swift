@@ -11,11 +11,9 @@ import CoreData
 
 class iPadCompoundCollectionViewController: UIViewController {
     // MARK: - Properties
-    
     // Outlets
     @IBOutlet weak var compoundCollectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
-    //@IBOutlet weak var selectedCompoundsLabel: UILabel!
     
     let collectionViewCellIdentifier = "iPadCompoundCollectionViewCell"
     let detailViewControllerIdentifier = "iPadCompoundDetailViewController"
@@ -26,7 +24,6 @@ class iPadCompoundCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         setUpFetchedResultsController()
         adjustFlowLayoutSize(size: view.frame.size)
     }
@@ -57,7 +54,6 @@ class iPadCompoundCollectionViewController: UIViewController {
     }
     
     // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let searchByNameViewController = segue.destination as? SearchByNameViewController {
@@ -91,19 +87,6 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        /*
-        let compound = fetchedResultsController.object(at: indexPath)
-        var selected = false
-        
-        if let index = compounds.firstIndex(of: compound){
-            compounds.remove(at: index)
-        } else {
-            compounds.append(compound)
-            selected = true
-        }
-        
-        setSelectedCompoundsLabel()
-        */
         return true
     }
     
@@ -112,7 +95,6 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
         let detailViewController = setupDetailViewController(for: compound)
         detailViewController.delegate = self
         navigationController?.pushViewController(detailViewController, animated: true)
-        //present(detailViewController, animated: true, completion: nil)
         collectionView.deselectItem(at: indexPath, animated: false)
     }
     
@@ -140,7 +122,6 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
         detailViewController.fetchedResultsController = fetchedResultsController
         return detailViewController
     }
-    
     
     // MARK: - Methods for FlowLayout
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
