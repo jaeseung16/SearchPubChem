@@ -84,3 +84,12 @@ Choose compounds downloaded from PubChem and make a solution. The app allows to 
 ### Mini details for a compound
 
 1. Click **Done** to return back to **Details for a solution**.
+
+
+# Version Information
+
+### ver 2.1
+
+1. Fix the 'magnifier' icon for opening the PubChem page for the compound
+2. Enhance JSON parsing using Codable types
+3. Update the interface for iPad
