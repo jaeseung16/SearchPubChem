@@ -81,22 +81,21 @@ class iPadMasterTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let detailViewController = splitViewController?.viewControllers.last as? UINavigationController {
-            detailViewController.popToRootViewController(animated: true)
+            detailViewController.popToRootViewController(animated: false)
             switch indexPath.row {
             case 0:
                 if compoundCollectionViewController! != detailViewController.topViewController {
-                    detailViewController.pushViewController(compoundCollectionViewController!, animated: true)
+                    detailViewController.pushViewController(compoundCollectionViewController!, animated: false)
                 }
             case 1:
                 if solutionTableViewController! != detailViewController.topViewController {
-                    detailViewController.pushViewController(solutionTableViewController!, animated: true)
+                    detailViewController.pushViewController(solutionTableViewController!, animated: false)
                 }
             default:
                 if compoundCollectionViewController! != detailViewController.topViewController {
-                    detailViewController.pushViewController(compoundCollectionViewController!, animated: true)
+                    detailViewController.pushViewController(compoundCollectionViewController!, animated: false)
                 }
             }
-            print("\(detailViewController.viewControllers.count)")
         }
     }
 
