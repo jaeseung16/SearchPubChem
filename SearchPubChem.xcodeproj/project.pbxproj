@@ -34,6 +34,16 @@
 		909C0D8E202F92D50016C9E6 /* MakeSolutionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909C0D8D202F92D50016C9E6 /* MakeSolutionTableViewCell.swift */; };
 		90A09DE524B124EA0089C6C0 /* CompoundDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A09DE424B124EA0089C6C0 /* CompoundDTO.swift */; };
 		90A28688204638ED00FF796A /* PubChemSearchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A28687204638ED00FF796A /* PubChemSearchConstants.swift */; };
+		90A3C58325D1FCBB0007C47E /* SearchPubChemForMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3C58225D1FCBB0007C47E /* SearchPubChemForMacApp.swift */; };
+		90A3C58525D1FCBB0007C47E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3C58425D1FCBB0007C47E /* ContentView.swift */; };
+		90A3C58725D1FCBC0007C47E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A3C58625D1FCBC0007C47E /* Assets.xcassets */; };
+		90A3C58A25D1FCBC0007C47E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90A3C58925D1FCBC0007C47E /* Preview Assets.xcassets */; };
+		90A3C58C25D1FCBC0007C47E /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3C58B25D1FCBC0007C47E /* Persistence.swift */; };
+		90A3C58F25D1FCBC0007C47E /* SearchPubChemForMac.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 90A3C58D25D1FCBC0007C47E /* SearchPubChemForMac.xcdatamodeld */; };
+		90A3C59B25D1FCBC0007C47E /* SearchPubChemForMacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3C59A25D1FCBC0007C47E /* SearchPubChemForMacTests.swift */; };
+		90A3C5A625D1FCBC0007C47E /* SearchPubChemForMacUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3C5A525D1FCBC0007C47E /* SearchPubChemForMacUITests.swift */; };
+		90A3C5BE25D1FE6A0007C47E /* CompoundEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3C5BD25D1FE6A0007C47E /* CompoundEntity+Extensions.swift */; };
+		90A3C5C625D1FEF30007C47E /* AtomEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A3C5C525D1FEF30007C47E /* AtomEntity+Extensions.swift */; };
 		90ACC15A2377201300158299 /* SolutionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACC1592377201300158299 /* SolutionTableViewCell.swift */; };
 		90BAD4D724C4AA5E00EE5D3E /* iPadCompoundCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BAD4D624C4AA5E00EE5D3E /* iPadCompoundCollectionViewController.swift */; };
 		90BAD4D924C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BAD4D824C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift */; };
@@ -64,6 +74,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 909AE6A4200CF2F000FEE529;
 			remoteInfo = SearchPubChem;
+		};
+		90A3C59725D1FCBC0007C47E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 909AE69D200CF2F000FEE529 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 90A3C57F25D1FCBB0007C47E;
+			remoteInfo = SearchPubChemForMac;
+		};
+		90A3C5A225D1FCBC0007C47E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 909AE69D200CF2F000FEE529 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 90A3C57F25D1FCBB0007C47E;
+			remoteInfo = SearchPubChemForMac;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -101,6 +125,23 @@
 		909C0D8D202F92D50016C9E6 /* MakeSolutionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeSolutionTableViewCell.swift; sourceTree = "<group>"; };
 		90A09DE424B124EA0089C6C0 /* CompoundDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundDTO.swift; sourceTree = "<group>"; };
 		90A28687204638ED00FF796A /* PubChemSearchConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemSearchConstants.swift; sourceTree = "<group>"; };
+		90A3C58025D1FCBB0007C47E /* SearchPubChemForMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchPubChemForMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		90A3C58225D1FCBB0007C47E /* SearchPubChemForMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPubChemForMacApp.swift; sourceTree = "<group>"; };
+		90A3C58425D1FCBB0007C47E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		90A3C58625D1FCBC0007C47E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		90A3C58925D1FCBC0007C47E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		90A3C58B25D1FCBC0007C47E /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		90A3C58E25D1FCBC0007C47E /* SearchPubChemForMac.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SearchPubChemForMac.xcdatamodel; sourceTree = "<group>"; };
+		90A3C59025D1FCBC0007C47E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90A3C59125D1FCBC0007C47E /* SearchPubChemForMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SearchPubChemForMac.entitlements; sourceTree = "<group>"; };
+		90A3C59625D1FCBC0007C47E /* SearchPubChemForMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SearchPubChemForMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		90A3C59A25D1FCBC0007C47E /* SearchPubChemForMacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPubChemForMacTests.swift; sourceTree = "<group>"; };
+		90A3C59C25D1FCBC0007C47E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90A3C5A125D1FCBC0007C47E /* SearchPubChemForMacUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SearchPubChemForMacUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		90A3C5A525D1FCBC0007C47E /* SearchPubChemForMacUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPubChemForMacUITests.swift; sourceTree = "<group>"; };
+		90A3C5A725D1FCBC0007C47E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90A3C5BD25D1FE6A0007C47E /* CompoundEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompoundEntity+Extensions.swift"; sourceTree = "<group>"; };
+		90A3C5C525D1FEF30007C47E /* AtomEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AtomEntity+Extensions.swift"; sourceTree = "<group>"; };
 		90ACC1592377201300158299 /* SolutionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionTableViewCell.swift; sourceTree = "<group>"; };
 		90BAD4D624C4AA5E00EE5D3E /* iPadCompoundCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundCollectionViewController.swift; sourceTree = "<group>"; };
 		90BAD4D824C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -135,6 +176,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		909AE6C1200CF2F000FEE529 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		90A3C57D25D1FCBB0007C47E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		90A3C59325D1FCBC0007C47E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		90A3C59E25D1FCBC0007C47E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -232,6 +294,9 @@
 				909AE6A7200CF2F000FEE529 /* SearchPubChem */,
 				909AE6BC200CF2F000FEE529 /* SearchPubChemTests */,
 				909AE6C7200CF2F000FEE529 /* SearchPubChemUITests */,
+				90A3C58125D1FCBB0007C47E /* SearchPubChemForMac */,
+				90A3C59925D1FCBC0007C47E /* SearchPubChemForMacTests */,
+				90A3C5A425D1FCBC0007C47E /* SearchPubChemForMacUITests */,
 				909AE6A6200CF2F000FEE529 /* Products */,
 				90C9C21724CF969E00E247BE /* Frameworks */,
 			);
@@ -243,6 +308,9 @@
 				909AE6A5200CF2F000FEE529 /* SearchPubChem.app */,
 				909AE6B9200CF2F000FEE529 /* SearchPubChemTests.xctest */,
 				909AE6C4200CF2F000FEE529 /* SearchPubChemUITests.xctest */,
+				90A3C58025D1FCBB0007C47E /* SearchPubChemForMac.app */,
+				90A3C59625D1FCBC0007C47E /* SearchPubChemForMacTests.xctest */,
+				90A3C5A125D1FCBC0007C47E /* SearchPubChemForMacUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -292,6 +360,49 @@
 				9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		90A3C58125D1FCBB0007C47E /* SearchPubChemForMac */ = {
+			isa = PBXGroup;
+			children = (
+				90A3C58225D1FCBB0007C47E /* SearchPubChemForMacApp.swift */,
+				90A3C58425D1FCBB0007C47E /* ContentView.swift */,
+				90A3C58625D1FCBC0007C47E /* Assets.xcassets */,
+				90A3C58B25D1FCBC0007C47E /* Persistence.swift */,
+				90A3C59025D1FCBC0007C47E /* Info.plist */,
+				90A3C59125D1FCBC0007C47E /* SearchPubChemForMac.entitlements */,
+				90A3C58D25D1FCBC0007C47E /* SearchPubChemForMac.xcdatamodeld */,
+				90A3C58825D1FCBC0007C47E /* Preview Content */,
+				90A3C5BD25D1FE6A0007C47E /* CompoundEntity+Extensions.swift */,
+				90A3C5C525D1FEF30007C47E /* AtomEntity+Extensions.swift */,
+			);
+			path = SearchPubChemForMac;
+			sourceTree = "<group>";
+		};
+		90A3C58825D1FCBC0007C47E /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				90A3C58925D1FCBC0007C47E /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		90A3C59925D1FCBC0007C47E /* SearchPubChemForMacTests */ = {
+			isa = PBXGroup;
+			children = (
+				90A3C59A25D1FCBC0007C47E /* SearchPubChemForMacTests.swift */,
+				90A3C59C25D1FCBC0007C47E /* Info.plist */,
+			);
+			path = SearchPubChemForMacTests;
+			sourceTree = "<group>";
+		};
+		90A3C5A425D1FCBC0007C47E /* SearchPubChemForMacUITests */ = {
+			isa = PBXGroup;
+			children = (
+				90A3C5A525D1FCBC0007C47E /* SearchPubChemForMacUITests.swift */,
+				90A3C5A725D1FCBC0007C47E /* Info.plist */,
+			);
+			path = SearchPubChemForMacUITests;
 			sourceTree = "<group>";
 		};
 		90B4384C2352A5EF001A7B5E /* Conformer */ = {
@@ -381,13 +492,66 @@
 			productReference = 909AE6C4200CF2F000FEE529 /* SearchPubChemUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		90A3C57F25D1FCBB0007C47E /* SearchPubChemForMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 90A3C5AE25D1FCBC0007C47E /* Build configuration list for PBXNativeTarget "SearchPubChemForMac" */;
+			buildPhases = (
+				90A3C57C25D1FCBB0007C47E /* Sources */,
+				90A3C57D25D1FCBB0007C47E /* Frameworks */,
+				90A3C57E25D1FCBB0007C47E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SearchPubChemForMac;
+			productName = SearchPubChemForMac;
+			productReference = 90A3C58025D1FCBB0007C47E /* SearchPubChemForMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+		90A3C59525D1FCBC0007C47E /* SearchPubChemForMacTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 90A3C5AF25D1FCBC0007C47E /* Build configuration list for PBXNativeTarget "SearchPubChemForMacTests" */;
+			buildPhases = (
+				90A3C59225D1FCBC0007C47E /* Sources */,
+				90A3C59325D1FCBC0007C47E /* Frameworks */,
+				90A3C59425D1FCBC0007C47E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				90A3C59825D1FCBC0007C47E /* PBXTargetDependency */,
+			);
+			name = SearchPubChemForMacTests;
+			productName = SearchPubChemForMacTests;
+			productReference = 90A3C59625D1FCBC0007C47E /* SearchPubChemForMacTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		90A3C5A025D1FCBC0007C47E /* SearchPubChemForMacUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 90A3C5B025D1FCBC0007C47E /* Build configuration list for PBXNativeTarget "SearchPubChemForMacUITests" */;
+			buildPhases = (
+				90A3C59D25D1FCBC0007C47E /* Sources */,
+				90A3C59E25D1FCBC0007C47E /* Frameworks */,
+				90A3C59F25D1FCBC0007C47E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				90A3C5A325D1FCBC0007C47E /* PBXTargetDependency */,
+			);
+			name = SearchPubChemForMacUITests;
+			productName = SearchPubChemForMacUITests;
+			productReference = 90A3C5A125D1FCBC0007C47E /* SearchPubChemForMacUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		909AE69D200CF2F000FEE529 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Jae Seung Lee";
 				TargetAttributes = {
@@ -408,6 +572,20 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 909AE6A4200CF2F000FEE529;
 					};
+					90A3C57F25D1FCBB0007C47E = {
+						CreatedOnToolsVersion = 12.4;
+						ProvisioningStyle = Automatic;
+					};
+					90A3C59525D1FCBC0007C47E = {
+						CreatedOnToolsVersion = 12.4;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 90A3C57F25D1FCBB0007C47E;
+					};
+					90A3C5A025D1FCBC0007C47E = {
+						CreatedOnToolsVersion = 12.4;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 90A3C57F25D1FCBB0007C47E;
+					};
 				};
 			};
 			buildConfigurationList = 909AE6A0200CF2F000FEE529 /* Build configuration list for PBXProject "SearchPubChem" */;
@@ -426,6 +604,9 @@
 				909AE6A4200CF2F000FEE529 /* SearchPubChem */,
 				909AE6B8200CF2F000FEE529 /* SearchPubChemTests */,
 				909AE6C3200CF2F000FEE529 /* SearchPubChemUITests */,
+				90A3C57F25D1FCBB0007C47E /* SearchPubChemForMac */,
+				90A3C59525D1FCBC0007C47E /* SearchPubChemForMacTests */,
+				90A3C5A025D1FCBC0007C47E /* SearchPubChemForMacUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -450,6 +631,29 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		909AE6C2200CF2F000FEE529 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		90A3C57E25D1FCBB0007C47E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				90A3C58A25D1FCBC0007C47E /* Preview Assets.xcassets in Resources */,
+				90A3C58725D1FCBC0007C47E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		90A3C59425D1FCBC0007C47E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		90A3C59F25D1FCBC0007C47E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -516,6 +720,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		90A3C57C25D1FCBB0007C47E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				90A3C58F25D1FCBC0007C47E /* SearchPubChemForMac.xcdatamodeld in Sources */,
+				90A3C5C625D1FEF30007C47E /* AtomEntity+Extensions.swift in Sources */,
+				90A3C58C25D1FCBC0007C47E /* Persistence.swift in Sources */,
+				90A3C58525D1FCBB0007C47E /* ContentView.swift in Sources */,
+				90A3C58325D1FCBB0007C47E /* SearchPubChemForMacApp.swift in Sources */,
+				90A3C5BE25D1FE6A0007C47E /* CompoundEntity+Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		90A3C59225D1FCBC0007C47E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				90A3C59B25D1FCBC0007C47E /* SearchPubChemForMacTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		90A3C59D25D1FCBC0007C47E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				90A3C5A625D1FCBC0007C47E /* SearchPubChemForMacUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -528,6 +761,16 @@
 			isa = PBXTargetDependency;
 			target = 909AE6A4200CF2F000FEE529 /* SearchPubChem */;
 			targetProxy = 909AE6C5200CF2F000FEE529 /* PBXContainerItemProxy */;
+		};
+		90A3C59825D1FCBC0007C47E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 90A3C57F25D1FCBB0007C47E /* SearchPubChemForMac */;
+			targetProxy = 90A3C59725D1FCBC0007C47E /* PBXContainerItemProxy */;
+		};
+		90A3C5A325D1FCBC0007C47E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 90A3C57F25D1FCBB0007C47E /* SearchPubChemForMac */;
+			targetProxy = 90A3C5A225D1FCBC0007C47E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -762,6 +1005,147 @@
 			};
 			name = Release;
 		};
+		90A3C5A825D1FCBC0007C47E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = SearchPubChemForMac/SearchPubChemForMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"SearchPubChemForMac/Preview Content\"";
+				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SearchPubChemForMac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChemForMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		90A3C5A925D1FCBC0007C47E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = SearchPubChemForMac/SearchPubChemForMac.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"SearchPubChemForMac/Preview Content\"";
+				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = SearchPubChemForMac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChemForMac;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		90A3C5AA25D1FCBC0007C47E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				INFOPLIST_FILE = SearchPubChemForMacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChemForMacTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SearchPubChemForMac.app/Contents/MacOS/SearchPubChemForMac";
+			};
+			name = Debug;
+		};
+		90A3C5AB25D1FCBC0007C47E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				INFOPLIST_FILE = SearchPubChemForMacTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChemForMacTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SearchPubChemForMac.app/Contents/MacOS/SearchPubChemForMac";
+			};
+			name = Release;
+		};
+		90A3C5AC25D1FCBC0007C47E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				INFOPLIST_FILE = SearchPubChemForMacUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChemForMacUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = SearchPubChemForMac;
+			};
+			name = Debug;
+		};
+		90A3C5AD25D1FCBC0007C47E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				INFOPLIST_FILE = SearchPubChemForMacUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChemForMacUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = SearchPubChemForMac;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -801,6 +1185,33 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		90A3C5AE25D1FCBC0007C47E /* Build configuration list for PBXNativeTarget "SearchPubChemForMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				90A3C5A825D1FCBC0007C47E /* Debug */,
+				90A3C5A925D1FCBC0007C47E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		90A3C5AF25D1FCBC0007C47E /* Build configuration list for PBXNativeTarget "SearchPubChemForMacTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				90A3C5AA25D1FCBC0007C47E /* Debug */,
+				90A3C5AB25D1FCBC0007C47E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		90A3C5B025D1FCBC0007C47E /* Build configuration list for PBXNativeTarget "SearchPubChemForMacUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				90A3C5AC25D1FCBC0007C47E /* Debug */,
+				90A3C5AD25D1FCBC0007C47E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
@@ -812,6 +1223,16 @@
 			);
 			currentVersion = 90C008A92309A5020057217E /* PubChemSolution v2.xcdatamodel */;
 			path = PubChemSolution.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		90A3C58D25D1FCBC0007C47E /* SearchPubChemForMac.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				90A3C58E25D1FCBC0007C47E /* SearchPubChemForMac.xcdatamodel */,
+			);
+			currentVersion = 90A3C58E25D1FCBC0007C47E /* SearchPubChemForMac.xcdatamodel */;
+			path = SearchPubChemForMac.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
