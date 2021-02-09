@@ -21,6 +21,8 @@ struct ContentView: View {
         List {
             ForEach(items) { item in
                 Text("Item at \(item.created!, formatter: itemFormatter)")
+                Text("Name \(item.name ?? "")")
+                Text("Formula \(item.formula ?? "")")
             }
             .onDelete(perform: deleteItems)
         }
@@ -72,6 +74,8 @@ private let itemFormatter: DateFormatter = {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        Group {
+            ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        }
     }
 }

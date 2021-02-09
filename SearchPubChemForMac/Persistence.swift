@@ -14,10 +14,33 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = CompoundEntity(context: viewContext)
-            newItem.created = Date()
-        }
+        
+        let persistentStoreCoordinator = result.container.persistentStoreCoordinator
+        let persistentStore = persistentStoreCoordinator.persistentStores[0]
+        let urlForPersistentStore = persistentStoreCoordinator.url(for: persistentStore)
+        
+        try? persistentStoreCoordinator.destroyPersistentStore(at: urlForPersistentStore, ofType: NSSQLiteStoreType, options: nil)
+        try? persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: urlForPersistentStore, options: nil)
+        
+        let water = CompoundEntity(context: viewContext)
+        water.name = "water"
+        water.firstCharacterInName = "W"
+        water.formula = "H2O"
+        water.molecularWeight = 18.015
+        water.cid = "962"
+        water.nameIUPAC = "oxidane"
+        water.created = Date()
+        
+        // Example Compound 2: Sodium Chloride
+        let sodiumChloride = CompoundEntity(context: viewContext)
+        sodiumChloride.name = "sodium chloride"
+        sodiumChloride.firstCharacterInName = "S"
+        sodiumChloride.formula = "NaCl"
+        sodiumChloride.molecularWeight = 58.44
+        sodiumChloride.cid = "5234"
+        sodiumChloride.nameIUPAC = "sodium chloride"
+        sodiumChloride.created = Date()
+        
         do {
             try viewContext.save()
         } catch {
