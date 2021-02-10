@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D64" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D74" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="AtomEntity" representedClassName=".AtomEntity" syncable="YES" codeGenerationType="class">
         <attribute name="atomicNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="coordX" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="coordY" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="coordZ" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="conformer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ConformerEntity" inverseName="atoms" inverseEntity="ConformerEntity"/>
     </entity>
     <entity name="CompoundEntity" representedClassName=".CompoundEntity" syncable="YES" codeGenerationType="class">
         <attribute name="cid" optional="YES" attributeType="String"/>
@@ -17,9 +18,17 @@
         <attribute name="molecularWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nameIUPAC" optional="YES" attributeType="String"/>
+        <relationship name="conformers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ConformerEntity" inverseName="compound" inverseEntity="ConformerEntity"/>
+    </entity>
+    <entity name="ConformerEntity" representedClassName="ConformerEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="conformerId" optional="YES" attributeType="String"/>
+        <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="atoms" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AtomEntity" inverseName="conformer" inverseEntity="AtomEntity"/>
+        <relationship name="compound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CompoundEntity" inverseName="conformers" inverseEntity="CompoundEntity"/>
     </entity>
     <elements>
-        <element name="AtomEntity" positionX="-63" positionY="-18" width="128" height="104"/>
-        <element name="CompoundEntity" positionX="-63" positionY="0" width="128" height="164"/>
+        <element name="AtomEntity" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="CompoundEntity" positionX="-63" positionY="0" width="128" height="179"/>
+        <element name="ConformerEntity" positionX="-63" positionY="63" width="128" height="89"/>
     </elements>
 </model>
