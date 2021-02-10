@@ -17,6 +17,8 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<CompoundEntity>
 
+    @State private var showSearchByNameView = false
+    
     var body: some View {
         List {
             ForEach(items) { item in
@@ -27,9 +29,12 @@ struct ContentView: View {
             .onDelete(perform: deleteItems)
         }
         .toolbar {
-            Button(action: addItem) {
+            Button(action: { self.showSearchByNameView = true }) {
                 Label("Add Item", systemImage: "plus")
             }
+            .sheet(isPresented: $showSearchByNameView, content: {
+                SearchByNameView(presenting: $showSearchByNameView)
+            })
         }
     }
 
