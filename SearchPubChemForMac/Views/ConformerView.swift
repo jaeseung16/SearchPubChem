@@ -60,7 +60,7 @@ struct ConformerView: View {
                 let newScale: SCNMatrix4 = SCNMatrix4MakeScale(scale, scale, scale)
                 geometryNode.transform = SCNMatrix4Mult(newScale, self.rotation)
             }
-            .onEnded { (scale) in
+            .onEnded { scale in
                 let newScale: SCNMatrix4 = SCNMatrix4MakeScale(scale, scale, scale)
                 self.rotation = SCNMatrix4Mult(newScale, self.rotation)
             }
@@ -68,30 +68,14 @@ struct ConformerView: View {
     
     private var panGesture: some Gesture {
         DragGesture()
-            .onChanged { (value) in
-                let translation = value.translation
-                let newRotation = coordinateTransform(for: makeRotation(from: translation), with: self.rotation)
+            .onChanged { value in
+                let newRotation = GeometryTransformer.makeCoordinateTransfrom(translation: value.translation, reference: self.rotation)
                 geometryNode.transform = SCNMatrix4Mult(newRotation, self.rotation)
             }
-            .onEnded { (value) in
-                let translation = value.translation
-                let newRotation = coordinateTransform(for: makeRotation(from: translation), with: self.rotation)
+            .onEnded { value in
+                let newRotation = GeometryTransformer.makeCoordinateTransfrom(translation: value.translation, reference: self.rotation)
                 self.rotation = SCNMatrix4Mult(newRotation, self.rotation)
             }
-    }
-    
-    private func makeRotation(from translation: CGSize) -> SCNMatrix4 {
-        let length = sqrt( translation.width * translation.width + translation.height * translation.height )
-        let angle = CGFloat(length) * .pi / 180.0
-        let rotationAxis = [CGFloat](arrayLiteral: translation.height / length, translation.width / length)
-        let rotation: SCNMatrix4 = SCNMatrix4MakeRotation(angle, CGFloat(rotationAxis[0]), CGFloat(rotationAxis[1]), 0.0)
-        return rotation
-    }
-    
-    private func coordinateTransform(for rotation: SCNMatrix4, with reference: SCNMatrix4) -> SCNMatrix4 {
-        let inverseOfReference = SCNMatrix4Invert(reference)
-        let transformed = SCNMatrix4Mult(reference, SCNMatrix4Mult(rotation, inverseOfReference))
-        return transformed
     }
     
 }
