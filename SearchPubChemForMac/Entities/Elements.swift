@@ -21,7 +21,7 @@ enum Elements: Int {
         return elementToReturn;
     }
     
-    public func getColor() -> Color {
+    public func getColor() -> NSColor {
         var color = NSColor()
         switch(self) {
         case .hydrogen:
@@ -57,7 +57,7 @@ enum Elements: Int {
         default:
             color = #colorLiteral(red: 0.8666666667, green: 0.4666666667, blue: 1, alpha: 1) // #dd77ff pink
         }
-        return Color(color)
+        return color
     }
     
     // https://en.wikipedia.org/wiki/Covalent_radius

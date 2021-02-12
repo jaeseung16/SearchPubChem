@@ -10,12 +10,12 @@ import SwiftUI
 import SceneKit
 
 struct SearchByNameView: View {
-    @State var compoundName: String = "water"
-    @State private var isEditing = false
-    @State var image: NSImage?
-    @State var conformer: Conformer?
     @Binding var presenting: Bool
     
+    @State private var isEditing = false
+    @State var compoundName: String = "water"
+    @State var image: NSImage?
+    @State var conformer: Conformer?
     @State var geometryNode: SCNNode?
     
     static let client = PubChemSearch()
@@ -131,7 +131,7 @@ struct SearchByNameView: View {
                 self.conformer = conformer
                 print("conformer: \(String(describing: conformer))")
                 
-                self.geometryNode = createSCNNode(for: self.conformer!)
+                self.geometryNode = GeometryGenerator.generate(from: conformer)
                 
                 /*
                 DispatchQueue.main.async {
@@ -150,32 +150,6 @@ struct SearchByNameView: View {
                 //self.presentAlert(title: "No 3D Data", message: errorString)
             }
         })
-    }
-    
-    private func createSCNNode(for conformer: Conformer) -> SCNNode {
-        let atomsNode = SCNNode()
-        
-        for atom in conformer.atoms {
-            let atomNode = SCNNode(geometry: createSCNNode(for: atom))
-            atomNode.position = SCNVector3Make(CGFloat(Float(atom.location[0])), CGFloat(atom.location[1]), CGFloat(atom.location[2]))
-            atomsNode.addChildNode(atomNode)
-        }
-        return atomsNode
-    }
-    
-    private func createSCNNode(for atom: Atom) -> SCNGeometry {
-        guard let element = Elements(rawValue: atom.number) else {
-            print("No such element: atomic number = \(atom.number)")
-            return SCNGeometry()
-        }
-
-        let radius = element.getVanDerWaalsRadius() > 0 ? element.getVanDerWaalsRadius() : element.getCovalentRadius()
-        
-        let atomNode = SCNSphere(radius: CGFloat(radius) / 200.0)
-        atomNode.firstMaterial?.diffuse.contents = NSColor(element.getColor())
-        atomNode.firstMaterial?.specular.contents = NSColor.white
-        
-        return atomNode
     }
 }
 

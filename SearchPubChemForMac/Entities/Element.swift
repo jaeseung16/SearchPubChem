@@ -12,7 +12,7 @@ import SwiftUI
 struct Element: Hashable {
     var atomicNumber: Int
     var name: String
-    var color: Color
+    var color: NSColor
     var radius: Int
     // covalent radius from https://en.wikipedia.org/wiki/Covalent_radius
     // check https://en.wikipedia.org/wiki/Atomic_radius
