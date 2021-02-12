@@ -31,6 +31,7 @@
 		9090E66D202A6F0D007927DD /* SolutionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9090E66C202A6F0D007927DD /* SolutionDetailViewController.swift */; };
 		9090E66F202A76F2007927DD /* SolutionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9090E66E202A76F2007927DD /* SolutionTableViewController.swift */; };
 		9090EC2120101262003280BD /* SearchByNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9090EC2020101262003280BD /* SearchByNameViewController.swift */; };
+		909217EB25D738AE00F7E25D /* ConformerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909217EA25D738AE00F7E25D /* ConformerView.swift */; };
 		909AE6A9200CF2F000FEE529 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6A8200CF2F000FEE529 /* AppDelegate.swift */; };
 		909AE6AE200CF2F000FEE529 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6AC200CF2F000FEE529 /* Main.storyboard */; };
 		909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */; };
@@ -124,6 +125,7 @@
 		9090E66C202A6F0D007927DD /* SolutionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionDetailViewController.swift; sourceTree = "<group>"; };
 		9090E66E202A76F2007927DD /* SolutionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionTableViewController.swift; sourceTree = "<group>"; };
 		9090EC2020101262003280BD /* SearchByNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchByNameViewController.swift; sourceTree = "<group>"; };
+		909217EA25D738AE00F7E25D /* ConformerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerView.swift; sourceTree = "<group>"; };
 		909AE6A5200CF2F000FEE529 /* SearchPubChem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchPubChem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909AE6A8200CF2F000FEE529 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		909AE6AD200CF2F000FEE529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				904D4EBC25D49DD000F9789A /* ConformerEntity+Extension.swift */,
 				904D4EF925D4A19100F9789A /* Element.swift */,
 				904D4F0125D4A1AC00F9789A /* Elements.swift */,
+				909217EA25D738AE00F7E25D /* ConformerView.swift */,
 			);
 			path = SearchPubChemForMac;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				904D4F0225D4A1AC00F9789A /* Elements.swift in Sources */,
 				904D4EBD25D49DD000F9789A /* ConformerEntity+Extension.swift in Sources */,
 				90FF778F25D350E900E81959 /* PubChemSearchConstants.swift in Sources */,
+				909217EB25D738AE00F7E25D /* ConformerView.swift in Sources */,
 				90FF775825D34DBC00E81959 /* SearchByNameView.swift in Sources */,
 				90A3C5BE25D1FE6A0007C47E /* CompoundEntity+Extensions.swift in Sources */,
 				90FF778825D350DB00E81959 /* CompoundDTO.swift in Sources */,
