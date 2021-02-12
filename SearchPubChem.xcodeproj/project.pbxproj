@@ -306,6 +306,36 @@
 			path = PubChemDownloader;
 			sourceTree = "<group>";
 		};
+		909217F225D73ED800F7E25D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				909217EA25D738AE00F7E25D /* ConformerView.swift */,
+				90FF775725D34DBC00E81959 /* SearchByNameView.swift */,
+				90FF775F25D34F6B00E81959 /* SearchResultView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		909217F325D73EE000F7E25D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				90FF778025D3505800E81959 /* PubChemSearch.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		909217F425D73F1A00F7E25D /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				90A3C5C525D1FEF30007C47E /* AtomEntity+Extensions.swift */,
+				904D4EF925D4A19100F9789A /* Element.swift */,
+				904D4F0125D4A1AC00F9789A /* Elements.swift */,
+				904D4EBC25D49DD000F9789A /* ConformerEntity+Extension.swift */,
+				90A3C5BD25D1FE6A0007C47E /* CompoundEntity+Extensions.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
 		909AE69C200CF2F000FEE529 = {
 			isa = PBXGroup;
 			children = (
@@ -384,6 +414,9 @@
 		90A3C58125D1FCBB0007C47E /* SearchPubChemForMac */ = {
 			isa = PBXGroup;
 			children = (
+				909217F425D73F1A00F7E25D /* Entities */,
+				909217F325D73EE000F7E25D /* ViewModels */,
+				909217F225D73ED800F7E25D /* Views */,
 				90A3C58225D1FCBB0007C47E /* SearchPubChemForMacApp.swift */,
 				90A3C58425D1FCBB0007C47E /* ContentView.swift */,
 				90A3C58625D1FCBC0007C47E /* Assets.xcassets */,
@@ -392,15 +425,6 @@
 				90A3C59125D1FCBC0007C47E /* SearchPubChemForMac.entitlements */,
 				90A3C58D25D1FCBC0007C47E /* SearchPubChemForMac.xcdatamodeld */,
 				90A3C58825D1FCBC0007C47E /* Preview Content */,
-				90A3C5BD25D1FE6A0007C47E /* CompoundEntity+Extensions.swift */,
-				90A3C5C525D1FEF30007C47E /* AtomEntity+Extensions.swift */,
-				90FF775725D34DBC00E81959 /* SearchByNameView.swift */,
-				90FF775F25D34F6B00E81959 /* SearchResultView.swift */,
-				90FF778025D3505800E81959 /* PubChemSearch.swift */,
-				904D4EBC25D49DD000F9789A /* ConformerEntity+Extension.swift */,
-				904D4EF925D4A19100F9789A /* Element.swift */,
-				904D4F0125D4A1AC00F9789A /* Elements.swift */,
-				909217EA25D738AE00F7E25D /* ConformerView.swift */,
 			);
 			path = SearchPubChemForMac;
 			sourceTree = "<group>";
