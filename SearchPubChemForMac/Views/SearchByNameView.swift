@@ -10,6 +10,8 @@ import SwiftUI
 import SceneKit
 
 struct SearchByNameView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @Binding var presenting: Bool
     
     @State private var isEditing = false
@@ -17,6 +19,7 @@ struct SearchByNameView: View {
     @State var image: NSImage?
     @State var conformer: Conformer?
     @State var geometryNode: SCNNode?
+    @State var properties: Properties?
     
     static let client = PubChemSearch()
     static let networkErrorString = "The Internet connection appears to be offline"
@@ -45,8 +48,55 @@ struct SearchByNameView: View {
         }
         .padding()
         .toolbar {
-            Button(action: { self.presenting.toggle() })  {
+            Button(action: {
+                self.addCompound()
+                self.presenting.toggle()
+            })  {
                 Label("Download", systemImage: "arrow.down.circle")
+            }
+        }
+    }
+    
+    private func addCompound() {
+        withAnimation {
+            guard let properties = self.properties else {
+                return
+            }
+            
+            let newCompoundEntity = CompoundEntity(context: viewContext)
+            
+            newCompoundEntity.name = self.compoundName
+            newCompoundEntity.cid = String(properties.CID)
+            newCompoundEntity.formula = properties.MolecularFormula
+            newCompoundEntity.molecularWeight = properties.MolecularWeight
+            newCompoundEntity.nameIUPAC = properties.IUPACName
+            
+            newCompoundEntity.image = self.image?.tiffRepresentation
+
+            if let conformer = self.conformer {
+                let conformerEntity = ConformerEntity(context: self.viewContext)
+                conformerEntity.compound = newCompoundEntity
+                conformerEntity.conformerId = conformer.conformerId
+            
+                for atom in conformer.atoms {
+                    let atomEntity = AtomEntity(context: self.viewContext)
+                    atomEntity.atomicNumber = Int16(atom.number)
+                    atomEntity.coordX = atom.location[0]
+                    atomEntity.coordY = atom.location[1]
+                    atomEntity.coordZ = atom.location[2]
+                    atomEntity.conformer = conformerEntity
+                }
+                
+                newCompoundEntity.conformers = NSSet(arrayLiteral: conformerEntity)
+            }
+            
+            do {
+                try viewContext.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
     }
@@ -66,7 +116,7 @@ struct SearchByNameView: View {
                 }
 
                 print("\(compoundProperties)")
-                
+                self.properties = compoundProperties
                 self.downloadImage(for: String(compoundProperties.CID))
                 self.download3DData(for: name, cid: String(compoundProperties.CID))
                 

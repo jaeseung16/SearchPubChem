@@ -17,6 +17,7 @@
 		904D4ED225D49E9300F9789A /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069722E4F2220054E7C2 /* Atom.swift */; };
 		904D4EFA25D4A19100F9789A /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904D4EF925D4A19100F9789A /* Element.swift */; };
 		904D4F0225D4A1AC00F9789A /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904D4F0125D4A1AC00F9789A /* Elements.swift */; };
+		90581E0F25D89DC400D82E82 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90581E0E25D89DC400D82E82 /* CloudKit.framework */; };
 		9062E67C23411DAB0039C136 /* AtomEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9062E67B23411DAB0039C136 /* AtomEntity+Extensions.swift */; };
 		9065BF5B22EE2F7400350083 /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9065BF5A22EE2F7400350083 /* Elements.swift */; };
 		90725F9B204217540083E1FC /* Compound+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9A204217540083E1FC /* Compound+Extensions.swift */; };
@@ -113,6 +114,7 @@
 		904D4EBC25D49DD000F9789A /* ConformerEntity+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConformerEntity+Extension.swift"; sourceTree = "<group>"; };
 		904D4EF925D4A19100F9789A /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		904D4F0125D4A1AC00F9789A /* Elements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
+		90581E0E25D89DC400D82E82 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		9062E67B23411DAB0039C136 /* AtomEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AtomEntity+Extensions.swift"; sourceTree = "<group>"; };
 		9065BF5A22EE2F7400350083 /* Elements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
 		90725F9A204217540083E1FC /* Compound+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Compound+Extensions.swift"; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90581E0F25D89DC400D82E82 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,6 +490,7 @@
 		90C9C21724CF969E00E247BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				90581E0E25D89DC400D82E82 /* CloudKit.framework */,
 				90C9C21824CF969E00E247BE /* WebKit.framework */,
 			);
 			name = Frameworks;
@@ -1094,7 +1098,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChemForMac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChem;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
@@ -1119,7 +1123,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.1;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChemForMac;
+				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChem;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;

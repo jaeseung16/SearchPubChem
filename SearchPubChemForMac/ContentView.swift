@@ -13,6 +13,7 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
+        entity: CompoundEntity.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \CompoundEntity.firstCharacterInName, ascending: true)],
         animation: .default)
     private var items: FetchedResults<CompoundEntity>
@@ -34,23 +35,8 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showSearchByNameView, content: {
                 SearchByNameView(presenting: $showSearchByNameView)
+                    .environment(\.managedObjectContext, self.viewContext)
             })
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = CompoundEntity(context: viewContext)
-            newItem.created = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
         }
     }
 

@@ -10,7 +10,6 @@
     </entity>
     <entity name="CompoundEntity" representedClassName=".CompoundEntity" syncable="YES" codeGenerationType="class">
         <attribute name="cid" optional="YES" attributeType="String"/>
-        <attribute name="conformerDowloaded" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="firstCharacterInName" optional="YES" attributeType="String"/>
         <attribute name="formula" optional="YES" attributeType="String"/>
@@ -28,7 +27,7 @@
     </entity>
     <elements>
         <element name="AtomEntity" positionX="-63" positionY="-18" width="128" height="119"/>
-        <element name="CompoundEntity" positionX="-63" positionY="0" width="128" height="179"/>
+        <element name="CompoundEntity" positionX="-63" positionY="0" width="128" height="164"/>
         <element name="ConformerEntity" positionX="-63" positionY="63" width="128" height="89"/>
     </elements>
 </model>
