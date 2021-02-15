@@ -21,13 +21,22 @@ struct ContentView: View {
     @State private var showSearchByNameView = false
     
     var body: some View {
-        List {
-            ForEach(items) { item in
-                Text("Item at \(item.created!, formatter: itemFormatter)")
-                Text("Name \(item.name ?? "")")
-                Text("Formula \(item.formula ?? "")")
+        ScrollView(.vertical) {
+            LazyVGrid(columns: Array(repeating: GridItem(.fixed(200)), count: 3)) {
+                ForEach(items) { item in
+                    CompoundInfoView(
+                        name: item.name ?? "",
+                        formula: item.formula ?? "",
+                        molecularWeight: item.molecularWeight,
+                        cid: item.cid ?? "",
+                        nameIUPAC: item.nameIUPAC ?? "",
+                        added: item.created!,
+                        image: item.image != nil ? NSImage(data: item.image!)! : NSImage(named: "water")!
+                    )
+                    .frame(width: 250, height: 250, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                }
+                .onDelete(perform: deleteItems)
             }
-            .onDelete(perform: deleteItems)
         }
         .toolbar {
             Button(action: { self.showSearchByNameView = true }) {
@@ -55,13 +64,6 @@ struct ContentView: View {
         }
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
