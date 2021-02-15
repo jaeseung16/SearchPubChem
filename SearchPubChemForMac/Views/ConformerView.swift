@@ -13,6 +13,7 @@ struct ConformerView: View {
     var geometryNode: SCNNode
     
     @State var rotation: SCNMatrix4 = SCNMatrix4Identity
+    @Binding var presenting: Bool
     
     private var cameraNode: SCNNode {
         let cameraNode = SCNNode()
@@ -52,6 +53,7 @@ struct ConformerView: View {
             .frame(width: 250, height: 250, alignment: .center)
             .gesture(panGesture)
             .gesture(pinchGesture)
+            .onTapGesture(count: 2, perform: { presenting.toggle() } )
     }
     
     private var pinchGesture: some Gesture {
@@ -81,7 +83,9 @@ struct ConformerView: View {
 }
 
 struct ConformerView_Previews: PreviewProvider {
+    @State static var presented = true
+    
     static var previews: some View {
-        ConformerView(geometryNode: SCNNode())
+        ConformerView(geometryNode: SCNNode(), presenting: $presented)
     }
 }

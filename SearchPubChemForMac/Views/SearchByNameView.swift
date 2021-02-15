@@ -42,7 +42,7 @@ struct SearchByNameView: View {
             }
             
             if (geometryNode != nil) {
-                ConformerView(geometryNode: geometryNode!)
+                ConformerView(geometryNode: geometryNode!, presenting: $presenting)
             }
             
         }
