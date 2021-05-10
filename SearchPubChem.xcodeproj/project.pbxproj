@@ -38,6 +38,7 @@
 		90BAD4D724C4AA5E00EE5D3E /* iPadCompoundCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BAD4D624C4AA5E00EE5D3E /* iPadCompoundCollectionViewController.swift */; };
 		90BAD4D924C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BAD4D824C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift */; };
 		90C008AB2309A60C0057217E /* ConformerEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */; };
+		90C18BAD2649ED950036C0DE /* CompoundTag+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C18BAC2649ED950036C0DE /* CompoundTag+Extensions.swift */; };
 		90C2FF7524B6946D00C33F4C /* ConformerDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C2FF7424B6946D00C33F4C /* ConformerDTO.swift */; };
 		90C3993C24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C3993B24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift */; };
 		90C9C21624CF94E300E247BE /* iPadWebPubChemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C9C21524CF94E300E247BE /* iPadWebPubChemViewController.swift */; };
@@ -106,6 +107,8 @@
 		90BAD4D824C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundCollectionViewCell.swift; sourceTree = "<group>"; };
 		90C008A92309A5020057217E /* PubChemSolution v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PubChemSolution v2.xcdatamodel"; sourceTree = "<group>"; };
 		90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConformerEntity+Extensions.swift"; sourceTree = "<group>"; };
+		90C18BAB2649ECC60036C0DE /* PubChemSolution v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PubChemSolution v3.xcdatamodel"; sourceTree = "<group>"; };
+		90C18BAC2649ED950036C0DE /* CompoundTag+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompoundTag+Extensions.swift"; sourceTree = "<group>"; };
 		90C2FF7424B6946D00C33F4C /* ConformerDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerDTO.swift; sourceTree = "<group>"; };
 		90C3993B24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundDetailViewController.swift; sourceTree = "<group>"; };
 		90C9C21524CF94E300E247BE /* iPadWebPubChemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadWebPubChemViewController.swift; sourceTree = "<group>"; };
@@ -147,10 +150,11 @@
 		90725F992042173B0083E1FC /* Managed Object Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				90725F9A204217540083E1FC /* Compound+Extensions.swift */,
-				90725F9C204217830083E1FC /* Solution+Extensions.swift */,
-				90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */,
 				9062E67B23411DAB0039C136 /* AtomEntity+Extensions.swift */,
+				90725F9A204217540083E1FC /* Compound+Extensions.swift */,
+				90C18BAC2649ED950036C0DE /* CompoundTag+Extensions.swift */,
+				90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */,
+				90725F9C204217830083E1FC /* Solution+Extensions.swift */,
 			);
 			path = "Managed Object Extensions";
 			sourceTree = "<group>";
@@ -388,7 +392,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "Jae Seung Lee";
 				TargetAttributes = {
 					909AE6A4200CF2F000FEE529 = {
@@ -477,6 +481,7 @@
 				907FECB620152CD500B0CEBF /* CompoundDetailViewController.swift in Sources */,
 				90C9C21624CF94E300E247BE /* iPadWebPubChemViewController.swift in Sources */,
 				908ECAC6205210D000B7DEE0 /* WebPubChemViewController.swift in Sources */,
+				90C18BAD2649ED950036C0DE /* CompoundTag+Extensions.swift in Sources */,
 				907FECB42014EDF800B0CEBF /* PubChemSearch.swift in Sources */,
 				90A09DE524B124EA0089C6C0 /* CompoundDTO.swift in Sources */,
 				908E7137207C1D0A007918AE /* UIViewController+Extensions.swift in Sources */,
@@ -576,6 +581,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -601,7 +607,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -635,6 +641,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -654,7 +661,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -807,10 +814,11 @@
 		9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				90C18BAB2649ECC60036C0DE /* PubChemSolution v3.xcdatamodel */,
 				90C008A92309A5020057217E /* PubChemSolution v2.xcdatamodel */,
 				9081A37F201BEEB800A1FECC /* PubChemSolution.xcdatamodel */,
 			);
-			currentVersion = 90C008A92309A5020057217E /* PubChemSolution v2.xcdatamodel */;
+			currentVersion = 90C18BAB2649ECC60036C0DE /* PubChemSolution v3.xcdatamodel */;
 			path = PubChemSolution.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
