@@ -48,6 +48,8 @@
 		90CE069822E4F2220054E7C2 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069722E4F2220054E7C2 /* Atom.swift */; };
 		90D322D922ECFEAB0050EFE5 /* ConformerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D322D822ECFEAB0050EFE5 /* ConformerViewController.swift */; };
 		90DB476F24BD280C00702FB4 /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90DB476E24BD280C00702FB4 /* iPad.storyboard */; };
+		90DD0E56264B34F400B9AA8E /* iPadCompoundTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DD0E55264B34F400B9AA8E /* iPadCompoundTagViewController.swift */; };
+		90DD0E58264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DD0E57264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift */; };
 		90E94B1824C11EC900A169D2 /* iPadMasterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E94B1724C11EC900A169D2 /* iPadMasterTableViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +120,8 @@
 		90CE069722E4F2220054E7C2 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
 		90D322D822ECFEAB0050EFE5 /* ConformerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerViewController.swift; sourceTree = "<group>"; };
 		90DB476E24BD280C00702FB4 /* iPad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
+		90DD0E55264B34F400B9AA8E /* iPadCompoundTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundTagViewController.swift; sourceTree = "<group>"; };
+		90DD0E57264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundTagCollectionViewCell.swift; sourceTree = "<group>"; };
 		90E94B1724C11EC900A169D2 /* iPadMasterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadMasterTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -317,6 +321,8 @@
 				90BAD4D824C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift */,
 				90C3993B24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift */,
 				90C9C21524CF94E300E247BE /* iPadWebPubChemViewController.swift */,
+				90DD0E55264B34F400B9AA8E /* iPadCompoundTagViewController.swift */,
+				90DD0E57264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift */,
 			);
 			path = iPad;
 			sourceTree = "<group>";
@@ -475,10 +481,12 @@
 				9090E66F202A76F2007927DD /* SolutionTableViewController.swift in Sources */,
 				9090EC2120101262003280BD /* SearchByNameViewController.swift in Sources */,
 				90725F9B204217540083E1FC /* Compound+Extensions.swift in Sources */,
+				90DD0E56264B34F400B9AA8E /* iPadCompoundTagViewController.swift in Sources */,
 				90CE069622E4F0250054E7C2 /* Element.swift in Sources */,
 				90ACC15A2377201300158299 /* SolutionTableViewCell.swift in Sources */,
 				909AE6A9200CF2F000FEE529 /* AppDelegate.swift in Sources */,
 				907FECB620152CD500B0CEBF /* CompoundDetailViewController.swift in Sources */,
+				90DD0E58264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift in Sources */,
 				90C9C21624CF94E300E247BE /* iPadWebPubChemViewController.swift in Sources */,
 				908ECAC6205210D000B7DEE0 /* WebPubChemViewController.swift in Sources */,
 				90C18BAD2649ED950036C0DE /* CompoundTag+Extensions.swift in Sources */,

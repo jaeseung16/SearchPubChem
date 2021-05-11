@@ -74,6 +74,10 @@ class iPadCompoundDetailViewController: UIViewController {
             conformerViewController.conformer = conformer
             conformerViewController.name = compound.name?.uppercased()
             conformerViewController.formula = compound.formula
+        } else if let compoundTagViewController = segue.destination as? iPadCompoundTagViewController {
+            
+            compoundTagViewController.dataController = self.dataController
+            print("CompoundCollectionViewController")
         }
     }
     
@@ -221,6 +225,10 @@ class iPadCompoundDetailViewController: UIViewController {
         webViewController.url = url
         print("webViewController = \(webViewController)")
         navigationController?.pushViewController(webViewController, animated: true)
+    }
+
+    @IBAction func editTags(_ sender: UIBarButtonItem) {
+        
     }
 }
 
