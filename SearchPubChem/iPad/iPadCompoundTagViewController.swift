@@ -16,6 +16,11 @@ class iPadCompoundTagViewController: UIViewController {
     @IBOutlet weak var allTagsCollectionView: UICollectionView!
     @IBOutlet weak var allTagsFlowLayout: UICollectionViewFlowLayout!
     
+    @IBOutlet weak var addTagButton: UIButton!
+    @IBOutlet weak var newTagTextField: UITextField!
+    
+    var compound: Compound!
+    
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<CompoundTag>! {
         didSet {
@@ -49,6 +54,27 @@ class iPadCompoundTagViewController: UIViewController {
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func addNewTag(_ sender: UIButton) {
+        if let newTagName = newTagTextField.text, !newTagName.isEmpty {
+            let newTag = CompoundTag(context: dataController.viewContext)
+            newTag.compoundCount = 1
+            newTag.name = newTagTextField.text
+            
+            compound.tags = NSSet(arrayLiteral: newTag)
+            
+            print("compound = \(String(describing: compound))")
+            print("newTag = \(newTag)")
+            
+            do {
+                try dataController.viewContext.save()
+            } catch {
+                NSLog("Error while saving in iPadCompoundTagViewController.addNewTag(:)")
+            }
+        } else {
+            print("New tag is not given")
+        }
     }
     
 }

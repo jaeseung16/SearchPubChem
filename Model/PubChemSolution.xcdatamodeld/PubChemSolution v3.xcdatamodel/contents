@@ -20,14 +20,13 @@
         <attribute name="nameIUPAC" optional="YES" attributeType="String"/>
         <relationship name="conformers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ConformerEntity" inverseName="compound" inverseEntity="ConformerEntity"/>
         <relationship name="solutions" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Solution" inverseName="compounds" inverseEntity="Solution"/>
-        <relationship name="tags" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CompoundTag" inverseName="compunds" inverseEntity="CompoundTag"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CompoundTag" inverseName="compunds" inverseEntity="CompoundTag"/>
     </entity>
     <entity name="CompoundTag" representedClassName=".CompoundTag" syncable="YES" codeGenerationType="class">
         <attribute name="compoundCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="created" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
-        <relationship name="compunds" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Compound" inverseName="tags" inverseEntity="Compound"/>
+        <relationship name="compunds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Compound" inverseName="tags" inverseEntity="Compound"/>
     </entity>
     <entity name="ConformerEntity" representedClassName=".ConformerEntity" syncable="YES" codeGenerationType="class">
         <attribute name="conformerId" optional="YES" attributeType="String"/>
@@ -44,8 +43,8 @@
     <elements>
         <element name="AtomEntity" positionX="-58.9296875" positionY="-241.48046875" width="128" height="133"/>
         <element name="Compound" positionX="-283.0859375" positionY="-56.3671875" width="128" height="209"/>
+        <element name="CompoundTag" positionX="-81" positionY="-81" width="128" height="89"/>
         <element name="ConformerEntity" positionX="123.5625" positionY="-63.9609375" width="128" height="103"/>
         <element name="Solution" positionX="-37.40625" positionY="224.30078125" width="128" height="89"/>
-        <element name="CompoundTag" positionX="-81" positionY="-81" width="128" height="104"/>
     </elements>
 </model>

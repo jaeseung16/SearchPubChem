@@ -77,6 +77,7 @@ class iPadCompoundDetailViewController: UIViewController {
         } else if let compoundTagViewController = segue.destination as? iPadCompoundTagViewController {
             
             compoundTagViewController.dataController = self.dataController
+            compoundTagViewController.compound = self.compound
             print("CompoundCollectionViewController")
         }
     }

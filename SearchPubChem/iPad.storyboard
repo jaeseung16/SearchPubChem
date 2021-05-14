@@ -243,11 +243,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="704" height="984"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IDX-6h-ZdD">
-                                <rect key="frame" x="0.0" y="0.0" width="704" height="56"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="qeE-2M-ENS"/>
-                                </constraints>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IDX-6h-ZdD">
+                                <rect key="frame" x="0.0" y="6" width="704" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Tags" id="OZ5-aM-q47">
                                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="lPL-vr-8ze">
@@ -289,13 +287,36 @@
                                             </collectionViewCell>
                                         </cells>
                                     </collectionView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tags" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="627-LB-gJ6">
-                                        <rect key="frame" x="314" y="454" width="36" height="227"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="nxT-A9-fNi">
+                                        <rect key="frame" x="160" y="454" width="344" height="227"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tags" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="627-LB-gJ6">
+                                                <rect key="frame" x="0.0" y="0.0" width="86" height="227"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U30-Uw-pRD">
+                                                <rect key="frame" x="86" y="0.0" width="86" height="227"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rXO-gr-H3w">
+                                                <rect key="frame" x="172" y="0.0" width="86" height="227"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CiX-lO-WI4">
+                                                <rect key="frame" x="258" y="0.0" width="86" height="227"/>
+                                                <state key="normal" title="Add new tag"/>
+                                                <connections>
+                                                    <action selector="addNewTag:" destination="Nvn-v2-jjd" eventType="touchUpInside" id="YTn-Iz-H0x"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4Xb-qh-w32">
                                         <rect key="frame" x="0.0" y="681" width="664" height="227"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -306,7 +327,7 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Rc4-hn-umK" customClass="iPadCompoundTagCollectionViewCell" customModule="SearchPubChem" customModuleProvider="target">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="iPadCompoundTagCollectionViewCell" id="Rc4-hn-umK" customClass="iPadCompoundTagCollectionViewCell" customModule="SearchPubChem" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="rNo-Ux-Tao">
@@ -343,25 +364,16 @@
                                         </cells>
                                     </collectionView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="627-LB-gJ6" firstAttribute="height" secondItem="jyi-sq-WsM" secondAttribute="height" id="BGP-dZ-6de"/>
-                                    <constraint firstItem="4Xb-qh-w32" firstAttribute="height" secondItem="CfO-je-k8E" secondAttribute="height" id="BdZ-nx-AA0"/>
-                                    <constraint firstItem="CfO-je-k8E" firstAttribute="height" secondItem="jyi-sq-WsM" secondAttribute="height" multiplier="5" id="j5c-Cl-mFP"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yZh-Iy-f4M"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="Xco-Cs-sEb" firstAttribute="top" secondItem="IDX-6h-ZdD" secondAttribute="bottom" id="OEy-Rm-DI1"/>
-                            <constraint firstItem="IDX-6h-ZdD" firstAttribute="leading" secondItem="yZh-Iy-f4M" secondAttribute="leading" id="h7d-ed-57t"/>
-                            <constraint firstItem="IDX-6h-ZdD" firstAttribute="top" secondItem="yZh-Iy-f4M" secondAttribute="top" id="mY7-it-6fj"/>
-                            <constraint firstItem="yZh-Iy-f4M" firstAttribute="trailing" secondItem="IDX-6h-ZdD" secondAttribute="trailing" id="ujW-Rg-iGU"/>
-                        </constraints>
                     </view>
                     <connections>
+                        <outlet property="addTagButton" destination="CiX-lO-WI4" id="FiN-eY-MfP"/>
                         <outlet property="allTagsCollectionView" destination="4Xb-qh-w32" id="7gW-mQ-3Hh"/>
                         <outlet property="allTagsFlowLayout" destination="dMY-F5-XGv" id="6mA-iE-esf"/>
+                        <outlet property="newTagTextField" destination="rXO-gr-H3w" id="22A-yQ-8Mx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m4P-9I-irY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
