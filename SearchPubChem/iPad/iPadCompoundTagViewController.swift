@@ -19,7 +19,11 @@ class iPadCompoundTagViewController: UIViewController {
     @IBOutlet weak var addTagButton: UIButton!
     @IBOutlet weak var newTagTextField: UITextField!
     
+    @IBOutlet weak var tagsLabel: UILabel!
+    
     var compound: Compound!
+    var tagsAttachedToCompound = Set<CompoundTag>()
+    var sellectedCells = Set<IndexPath>()
     
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<CompoundTag>! {
@@ -36,21 +40,60 @@ class iPadCompoundTagViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        setUpFetchedResultsController()
+        adjustFlowLayoutSize(size: view.frame.size)
+        
+        populateTagsAttachedToCompound()
+        setTagsLabel()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidAppear(_ animated: Bool) {
+        allTagsCollectionView.reloadData()
     }
-    */
-
+    
+    func setUpFetchedResultsController() {
+        let fetchRequest: NSFetchRequest<CompoundTag> = setupFetchRequest()
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "compoundTags")
+        fetchedResultsController.delegate = self
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("Compounds cannot be fetched: \(error.localizedDescription)")
+        }
+    }
+    
+    func setupFetchRequest() -> NSFetchRequest<CompoundTag> {
+        let fetchRequest: NSFetchRequest<CompoundTag> = CompoundTag.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
+        
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        return fetchRequest
+    }
+    
+    func populateTagsAttachedToCompound() {
+        if let tags = compound.tags {
+            for tag in tags {
+                if let tag = tag as? CompoundTag {
+                    tagsAttachedToCompound.insert(tag)
+                }
+            }
+        }
+    }
+    
+    func setTagsLabel() {
+        var tagsString = [String]()
+        
+        for tag in tagsAttachedToCompound {
+            if let name = tag.name {
+                tagsString.append(name)
+            }
+        }
+    
+        tagsLabel.text = tagsString.joined(separator: ",")
+    }
     
     @IBAction func dismiss(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
@@ -62,10 +105,11 @@ class iPadCompoundTagViewController: UIViewController {
             newTag.compoundCount = 1
             newTag.name = newTagTextField.text
             
-            compound.tags = NSSet(arrayLiteral: newTag)
-            
-            print("compound = \(String(describing: compound))")
-            print("newTag = \(newTag)")
+            if let tags = compound.tags, tags.count > 0 {
+                tags.adding(newTag)
+            } else {
+                compound.tags = NSSet(arrayLiteral: newTag)
+            }
             
             do {
                 try dataController.viewContext.save()
@@ -77,6 +121,43 @@ class iPadCompoundTagViewController: UIViewController {
         }
     }
     
+    @IBAction func deleteTags(_ sender: UIButton) {
+        for indexPath in sellectedCells {
+            let tag = fetchedResultsController.object(at: indexPath)
+            dataController.viewContext.delete(tag)
+        }
+        
+        do {
+            try dataController.viewContext.save()
+            NSLog("Saved in iPadCompoundTagViewController.deleteTags(:)")
+        } catch {
+            NSLog("Error while saving in iPadCompoundTagViewController.deleteTags(:)")
+        }
+    }
+    
+    @IBAction func updateTags(_ sender: UIBarButtonItem) {
+        if let tags = compound.tags {
+            for tag in tags {
+                if let compoundTag = tag as? CompoundTag {
+                    compoundTag.compoundCount -= 1
+                }
+            }
+        }
+        
+        for tag in tagsAttachedToCompound {
+            tag.compoundCount += 1
+        }
+        
+        compound.tags = NSSet(set: tagsAttachedToCompound)
+        
+        do {
+            try dataController.viewContext.save()
+        } catch {
+            NSLog("Error while saving in iPadCompoundTagViewController.addNewTag(:)")
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
@@ -90,44 +171,45 @@ extension iPadCompoundTagViewController: UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //let compound = fetchedResultsController.object(at: indexPath)
+        let tag = fetchedResultsController.object(at: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellIdentifier, for: indexPath) as! iPadCompoundTagCollectionViewCell
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellIdentifier, for: indexPath) as! iPadCompoundCollectionViewCell
-        
-        /*
-        cell.compoundNameLabel.text = compound.name
-        
-        if let imageData = compound.image {
-            cell.compoundImageView.image = UIImage(data: imageData as Data)
-        }
-         */
+        cell.nameLabel.text = tag.name
+        cell.countLabel.text = "\(tag.compoundCount)"
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
+        let tag = fetchedResultsController.object(at: indexPath)
+        
+        var selected = false
+        
+        if tagsAttachedToCompound.contains(tag) {
+            tagsAttachedToCompound.remove(tag)
+        } else {
+            tagsAttachedToCompound.insert(tag)
+            selected = true
+        }
+
+        setTagsLabel()
+        
+        return selected
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        /*
-        let compound = fetchedResultsController.object(at: indexPath)
-        let detailViewController = setupDetailViewController(for: compound)
-        detailViewController.delegate = self
-        navigationController?.pushViewController(detailViewController, animated: true)
-        collectionView.deselectItem(at: indexPath, animated: false)
-        */
+        if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
+            cell.contentView.backgroundColor = .cyan
+            sellectedCells.insert(indexPath)
+        }
     }
-    
-    /*
-    func setupDetailViewController(for compound: Compound) -> iPadCompoundDetailViewController {
-        let fetchRequest = buildSolutionFetchRequest(for: compound)
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        //let detailViewController = setupDetailViewController(with: fetchedResultsController)
-        //detailViewController.compound = compound
-        return detailViewController
+
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
+            cell.contentView.backgroundColor = .white
+            sellectedCells.remove(indexPath)
+        }
     }
-    */
     
     func buildSolutionFetchRequest(for compound: Compound) -> NSFetchRequest<Solution> {
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
@@ -138,15 +220,6 @@ extension iPadCompoundTagViewController: UICollectionViewDelegate, UICollectionV
         fetchRequest.predicate = predicate
         return fetchRequest
     }
-    
-    /*
-    func setupDetailViewController(with fetchedResultsController: NSFetchedResultsController<Solution>) -> iPadCompoundDetailViewController {
-        let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! iPadCompoundDetailViewController
-        detailViewController.dataController = dataController
-        detailViewController.fetchedResultsController = fetchedResultsController
-        return detailViewController
-    }
-   */
     
     // MARK: - Methods for FlowLayout
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
