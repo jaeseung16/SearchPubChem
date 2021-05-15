@@ -28,5 +28,5 @@ struct Properties: Codable {
     var CID: Int
     var IUPACName: String
     var MolecularFormula: String
-    var MolecularWeight: Double
+    var MolecularWeight: String
 }
