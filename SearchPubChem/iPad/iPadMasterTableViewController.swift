@@ -40,7 +40,12 @@ class iPadMasterTableViewController: UITableViewController {
                
         solutionTableViewController?.dataController = dataController
     }
-
+    
+    @IBAction func dumpRecords(_ sender: UIBarButtonItem) {
+        let dumper = RecordDumper(dataController: dataController)
+        dumper.dumpRecords()
+    }
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1

@@ -42,7 +42,13 @@
                             <outlet property="delegate" destination="T5h-FS-zUq" id="Piv-0R-wvQ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="SearchPubChem" id="Phn-0X-aiT"/>
+                    <navigationItem key="navigationItem" title="SearchPubChem" id="Phn-0X-aiT">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="hmk-NA-Puy">
+                            <connections>
+                                <action selector="dumpRecords:" destination="T5h-FS-zUq" id="EuL-WA-JCh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BEw-mr-N2s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

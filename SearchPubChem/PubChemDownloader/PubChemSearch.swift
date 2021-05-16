@@ -124,7 +124,8 @@ class PubChemSearch {
     func searchCompound(by name: String, completionHandler: @escaping (_ success: Bool, _ compoundProperties: Properties?, _ errorString: String?) -> Void) -> Void {
         let properties = [PubChemSearch.PropertyKey.formula,
                           PubChemSearch.PropertyKey.weight,
-                          PubChemSearch.PropertyKey.nameIUPAC]
+                          PubChemSearch.PropertyKey.nameIUPAC,
+                          PubChemSearch.PropertyKey.title]
         
         searchProperties(of: name, properties: properties) { (properties, error) in
             guard (error == nil) else {
@@ -162,9 +163,11 @@ class PubChemSearch {
                 return
             }
             
+            print(String(data: data, encoding: .utf8) ?? "Not utf8")
+            
             let dto : CompoundDTO? = self.decode(from: data)
             guard let compoundDTO = dto else {
-                sendError("Error while pasring data as compoundDTO = \(String(describing: dto))")
+                sendError("Error while parsing data as compoundDTO = \(String(describing: dto))")
                 return
             }
             
