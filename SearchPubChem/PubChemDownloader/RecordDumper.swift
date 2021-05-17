@@ -79,13 +79,6 @@ class RecordDumper {
     }
     
     func dumpRecords() {
-        dumpCompounds()
-        dumpTags()
-        dumpConformers()
-        dumpImages()
-    }
-    
-    private func dumpCompounds() {
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
         
@@ -101,7 +94,6 @@ class RecordDumper {
         
         let encoder = JSONEncoder()
         
-        var count = 0
         if let fetchedObejcts = fetchedResultsController.fetchedObjects {
             let dateFormatter = DateFormatter()
             dateFormatter.locale = Locale(identifier: "en_US_POSIX")
@@ -130,34 +122,7 @@ class RecordDumper {
                         }
                     }
                 }
-                
-                /*
-                var data: Data
-                do {
-                    data = try encoder.encode(compoundWrapper)
-                } catch {
-                    print("Cannot convert a record to dto: \(object)")
-                    data = Data()
-                }
-                count += 1
-                
-                if (!data.isEmpty) {
-                    print("object = \(object)")
-                    let fileName = "\(object.name!)_\(dateFormatter.string(from: object.created!)).json"
-                    
-                    if let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-                        let pathWithFileName = documentDirectory.appendingPathComponent(fileName)
-                        do {
-                            try data.write(to: pathWithFileName)
-                            print("Saved to \(pathWithFileName)")
-                        } catch {
-                            print("Cannot save to a file: \(fileName)") // handle error
-                        }
-                    }
-                }
-                */
             }
-            
             
             var data: Data
             do {
@@ -185,77 +150,4 @@ class RecordDumper {
         }
     }
     
-    private func dumpTags() {
-        /*
-        let fetchRequest: NSFetchRequest<CompoundTag> = CompoundTag.fetchRequest()
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "compoundTags")
-        
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            fatalError("Compounds cannot be fetched: \(error.localizedDescription)")
-        }
-        
-        let encoder = JSONEncoder()
-        
-        var count = 0
-        if let fetchedObejcts = fetchedResultsController.fetchedObjects {
-            let dateFormatter = DateFormatter()
-            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-            dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
-            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-            
-            var compounds = [CompoundDTO]()
-            
-            for object in fetchedObejcts {
-                let compoundDTO = RecordDumper.convert(from: object)
-                if let dto = compoundDTO {
-                    compounds.append(dto)
-                }
-                
-                var data: Data
-                do {
-                    data = try encoder.encode(compoundDTO)
-                } catch {
-                    print("Cannot convert a record to dto: \(object)")
-                    data = Data()
-                }
-                count += 1
-                
-                if (!data.isEmpty) {
-                    print("object = \(object)")
-                    let fileName = "\(object.name!)_\(dateFormatter.string(from: object.created!)).json"
-                    
-                    if let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-                        let pathWithFileName = documentDirectory.appendingPathComponent(fileName)
-                        do {
-                            try data.write(to: pathWithFileName)
-                            print("Saved to \(pathWithFileName)")
-                        } catch {
-                            print("Cannot save to a file: \(fileName)") // handle error
-                        }
-                    }
-                }
-            }
-            
-            var data: Data
-            do {
-                data = try encoder.encode(compounds)
-                print(String(data: data, encoding: .utf8) ?? "data")
-            } catch {
-                print("Cannot convert compounds to dto: \(compounds)")
-            }
-            
-        }
- */
-    }
-    
-    private func dumpConformers() {
-        
-    }
-    
-    private func dumpImages() {
-        
-    }
 }
