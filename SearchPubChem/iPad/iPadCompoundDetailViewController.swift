@@ -26,6 +26,7 @@ class iPadCompoundDetailViewController: UIViewController {
     @IBOutlet weak var solutionsTableView: UITableView!
     @IBOutlet weak var conformerButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var tagsLabel: UILabel!
     
     // delegate will be set by a presenting view controller
     weak var delegate: iPadCompoundDetailViewControllerDelegate?
@@ -113,6 +114,18 @@ class iPadCompoundDetailViewController: UIViewController {
                     populateConformer(for: conformers[0], with: atoms)
                 }
             }
+        }
+        
+        if let tags = compound.tags {
+            var tagStringList = [String]()
+            for tag in tags {
+                if let tag = tag as? CompoundTag, let name = tag.name {
+                    tagStringList.append(name)
+                }
+            }
+            
+            tagsLabel.text = tagStringList.count > 0 ? " " + tagStringList.joined(separator: ", ") + " \u{200c}" : ""
+            
         }
     }
         
