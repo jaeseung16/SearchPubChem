@@ -20,13 +20,13 @@
         <attribute name="nameIUPAC" optional="YES" attributeType="String"/>
         <relationship name="conformers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ConformerEntity" inverseName="compound" inverseEntity="ConformerEntity"/>
         <relationship name="solutions" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Solution" inverseName="compounds" inverseEntity="Solution"/>
-        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CompoundTag" inverseName="compunds" inverseEntity="CompoundTag"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CompoundTag" inverseName="compounds" inverseEntity="CompoundTag"/>
     </entity>
     <entity name="CompoundTag" representedClassName=".CompoundTag" syncable="YES" codeGenerationType="class">
         <attribute name="compoundCount" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="created" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
-        <relationship name="compunds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Compound" inverseName="tags" inverseEntity="Compound"/>
+        <relationship name="compounds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Compound" inverseName="tags" inverseEntity="Compound"/>
     </entity>
     <entity name="ConformerEntity" representedClassName=".ConformerEntity" syncable="YES" codeGenerationType="class">
         <attribute name="conformerId" optional="YES" attributeType="String"/>
