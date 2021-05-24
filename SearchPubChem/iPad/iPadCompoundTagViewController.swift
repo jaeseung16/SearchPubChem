@@ -9,6 +9,10 @@
 import UIKit
 import CoreData
 
+protocol iPadCompoundTagViewControllerDelegate: AnyObject {
+    func updateTags() -> Void
+}
+
 class iPadCompoundTagViewController: UIViewController {
     
     let collectionViewCellIdentifier = "iPadCompoundTagCollectionViewCell"
@@ -37,6 +41,8 @@ class iPadCompoundTagViewController: UIViewController {
             }
         }
     }
+    
+    weak var delegate: iPadCompoundTagViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,6 +156,8 @@ class iPadCompoundTagViewController: UIViewController {
         
         compound.tags = NSSet(set: tagsAttachedToCompound)
         
+        delegate?.updateTags()
+        
         do {
             try dataController.viewContext.save()
         } catch {
@@ -244,11 +252,7 @@ extension iPadCompoundTagViewController: UICollectionViewDelegate, UICollectionV
     }
     
     func cellSize(size: CGSize, space: CGFloat) -> CGFloat {
-        let numberInRowPortrait = 4.0
-        let numberInRowLandscape = 6.0
-        
-        let numberInRow = size.height > size.width ? CGFloat(numberInRowPortrait) : CGFloat(numberInRowLandscape)
-        
+        let numberInRow = CGFloat(3.0)
         return ( size.width - 2 * numberInRow * space ) / numberInRow
     }
 }

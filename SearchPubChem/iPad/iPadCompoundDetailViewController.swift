@@ -79,7 +79,7 @@ class iPadCompoundDetailViewController: UIViewController {
             
             compoundTagViewController.dataController = self.dataController
             compoundTagViewController.compound = self.compound
-            print("CompoundCollectionViewController")
+            compoundTagViewController.delegate = self
         }
     }
     
@@ -116,6 +116,10 @@ class iPadCompoundDetailViewController: UIViewController {
             }
         }
         
+        updateTagsLabel()
+    }
+    
+    func updateTagsLabel() -> Void {
         if let tags = compound.tags {
             var tagStringList = [String]()
             for tag in tags {
@@ -123,9 +127,7 @@ class iPadCompoundDetailViewController: UIViewController {
                     tagStringList.append(name)
                 }
             }
-            
             tagsLabel.text = tagStringList.count > 0 ? " " + tagStringList.joined(separator: ", ") + " \u{200c}" : ""
-            
         }
     }
         
@@ -346,4 +348,10 @@ extension iPadCompoundDetailViewController: NSFetchedResultsControllerDelegate {
         solutionsTableView.endUpdates()
     }
     
+}
+
+extension iPadCompoundDetailViewController: iPadCompoundTagViewControllerDelegate {
+    func updateTags() -> Void {
+        updateTagsLabel()
+    }
 }
