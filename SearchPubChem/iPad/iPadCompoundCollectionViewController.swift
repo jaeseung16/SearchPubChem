@@ -31,6 +31,8 @@ class iPadCompoundCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tagCollectionView.register(UINib(nibName: "TagView", bundle: nil), forCellWithReuseIdentifier: tagCollectionViewCellIdentifier)
+        
         setUpFetchedResultsController()
         adjustFlowLayoutSize(size: view.frame.size)
         
@@ -127,10 +129,11 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
             return cell
         } else {
             let tag = tagFetchedResultsController.object(at: indexPath)
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagCollectionViewCellIdentifier, for: indexPath) as! TagCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagCollectionViewCellIdentifier, for: indexPath) as! iPadCompoundTagCollectionViewCell
             
             cell.nameLabel.text = tag.name
             cell.countLabel.text = "\(tag.compoundCount)"
+            cell.containerView.backgroundColor = .white
             
             return cell
         }
@@ -148,8 +151,8 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
                 selectedTag = nil
                
                 if collectionView == tagCollectionView {
-                    if let cell = collectionView.cellForItem(at: indexPath) as? TagCollectionViewCell {
-                        cell.contentView.backgroundColor = .white
+                    if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
+                        cell.containerView.backgroundColor = .white
                     }
                 }
                 
@@ -196,56 +199,19 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
             navigationController?.pushViewController(detailViewController, animated: true)
             collectionView.deselectItem(at: indexPath, animated: false)
         } else {
-            if let cell = collectionView.cellForItem(at: indexPath) as? TagCollectionViewCell {
-                cell.contentView.backgroundColor = .cyan
+            if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
+                cell.containerView.backgroundColor = .cyan
             }
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if collectionView == tagCollectionView {
-            if let cell = collectionView.cellForItem(at: indexPath) as? TagCollectionViewCell {
-                cell.contentView.backgroundColor = .white
+            if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
+                cell.containerView.backgroundColor = .white
             }
         }
     }
-    
-    /*
-    func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        if collectionView == compoundCollectionView {
-            let compound = fetchedResultsController.object(at: indexPath)
-            
-            guard let selected = selectedTag, let tags = compound.tags else {
-                return false
-            }
-            
-            if tags.contains(selected) {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellIdentifier, for: indexPath) as! iPadCompoundCollectionViewCell
-                cell.compoundNameLabel.backgroundColor = #colorLiteral(red: 1, green: 0.4932718873, blue: 0.4739984274, alpha: 1)
-                
-                return true
-            } else {
-                return false
-            }
-        } else {
-            return true
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        if collectionView == compoundCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellIdentifier, for: indexPath) as! iPadCompoundCollectionViewCell
-            cell.contentView.backgroundColor = #colorLiteral(red: 1, green: 0.4932718873, blue: 0.4739984274, alpha: 1)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        if collectionView == compoundCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellIdentifier, for: indexPath) as! iPadCompoundCollectionViewCell
-            cell.contentView.backgroundColor = nil
-        }
-    }
-    */
     
     func setupDetailViewController(for compound: Compound) -> iPadCompoundDetailViewController {
         let fetchRequest = buildSolutionFetchRequest(for: compound)

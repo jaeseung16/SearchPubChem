@@ -11,4 +11,5 @@ import UIKit
 class iPadCompoundTagCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var containerView: UIView!
 }

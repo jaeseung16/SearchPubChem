@@ -47,6 +47,8 @@ class iPadCompoundTagViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        allTagsCollectionView.register(UINib(nibName: "TagView", bundle: nil), forCellWithReuseIdentifier: collectionViewCellIdentifier)
+        
         setUpFetchedResultsController()
         adjustFlowLayoutSize(size: view.frame.size)
         
@@ -207,14 +209,14 @@ extension iPadCompoundTagViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
-            cell.contentView.backgroundColor = .cyan
+            cell.containerView.backgroundColor = .cyan
             sellectedCells.insert(indexPath)
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
-            cell.contentView.backgroundColor = .white
+            cell.containerView.backgroundColor = .white
             sellectedCells.remove(indexPath)
         }
     }
@@ -241,7 +243,7 @@ extension iPadCompoundTagViewController: UICollectionViewDelegate, UICollectionV
     }
     
     func adjustFlowLayoutSize(size: CGSize) {
-        let space: CGFloat = 1.0
+        let space: CGFloat = 2.0
         let width = cellSize(size: size, space: space)
         let height = width
         

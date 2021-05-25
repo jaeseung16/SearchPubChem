@@ -11,6 +11,7 @@
 		902DFADD2027636B001E2AD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 902DFADC2027636B001E2AD6 /* Assets.xcassets */; };
 		902DFADF202788D8001E2AD6 /* CompoundCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902DFADE202788D8001E2AD6 /* CompoundCollectionViewController.swift */; };
 		902DFAE120278F15001E2AD6 /* CompoundCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902DFAE020278F15001E2AD6 /* CompoundCollectionViewCell.swift */; };
+		9044510A265C646200A004EE /* TagView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90445109265C646200A004EE /* TagView.xib */; };
 		9062E67C23411DAB0039C136 /* AtomEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9062E67B23411DAB0039C136 /* AtomEntity+Extensions.swift */; };
 		9065BF5B22EE2F7400350083 /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9065BF5A22EE2F7400350083 /* Elements.swift */; };
 		90725F9B204217540083E1FC /* Compound+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9A204217540083E1FC /* Compound+Extensions.swift */; };
@@ -25,7 +26,6 @@
 		9090E66D202A6F0D007927DD /* SolutionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9090E66C202A6F0D007927DD /* SolutionDetailViewController.swift */; };
 		9090E66F202A76F2007927DD /* SolutionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9090E66E202A76F2007927DD /* SolutionTableViewController.swift */; };
 		9090EC2120101262003280BD /* SearchByNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9090EC2020101262003280BD /* SearchByNameViewController.swift */; };
-		90918F5D26547B1E00D256AC /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90918F5C26547B1E00D256AC /* TagCollectionViewCell.swift */; };
 		909AE6A9200CF2F000FEE529 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6A8200CF2F000FEE529 /* AppDelegate.swift */; };
 		909AE6AE200CF2F000FEE529 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6AC200CF2F000FEE529 /* Main.storyboard */; };
 		909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */; };
@@ -80,6 +80,7 @@
 		902DFADC2027636B001E2AD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		902DFADE202788D8001E2AD6 /* CompoundCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundCollectionViewController.swift; sourceTree = "<group>"; };
 		902DFAE020278F15001E2AD6 /* CompoundCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundCollectionViewCell.swift; sourceTree = "<group>"; };
+		90445109265C646200A004EE /* TagView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagView.xib; sourceTree = "<group>"; };
 		9062E67B23411DAB0039C136 /* AtomEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AtomEntity+Extensions.swift"; sourceTree = "<group>"; };
 		9065BF5A22EE2F7400350083 /* Elements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
 		90725F9A204217540083E1FC /* Compound+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Compound+Extensions.swift"; sourceTree = "<group>"; };
@@ -94,7 +95,6 @@
 		9090E66C202A6F0D007927DD /* SolutionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionDetailViewController.swift; sourceTree = "<group>"; };
 		9090E66E202A76F2007927DD /* SolutionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionTableViewController.swift; sourceTree = "<group>"; };
 		9090EC2020101262003280BD /* SearchByNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchByNameViewController.swift; sourceTree = "<group>"; };
-		90918F5C26547B1E00D256AC /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		909AE6A5200CF2F000FEE529 /* SearchPubChem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchPubChem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909AE6A8200CF2F000FEE529 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		909AE6AD200CF2F000FEE529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -284,6 +284,7 @@
 				902DFADC2027636B001E2AD6 /* Assets.xcassets */,
 				909AE6B4200CF2F000FEE529 /* Info.plist */,
 				908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */,
+				90445109265C646200A004EE /* TagView.xib */,
 			);
 			path = SearchPubChem;
 			sourceTree = "<group>";
@@ -337,7 +338,6 @@
 				90C9C21524CF94E300E247BE /* iPadWebPubChemViewController.swift */,
 				90DD0E55264B34F400B9AA8E /* iPadCompoundTagViewController.swift */,
 				90DD0E57264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift */,
-				90918F5C26547B1E00D256AC /* TagCollectionViewCell.swift */,
 			);
 			path = iPad;
 			sourceTree = "<group>";
@@ -461,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90DB476F24BD280C00702FB4 /* iPad.storyboard in Resources */,
+				9044510A265C646200A004EE /* TagView.xib in Resources */,
 				909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */,
 				902DFADD2027636B001E2AD6 /* Assets.xcassets in Resources */,
 				909AE6AE200CF2F000FEE529 /* Main.storyboard in Resources */,
@@ -491,7 +492,6 @@
 				90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */,
 				90D4F74C26516D540082CFAE /* CompoundWrapper.swift in Sources */,
 				9062E67C23411DAB0039C136 /* AtomEntity+Extensions.swift in Sources */,
-				90918F5D26547B1E00D256AC /* TagCollectionViewCell.swift in Sources */,
 				90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */,
 				90E94B1824C11EC900A169D2 /* iPadMasterTableViewController.swift in Sources */,
 				90C2FF7524B6946D00C33F4C /* ConformerDTO.swift in Sources */,
