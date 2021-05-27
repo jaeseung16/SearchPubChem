@@ -20,6 +20,8 @@ class CompoundTableViewController: UITableViewController {
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Compound>!
     
+    var selectedTag: CompoundTag?
+    
     // MARK:- Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,13 +36,17 @@ class CompoundTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let searchByNameViewController = segue.destination as? SearchByNameViewController {
             searchByNameViewController.dataController = dataController
+        } else if let compoundTagsViewContoller = segue.destination as? CompoundTagsViewController {
+            compoundTagsViewContoller.dataController = dataController
+            compoundTagsViewContoller.delegate = self
+            compoundTagsViewContoller.selectedTag = selectedTag
         }
     }
     
     func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Compound> = setupFetchRequest()
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: selectedTag == nil ? "compounds" : nil)
         fetchedResultsController.delegate = self
         
         do {
@@ -55,6 +61,13 @@ class CompoundTableViewController: UITableViewController {
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
         
         fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        if let tag = selectedTag {
+            print("tag = \(tag)")
+            let predicate = NSPredicate(format: "tags CONTAINS %@", argumentArray: [tag])
+            fetchRequest.predicate = predicate
+        }
+        
         return fetchRequest
     }
     
@@ -168,5 +181,14 @@ extension CompoundTableViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+    }
+}
+
+extension CompoundTableViewController: CompoundTagsViewControllerDelegate {
+    func update(tag: CompoundTag?) -> Void {
+        selectedTag = tag
+        fetchedResultsController.delegate = nil
+        setUpFetchedResultsController()
+        tableView.reloadData()
     }
 }

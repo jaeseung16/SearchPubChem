@@ -22,6 +22,7 @@ class CompoundDetailViewController: UIViewController {
     @IBOutlet weak var solutionsTableView: UITableView!    
     @IBOutlet weak var conformerButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var tagsLabel: UILabel!
     
     // Constants
     let detailViewControllerIdentifier = "SolutionDetailViewController"
@@ -65,6 +66,10 @@ class CompoundDetailViewController: UIViewController {
             conformerViewController.conformer = conformer
             conformerViewController.name = compound.name?.uppercased()
             conformerViewController.formula = compound.formula
+        } else if let compoundTagViewController = segue.destination as? CompoundTagViewController {
+            compoundTagViewController.dataController = self.dataController
+            compoundTagViewController.compound = self.compound
+            compoundTagViewController.delegate = self
         }
     }
     
@@ -99,6 +104,20 @@ class CompoundDetailViewController: UIViewController {
                     populateConformer(for: conformers[0], with: atoms)
                 }
             }
+        }
+        
+        updateTagsLabel()
+    }
+    
+    func updateTagsLabel() -> Void {
+        if let tags = compound.tags {
+            var tagStringList = [String]()
+            for tag in tags {
+                if let tag = tag as? CompoundTag, let name = tag.name {
+                    tagStringList.append(name)
+                }
+            }
+            tagsLabel.text = tagStringList.count > 0 ? " " + tagStringList.joined(separator: ", ") + " \u{200c}" : ""
         }
     }
     
@@ -322,5 +341,11 @@ extension CompoundDetailViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         solutionsTableView.endUpdates()
+    }
+}
+
+extension CompoundDetailViewController: CompoundTagViewControllerDelegate {
+    func updateTags() -> Void {
+        updateTagsLabel()
     }
 }
