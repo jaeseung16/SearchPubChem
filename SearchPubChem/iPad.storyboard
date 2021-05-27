@@ -157,11 +157,20 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Compounds" id="5wG-Dl-4fN">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="bTw-vO-EF4">
-                            <connections>
-                                <segue destination="71O-wO-qxf" kind="presentation" id="OI7-2s-9zp"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="bTw-vO-EF4">
+                                <connections>
+                                    <segue destination="71O-wO-qxf" kind="presentation" id="OI7-2s-9zp"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="tag" catalog="system" id="L0g-YU-ULI">
+                                <connections>
+                                    <segue destination="Arp-KL-d4Q" kind="popoverPresentation" popoverAnchorBarButtonItem="L0g-YU-ULI" id="fqZ-yd-k7u">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="compoundCollectionView" destination="ol0-Sf-YmY" id="w1K-D3-RQK"/>
@@ -886,6 +895,80 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cMX-m4-1Kv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="812" y="797"/>
+        </scene>
+        <!--iPad Compound Tags View Controller-->
+        <scene sceneID="d4a-mC-Qje">
+            <objects>
+                <viewController id="Arp-KL-d4Q" customClass="iPadCompoundTagsViewController" customModule="SearchPubChem" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sUT-s3-HnK" customClass="iPadCompoundTagsCollectionViewCell">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="680"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XrN-al-9bI">
+                                <rect key="frame" x="0.0" y="57" width="375" height="623"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dJb-gR-iZt">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="p2s-Lh-GHx">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="hn3-V7-9kj">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="Arp-KL-d4Q" id="ChH-nu-sj8"/>
+                                    <outlet property="delegate" destination="Arp-KL-d4Q" id="dVO-40-lhe"/>
+                                </connections>
+                            </collectionView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FRH-As-eva">
+                                <rect key="frame" x="0.0" y="13" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="5uT-yr-MWx"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem title="Compound Tags" id="q61-e1-TLJ">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="GQu-Yb-SbZ">
+                                            <connections>
+                                                <action selector="dismiss:" destination="Arp-KL-d4Q" id="56f-yc-LFg"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Reset" id="hCN-ep-2Wo">
+                                            <connections>
+                                                <action selector="reset:" destination="Arp-KL-d4Q" id="wgN-JJ-mHn"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="eWe-lU-d5z"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="XrN-al-9bI" firstAttribute="top" secondItem="FRH-As-eva" secondAttribute="bottom" id="0oe-eY-N55"/>
+                            <constraint firstItem="XrN-al-9bI" firstAttribute="trailing" secondItem="eWe-lU-d5z" secondAttribute="trailing" id="4Qh-Kr-NSy"/>
+                            <constraint firstItem="XrN-al-9bI" firstAttribute="bottom" secondItem="eWe-lU-d5z" secondAttribute="bottom" id="Exm-Bn-hhO"/>
+                            <constraint firstItem="FRH-As-eva" firstAttribute="top" secondItem="eWe-lU-d5z" secondAttribute="top" id="Vir-dw-vFz"/>
+                            <constraint firstItem="FRH-As-eva" firstAttribute="leading" secondItem="eWe-lU-d5z" secondAttribute="leading" id="dtK-Ds-nzd"/>
+                            <constraint firstItem="FRH-As-eva" firstAttribute="width" secondItem="eWe-lU-d5z" secondAttribute="width" id="p97-IK-qQE"/>
+                            <constraint firstItem="XrN-al-9bI" firstAttribute="leading" secondItem="eWe-lU-d5z" secondAttribute="leading" id="zf9-Kv-6JB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="XrN-al-9bI" id="M8r-HH-hfY"/>
+                        <outlet property="flowLayout" destination="dJb-gR-iZt" id="GPk-k5-6Ea"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GaT-P5-MiB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1579.5021961932648" y="796.875"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Jgq-JX-l4a">

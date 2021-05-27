@@ -47,7 +47,7 @@ class iPadCompoundCollectionViewController: UIViewController {
     func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Compound> = setupFetchRequest()
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: selectedTag == nil ? "compounds" : nil)
         fetchedResultsController.delegate = self
         
         do {
@@ -62,6 +62,12 @@ class iPadCompoundCollectionViewController: UIViewController {
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
         
         fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        if let tag = selectedTag {
+            let predicate = NSPredicate(format: "tags CONTAINS %@", argumentArray: [tag])
+            fetchRequest.predicate = predicate
+        }
+        
         return fetchRequest
     }
     
@@ -92,6 +98,10 @@ class iPadCompoundCollectionViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let searchByNameViewController = segue.destination as? SearchByNameViewController {
             searchByNameViewController.dataController = dataController
+        } else if let compoundTagsViewContoller = segue.destination as? iPadCompoundTagsViewController {
+            compoundTagsViewContoller.dataController = dataController
+            compoundTagsViewContoller.delegate = self
+            compoundTagsViewContoller.selectedTag = selectedTag
         }
     }
     
@@ -345,5 +355,14 @@ extension iPadCompoundCollectionViewController: iPadCompoundDetailViewController
         } catch {
             fatalError("Compounds cannot be fetched: \(error.localizedDescription)")
         }
+    }
+}
+
+extension iPadCompoundCollectionViewController: CompoundTagsViewControllerDelegate {
+    func update(tag: CompoundTag?) -> Void {
+        selectedTag = tag
+        fetchedResultsController.delegate = nil
+        setUpFetchedResultsController()
+        compoundCollectionView.reloadData()
     }
 }
