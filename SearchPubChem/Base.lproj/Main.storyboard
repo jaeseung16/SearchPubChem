@@ -81,7 +81,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CEc-xE-Vcl">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="125"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="feX-Qz-hFP"/>
+                                </constraints>
                                 <items>
                                     <navigationItem id="6fQ-Xe-Kds">
                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="hfe-CN-3kV">
@@ -98,16 +101,17 @@
                                 </items>
                             </navigationBar>
                             <stackView contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="ez7-BZ-WeO">
-                                <rect key="frame" x="8" y="125" width="398" height="104"/>
+                                <rect key="frame" x="8" y="90" width="398" height="139"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Compond Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9K4-PE-mRi">
-                                        <rect key="frame" x="0.0" y="0.0" width="398" height="34"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="A7I-9i-gbO">
+                                        <rect key="frame" x="72.666666666666686" y="0.0" width="253" height="46.666666666666664"/>
+                                        <segments>
+                                            <segment title="Compound Name"/>
+                                            <segment title="CID"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="water" borderStyle="roundedRect" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="yKj-Yu-Fiw">
-                                        <rect key="frame" x="36" y="35" width="326" height="34"/>
+                                        <rect key="frame" x="36" y="46.666666666666657" width="326" height="45.666666666666657"/>
                                         <color key="backgroundColor" systemColor="secondarySystemFillColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -116,7 +120,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qjl-Rc-OI8">
-                                        <rect key="frame" x="171" y="70" width="56" height="34"/>
+                                        <rect key="frame" x="171" y="93.333333333333343" width="56" height="45.666666666666657"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="SEARCH">
@@ -130,9 +134,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="yKj-Yu-Fiw" firstAttribute="leading" secondItem="ez7-BZ-WeO" secondAttribute="leading" constant="36" id="40w-t0-DTi"/>
-                                    <constraint firstAttribute="trailing" secondItem="9K4-PE-mRi" secondAttribute="trailing" id="E4u-qm-XQF"/>
                                     <constraint firstItem="qjl-Rc-OI8" firstAttribute="centerX" secondItem="ez7-BZ-WeO" secondAttribute="centerX" id="IzU-4G-6ZA"/>
-                                    <constraint firstItem="9K4-PE-mRi" firstAttribute="leading" secondItem="ez7-BZ-WeO" secondAttribute="leading" id="aXM-QE-32v"/>
                                     <constraint firstAttribute="trailing" secondItem="yKj-Yu-Fiw" secondAttribute="trailing" constant="36" id="pt1-f4-Bc0"/>
                                 </constraints>
                             </stackView>
@@ -254,6 +256,7 @@
                         <outlet property="iupacTitleLabel" destination="L0h-Bu-IlC" id="TE9-Fx-FOg"/>
                         <outlet property="nameToSearch" destination="yKj-Yu-Fiw" id="aLR-CC-wRm"/>
                         <outlet property="saveButton" destination="Nc5-K7-TIy" id="R3k-Ci-ds5"/>
+                        <outlet property="searchBySegmentedControl" destination="A7I-9i-gbO" id="vPQ-Sc-hay"/>
                         <outlet property="weightLabel" destination="zV9-c5-74X" id="eru-ga-OPu"/>
                         <outlet property="weightTitleLabel" destination="GGG-Z6-rQV" id="Arx-GQ-DlD"/>
                     </connections>
@@ -485,8 +488,8 @@
                                     <constraint firstAttribute="width" secondItem="qG5-sT-ZvM" secondAttribute="height" multiplier="1:1" id="xNG-gc-wVw"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8R7-Ci-gOQ">
-                                <rect key="frame" x="8" y="96" width="398" height="29"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8R7-Ci-gOQ">
+                                <rect key="frame" x="60" y="96" width="294" height="29"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                 <color key="textColor" systemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -594,9 +597,9 @@
                             <constraint firstItem="qG5-sT-ZvM" firstAttribute="top" secondItem="srm-hO-zfs" secondAttribute="top" id="3Sd-i4-Le2"/>
                             <constraint firstItem="l7h-0m-611" firstAttribute="leading" secondItem="srm-hO-zfs" secondAttribute="leading" constant="8" id="6Yp-MA-uNz"/>
                             <constraint firstItem="iNo-HF-YcG" firstAttribute="leading" secondItem="qG5-sT-ZvM" secondAttribute="leading" id="6mj-Nu-xcO"/>
+                            <constraint firstItem="eC8-2o-ejQ" firstAttribute="leading" secondItem="8R7-Ci-gOQ" secondAttribute="trailing" constant="12" id="80u-ms-MLp"/>
                             <constraint firstItem="srm-hO-zfs" firstAttribute="trailing" secondItem="qG5-sT-ZvM" secondAttribute="trailing" constant="8" id="8F9-EO-KYa"/>
                             <constraint firstItem="BYr-Oi-scJ" firstAttribute="leading" secondItem="Epz-xX-DIa" secondAttribute="leadingMargin" id="AXy-iy-BAE"/>
-                            <constraint firstItem="srm-hO-zfs" firstAttribute="trailing" secondItem="8R7-Ci-gOQ" secondAttribute="trailing" constant="8" id="AfT-z3-oR4"/>
                             <constraint firstItem="nTh-dh-0aX" firstAttribute="top" secondItem="BYr-Oi-scJ" secondAttribute="bottom" constant="8" symbolic="YES" id="Ehm-d5-fou"/>
                             <constraint firstItem="qG5-sT-ZvM" firstAttribute="top" secondItem="8R7-Ci-gOQ" secondAttribute="top" constant="-8" id="H4d-nx-iBV"/>
                             <constraint firstItem="38X-ah-JGw" firstAttribute="centerX" secondItem="qG5-sT-ZvM" secondAttribute="centerX" id="Jfr-Pv-msY"/>
@@ -605,6 +608,7 @@
                             <constraint firstItem="Jak-ge-NCa" firstAttribute="top" secondItem="nTh-dh-0aX" secondAttribute="bottom" constant="8" id="SLD-8K-sBI"/>
                             <constraint firstItem="VoD-gt-1sv" firstAttribute="trailing" secondItem="qG5-sT-ZvM" secondAttribute="trailing" id="TBZ-12-S6A"/>
                             <constraint firstItem="eC8-2o-ejQ" firstAttribute="trailing" secondItem="qG5-sT-ZvM" secondAttribute="trailing" id="UUR-l3-8rT"/>
+                            <constraint firstItem="8R7-Ci-gOQ" firstAttribute="centerX" secondItem="srm-hO-zfs" secondAttribute="centerX" id="aV7-3m-oQN"/>
                             <constraint firstItem="srm-hO-zfs" firstAttribute="trailing" secondItem="l7h-0m-611" secondAttribute="trailing" constant="8" id="cXW-vr-fRV"/>
                             <constraint firstItem="nTh-dh-0aX" firstAttribute="top" secondItem="8R7-Ci-gOQ" secondAttribute="bottom" constant="8" id="cg3-B9-3JP"/>
                             <constraint firstItem="38X-ah-JGw" firstAttribute="centerY" secondItem="qG5-sT-ZvM" secondAttribute="centerY" id="dAL-Xh-sRK"/>
@@ -621,7 +625,6 @@
                             <constraint firstItem="srm-hO-zfs" firstAttribute="bottom" secondItem="l7h-0m-611" secondAttribute="bottom" id="uDs-Qn-lFc"/>
                             <constraint firstItem="qG5-sT-ZvM" firstAttribute="baseline" secondItem="VoD-gt-1sv" secondAttribute="firstBaseline" constant="12.333333333333334" symbolType="layoutAnchor" id="vlE-dS-4fg"/>
                             <constraint firstItem="nTh-dh-0aX" firstAttribute="leading" secondItem="qG5-sT-ZvM" secondAttribute="leading" id="wF5-d6-qo0"/>
-                            <constraint firstItem="8R7-Ci-gOQ" firstAttribute="leading" secondItem="srm-hO-zfs" secondAttribute="leading" constant="8" id="wiw-tb-F8m"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jZn-bI-HTZ">
@@ -660,7 +663,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nif-de-sE1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1278" y="-798"/>
+            <point key="canvasLocation" x="1276.8115942028987" y="-798.21428571428567"/>
         </scene>
         <!--Solutions-->
         <scene sceneID="urY-Q0-Jdk">
@@ -1458,7 +1461,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="ZWP-yt-4rg"/>
-        <segue reference="LRF-Fw-lbO"/>
+        <segue reference="0cz-Z3-EZB"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Compound" width="45.333332061767578" height="45.333332061767578"/>

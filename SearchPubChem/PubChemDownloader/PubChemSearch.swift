@@ -144,8 +144,62 @@ class PubChemSearch {
         }
     }
     
+    func searchCompound(with cid: String, completionHandler: @escaping (_ success: Bool, _ compoundProperties: Properties?, _ errorString: String?) -> Void) -> Void {
+        let properties = [PubChemSearch.PropertyKey.formula,
+                          PubChemSearch.PropertyKey.weight,
+                          PubChemSearch.PropertyKey.nameIUPAC,
+                          PubChemSearch.PropertyKey.title]
+        
+        searchProperties(with: cid, properties: properties) { (properties, error) in
+            guard (error == nil) else {
+                NSLog("Error while getting properties: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
+                completionHandler(false, nil, error!.userInfo[NSLocalizedDescriptionKey] as? String)
+                return
+            }
+            
+            guard let properties = properties else {
+                NSLog("Missing property values")
+                completionHandler(false, nil, "Missing property values")
+                return
+            }
+            
+            completionHandler(true, properties, nil)
+        }
+    }
+    
     func searchProperties(of name: String, properties: [String], completionHandler: @escaping (_ properties: Properties?, _ error: NSError?) -> Void) {
         let url = searchURL(of: name, for: properties)
+        
+        _ = dataTask(with: url) { (data, error) in
+            func sendError(_ error: String) {
+                let userInfo = [NSLocalizedDescriptionKey: error]
+                completionHandler(nil, NSError(domain: "dataTask", code: 1, userInfo: userInfo))
+            }
+            
+            guard (error == nil) else {
+                completionHandler(nil, error)
+                return
+            }
+            
+            guard let data = data else {
+                sendError("Cannot get the data!")
+                return
+            }
+            
+            print(String(data: data, encoding: .utf8) ?? "Not utf8")
+            
+            let dto : CompoundDTO? = self.decode(from: data)
+            guard let compoundDTO = dto else {
+                sendError("Error while parsing data as compoundDTO = \(String(describing: dto))")
+                return
+            }
+            
+            completionHandler(compoundDTO.propertyTable.properties[0], nil)
+        }
+    }
+    
+    func searchProperties(with cid: String, properties: [String], completionHandler: @escaping (_ properties: Properties?, _ error: NSError?) -> Void) {
+        let url = searchURL(with: cid, for: properties)
         
         _ = dataTask(with: url) { (data, error) in
             func sendError(_ error: String) {
@@ -186,6 +240,21 @@ class PubChemSearch {
         
         var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForName + name + pathForProperties
+        
+        return component.url!
+    }
+    
+    func searchURL(with cid: String, for properties: [String]) -> URL {
+        var pathForProperties = PubChemSearch.Constant.pathForProperties
+        
+        for property in properties {
+            pathForProperties += property + ","
+        }
+        pathForProperties.remove(at: pathForProperties.index(before: pathForProperties.endIndex))
+        pathForProperties += PubChemSearch.QueryResult.json
+        
+        var component = commonURLComponents()
+        component.path = PubChemSearch.Constant.pathForCID + cid + pathForProperties
         
         return component.url!
     }

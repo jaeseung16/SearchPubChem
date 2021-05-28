@@ -85,7 +85,7 @@
                                                         <constraint firstAttribute="width" secondItem="RwE-K0-yi8" secondAttribute="height" multiplier="1:1" id="ECU-li-1bc"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ar-QA-hVV">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7ar-QA-hVV">
                                                     <rect key="frame" x="0.0" y="131.5" width="152" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" systemColor="darkTextColor"/>
@@ -424,7 +424,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="JaT-Rl-Igp">
                                                 <rect key="frame" x="455.5" y="0.0" width="455" height="61.5"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="24" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dgY-DH-J16">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="17" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dgY-DH-J16">
                                                         <rect key="frame" x="0.0" y="0.0" width="455" height="41"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                                         <nil key="highlightedColor"/>
@@ -655,12 +655,13 @@
                             <stackView contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="EOp-6q-17B">
                                 <rect key="frame" x="0.0" y="73" width="704" height="104"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Compond Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="egP-op-y7K">
-                                        <rect key="frame" x="293" y="0.0" width="118" height="34"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="iKX-FQ-gNj">
+                                        <rect key="frame" x="225.5" y="0.0" width="253" height="35"/>
+                                        <segments>
+                                            <segment title="Compound Name"/>
+                                            <segment title="CID"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="water" borderStyle="roundedRect" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Xe7-zT-kOg">
                                         <rect key="frame" x="176" y="35" width="352" height="34"/>
                                         <color key="backgroundColor" systemColor="secondarySystemFillColor"/>
@@ -806,6 +807,7 @@
                         <outlet property="iupacTitleLabel" destination="qMO-7h-ZE1" id="bpD-9k-azW"/>
                         <outlet property="nameToSearch" destination="Xe7-zT-kOg" id="RDS-24-LS7"/>
                         <outlet property="saveButton" destination="Txd-EY-cIH" id="Zym-nG-dLC"/>
+                        <outlet property="searchBySegmentedControl" destination="iKX-FQ-gNj" id="C0b-FN-0Eb"/>
                         <outlet property="weightLabel" destination="fgD-Me-Gvm" id="k5h-uR-VJo"/>
                         <outlet property="weightTitleLabel" destination="PMO-XN-Gts" id="0ad-7D-zMO"/>
                     </connections>
