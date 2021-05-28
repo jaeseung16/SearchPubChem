@@ -62,39 +62,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vey-Hc-wvO">
-                                <rect key="frame" x="0.0" y="0.0" width="1366" height="72"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="72" id="jJH-rt-dW4"/>
-                                </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oAi-mS-0W0">
-                                    <size key="itemSize" width="144" height="64"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="VFx-V1-dO6">
-                                        <rect key="frame" x="0.0" y="4" width="144" height="64"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="no6-59-geA">
-                                            <rect key="frame" x="0.0" y="0.0" width="144" height="64"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
-                                </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="uFj-pE-zXD" id="ZPi-IF-Huy"/>
-                                    <outlet property="delegate" destination="uFj-pE-zXD" id="1Wu-gI-Yjp"/>
-                                </connections>
-                            </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ol0-Sf-YmY">
-                                <rect key="frame" x="0.0" y="80" width="1366" height="924"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1366" height="1004"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="924" id="NEp-1V-r8t"/>
-                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="0.0" id="ky7-F6-BFc">
                                     <size key="itemSize" width="152" height="152"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -147,13 +117,11 @@
                         <viewLayoutGuide key="safeArea" id="E0j-rQ-isg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ol0-Sf-YmY" firstAttribute="trailing" secondItem="vey-Hc-wvO" secondAttribute="trailing" id="0LT-FT-JVM"/>
-                            <constraint firstItem="ol0-Sf-YmY" firstAttribute="top" secondItem="vey-Hc-wvO" secondAttribute="bottom" constant="8" symbolic="YES" id="3OH-5v-RiZ"/>
-                            <constraint firstItem="vey-Hc-wvO" firstAttribute="top" secondItem="E0j-rQ-isg" secondAttribute="top" id="I58-ci-bax"/>
-                            <constraint firstItem="vey-Hc-wvO" firstAttribute="leading" secondItem="E0j-rQ-isg" secondAttribute="leading" id="PRM-pO-EvC"/>
+                            <constraint firstItem="ol0-Sf-YmY" firstAttribute="bottom" secondItem="E0j-rQ-isg" secondAttribute="bottom" id="7YZ-C6-U9c"/>
+                            <constraint firstItem="ol0-Sf-YmY" firstAttribute="leading" secondItem="E0j-rQ-isg" secondAttribute="leading" id="ESn-gp-xmm"/>
+                            <constraint firstItem="ol0-Sf-YmY" firstAttribute="top" secondItem="E0j-rQ-isg" secondAttribute="top" id="Lll-ZL-BjH"/>
                             <constraint firstItem="ol0-Sf-YmY" firstAttribute="bottom" secondItem="E0j-rQ-isg" secondAttribute="bottom" id="f2r-60-2U0"/>
-                            <constraint firstItem="E0j-rQ-isg" firstAttribute="trailing" secondItem="vey-Hc-wvO" secondAttribute="trailing" id="fIO-fz-IJN"/>
-                            <constraint firstItem="ol0-Sf-YmY" firstAttribute="leading" secondItem="vey-Hc-wvO" secondAttribute="leading" id="ztG-3b-MPl"/>
+                            <constraint firstItem="ol0-Sf-YmY" firstAttribute="trailing" secondItem="E0j-rQ-isg" secondAttribute="trailing" id="xAa-fL-RPJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Compounds" id="5wG-Dl-4fN">
@@ -175,8 +143,6 @@
                     <connections>
                         <outlet property="compoundCollectionView" destination="ol0-Sf-YmY" id="w1K-D3-RQK"/>
                         <outlet property="flowLayout" destination="ky7-F6-BFc" id="Tdg-dP-n9X"/>
-                        <outlet property="tagCollectionView" destination="vey-Hc-wvO" id="GKm-l0-w4v"/>
-                        <outlet property="tagCollectionViewFlowLayout" destination="oAi-mS-0W0" id="n5P-uP-SQl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nhE-2U-2P8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
