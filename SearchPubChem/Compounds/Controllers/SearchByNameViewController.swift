@@ -33,6 +33,10 @@ class SearchByNameViewController: UIViewController {
     
     @IBOutlet weak var searchBySegmentedControl: UISegmentedControl!
     
+    var searchType: PubChemSearch.SearchType {
+        return PubChemSearch.SearchType(rawValue: searchBySegmentedControl.selectedSegmentIndex) ?? .name
+    }
+    
     // Constants
     let client = PubChemSearch()
     let networkErrorString = "The Internet connection appears to be offline"
@@ -105,69 +109,36 @@ class SearchByNameViewController: UIViewController {
         hideLabels(true)
         showNetworkIndicators(true)
         
-        if searchBySegmentedControl.selectedSegmentIndex == 0 {
-            client.searchCompound(by: name) { (success, compoundProperties, errorString) in
-                self.showNetworkIndicators(false)
-                
-                if success {
-                    guard let compoundProperties = compoundProperties else {
-                        NSLog("There is no infromation for a compound")
-                        return
-                    }
-
-                    DispatchQueue.main.async {
-                        self.formulaLabel.text = compoundProperties.MolecularFormula
-                        self.weightLabel.text = String(compoundProperties.MolecularWeight)
-                        self.cidLabel.text = String(compoundProperties.CID)
-                        self.iupacNameLabel.text = compoundProperties.IUPACName
-                        
-                        self.hideLabels(false)
-                        self.showNetworkIndicators(true)
-                        
-                        self.downloadImage(for: self.cidLabel.text!)
-                        self.download3DData(for: name)
-                    }
-                } else {
-                    guard let errorString = errorString, errorString.contains(self.networkErrorString) else {
-                        let errorString = "There is no compound matching the name \'\(name)\'"
-                        self.presentAlert(title: "Search Failed", message: errorString)
-                        return
-                    }
-                    self.presentAlert(title: "Search Failed", message: self.networkErrorString)
+        client.searchCompound(with: name, searchType: searchType) { (success, compoundProperties, errorString) in
+            self.showNetworkIndicators(false)
+            
+            if success {
+                guard let compoundProperties = compoundProperties else {
+                    NSLog("There is no infromation for a compound")
+                    return
                 }
-            }
-        } else if searchBySegmentedControl.selectedSegmentIndex == 1 {
-            client.searchCompound(with: name) { (success, compoundProperties, errorString) in
-                self.showNetworkIndicators(false)
-                
-                if success {
-                    guard let compoundProperties = compoundProperties else {
-                        NSLog("There is no infromation for a compound")
-                        return
-                    }
 
-                    DispatchQueue.main.async {
-                        self.formulaLabel.text = compoundProperties.MolecularFormula
-                        self.weightLabel.text = String(compoundProperties.MolecularWeight)
-                        self.cidLabel.text = String(compoundProperties.CID)
-                        self.iupacNameLabel.text = compoundProperties.IUPACName
-                        
-                        self.hideLabels(false)
-                        self.showNetworkIndicators(true)
-                        
-                        self.downloadImage(for: self.cidLabel.text!)
-                        self.download3DData(for: name)
-                        
-                        self.compoundTitle = compoundProperties.Title
-                    }
-                } else {
-                    guard let errorString = errorString, errorString.contains(self.networkErrorString) else {
-                        let errorString = "There is no compound matching the name \'\(name)\'"
-                        self.presentAlert(title: "Search Failed", message: errorString)
-                        return
-                    }
-                    self.presentAlert(title: "Search Failed", message: self.networkErrorString)
+                DispatchQueue.main.async {
+                    self.formulaLabel.text = compoundProperties.MolecularFormula
+                    self.weightLabel.text = String(compoundProperties.MolecularWeight)
+                    self.cidLabel.text = String(compoundProperties.CID)
+                    self.iupacNameLabel.text = compoundProperties.IUPACName
+                    
+                    self.hideLabels(false)
+                    self.showNetworkIndicators(true)
+                    
+                    self.downloadImage(for: self.cidLabel.text!)
+                    self.download3DData(for: name)
+                    
+                    self.compoundTitle = self.searchType == .cid ? compoundProperties.Title : nil
                 }
+            } else {
+                guard let errorString = errorString, errorString.contains(self.networkErrorString) else {
+                    let errorString = "There is no compound matching the name \'\(name)\'"
+                    self.presentAlert(title: "Search Failed", message: errorString)
+                    return
+                }
+                self.presentAlert(title: "Search Failed", message: self.networkErrorString)
             }
         }
         
@@ -219,12 +190,7 @@ class SearchByNameViewController: UIViewController {
     @IBAction func saveCompound(_ sender: UIBarButtonItem) {
         let compound = Compound(context: dataController.viewContext)
         
-        if searchBySegmentedControl.selectedSegmentIndex == 0 {
-            compound.name = nameToSearch.text!
-        } else if searchBySegmentedControl.selectedSegmentIndex == 1 {
-            compound.name = compoundTitle ?? nameToSearch.text!
-        }
-        
+        compound.name = searchType == .cid ? compoundTitle : nameToSearch.text!
         compound.firstCharacterInName = String(compound.name!.first!).uppercased()
         compound.formula = formulaLabel.text!
         compound.molecularWeight = Double(weightLabel.text!)!

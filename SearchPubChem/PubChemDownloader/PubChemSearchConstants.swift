@@ -64,5 +64,10 @@ extension PubChemSearch {
         case z = "z"
         case data = "data"
     }
+    
+    enum SearchType: Int {
+        case name
+        case cid
+    }
 }
 
