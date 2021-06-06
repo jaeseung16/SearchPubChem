@@ -393,6 +393,7 @@
                         <outlet property="compoundTagCollectionView" destination="Ipj-XK-fxd" id="yYf-Ee-Wbc"/>
                         <outlet property="compoundTagFlowLayout" destination="VZB-fQ-wiw" id="AjA-TH-QA3"/>
                         <outlet property="newTagTextField" destination="Mm9-Pn-2SC" id="FCb-XT-N5K"/>
+                        <outlet property="tagsAttachedLabel" destination="Zc3-L8-wcm" id="Qg1-m8-ul8"/>
                         <outlet property="tagsLabel" destination="URc-Qm-E0Q" id="9UB-eG-FmC"/>
                     </connections>
                 </viewController>

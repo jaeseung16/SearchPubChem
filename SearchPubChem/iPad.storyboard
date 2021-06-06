@@ -262,7 +262,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IDX-6h-ZdD">
                                 <rect key="frame" x="0.0" y="8" width="375" height="50"/>
                                 <items>
-                                    <navigationItem title="Tags" id="OZ5-aM-q47">
+                                    <navigationItem title="Edit Tags" id="OZ5-aM-q47">
                                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="lPL-vr-8ze">
                                             <connections>
                                                 <action selector="dismiss:" destination="Nvn-v2-jjd" id="HY7-Ih-Ij7"/>
@@ -377,6 +377,7 @@
                         <outlet property="allTagsCollectionView" destination="4Xb-qh-w32" id="7gW-mQ-3Hh"/>
                         <outlet property="allTagsFlowLayout" destination="dMY-F5-XGv" id="6mA-iE-esf"/>
                         <outlet property="newTagTextField" destination="rXO-gr-H3w" id="22A-yQ-8Mx"/>
+                        <outlet property="tagsAttachedLabel" destination="jyi-sq-WsM" id="YWr-cP-PuF"/>
                         <outlet property="tagsLabel" destination="lva-Ha-P7R" id="nnI-3R-cGK"/>
                     </connections>
                 </viewController>
@@ -873,7 +874,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XrN-al-9bI">
-                                <rect key="frame" x="0.0" y="57" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="65" width="375" height="615"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="dJb-gR-iZt">
                                     <size key="itemSize" width="128" height="128"/>
@@ -920,7 +921,7 @@
                         <viewLayoutGuide key="safeArea" id="eWe-lU-d5z"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="XrN-al-9bI" firstAttribute="top" secondItem="FRH-As-eva" secondAttribute="bottom" id="0oe-eY-N55"/>
+                            <constraint firstItem="XrN-al-9bI" firstAttribute="top" secondItem="FRH-As-eva" secondAttribute="bottom" constant="8" id="0oe-eY-N55"/>
                             <constraint firstItem="XrN-al-9bI" firstAttribute="trailing" secondItem="eWe-lU-d5z" secondAttribute="trailing" id="4Qh-Kr-NSy"/>
                             <constraint firstItem="XrN-al-9bI" firstAttribute="bottom" secondItem="eWe-lU-d5z" secondAttribute="bottom" id="Exm-Bn-hhO"/>
                             <constraint firstItem="FRH-As-eva" firstAttribute="top" secondItem="eWe-lU-d5z" secondAttribute="top" id="Vir-dw-vFz"/>

@@ -20,6 +20,7 @@ class CompoundTagViewController: UIViewController {
     @IBOutlet weak var compoundTagCollectionView: UICollectionView!
     @IBOutlet weak var compoundTagFlowLayout: UICollectionViewFlowLayout!
     
+    @IBOutlet weak var tagsAttachedLabel: UILabel!
     @IBOutlet weak var tagsLabel: UILabel!
     
     @IBOutlet weak var addTagButton: UIButton!
@@ -53,6 +54,7 @@ class CompoundTagViewController: UIViewController {
         setUpFetchedResultsController()
         adjustFlowLayoutSize(size: view.frame.size)
         
+        tagsAttachedLabel.text = "Tags attached to \(compound.name!)"
         populateTagsAttachedToCompound()
         setTagsLabel()
     }
@@ -91,13 +93,29 @@ class CompoundTagViewController: UIViewController {
     func setTagsLabel() {
         var tagsString = [String]()
         
-        for tag in tagsAttachedToCompound {
-            if let name = tag.name {
-                tagsString.append(name)
+        if tagsAttachedToCompound.isEmpty {
+            tagsLabel.text = "No tags"
+            if #available(iOS 13.0, *) {
+                tagsLabel.textColor = .secondaryLabel
+            } else {
+                // Fallback on earlier versions
+                tagsLabel.textColor = .gray
+            }
+        } else {
+            for tag in tagsAttachedToCompound {
+                if let name = tag.name {
+                    tagsString.append(name)
+                }
+            }
+        
+            tagsLabel.text = tagsString.joined(separator: ",")
+            if #available(iOS 13.0, *) {
+                tagsLabel.textColor = .label
+            } else {
+                // Fallback on earlier versions
+                tagsLabel.textColor = traitCollection.userInterfaceStyle == .dark ? .white : .black
             }
         }
-    
-        tagsLabel.text = tagsString.joined(separator: ",")
     }
     
     
