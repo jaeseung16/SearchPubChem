@@ -55,7 +55,7 @@
 		90849818266D79A7002644F6 /* 126697616_Unii-T7obq65G2I.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497E8266D79A6002644F6 /* 126697616_Unii-T7obq65G2I.png */; };
 		90849819266D79A7002644F6 /* 6288_threonine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497E9266D79A6002644F6 /* 6288_threonine.png */; };
 		9084981A266D79A7002644F6 /* 2519_caffein.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EA266D79A6002644F6 /* 2519_caffein.png */; };
-		9084981B266D79A7002644F6 /* 2244_aspirin.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EB266D79A6002644F6 /* 2244_aspirin.png */; };
+		9084981B266D79A7002644F6 /* 2244_Aspirin.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EB266D79A6002644F6 /* 2244_Aspirin.png */; };
 		9084981C266D79A7002644F6 /* 6503_tromethamine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EC266D79A7002644F6 /* 6503_tromethamine.png */; };
 		9084981D266D79A7002644F6 /* 5862_cysteine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497ED266D79A7002644F6 /* 5862_cysteine.png */; };
 		9084981E266D79A7002644F6 /* 5988_sucrose.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EE266D79A7002644F6 /* 5988_sucrose.png */; };
@@ -177,7 +177,7 @@
 		908497E8266D79A6002644F6 /* 126697616_Unii-T7obq65G2I.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "126697616_Unii-T7obq65G2I.png"; sourceTree = "<group>"; };
 		908497E9266D79A6002644F6 /* 6288_threonine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6288_threonine.png; sourceTree = "<group>"; };
 		908497EA266D79A6002644F6 /* 2519_caffein.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2519_caffein.png; sourceTree = "<group>"; };
-		908497EB266D79A6002644F6 /* 2244_aspirin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2244_aspirin.png; sourceTree = "<group>"; };
+		908497EB266D79A6002644F6 /* 2244_Aspirin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2244_Aspirin.png; sourceTree = "<group>"; };
 		908497EC266D79A7002644F6 /* 6503_tromethamine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6503_tromethamine.png; sourceTree = "<group>"; };
 		908497ED266D79A7002644F6 /* 5862_cysteine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 5862_cysteine.png; sourceTree = "<group>"; };
 		908497EE266D79A7002644F6 /* 5988_sucrose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 5988_sucrose.png; sourceTree = "<group>"; };
@@ -361,7 +361,7 @@
 				908497FA266D79A7002644F6 /* 887_methanol.png */,
 				908497E7266D79A6002644F6 /* 962_water.png */,
 				908497D1266D79A5002644F6 /* 1983_acetaminophen.png */,
-				908497EB266D79A6002644F6 /* 2244_aspirin.png */,
+				908497EB266D79A6002644F6 /* 2244_Aspirin.png */,
 				908497DB266D79A6002644F6 /* 2265_Azathioprine.png */,
 				908497EA266D79A6002644F6 /* 2519_caffein.png */,
 				908497F0266D79A7002644F6 /* 2682_hexadecan-1-ol.png */,
@@ -636,7 +636,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90849813266D79A7002644F6 /* 6057_tyrosine.png in Resources */,
-				9084981B266D79A7002644F6 /* 2244_aspirin.png in Resources */,
+				9084981B266D79A7002644F6 /* 2244_Aspirin.png in Resources */,
 				90849807266D79A7002644F6 /* 6306_isoleucine.png in Resources */,
 				9084982A266D79A7002644F6 /* 887_methanol.png in Resources */,
 				9084980F266D79A7002644F6 /* 6322_arginine.png in Resources */,

@@ -64,7 +64,7 @@ class RecordLoader {
             compoundEntity.formula = compound.molecularFormula
             compoundEntity.molecularWeight = Double(compound.molecularWeight) ?? 0.0
             compoundEntity.conformerDownloaded = compound.conformerDownloaded
-            compoundEntity.firstCharacterInName = String(compound.name?.prefix(1) ?? "")
+            compoundEntity.firstCharacterInName = String(compound.name!.first!).uppercased()
             
             if !compound.conformers.isEmpty {
                 let conformer = compound.conformers[0]
