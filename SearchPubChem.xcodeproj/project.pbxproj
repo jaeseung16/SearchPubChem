@@ -45,7 +45,7 @@
 		90849814266D79A7002644F6 /* 6255_maltose.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497E4266D79A6002644F6 /* 6255_maltose.png */; };
 		90849816266D79A7002644F6 /* 145742_proline.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497E6266D79A6002644F6 /* 145742_proline.png */; };
 		90849819266D79A7002644F6 /* 6288_threonine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497E9266D79A6002644F6 /* 6288_threonine.png */; };
-		9084981B266D79A7002644F6 /* 2244_Aspirin.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EB266D79A6002644F6 /* 2244_Aspirin.png */; };
+		9084981B266D79A7002644F6 /* 2244_aspirin.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EB266D79A6002644F6 /* 2244_aspirin.png */; };
 		9084981D266D79A7002644F6 /* 5862_cysteine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497ED266D79A7002644F6 /* 5862_cysteine.png */; };
 		9084981E266D79A7002644F6 /* 5988_sucrose.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EE266D79A7002644F6 /* 5988_sucrose.png */; };
 		9084981F266D79A7002644F6 /* 3776_propan-2-ol.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EF266D79A7002644F6 /* 3776_propan-2-ol.png */; };
@@ -153,7 +153,7 @@
 		908497E4266D79A6002644F6 /* 6255_maltose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6255_maltose.png; sourceTree = "<group>"; };
 		908497E6266D79A6002644F6 /* 145742_proline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 145742_proline.png; sourceTree = "<group>"; };
 		908497E9266D79A6002644F6 /* 6288_threonine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6288_threonine.png; sourceTree = "<group>"; };
-		908497EB266D79A6002644F6 /* 2244_Aspirin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2244_Aspirin.png; sourceTree = "<group>"; };
+		908497EB266D79A6002644F6 /* 2244_aspirin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2244_aspirin.png; sourceTree = "<group>"; };
 		908497ED266D79A7002644F6 /* 5862_cysteine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 5862_cysteine.png; sourceTree = "<group>"; };
 		908497EE266D79A7002644F6 /* 5988_sucrose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 5988_sucrose.png; sourceTree = "<group>"; };
 		908497EF266D79A7002644F6 /* 3776_propan-2-ol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3776_propan-2-ol.png"; sourceTree = "<group>"; };
@@ -329,7 +329,7 @@
 				908497DA266D79A5002644F6 /* 702_ethanol.png */,
 				908497CF266D79A5002644F6 /* 750_glycine.png */,
 				908497FA266D79A7002644F6 /* 887_methanol.png */,
-				908497EB266D79A6002644F6 /* 2244_Aspirin.png */,
+				908497EB266D79A6002644F6 /* 2244_aspirin.png */,
 				908497F0266D79A7002644F6 /* 2682_hexadecan-1-ol.png */,
 				908497D4266D79A5002644F6 /* 3672_ibuprofen.png */,
 				908497EF266D79A7002644F6 /* 3776_propan-2-ol.png */,
@@ -594,7 +594,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90849813266D79A7002644F6 /* 6057_tyrosine.png in Resources */,
-				9084981B266D79A7002644F6 /* 2244_Aspirin.png in Resources */,
+				9084981B266D79A7002644F6 /* 2244_aspirin.png in Resources */,
 				90849807266D79A7002644F6 /* 6306_isoleucine.png in Resources */,
 				9084982A266D79A7002644F6 /* 887_methanol.png in Resources */,
 				9084980F266D79A7002644F6 /* 6322_arginine.png in Resources */,

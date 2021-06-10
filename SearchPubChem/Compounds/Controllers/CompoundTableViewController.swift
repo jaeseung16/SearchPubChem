@@ -12,15 +12,15 @@ import CoreData
 class CompoundTableViewController: UITableViewController {
     // MARK:- Properties
     // Constants
-    let detailViewControllerIdentifier = "CompoundDetailViewController"
-    let tableViewCellIdentifier = "ChemicalTableViewCell"
+    private let detailViewControllerIdentifier = "CompoundDetailViewController"
+    private let tableViewCellIdentifier = "ChemicalTableViewCell"
     
     // Variables
-    var compounds = [Compound]()
+    private var compounds = [Compound]()
     var dataController: DataController!
-    var fetchedResultsController: NSFetchedResultsController<Compound>!
+    private var fetchedResultsController: NSFetchedResultsController<Compound>!
     
-    var selectedTag: CompoundTag?
+    private var selectedTag: CompoundTag?
     
     // MARK:- Methods
     override func viewDidLoad() {
@@ -31,6 +31,15 @@ class CompoundTableViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
+        updateTitle()
+    }
+    
+    private func updateTitle() {
+        if let tag = selectedTag {
+            self.navigationItem.title = "Compounds (\(tag.name!))"
+        } else {
+            self.navigationItem.title = "Compounds"
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -43,7 +52,7 @@ class CompoundTableViewController: UITableViewController {
         }
     }
     
-    func setUpFetchedResultsController() {
+    private func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Compound> = setupFetchRequest()
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: selectedTag == nil ? "compounds" : nil)
@@ -56,14 +65,13 @@ class CompoundTableViewController: UITableViewController {
         }
     }
     
-    func setupFetchRequest() -> NSFetchRequest<Compound> {
+    private func setupFetchRequest() -> NSFetchRequest<Compound> {
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         if let tag = selectedTag {
-            print("tag = \(tag)")
             let predicate = NSPredicate(format: "tags CONTAINS %@", argumentArray: [tag])
             fetchRequest.predicate = predicate
         }
@@ -81,7 +89,7 @@ class CompoundTableViewController: UITableViewController {
         return cell
     }
     
-    func cellTextLabel(for compound: Compound) -> String? {
+    private func cellTextLabel(for compound: Compound) -> String? {
         var textLabel: String?
         if let count = compound.solutions?.count, let name = compound.name, count > 0 {
             textLabel = name + " 💧"
@@ -98,7 +106,7 @@ class CompoundTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func setupDetailViewController(for compound: Compound) -> CompoundDetailViewController {
+    private func setupDetailViewController(for compound: Compound) -> CompoundDetailViewController {
         let fetchRequest = buildSolutionFetchRequest(for: compound)
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         let detailViewController = setupDetailViewController(with: fetchedResultsController)
@@ -106,7 +114,7 @@ class CompoundTableViewController: UITableViewController {
         return detailViewController
     }
     
-    func buildSolutionFetchRequest(for compound: Compound) -> NSFetchRequest<Solution> {
+    private func buildSolutionFetchRequest(for compound: Compound) -> NSFetchRequest<Solution> {
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "compounds CONTAINS %@", argumentArray: [compound])
         
@@ -190,5 +198,6 @@ extension CompoundTableViewController: CompoundTagsViewControllerDelegate {
         fetchedResultsController.delegate = nil
         setUpFetchedResultsController()
         tableView.reloadData()
+        updateTitle()
     }
 }

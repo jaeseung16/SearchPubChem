@@ -83,8 +83,11 @@ class CompoundTagsViewController: UIViewController {
             
             selectedTag = nil
             indexPathForSelectedTag = nil
+            
+            delegate?.update(tag: selectedTag)
+            dismiss(animated: true, completion: nil)
         }
-
+        
     }
     
     
@@ -131,6 +134,8 @@ extension CompoundTagsViewController: UICollectionViewDelegate, UICollectionView
             cell.containerView.backgroundColor = .cyan
             selectedTag = fetchedResultsController.object(at: indexPath)
             indexPathForSelectedTag = indexPath
+            delegate?.update(tag: selectedTag)
+            dismiss(animated: true, completion: nil)
         }
     }
 
