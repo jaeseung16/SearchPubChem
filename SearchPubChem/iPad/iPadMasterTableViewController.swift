@@ -16,6 +16,8 @@ class iPadMasterTableViewController: UITableViewController {
     let collectionViewControllerIdentifier = "iPadCompoundCollectionViewController"
     let solutionViewControllerIdentifier = "SolutionTableViewController"
     
+    @IBOutlet weak var dumpButton: UIBarButtonItem!
+    
     // Variables
     var compoundCollectionViewController: iPadCompoundCollectionViewController?
     var solutionTableViewController: SolutionTableViewController?
@@ -24,6 +26,9 @@ class iPadMasterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dumpButton.title = ""
+        dumpButton.isEnabled = false
         
         setupCompoundCollectionViewController()
         setupSolutionCollectionViewController()
