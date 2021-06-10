@@ -109,10 +109,6 @@ extension AppDelegate {
             NSLog("Error while dropping all objects in DB")
         }
         
-        let recordLoader = RecordLoader(dataController: dataController)
-        recordLoader.loadRecords()
-        
-        /*
         // Example Compound 1: Water
         let water = Compound(context: dataController.viewContext)
         water.name = "water"
@@ -142,6 +138,9 @@ extension AppDelegate {
         let amounts = [water.name!: 1.0, sodiumChloride.name!: 0.05]
         saltyWater.amount = amounts as NSObject
 
-        */
+        // Load additional compounds
+        let recordLoader = RecordLoader(dataController: dataController)
+        recordLoader.loadRecords()
+        
     }
 }
