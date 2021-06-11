@@ -12,17 +12,18 @@ import CoreData
 class iPadMasterTableViewController: UITableViewController {
     // MARK: - Properties
     // Constants
-    let menuItems = ["Compounds", "Solutions"]
-    let collectionViewControllerIdentifier = "iPadCompoundCollectionViewController"
-    let solutionViewControllerIdentifier = "SolutionTableViewController"
+    private let menuItems = ["Compounds", "Solutions"]
+    private let collectionViewControllerIdentifier = "iPadCompoundCollectionViewController"
+    private let solutionViewControllerIdentifier = "SolutionTableViewController"
+    private let menuItemTableCellIdentifier = "MenuItemTableCell"
     
     @IBOutlet weak var dumpButton: UIBarButtonItem!
     
     // Variables
-    var compoundCollectionViewController: iPadCompoundCollectionViewController?
-    var solutionTableViewController: SolutionTableViewController?
+    private var compoundCollectionViewController: iPadCompoundCollectionViewController?
+    private var solutionTableViewController: SolutionTableViewController?
     var dataController: DataController!
-    var compounds = [Compound]()
+    private var compounds = [Compound]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,13 +35,13 @@ class iPadMasterTableViewController: UITableViewController {
         setupSolutionCollectionViewController()
     }
     
-    func setupCompoundCollectionViewController() -> Void {
+    private func setupCompoundCollectionViewController() -> Void {
         compoundCollectionViewController = UIStoryboard(name: "iPad", bundle: nil).instantiateViewController(withIdentifier: collectionViewControllerIdentifier) as? iPadCompoundCollectionViewController
                
         compoundCollectionViewController?.dataController = dataController
     }
     
-    func setupSolutionCollectionViewController() -> Void {
+    private func setupSolutionCollectionViewController() -> Void {
         solutionTableViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: solutionViewControllerIdentifier) as? SolutionTableViewController
                
         solutionTableViewController?.dataController = dataController
@@ -60,9 +61,8 @@ class iPadMasterTableViewController: UITableViewController {
         return menuItems.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuItemTableCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: menuItemTableCellIdentifier, for: indexPath)
         
         cell.textLabel!.text = menuItems[indexPath.row]
         

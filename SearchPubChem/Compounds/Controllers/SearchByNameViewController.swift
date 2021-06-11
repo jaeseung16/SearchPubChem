@@ -33,13 +33,13 @@ class SearchByNameViewController: UIViewController {
     
     @IBOutlet weak var searchBySegmentedControl: UISegmentedControl!
     
-    var searchType: PubChemSearch.SearchType {
+    private var searchType: PubChemSearch.SearchType {
         return PubChemSearch.SearchType(rawValue: searchBySegmentedControl.selectedSegmentIndex) ?? .name
     }
     
     // Constants
-    let client = PubChemSearch()
-    let networkErrorString = "The Internet connection appears to be offline"
+    private let client = PubChemSearch()
+    private let networkErrorString = "The Internet connection appears to be offline"
     
     // Variables
     var dataController: DataController!
@@ -53,7 +53,7 @@ class SearchByNameViewController: UIViewController {
         }
     }
     
-    var compoundTitle: String?
+    private var compoundTitle: String?
 
     // MARK: - Methods
     override func viewDidLoad() {
@@ -76,18 +76,18 @@ class SearchByNameViewController: UIViewController {
         }
     }
     
-    func enableSaveButton(_ yes: Bool) {
+    private func enableSaveButton(_ yes: Bool) {
         saveButton.isEnabled = yes
     }
     
-    func showNetworkIndicators(_ yes: Bool) {
+    private func showNetworkIndicators(_ yes: Bool) {
         DispatchQueue.main.async {
             self.activityIndicator.isHidden = !yes
             UIApplication.shared.isNetworkActivityIndicatorVisible = yes
         }
     }
     
-    func hideLabels(_ yes: Bool) {
+    private func hideLabels(_ yes: Bool) {
         cidTitleLabel.isHidden = yes
         iupacTitleLabel.isHidden = yes
         weightTitleLabel.isHidden = yes

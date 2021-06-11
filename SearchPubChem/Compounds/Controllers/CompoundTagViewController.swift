@@ -15,7 +15,7 @@ protocol CompoundTagViewControllerDelegate: AnyObject {
 
 class CompoundTagViewController: UIViewController {
 
-    let collectionViewCellIdentifier = "compoundTagCollectionViewCell"
+    private let collectionViewCellIdentifier = "compoundTagCollectionViewCell"
     
     @IBOutlet weak var compoundTagCollectionView: UICollectionView!
     @IBOutlet weak var compoundTagFlowLayout: UICollectionViewFlowLayout!
@@ -27,8 +27,8 @@ class CompoundTagViewController: UIViewController {
     @IBOutlet weak var newTagTextField: UITextField!
     
     var compound: Compound!
-    var tagsAttachedToCompound = Set<CompoundTag>()
-    var sellectedCells = Set<IndexPath>()
+    private var tagsAttachedToCompound = Set<CompoundTag>()
+    private var sellectedCells = Set<IndexPath>()
     
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<CompoundTag>! {
@@ -59,7 +59,7 @@ class CompoundTagViewController: UIViewController {
         setTagsLabel()
     }
     
-    func setUpFetchedResultsController() {
+    private func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<CompoundTag> = setupFetchRequest()
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "compoundTags")
@@ -72,7 +72,7 @@ class CompoundTagViewController: UIViewController {
         }
     }
     
-    func setupFetchRequest() -> NSFetchRequest<CompoundTag> {
+    private func setupFetchRequest() -> NSFetchRequest<CompoundTag> {
         let fetchRequest: NSFetchRequest<CompoundTag> = CompoundTag.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
         
@@ -80,7 +80,7 @@ class CompoundTagViewController: UIViewController {
         return fetchRequest
     }
     
-    func populateTagsAttachedToCompound() {
+    private func populateTagsAttachedToCompound() {
         if let tags = compound.tags {
             for tag in tags {
                 if let tag = tag as? CompoundTag {
@@ -90,7 +90,7 @@ class CompoundTagViewController: UIViewController {
         }
     }
     
-    func setTagsLabel() {
+    private func setTagsLabel() {
         var tagsString = [String]()
         
         if tagsAttachedToCompound.isEmpty {
@@ -187,17 +187,6 @@ class CompoundTagViewController: UIViewController {
         
         dismiss(animated: true, completion: nil)
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
@@ -292,42 +281,41 @@ extension CompoundTagViewController: UICollectionViewDelegate, UICollectionViewD
 
 // MARK: - NSFetchedResultsControllerDelegate
 extension CompoundTagViewController: NSFetchedResultsControllerDelegate {
-        func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-            let set = IndexSet(integer: sectionIndex)
-            
-            switch type {
-            case .insert:
-                compoundTagCollectionView.insertSections(set)
-            case .delete:
-                compoundTagCollectionView.deleteSections(set)
-            default:
-                break
-            }
-        }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        let set = IndexSet(integer: sectionIndex)
         
-        func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-            switch type {
-            case .insert:
-                compoundTagCollectionView.insertItems(at: [newIndexPath!])
-            case .delete:
-                compoundTagCollectionView.deleteItems(at: [indexPath!])
-            case .update:
-                compoundTagCollectionView.reloadItems(at: [indexPath!])
-            case .move:
-                compoundTagCollectionView.deleteItems(at: [indexPath!])
-                compoundTagCollectionView.insertItems(at: [newIndexPath!])
-            @unknown default:
-                fatalError()
-            }
+        switch type {
+        case .insert:
+            compoundTagCollectionView.insertSections(set)
+        case .delete:
+            compoundTagCollectionView.deleteSections(set)
+        default:
+            break
         }
-        
-        func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-            do {
-                try dataController.viewContext.save()
-                NSLog("Saved in controllerDidChangeContent(_:)")
-            } catch {
-                NSLog("Error while saving in controllerDidChangeContent(_:)")
-            }
-        }
+    }
     
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            compoundTagCollectionView.insertItems(at: [newIndexPath!])
+        case .delete:
+            compoundTagCollectionView.deleteItems(at: [indexPath!])
+        case .update:
+            compoundTagCollectionView.reloadItems(at: [indexPath!])
+        case .move:
+            compoundTagCollectionView.deleteItems(at: [indexPath!])
+            compoundTagCollectionView.insertItems(at: [newIndexPath!])
+        @unknown default:
+            fatalError()
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        do {
+            try dataController.viewContext.save()
+            NSLog("Saved in controllerDidChangeContent(_:)")
+        } catch {
+            NSLog("Error while saving in controllerDidChangeContent(_:)")
+        }
+    }
 }

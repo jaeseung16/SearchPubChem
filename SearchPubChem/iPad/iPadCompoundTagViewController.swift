@@ -15,7 +15,7 @@ protocol iPadCompoundTagViewControllerDelegate: AnyObject {
 
 class iPadCompoundTagViewController: UIViewController {
     
-    let collectionViewCellIdentifier = "iPadCompoundTagCollectionViewCell"
+    private let collectionViewCellIdentifier = "iPadCompoundTagCollectionViewCell"
 
     @IBOutlet weak var allTagsCollectionView: UICollectionView!
     @IBOutlet weak var allTagsFlowLayout: UICollectionViewFlowLayout!
@@ -27,8 +27,8 @@ class iPadCompoundTagViewController: UIViewController {
     @IBOutlet weak var tagsLabel: UILabel!
     
     var compound: Compound!
-    var tagsAttachedToCompound = Set<CompoundTag>()
-    var sellectedCells = Set<IndexPath>()
+    private var tagsAttachedToCompound = Set<CompoundTag>()
+    private var sellectedCells = Set<IndexPath>()
     
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<CompoundTag>! {
@@ -62,7 +62,7 @@ class iPadCompoundTagViewController: UIViewController {
         allTagsCollectionView.reloadData()
     }
     
-    func setUpFetchedResultsController() {
+    private func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<CompoundTag> = setupFetchRequest()
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "compoundTags")
@@ -75,7 +75,7 @@ class iPadCompoundTagViewController: UIViewController {
         }
     }
     
-    func setupFetchRequest() -> NSFetchRequest<CompoundTag> {
+    private func setupFetchRequest() -> NSFetchRequest<CompoundTag> {
         let fetchRequest: NSFetchRequest<CompoundTag> = CompoundTag.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
         
@@ -83,7 +83,7 @@ class iPadCompoundTagViewController: UIViewController {
         return fetchRequest
     }
     
-    func populateTagsAttachedToCompound() {
+    private func populateTagsAttachedToCompound() {
         if let tags = compound.tags {
             for tag in tags {
                 if let tag = tag as? CompoundTag {
@@ -93,7 +93,7 @@ class iPadCompoundTagViewController: UIViewController {
         }
     }
     
-    func setTagsLabel() {
+    private func setTagsLabel() {
         var tagsString = [String]()
         
         if tagsAttachedToCompound.isEmpty {

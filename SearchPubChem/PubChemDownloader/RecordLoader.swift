@@ -47,8 +47,6 @@ class RecordLoader {
             return
         }
         
-        print("\(compounds)")
-        
         guard let compounds = compounds else {
             print("No compounds")
             return

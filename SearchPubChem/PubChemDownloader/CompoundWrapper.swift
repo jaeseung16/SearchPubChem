@@ -30,36 +30,3 @@ struct CompoundWrapper: Codable {
         var coordZ: Double
     }
 }
-
-
-/*
- 
- compound.firstCharacterInName = String(compound.name!.first!).uppercased()
- compound.image = compoundImageView.image!.pngData()!
- compound.conformerDownloaded = true
- 
- 
- compound.name -> compoundProperties.Title
- compound.formula ->  compoundProperties.MolecularFormula
- compound.molecularWeight -> compoundProperties.MolecularWeight
- compound.cid -> compoundProperties.CID
- compound.nameIUPAC -> compoundProperties.IUPACName
- 
- 
- 
- let conformerEntity = ConformerEntity(context: dataController.viewContext)
- if let conformer = self.conformer {
-     conformerEntity.compound = compound
-     conformerEntity.conformerId = conformer.conformerId
- 
-     for atom in conformer.atoms {
-         let atomEntity = AtomEntity(context: dataController.viewContext)
-         atomEntity.atomicNumber = Int16(atom.number)
-         atomEntity.coordX = atom.location[0]
-         atomEntity.coordY = atom.location[1]
-         atomEntity.coordZ = atom.location[2]
-         atomEntity.conformer = conformerEntity
-     }
- }
- 
- */

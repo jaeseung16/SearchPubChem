@@ -16,8 +16,8 @@ class ConformerViewController: UIViewController {
     @IBOutlet weak var formulaLabel: UILabel!
     
     var conformer: Conformer!
-    var geometryNode: SCNNode!
-    var rotation: SCNMatrix4 = SCNMatrix4Identity
+    private var geometryNode: SCNNode!
+    private var rotation: SCNMatrix4 = SCNMatrix4Identity
     var name: String!
     var formula: String!
     
@@ -35,11 +35,11 @@ class ConformerViewController: UIViewController {
         view.addSubview(formulaLabel)
     }
     
-    func setupGeometryNode() {
+    private func setupGeometryNode() {
         geometryNode = createSCNNode(for: conformer)
     }
     
-    func setupConformerSCNView() {
+    private func setupConformerSCNView() {
         conformerSCNView.backgroundColor = .lightGray
         conformerSCNView.scene = sceneSetup()
         conformerSCNView.scene?.rootNode.addChildNode(geometryNode)
@@ -75,7 +75,7 @@ class ConformerViewController: UIViewController {
         }
     }
     
-    func makeRotation(from translation: CGPoint) -> SCNMatrix4 {
+    private func makeRotation(from translation: CGPoint) -> SCNMatrix4 {
         let length = sqrt( translation.x * translation.x + translation.y * translation.y )
         let angle = Float(length) * .pi / 180.0
         let rotationAxis = [CGFloat](arrayLiteral: translation.y / length, translation.x / length)
@@ -83,7 +83,7 @@ class ConformerViewController: UIViewController {
         return rotation
     }
     
-    func coordinateTransform(for rotation: SCNMatrix4, with reference: SCNMatrix4) -> SCNMatrix4 {
+    private func coordinateTransform(for rotation: SCNMatrix4, with reference: SCNMatrix4) -> SCNMatrix4 {
         let inverseOfReference = SCNMatrix4Invert(reference)
         let transformed = SCNMatrix4Mult(reference, SCNMatrix4Mult(rotation, inverseOfReference))
         return transformed
@@ -92,7 +92,7 @@ class ConformerViewController: UIViewController {
 }
 
 extension ConformerViewController {
-    func sceneSetup() -> SCNScene {
+    private func sceneSetup() -> SCNScene {
         let scene = SCNScene()
         
         let ambientLightNode = SCNNode()
@@ -116,7 +116,7 @@ extension ConformerViewController {
         return scene
     }
     
-    func createSCNNode(for conformer: Conformer) -> SCNNode {
+    private func createSCNNode(for conformer: Conformer) -> SCNNode {
         let atomsNode = SCNNode()
         
         for atom in conformer.atoms {
@@ -128,7 +128,7 @@ extension ConformerViewController {
         return atomsNode
     }
     
-    func createSCNNode(for atom: Atom) -> SCNGeometry {
+    private func createSCNNode(for atom: Atom) -> SCNGeometry {
         guard let element = Elements(rawValue: atom.number) else {
             print("No such element: atomic number = \(atom.number)")
             return SCNGeometry()

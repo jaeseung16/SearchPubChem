@@ -12,8 +12,8 @@ import CoreData
 class SolutionTableViewController: UITableViewController {
     // MARK: - Properties
     // Constants
-    let detailvViewControllerIdentifier = "SolutionDetailViewController"
-    let tableViewCellIdentifier = "SolutionTableViewCell"
+    private let detailvViewControllerIdentifier = "SolutionDetailViewController"
+    private let tableViewCellIdentifier = "SolutionTableViewCell"
     
     // Variables
     var solutions = [Solution]()
@@ -32,7 +32,7 @@ class SolutionTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
-    func setUpFetchedResultsController() {
+    private func setUpFetchedResultsController() {
         let sortDescriptor = NSSortDescriptor(key: "created", ascending: false)
         
         let fetchRequest: NSFetchRequest<Solution> = Solution.fetchRequest()
@@ -63,7 +63,7 @@ class SolutionTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func setupDetailViewController(for solution: Solution) -> SolutionDetailViewController {
+    private func setupDetailViewController(for solution: Solution) -> SolutionDetailViewController {
         let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailvViewControllerIdentifier) as! SolutionDetailViewController
         detailViewController.solution = solution
         detailViewController.delegate = self

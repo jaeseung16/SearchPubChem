@@ -25,13 +25,13 @@ class CompoundDetailViewController: UIViewController {
     @IBOutlet weak var tagsLabel: UILabel!
     
     // Constants
-    let detailViewControllerIdentifier = "SolutionDetailViewController"
-    let tableViewCellIdentifier = "SolutionMadeOfCompoundTableViewCell"
-    let webViewControllerIdentifer = "WebPubChemViewController"
+    private let detailViewControllerIdentifier = "SolutionDetailViewController"
+    private let tableViewCellIdentifier = "SolutionMadeOfCompoundTableViewCell"
+    private let webViewControllerIdentifer = "WebPubChemViewController"
     
     // Variables
     var compound: Compound!
-    var conformer: Conformer?
+    private var conformer: Conformer?
     
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Solution>! {
@@ -73,7 +73,7 @@ class CompoundDetailViewController: UIViewController {
         }
     }
     
-    func configureView() {
+    private func configureView() {
         activityIndicator.isHidden = true
         nameLabel.text = compound.name?.uppercased()
         formulaLabel.text = compound.formula
@@ -109,7 +109,7 @@ class CompoundDetailViewController: UIViewController {
         updateTagsLabel()
     }
     
-    func updateTagsLabel() -> Void {
+    private func updateTagsLabel() -> Void {
         if let tags = compound.tags {
             var tagStringList = [String]()
             for tag in tags {
@@ -127,7 +127,7 @@ class CompoundDetailViewController: UIViewController {
         }
     }
     
-    func downloadConformer() {
+    private func downloadConformer() {
         let client = PubChemSearch()
         client.download3DData(for: self.compound.cid!, completionHandler: { (success, conformer, errorString) in
             //self.showNetworkIndicators(false)
@@ -156,7 +156,7 @@ class CompoundDetailViewController: UIViewController {
         })
     }
     
-    func populateConformerEntity() {
+    private func populateConformerEntity() {
         let conformerEntity = ConformerEntity(context: dataController.viewContext)
         if let conformer = self.conformer {
             conformerEntity.compound = compound
@@ -173,7 +173,7 @@ class CompoundDetailViewController: UIViewController {
         }
     }
     
-    func findConformers() -> [ConformerEntity]? {
+    private func findConformers() -> [ConformerEntity]? {
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "compound == %@", argumentArray: [compound as Any])
 
@@ -184,7 +184,7 @@ class CompoundDetailViewController: UIViewController {
         return fetchObjects(fetchRequest: fetchRequest)
     }
     
-    func findAtoms(for conformer: ConformerEntity) -> [AtomEntity]? {
+    private func findAtoms(for conformer: ConformerEntity) -> [AtomEntity]? {
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "conformer == %@", argumentArray: [conformer as Any])
 
@@ -195,7 +195,7 @@ class CompoundDetailViewController: UIViewController {
         return fetchObjects(fetchRequest: fetchRequest)
     }
     
-    func fetchObjects<T>(fetchRequest: NSFetchRequest<T>) -> [T]? {
+    private func fetchObjects<T>(fetchRequest: NSFetchRequest<T>) -> [T]? {
         let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
          
         fc.delegate = self
@@ -209,7 +209,7 @@ class CompoundDetailViewController: UIViewController {
         return fc.fetchedObjects
     }
     
-    func populateConformer(for conformerEntity: ConformerEntity, with atomEntities: [AtomEntity]) {
+    private func populateConformer(for conformerEntity: ConformerEntity, with atomEntities: [AtomEntity]) {
         conformer = Conformer()
         conformer?.cid = compound.cid ?? ""
         conformer?.conformerId = conformerEntity.conformerId ?? ""

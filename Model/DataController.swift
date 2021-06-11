@@ -24,7 +24,7 @@ class DataController {
         persistentContainer = NSPersistentContainer(name: modelName)
     }
     
-    func configureContexts() {
+    private func configureContexts() {
         viewContext.automaticallyMergesChangesFromParent = true
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
@@ -52,7 +52,7 @@ extension DataController  {
         try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: urlForPersistentStore, options: nil)
     }
 
-    func autoSaveViewContext(interval: TimeInterval = 30) {
+    private func autoSaveViewContext(interval: TimeInterval = 30) {
         guard interval > 0 else {
             NSLog("The autosave interval cannot be negative.")
             return

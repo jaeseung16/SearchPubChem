@@ -17,6 +17,10 @@ class iPadCompoundCollectionViewController: UIViewController {
     
     private let collectionViewCellIdentifier = "iPadCompoundCollectionViewCell"
     private let detailViewControllerIdentifier = "iPadCompoundDetailViewController"
+    
+    private let sectionNameKeyPath = "firstCharacterInName"
+    private let compoundCacheName = "compounds"
+    private let navigationTitlePrefix = "Compounds"
 
     var dataController: DataController!
     private var fetchedResultsController: NSFetchedResultsController<Compound>!
@@ -37,16 +41,16 @@ class iPadCompoundCollectionViewController: UIViewController {
     
     private func updateTitle() {
         if let tag = selectedTag {
-            self.navigationItem.title = "Compounds (\(tag.name!))"
+            self.navigationItem.title = navigationTitlePrefix + " (\(tag.name!))"
         } else {
-            self.navigationItem.title = "Compounds"
+            self.navigationItem.title = navigationTitlePrefix
         }
     }
     
     private func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Compound> = setupFetchRequest()
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: selectedTag == nil ? "compounds" : nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: sectionNameKeyPath, cacheName: selectedTag == nil ? compoundCacheName : nil)
         fetchedResultsController.delegate = self
         
         do {

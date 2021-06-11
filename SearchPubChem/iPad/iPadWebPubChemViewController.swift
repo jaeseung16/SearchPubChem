@@ -30,12 +30,12 @@ class iPadWebPubChemViewController: UIViewController {
         enableStopBarButton(true)
     }
     
-    func enableStopBarButton(_ yes: Bool) {
+    private func enableStopBarButton(_ yes: Bool) {
         reloadBarButtonItem.isEnabled = !yes
         stopBarButtonItem.isEnabled = yes
     }
     
-    func showNetworkIndicator(_ yes: Bool) {
+    private func showNetworkIndicator(_ yes: Bool) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = yes
         navigationItem.hidesBackButton = yes
         activityIndicatorView.isHidden = !yes
@@ -43,7 +43,7 @@ class iPadWebPubChemViewController: UIViewController {
         enableStopBarButton(yes)
     }
     
-    func loadContent() {
+    private func loadContent() {
         let request = URLRequest(url: url, timeoutInterval: 15)
         webView.load(request)
         

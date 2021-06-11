@@ -12,7 +12,7 @@ import UIKit
 class PubChemSearch {
     // MARK: - Properties
     // Variable
-    var session = URLSession.shared
+    private var session = URLSession.shared
     
     // MARK: - Methods
     func download3DData(for cid: String, completionHandler: @escaping (_ success: Bool, _ conformer: Conformer?, _ errorString: String?) -> Void) {
@@ -50,7 +50,7 @@ class PubChemSearch {
         })
     }
     
-    func decode<T: Codable>(from data: Data) -> T? {
+    private func decode<T: Codable>(from data: Data) -> T? {
         let decoder = JSONDecoder()
         var dto: T
         do {
@@ -63,7 +63,7 @@ class PubChemSearch {
         return dto
     }
     
-    func populateConformer(from pcCompound: PCCompound) -> Conformer {
+    private func populateConformer(from pcCompound: PCCompound) -> Conformer {
         let conformer = Conformer()
         conformer.cid = "\(pcCompound.id.cid)"
         conformer.conformerId = getConformerId(from: pcCompound)
@@ -78,7 +78,7 @@ class PubChemSearch {
         return conformer
     }
     
-    func getConformerId(from pcCompound: PCCompound) -> String {
+    private func getConformerId(from pcCompound: PCCompound) -> String {
         var value: String?
         for coordData in pcCompound.coords[0].conformers[0].data {
             if (coordData.urn.label == "Conformer") {
@@ -92,7 +92,7 @@ class PubChemSearch {
         return value ?? ""
     }
     
-    func getAtomLocation(index: Int, from conformerData: ConformerData) -> [Double] {
+    private func getAtomLocation(index: Int, from conformerData: ConformerData) -> [Double] {
         let x = conformerData.x[index]
         let y = conformerData.y[index]
         let z = conformerData.z[index]
@@ -144,7 +144,7 @@ class PubChemSearch {
         }
     }
     
-    func searchProperties(with searchString: String, searchType: SearchType, properties: [String], completionHandler: @escaping (_ properties: Properties?, _ error: NSError?) -> Void) {
+    private func searchProperties(with searchString: String, searchType: SearchType, properties: [String], completionHandler: @escaping (_ properties: Properties?, _ error: NSError?) -> Void) {
         let url = searchURL(with: searchString, searchType: searchType, for: properties)
         
         _ = dataTask(with: url) { (data, error) in
@@ -175,7 +175,7 @@ class PubChemSearch {
         }
     }
     
-    func searchURL(with searchString: String, searchType: PubChemSearch.SearchType, for properties: [String]) -> URL {
+    private func searchURL(with searchString: String, searchType: PubChemSearch.SearchType, for properties: [String]) -> URL {
         var pathForProperties = PubChemSearch.Constant.pathForProperties
         
         for property in properties {
@@ -207,7 +207,7 @@ class PubChemSearch {
         return component.url
     }
     
-    func commonURLComponents() -> URLComponents {
+    private func commonURLComponents() -> URLComponents {
         var component = URLComponents()
         component.scheme = PubChemSearch.Constant.scheme
         component.host = PubChemSearch.Constant.host
@@ -215,7 +215,7 @@ class PubChemSearch {
         return component
     }
     
-    func dataTask(with url: URL, completionHandler: @escaping (_ data: Data?, _ error: NSError?) -> Void) -> URLSessionTask {
+    private func dataTask(with url: URL, completionHandler: @escaping (_ data: Data?, _ error: NSError?) -> Void) -> URLSessionTask {
         let request = URLRequest(url: url, timeoutInterval: 15)
         
         let task = session.dataTask(with: request) { (data, response, error) in

@@ -15,7 +15,7 @@ protocol CompoundTagsViewControllerDelegate: AnyObject {
 
 class CompoundTagsViewController: UIViewController {
     
-    let collectionViewCellIdentifier = "compoundTagCollectionViewCell"
+    private let collectionViewCellIdentifier = "compoundTagCollectionViewCell"
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -47,7 +47,7 @@ class CompoundTagsViewController: UIViewController {
         adjustFlowLayoutSize(size: view.frame.size)
     }
     
-    func setUpFetchedResultsController() {
+    private func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<CompoundTag> = setupFetchRequest()
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "compoundTags")
@@ -60,7 +60,7 @@ class CompoundTagsViewController: UIViewController {
         }
     }
     
-    func setupFetchRequest() -> NSFetchRequest<CompoundTag> {
+    private func setupFetchRequest() -> NSFetchRequest<CompoundTag> {
         let fetchRequest: NSFetchRequest<CompoundTag> = CompoundTag.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
         
@@ -89,17 +89,6 @@ class CompoundTagsViewController: UIViewController {
         }
         
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
@@ -185,42 +174,41 @@ extension CompoundTagsViewController: UICollectionViewDelegate, UICollectionView
 
 // MARK: - NSFetchedResultsControllerDelegate
 extension CompoundTagsViewController: NSFetchedResultsControllerDelegate {
-        func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-            let set = IndexSet(integer: sectionIndex)
-            
-            switch type {
-            case .insert:
-                collectionView.insertSections(set)
-            case .delete:
-                collectionView.deleteSections(set)
-            default:
-                break
-            }
-        }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        let set = IndexSet(integer: sectionIndex)
         
-        func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-            switch type {
-            case .insert:
-                collectionView.insertItems(at: [newIndexPath!])
-            case .delete:
-                collectionView.deleteItems(at: [indexPath!])
-            case .update:
-                collectionView.reloadItems(at: [indexPath!])
-            case .move:
-                collectionView.deleteItems(at: [indexPath!])
-                collectionView.insertItems(at: [newIndexPath!])
-            @unknown default:
-                fatalError()
-            }
+        switch type {
+        case .insert:
+            collectionView.insertSections(set)
+        case .delete:
+            collectionView.deleteSections(set)
+        default:
+            break
         }
-        
-        func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-            do {
-                try dataController.viewContext.save()
-                NSLog("Saved in controllerDidChangeContent(_:)")
-            } catch {
-                NSLog("Error while saving in controllerDidChangeContent(_:)")
-            }
-        }
+    }
     
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            collectionView.insertItems(at: [newIndexPath!])
+        case .delete:
+            collectionView.deleteItems(at: [indexPath!])
+        case .update:
+            collectionView.reloadItems(at: [indexPath!])
+        case .move:
+            collectionView.deleteItems(at: [indexPath!])
+            collectionView.insertItems(at: [newIndexPath!])
+        @unknown default:
+            fatalError()
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        do {
+            try dataController.viewContext.save()
+            NSLog("Saved in controllerDidChangeContent(_:)")
+        } catch {
+            NSLog("Error while saving in controllerDidChangeContent(_:)")
+        }
+    }
 }

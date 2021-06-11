@@ -15,7 +15,7 @@ protocol iPadCompoundTagsViewControllerDelegate: AnyObject {
 
 class iPadCompoundTagsViewController: UIViewController {
 
-    let collectionViewCellIdentifier = "iPadCmpoundTagCollectionViewCell"
+    private let collectionViewCellIdentifier = "iPadCmpoundTagCollectionViewCell"
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
@@ -48,7 +48,7 @@ class iPadCompoundTagsViewController: UIViewController {
         
     }
 
-    func setUpFetchedResultsController() {
+    private func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<CompoundTag> = setupFetchRequest()
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "compoundTags")
@@ -61,7 +61,7 @@ class iPadCompoundTagsViewController: UIViewController {
         }
     }
     
-    func setupFetchRequest() -> NSFetchRequest<CompoundTag> {
+    private func setupFetchRequest() -> NSFetchRequest<CompoundTag> {
         let fetchRequest: NSFetchRequest<CompoundTag> = CompoundTag.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
         
@@ -87,16 +87,6 @@ class iPadCompoundTagsViewController: UIViewController {
             delegate?.update(tag: selectedTag)
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
