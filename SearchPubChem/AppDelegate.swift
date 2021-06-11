@@ -60,7 +60,9 @@ extension AppDelegate {
     }
     
     func checkIfFirstLaunch() {
+        print("checkIfFirstLaunch()")
         if !UserDefaults.standard.bool(forKey: "HasLaunchedBefore") {
+            print("First Launch")
             UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
             UserDefaults.standard.synchronize()
             preloadData()
@@ -127,6 +129,7 @@ extension AppDelegate {
         sodiumChloride.nameIUPAC = "sodium chloride"
         sodiumChloride.image = UIImage(named: "NaCl")!.pngData()
         
+        
         // Example Solution: Sodium Chloride Aqueous Solution
         let saltyWater = Solution(context: dataController.viewContext)
         saltyWater.name = "salty water"
@@ -134,5 +137,10 @@ extension AppDelegate {
         
         let amounts = [water.name!: 1.0, sodiumChloride.name!: 0.05]
         saltyWater.amount = amounts as NSObject
+
+        // Load additional compounds
+        let recordLoader = RecordLoader(dataController: dataController)
+        recordLoader.loadRecords()
+        
     }
 }

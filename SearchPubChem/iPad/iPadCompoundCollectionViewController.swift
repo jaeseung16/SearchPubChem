@@ -15,11 +15,17 @@ class iPadCompoundCollectionViewController: UIViewController {
     @IBOutlet weak var compoundCollectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
-    let collectionViewCellIdentifier = "iPadCompoundCollectionViewCell"
-    let detailViewControllerIdentifier = "iPadCompoundDetailViewController"
+    private let collectionViewCellIdentifier = "iPadCompoundCollectionViewCell"
+    private let detailViewControllerIdentifier = "iPadCompoundDetailViewController"
+    
+    private let sectionNameKeyPath = "firstCharacterInName"
+    private let compoundCacheName = "compounds"
+    private let navigationTitlePrefix = "Compounds"
 
     var dataController: DataController!
-    var fetchedResultsController: NSFetchedResultsController<Compound>!
+    private var fetchedResultsController: NSFetchedResultsController<Compound>!
+    
+    private var selectedTag: CompoundTag?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,12 +36,21 @@ class iPadCompoundCollectionViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         compoundCollectionView.reloadData()
+        updateTitle()
     }
     
-    func setUpFetchedResultsController() {
+    private func updateTitle() {
+        if let tag = selectedTag {
+            self.navigationItem.title = navigationTitlePrefix + " (\(tag.name!))"
+        } else {
+            self.navigationItem.title = navigationTitlePrefix
+        }
+    }
+    
+    private func setUpFetchedResultsController() {
         let fetchRequest: NSFetchRequest<Compound> = setupFetchRequest()
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: sectionNameKeyPath, cacheName: selectedTag == nil ? compoundCacheName : nil)
         fetchedResultsController.delegate = self
         
         do {
@@ -45,11 +60,26 @@ class iPadCompoundCollectionViewController: UIViewController {
         }
     }
     
-    func setupFetchRequest() -> NSFetchRequest<Compound> {
+    private func setupFetchRequest() -> NSFetchRequest<Compound> {
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
         
         fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        if let tag = selectedTag {
+            let predicate = NSPredicate(format: "tags CONTAINS %@", argumentArray: [tag])
+            fetchRequest.predicate = predicate
+        }
+        
+        return fetchRequest
+    }
+    
+    private func setupTagFetchRequest() -> NSFetchRequest<CompoundTag> {
+        let fetchRequest: NSFetchRequest<CompoundTag> = CompoundTag.fetchRequest()
+        let countSortDescriptor = NSSortDescriptor(key: "compoundCount", ascending: false)
+        let nameSortDescriptor = NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.caseInsensitiveCompare))
+        
+        fetchRequest.sortDescriptors = [countSortDescriptor, nameSortDescriptor]
         return fetchRequest
     }
     
@@ -58,6 +88,10 @@ class iPadCompoundCollectionViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let searchByNameViewController = segue.destination as? SearchByNameViewController {
             searchByNameViewController.dataController = dataController
+        } else if let compoundTagsViewContoller = segue.destination as? iPadCompoundTagsViewController {
+            compoundTagsViewContoller.dataController = dataController
+            compoundTagsViewContoller.delegate = self
+            compoundTagsViewContoller.selectedTag = selectedTag
         }
     }
     
@@ -86,19 +120,21 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let compound = fetchedResultsController.object(at: indexPath)
-        let detailViewController = setupDetailViewController(for: compound)
-        detailViewController.delegate = self
-        navigationController?.pushViewController(detailViewController, animated: true)
-        collectionView.deselectItem(at: indexPath, animated: false)
+        if collectionView == compoundCollectionView {
+            let compound = fetchedResultsController.object(at: indexPath)
+            let detailViewController = setupDetailViewController(for: compound)
+            detailViewController.delegate = self
+            navigationController?.pushViewController(detailViewController, animated: true)
+            collectionView.deselectItem(at: indexPath, animated: false)
+        } else {
+            if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
+                cell.containerView.backgroundColor = .cyan
+            }
+        }
     }
     
-    func setupDetailViewController(for compound: Compound) -> iPadCompoundDetailViewController {
+    private func setupDetailViewController(for compound: Compound) -> iPadCompoundDetailViewController {
         let fetchRequest = buildSolutionFetchRequest(for: compound)
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         let detailViewController = setupDetailViewController(with: fetchedResultsController)
@@ -106,7 +142,7 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
         return detailViewController
     }
     
-    func buildSolutionFetchRequest(for compound: Compound) -> NSFetchRequest<Solution> {
+    private func buildSolutionFetchRequest(for compound: Compound) -> NSFetchRequest<Solution> {
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "compounds CONTAINS %@", argumentArray: [compound])
         
@@ -116,7 +152,7 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
         return fetchRequest
     }
     
-    func setupDetailViewController(with fetchedResultsController: NSFetchedResultsController<Solution>) -> iPadCompoundDetailViewController {
+    private func setupDetailViewController(with fetchedResultsController: NSFetchedResultsController<Solution>) -> iPadCompoundDetailViewController {
         let detailViewController = storyboard?.instantiateViewController(withIdentifier: detailViewControllerIdentifier) as! iPadCompoundDetailViewController
         detailViewController.dataController = dataController
         detailViewController.fetchedResultsController = fetchedResultsController
@@ -134,7 +170,7 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
         }
     }
     
-    func adjustFlowLayoutSize(size: CGSize) {
+    private func adjustFlowLayoutSize(size: CGSize) {
         let space: CGFloat = 1.0
         let width = cellSize(size: size, space: space)
         let height = width
@@ -145,7 +181,7 @@ extension iPadCompoundCollectionViewController: UICollectionViewDelegate, UIColl
         flowLayout.itemSize = CGSize(width: width, height: height)
     }
     
-    func cellSize(size: CGSize, space: CGFloat) -> CGFloat {
+    private func cellSize(size: CGSize, space: CGFloat) -> CGFloat {
         let numberInRowPortrait = 4.0
         let numberInRowLandscape = 6.0
         
@@ -205,5 +241,15 @@ extension iPadCompoundCollectionViewController: iPadCompoundDetailViewController
         } catch {
             fatalError("Compounds cannot be fetched: \(error.localizedDescription)")
         }
+    }
+}
+
+extension iPadCompoundCollectionViewController: CompoundTagsViewControllerDelegate {
+    func update(tag: CompoundTag?) -> Void {
+        selectedTag = tag
+        fetchedResultsController.delegate = nil
+        setUpFetchedResultsController()
+        compoundCollectionView.reloadData()
+        updateTitle()
     }
 }

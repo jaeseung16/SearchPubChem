@@ -29,4 +29,5 @@ struct Properties: Codable {
     var IUPACName: String
     var MolecularFormula: String
     var MolecularWeight: String
+    var Title: String
 }

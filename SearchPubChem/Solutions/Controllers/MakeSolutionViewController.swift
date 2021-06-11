@@ -22,17 +22,17 @@ class MakeSolutionViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     // Constants
-    let maxNumberOfCompounds = 10
-    let collectionViewControllerIdentifier = "CompoundCollectionViewController"
+    private let maxNumberOfCompounds = 10
+    private let collectionViewControllerIdentifier = "CompoundCollectionViewController"
     
     // Variables
-    var compounds = [Compound]() {
+    private var compounds = [Compound]() {
         didSet {
             solutionTableView.reloadData()
         }
     }
-    var amounts = [Double]()
-    var units = [Int]()
+    private var amounts = [Double]()
+    private var units = [Int]()
     
     var dataController: DataController!
     
@@ -57,7 +57,7 @@ class MakeSolutionViewController: UIViewController {
         present(compoundCollectionViewController, animated: true, completion: nil)
     }
     
-    func setupCompoundCollectionViewController() -> CompoundCollectionViewController {
+    private func setupCompoundCollectionViewController() -> CompoundCollectionViewController {
         let compoundCollectionViewController = storyboard?.instantiateViewController(withIdentifier: collectionViewControllerIdentifier) as! CompoundCollectionViewController
                
         compoundCollectionViewController.dataController = dataController
@@ -68,7 +68,7 @@ class MakeSolutionViewController: UIViewController {
         return compoundCollectionViewController
     }
     
-    func setupFetchedResultsControllerForCompound() -> NSFetchedResultsController<Compound> {
+    private func setupFetchedResultsControllerForCompound() -> NSFetchedResultsController<Compound> {
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
@@ -111,7 +111,7 @@ class MakeSolutionViewController: UIViewController {
         }
     }
     
-    func getAmountsWithUnit() -> [String:Double]? {
+    private func getAmountsWithUnit() -> [String:Double]? {
         var amountsWithUnit: [String: Double] = [:]
         
         for index in 0..<compounds.count {

@@ -24,10 +24,10 @@ class SolutionDetailViewController: UIViewController {
     
     // Vairables
     var solution: Solution!
-    var compounds = [Compound]()
-    var amounts = [Double]()
-    var amountsMol = [Double]()
-    var amountsToDisplay = [String]()
+    private var compounds = [Compound]()
+    private var amounts = [Double]()
+    private var amountsMol = [Double]()
+    private var amountsToDisplay = [String]()
     
     // delegate will be set by a presenting view controller
     weak var delegate: SolutionDetailViewControllerDelegate?
@@ -67,7 +67,7 @@ class SolutionDetailViewController: UIViewController {
         setupAndPresentActivityViewController(string: "Sharing \(solution.name!).csv", url: csvFileURL)
     }
     
-    func buildStringForCSV() -> String {
+    private func buildStringForCSV() -> String {
         var csvString = "CID, Compound, Molecular Weight (gram/mol), Amount (g), Amount (mol)\n"
         
         for k in 0..<compounds.count {
@@ -81,7 +81,7 @@ class SolutionDetailViewController: UIViewController {
         return csvString
     }
     
-    func setupAndPresentActivityViewController(string: String, url: URL) {
+    private func setupAndPresentActivityViewController(string: String, url: URL) {
         let activityViewController = UIActivityViewController(activityItems: [string, url], applicationActivities: nil)
         
         activityViewController.completionWithItemsHandler = { (activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, activityError: Error?) in
@@ -100,7 +100,7 @@ class SolutionDetailViewController: UIViewController {
     }
     
     // MARK: - Convinience methods
-    func retrieveDataFromSolution() {
+    private func retrieveDataFromSolution() {
         guard let compounds = solution.compounds, let amount = solution.amount else {
             print("There is no information.")
             return
@@ -125,7 +125,7 @@ class SolutionDetailViewController: UIViewController {
         }
     }
     
-    func displayNameAndDate() {
+    private func displayNameAndDate() {
         if let name = solution.name {
             nameLabel.text = name.uppercased()
         }
@@ -140,7 +140,7 @@ class SolutionDetailViewController: UIViewController {
         }
     }
     
-    func displayAmounts() {
+    private func displayAmounts() {
         let unit = unitControl.selectedSegmentIndex
         let absolute = absoluteRelativeControl.selectedSegmentIndex
         
@@ -169,12 +169,12 @@ class SolutionDetailViewController: UIViewController {
         compoundsTableView.reloadData()
     }
     
-    func sumOf(_ amounts: [Double]) -> Double {
+    private func sumOf(_ amounts: [Double]) -> Double {
         return amounts.reduce(0.0, { x, y in x + y })
     }
     
     // MARK: - UISegmentedControls
-    func addTargetToSegmentedControls() {
+    private func addTargetToSegmentedControls() {
         absoluteRelativeControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenAbsoluteAndRelative), for: .valueChanged)
         
         unitControl.addTarget(self, action: #selector(SolutionDetailViewController.switchBetweenGramAndMol), for: .valueChanged)

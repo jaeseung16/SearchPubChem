@@ -21,13 +21,13 @@ class CompoundCollectionViewController: UIViewController {
     @IBOutlet weak var selectedCompoundsLabel: UILabel!
     
     // Constants
-    let collectionViewCellIdentifier = "CompoundCollectionViewCell"
+    private let collectionViewCellIdentifier = "CompoundCollectionViewCell"
     
     // Variables
     // delegate will be set by a presenting view controller
     weak var delegate: CompoundCollectionViewDelegate?
     
-    var maxNumberOfCompounds: Int?
+    private var maxNumberOfCompounds: Int?
     var compounds = [Compound]()
     
     var dataController: DataController!
@@ -65,7 +65,7 @@ class CompoundCollectionViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    func setSelectedCompoundsLabel() {
+    private func setSelectedCompoundsLabel() {
         var cids = [String]()
         for compound in compounds {
             cids.append(compound.name!)

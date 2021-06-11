@@ -26,14 +26,15 @@ class iPadCompoundDetailViewController: UIViewController {
     @IBOutlet weak var solutionsTableView: UITableView!
     @IBOutlet weak var conformerButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var tagsLabel: UILabel!
     
     // delegate will be set by a presenting view controller
     weak var delegate: iPadCompoundDetailViewControllerDelegate?
     
     // Constants
-    let detailViewControllerIdentifier = "SolutionDetailViewController"
-    let tableViewCellIdentifier = "iPadSolutionMadeOfCompoundTableViewCell"
-    let webViewControllerIdentifer = "iPadWebPubChemViewController"
+    private let detailViewControllerIdentifier = "SolutionDetailViewController"
+    private let tableViewCellIdentifier = "iPadSolutionMadeOfCompoundTableViewCell"
+    private let webViewControllerIdentifer = "iPadWebPubChemViewController"
     
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Solution>! {
@@ -50,7 +51,7 @@ class iPadCompoundDetailViewController: UIViewController {
     
     // Variables
     var compound: Compound!
-    var conformer: Conformer?
+    private var conformer: Conformer?
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -74,10 +75,15 @@ class iPadCompoundDetailViewController: UIViewController {
             conformerViewController.conformer = conformer
             conformerViewController.name = compound.name?.uppercased()
             conformerViewController.formula = compound.formula
+        } else if let compoundTagViewController = segue.destination as? iPadCompoundTagViewController {
+            
+            compoundTagViewController.dataController = self.dataController
+            compoundTagViewController.compound = self.compound
+            compoundTagViewController.delegate = self
         }
     }
     
-    func configureView() {
+    private func configureView() {
         activityIndicator.isHidden = true
         nameLabel.text = compound.name?.uppercased()
         formulaLabel.text = compound.formula
@@ -109,9 +115,29 @@ class iPadCompoundDetailViewController: UIViewController {
                 }
             }
         }
+        
+        updateTagsLabel()
+    }
+    
+    private func updateTagsLabel() -> Void {
+        if let tags = compound.tags {
+            var tagStringList = [String]()
+            for tag in tags {
+                if let tag = tag as? CompoundTag, let name = tag.name {
+                    tagStringList.append(name)
+                }
+            }
+            tagsLabel.text = tagStringList.count > 0 ? " " + tagStringList.joined(separator: ", ") + " \u{200c}" : ""
+            if #available(iOS 13.0, *) {
+                tagsLabel.textColor = .label
+            } else {
+                // Fallback on earlier versions
+                tagsLabel.textColor = traitCollection.userInterfaceStyle == .dark ? .white : .black
+            }
+        }
     }
         
-    func downloadConformer() {
+    private func downloadConformer() {
         let client = PubChemSearch()
         client.download3DData(for: self.compound.cid!, completionHandler: { (success, conformer, errorString) in
             if success, let conformer = conformer {
@@ -137,7 +163,7 @@ class iPadCompoundDetailViewController: UIViewController {
         })
     }
                 
-    func populateConformerEntity() {
+    private func populateConformerEntity() {
         let conformerEntity = ConformerEntity(context: dataController.viewContext)
         if let conformer = self.conformer {
             conformerEntity.compound = compound
@@ -154,7 +180,7 @@ class iPadCompoundDetailViewController: UIViewController {
         }
     }
                 
-    func findConformers() -> [ConformerEntity]? {
+    private func findConformers() -> [ConformerEntity]? {
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "compound == %@", argumentArray: [compound as Any])
 
@@ -165,7 +191,7 @@ class iPadCompoundDetailViewController: UIViewController {
         return fetchObjects(fetchRequest: fetchRequest)
     }
                 
-    func findAtoms(for conformer: ConformerEntity) -> [AtomEntity]? {
+    private func findAtoms(for conformer: ConformerEntity) -> [AtomEntity]? {
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "conformer == %@", argumentArray: [conformer as Any])
 
@@ -176,7 +202,7 @@ class iPadCompoundDetailViewController: UIViewController {
         return fetchObjects(fetchRequest: fetchRequest)
     }
                 
-    func fetchObjects<T>(fetchRequest: NSFetchRequest<T>) -> [T]? {
+    private func fetchObjects<T>(fetchRequest: NSFetchRequest<T>) -> [T]? {
         let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
                      
         fc.delegate = self
@@ -190,7 +216,7 @@ class iPadCompoundDetailViewController: UIViewController {
         return fc.fetchedObjects
     }
                 
-    func populateConformer(for conformerEntity: ConformerEntity, with atomEntities: [AtomEntity]) {
+    private func populateConformer(for conformerEntity: ConformerEntity, with atomEntities: [AtomEntity]) {
         conformer = Conformer()
         conformer?.cid = compound.cid ?? ""
         conformer?.conformerId = conformerEntity.conformerId ?? ""
@@ -221,6 +247,10 @@ class iPadCompoundDetailViewController: UIViewController {
         webViewController.url = url
         print("webViewController = \(webViewController)")
         navigationController?.pushViewController(webViewController, animated: true)
+    }
+
+    @IBAction func editTags(_ sender: UIBarButtonItem) {
+        
     }
 }
 
@@ -324,4 +354,10 @@ extension iPadCompoundDetailViewController: NSFetchedResultsControllerDelegate {
         solutionsTableView.endUpdates()
     }
     
+}
+
+extension iPadCompoundDetailViewController: iPadCompoundTagViewControllerDelegate {
+    func updateTags() -> Void {
+        updateTagsLabel()
+    }
 }

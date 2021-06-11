@@ -23,6 +23,7 @@ extension PubChemSearch {
         static let formula = "MolecularFormula"
         static let weight = "MolecularWeight"
         static let nameIUPAC = "IUPACName"
+        static let title = "Title"
     }
     
     struct QueryResult {
@@ -62,6 +63,11 @@ extension PubChemSearch {
         case y = "y"
         case z = "z"
         case data = "data"
+    }
+    
+    enum SearchType: Int {
+        case name
+        case cid
     }
 }
 

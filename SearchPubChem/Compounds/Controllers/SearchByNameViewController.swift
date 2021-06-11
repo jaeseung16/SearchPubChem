@@ -31,9 +31,15 @@ class SearchByNameViewController: UIViewController {
     
     @IBOutlet weak var conformerButton: UIButton!
     
+    @IBOutlet weak var searchBySegmentedControl: UISegmentedControl!
+    
+    private var searchType: PubChemSearch.SearchType {
+        return PubChemSearch.SearchType(rawValue: searchBySegmentedControl.selectedSegmentIndex) ?? .name
+    }
+    
     // Constants
-    let client = PubChemSearch()
-    let networkErrorString = "The Internet connection appears to be offline"
+    private let client = PubChemSearch()
+    private let networkErrorString = "The Internet connection appears to be offline"
     
     // Variables
     var dataController: DataController!
@@ -46,6 +52,8 @@ class SearchByNameViewController: UIViewController {
             }
         }
     }
+    
+    private var compoundTitle: String?
 
     // MARK: - Methods
     override func viewDidLoad() {
@@ -68,18 +76,18 @@ class SearchByNameViewController: UIViewController {
         }
     }
     
-    func enableSaveButton(_ yes: Bool) {
+    private func enableSaveButton(_ yes: Bool) {
         saveButton.isEnabled = yes
     }
     
-    func showNetworkIndicators(_ yes: Bool) {
+    private func showNetworkIndicators(_ yes: Bool) {
         DispatchQueue.main.async {
             self.activityIndicator.isHidden = !yes
             UIApplication.shared.isNetworkActivityIndicatorVisible = yes
         }
     }
     
-    func hideLabels(_ yes: Bool) {
+    private func hideLabels(_ yes: Bool) {
         cidTitleLabel.isHidden = yes
         iupacTitleLabel.isHidden = yes
         weightTitleLabel.isHidden = yes
@@ -101,7 +109,7 @@ class SearchByNameViewController: UIViewController {
         hideLabels(true)
         showNetworkIndicators(true)
         
-        client.searchCompound(by: name) { (success, compoundProperties, errorString) in
+        client.searchCompound(with: name, searchType: searchType) { (success, compoundProperties, errorString) in
             self.showNetworkIndicators(false)
             
             if success {
@@ -121,6 +129,8 @@ class SearchByNameViewController: UIViewController {
                     
                     self.downloadImage(for: self.cidLabel.text!)
                     self.download3DData(for: name)
+                    
+                    self.compoundTitle = self.searchType == .cid ? compoundProperties.Title : nil
                 }
             } else {
                 guard let errorString = errorString, errorString.contains(self.networkErrorString) else {
@@ -131,6 +141,7 @@ class SearchByNameViewController: UIViewController {
                 self.presentAlert(title: "Search Failed", message: self.networkErrorString)
             }
         }
+        
     }
     
     private func downloadImage(for cid: String) {
@@ -179,7 +190,7 @@ class SearchByNameViewController: UIViewController {
     @IBAction func saveCompound(_ sender: UIBarButtonItem) {
         let compound = Compound(context: dataController.viewContext)
         
-        compound.name = nameToSearch.text!
+        compound.name = searchType == .cid ? compoundTitle : nameToSearch.text!
         compound.firstCharacterInName = String(compound.name!.first!).uppercased()
         compound.formula = formulaLabel.text!
         compound.molecularWeight = Double(weightLabel.text!)!
