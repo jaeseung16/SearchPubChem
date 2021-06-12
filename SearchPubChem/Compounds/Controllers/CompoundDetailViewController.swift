@@ -118,12 +118,6 @@ class CompoundDetailViewController: UIViewController {
                 }
             }
             tagsLabel.text = tagStringList.count > 0 ? " " + tagStringList.joined(separator: ", ") + " \u{200c}" : ""
-            if #available(iOS 13.0, *) {
-                tagsLabel.textColor = .label
-            } else {
-                // Fallback on earlier versions
-                tagsLabel.textColor = traitCollection.userInterfaceStyle == .dark ? .white : .black
-            }
         }
     }
     
