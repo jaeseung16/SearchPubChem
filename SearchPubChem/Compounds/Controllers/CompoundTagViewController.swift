@@ -205,7 +205,10 @@ extension CompoundTagViewController: UICollectionViewDelegate, UICollectionViewD
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellIdentifier, for: indexPath) as! iPadCompoundTagCollectionViewCell
         
         cell.nameLabel.text = tag.name
+        cell.nameLabel.textColor = .black
         cell.countLabel.text = "\(tag.compoundCount)"
+        cell.countLabel.textColor = .black
+        cell.containerView.backgroundColor = tagsAttachedToCompound.contains(tag) ? .cyan : .white
         
         return cell
     }
@@ -213,34 +216,25 @@ extension CompoundTagViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let tag = fetchedResultsController.object(at: indexPath)
         
-        var selected = false
-        
         if tagsAttachedToCompound.contains(tag) {
             tagsAttachedToCompound.remove(tag)
+            sellectedCells.remove(indexPath)
         } else {
             tagsAttachedToCompound.insert(tag)
-            selected = true
+            sellectedCells.insert(indexPath)
         }
 
         setTagsLabel()
         
-        return selected
+        return true
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
-            cell.containerView.backgroundColor = .cyan
-            sellectedCells.insert(indexPath)
+            cell.containerView.backgroundColor = sellectedCells.contains(indexPath) ? .cyan : .white
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
-            cell.containerView.backgroundColor = .white
-            sellectedCells.remove(indexPath)
-        }
-    }
-    
     func buildSolutionFetchRequest(for compound: Compound) -> NSFetchRequest<Solution> {
         let sortDescription = NSSortDescriptor(key: "created", ascending: false)
         let predicate = NSPredicate(format: "compounds CONTAINS %@", argumentArray: [compound])
