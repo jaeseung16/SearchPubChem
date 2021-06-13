@@ -324,8 +324,8 @@
                                         </constraints>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2AP-XR-Lrh">
-                                        <rect key="frame" x="114.5" y="105" width="146" height="30"/>
-                                        <state key="normal" title="Delete a selected tag"/>
+                                        <rect key="frame" x="124.5" y="105" width="126" height="30"/>
+                                        <state key="normal" title="Delete a tag in red"/>
                                         <connections>
                                             <action selector="deleteTags:" destination="Nvn-v2-jjd" eventType="touchUpInside" id="dW8-8Z-r86"/>
                                         </connections>

@@ -29,6 +29,7 @@ class iPadCompoundTagViewController: UIViewController {
     var compound: Compound!
     private var tagsAttachedToCompound = Set<CompoundTag>()
     private var sellectedCells = Set<IndexPath>()
+    private var lastSelectedCell: IndexPath?
     
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<CompoundTag>! {
@@ -131,6 +132,11 @@ class iPadCompoundTagViewController: UIViewController {
             newTag.compoundCount = 1
             newTag.name = newTagTextField.text
             
+            // Add to tagsAttachedToCompound before saving the new tag
+            // So the collection view correctly presents the new tag as selected
+            tagsAttachedToCompound.insert(newTag)
+            setTagsLabel()
+            
             if let tags = compound.tags, tags.count > 0 {
                 tags.adding(newTag)
             } else {
@@ -142,25 +148,22 @@ class iPadCompoundTagViewController: UIViewController {
             } catch {
                 NSLog("Error while saving in iPadCompoundTagViewController.addNewTag(:)")
             }
-            
-            tagsAttachedToCompound.insert(newTag)
-            setTagsLabel()
         } else {
             print("New tag is not given")
         }
     }
     
     @IBAction func deleteTags(_ sender: UIButton) {
-        for indexPath in sellectedCells {
+        if let indexPath = lastSelectedCell {
             let tag = fetchedResultsController.object(at: indexPath)
             dataController.viewContext.delete(tag)
-        }
-        
-        do {
-            try dataController.viewContext.save()
-            NSLog("Saved in iPadCompoundTagViewController.deleteTags(:)")
-        } catch {
-            NSLog("Error while saving in iPadCompoundTagViewController.deleteTags(:)")
+            
+            do {
+                try dataController.viewContext.save()
+                NSLog("Saved in iPadCompoundTagViewController.deleteTags(:)")
+            } catch {
+                NSLog("Error while saving in iPadCompoundTagViewController.deleteTags(:)")
+            }
         }
     }
     
@@ -203,6 +206,10 @@ extension iPadCompoundTagViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let tag = fetchedResultsController.object(at: indexPath)
+        if tagsAttachedToCompound.contains(tag) && !sellectedCells.contains(indexPath) {
+            sellectedCells.insert(indexPath)
+        }
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellIdentifier, for: indexPath) as! iPadCompoundTagCollectionViewCell
         
         cell.nameLabel.text = tag.name
@@ -213,7 +220,6 @@ extension iPadCompoundTagViewController: UICollectionViewDelegate, UICollectionV
         
         return cell
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         let tag = fetchedResultsController.object(at: indexPath)
@@ -228,11 +234,22 @@ extension iPadCompoundTagViewController: UICollectionViewDelegate, UICollectionV
 
         setTagsLabel()
         
+        lastSelectedCell = lastSelectedCell == indexPath ? nil : indexPath
+        
         return true
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
+            cell.containerView.backgroundColor = sellectedCells.contains(indexPath) ? .cyan : .white
+            
+            if lastSelectedCell == indexPath {
+                cell.containerView.backgroundColor = .red
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
             cell.containerView.backgroundColor = sellectedCells.contains(indexPath) ? .cyan : .white
         }
