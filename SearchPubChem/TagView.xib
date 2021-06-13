@@ -21,19 +21,17 @@
                     <rect key="frame" x="0.0" y="10" width="128" height="52"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1cA-nP-1yH">
-                            <rect key="frame" x="13" y="0.0" width="102" height="25.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="128" height="25.5"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="25.5" id="Y69-lk-fK5"/>
-                                <constraint firstAttribute="width" constant="102" id="hqC-fj-8VY"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="21"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="count" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hfr-VE-29x">
-                            <rect key="frame" x="13" y="31.5" width="102" height="20.5"/>
+                            <rect key="frame" x="0.0" y="31.5" width="128" height="20.5"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="102" id="LZL-br-vzM"/>
                                 <constraint firstAttribute="height" constant="20.5" id="amx-cs-mma"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
@@ -42,6 +40,10 @@
                         </label>
                     </subviews>
                     <color key="backgroundColor" systemColor="quaternarySystemFillColor"/>
+                    <constraints>
+                        <constraint firstItem="1cA-nP-1yH" firstAttribute="width" secondItem="aOH-XE-IEV" secondAttribute="width" id="DhV-WH-2zf"/>
+                        <constraint firstItem="Hfr-VE-29x" firstAttribute="width" secondItem="1cA-nP-1yH" secondAttribute="width" id="hLD-8e-1VL"/>
+                    </constraints>
                 </stackView>
             </subviews>
             <constraints>
