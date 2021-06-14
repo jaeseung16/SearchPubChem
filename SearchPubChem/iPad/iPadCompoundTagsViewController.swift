@@ -79,7 +79,7 @@ class iPadCompoundTagsViewController: UIViewController {
             collectionView.deselectItem(at: indexPath, animated: true)
             
             if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
-                cell.containerView.backgroundColor = .white
+                cell.containerView.backgroundColor = nil
             }
             
             selectedTag = nil
