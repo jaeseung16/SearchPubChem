@@ -130,7 +130,7 @@ extension CompoundTagsViewController: UICollectionViewDelegate, UICollectionView
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? iPadCompoundTagCollectionViewCell {
-            cell.containerView.backgroundColor = .white
+            cell.containerView.backgroundColor = nil
         }
     }
     
