@@ -15,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        dataController.load()
         checkIfFirstLaunch()
         if let tabBarController = window?.rootViewController as? UITabBarController {
             configure(tabBarController)
@@ -65,8 +64,8 @@ extension AppDelegate {
             print("First Launch")
             UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
             UserDefaults.standard.synchronize()
-            preloadData()
-            saveData()
+            //preloadData()
+            //saveData()
         }
     }
     

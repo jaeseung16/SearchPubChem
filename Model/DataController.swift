@@ -21,7 +21,8 @@ class DataController {
     
     // MARK: - Methods
     init(modelName: String) {
-        persistentContainer = NSPersistentContainer(name: modelName)
+        persistentContainer = NSPersistentCloudKitContainer(name: modelName)
+        load()
     }
     
     private func configureContexts() {
@@ -29,14 +30,39 @@ class DataController {
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
     
-    func load(completion: (() -> Void)? = nil) {
+    private func load(completion: (() -> Void)? = nil) {
+        let description = persistentContainer.persistentStoreDescriptions.first
+        description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+        description?.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+        description?.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.com.resonance.jlee.SearchPubChem")
+        
         persistentContainer.loadPersistentStores { (storeDescription, error) in
-            guard error == nil else {
-                fatalError(error!.localizedDescription)
+            if let error = error as NSError? {
+                if let error = error as NSError? {
+                    PersistenceController.logger.error("Could not load persistent store: \(storeDescription), \(error), \(error.userInfo)")
+                }
             }
             self.autoSaveViewContext(interval: 30)
             self.configureContexts()
             completion?()
+        }
+        
+        print("persistentStores = \(persistentContainer.persistentStoreCoordinator.persistentStores)")
+        
+        persistentContainer.viewContext.name = "SearchPubChem"
+        purgeHistory()
+    }
+    
+    private func purgeHistory() {
+        let sevenDaysAgo = Date(timeIntervalSinceNow: TimeInterval(exactly: -604_800)!)
+        let purgeHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: sevenDaysAgo)
+
+        do {
+            try persistentContainer.newBackgroundContext().execute(purgeHistoryRequest)
+        } catch {
+            if let error = error as NSError? {
+                PersistenceController.logger.error("Could not purge history: \(error), \(error.userInfo)")
+            }
         }
     }
 }

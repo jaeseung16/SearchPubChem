@@ -94,6 +94,11 @@
 		90DB476F24BD280C00702FB4 /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90DB476E24BD280C00702FB4 /* iPad.storyboard */; };
 		90DD0E56264B34F400B9AA8E /* iPadCompoundTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DD0E55264B34F400B9AA8E /* iPadCompoundTagViewController.swift */; };
 		90DD0E58264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DD0E57264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift */; };
+		90E010CE270A1A8F004A2401 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90E010CD270A1A8F004A2401 /* CloudKit.framework */; };
+		90E010D0270A1C16004A2401 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E010CF270A1C16004A2401 /* PersistenceController.swift */; };
+		90E010D3270A2941004A2401 /* CompoundListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E010D2270A2941004A2401 /* CompoundListView.swift */; };
+		90E010D5270A2A71004A2401 /* CompoundDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E010D4270A2A71004A2401 /* CompoundDetailView.swift */; };
+		90E010D7270A2F8B004A2401 /* ConformerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E010D6270A2F8B004A2401 /* ConformerView.swift */; };
 		90E94B1824C11EC900A169D2 /* iPadMasterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E94B1724C11EC900A169D2 /* iPadMasterTableViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -210,6 +215,12 @@
 		90DB476E24BD280C00702FB4 /* iPad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
 		90DD0E55264B34F400B9AA8E /* iPadCompoundTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundTagViewController.swift; sourceTree = "<group>"; };
 		90DD0E57264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundTagCollectionViewCell.swift; sourceTree = "<group>"; };
+		90E010CC270A1A8B004A2401 /* SearchPubChem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SearchPubChem.entitlements; sourceTree = "<group>"; };
+		90E010CD270A1A8F004A2401 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		90E010CF270A1C16004A2401 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		90E010D2270A2941004A2401 /* CompoundListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundListView.swift; sourceTree = "<group>"; };
+		90E010D4270A2A71004A2401 /* CompoundDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundDetailView.swift; sourceTree = "<group>"; };
+		90E010D6270A2F8B004A2401 /* ConformerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerView.swift; sourceTree = "<group>"; };
 		90E94B1724C11EC900A169D2 /* iPadMasterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadMasterTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -219,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90C9C21924CF969E00E247BE /* WebKit.framework in Frameworks */,
+				90E010CE270A1A8F004A2401 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +416,8 @@
 		909AE6A7200CF2F000FEE529 /* SearchPubChem */ = {
 			isa = PBXGroup;
 			children = (
+				90E010D1270A2769004A2401 /* Views */,
+				90E010CC270A1A8B004A2401 /* SearchPubChem.entitlements */,
 				90BAD4D524C4A9A800EE5D3E /* iPad */,
 				908A90F724BB959C008DDCFA /* PubChemDownloader */,
 				90B4384C2352A5EF001A7B5E /* Conformer */,
@@ -445,6 +459,7 @@
 				90725F992042173B0083E1FC /* Managed Object Extensions */,
 				908CD7082040F44000A3C316 /* DataController.swift */,
 				9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */,
+				90E010CF270A1C16004A2401 /* PersistenceController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -478,9 +493,20 @@
 		90C9C21724CF969E00E247BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				90E010CD270A1A8F004A2401 /* CloudKit.framework */,
 				90C9C21824CF969E00E247BE /* WebKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		90E010D1270A2769004A2401 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				90E010D2270A2941004A2401 /* CompoundListView.swift */,
+				90E010D4270A2A71004A2401 /* CompoundDetailView.swift */,
+				90E010D6270A2F8B004A2401 /* ConformerView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -658,10 +684,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */,
+				90E010D0270A1C16004A2401 /* PersistenceController.swift in Sources */,
 				90D4F74C26516D540082CFAE /* CompoundWrapper.swift in Sources */,
 				9062E67C23411DAB0039C136 /* AtomEntity+Extensions.swift in Sources */,
 				90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */,
 				90E94B1824C11EC900A169D2 /* iPadMasterTableViewController.swift in Sources */,
+				90E010D5270A2A71004A2401 /* CompoundDetailView.swift in Sources */,
 				90C2FF7524B6946D00C33F4C /* ConformerDTO.swift in Sources */,
 				9090E66F202A76F2007927DD /* SolutionTableViewController.swift in Sources */,
 				9090EC2120101262003280BD /* SearchByNameViewController.swift in Sources */,
@@ -670,6 +698,7 @@
 				90DD0E56264B34F400B9AA8E /* iPadCompoundTagViewController.swift in Sources */,
 				9084982C266D79EF002644F6 /* RecordLoader.swift in Sources */,
 				90CE069622E4F0250054E7C2 /* Element.swift in Sources */,
+				90E010D3270A2941004A2401 /* CompoundListView.swift in Sources */,
 				90ACC15A2377201300158299 /* SolutionTableViewCell.swift in Sources */,
 				909AE6A9200CF2F000FEE529 /* AppDelegate.swift in Sources */,
 				907FECB620152CD500B0CEBF /* CompoundDetailViewController.swift in Sources */,
@@ -701,6 +730,7 @@
 				9074CD6C203916FE002E19EF /* CompoundMiniDetailViewController.swift in Sources */,
 				90A28688204638ED00FF796A /* PubChemSearchConstants.swift in Sources */,
 				90C3993C24C66E3100ECCFB0 /* iPadCompoundDetailViewController.swift in Sources */,
+				90E010D7270A2F8B004A2401 /* ConformerView.swift in Sources */,
 				90267BE5201E5B1000F899A3 /* MakeSolutionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -807,7 +837,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -861,7 +891,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -873,6 +903,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SearchPubChem/SearchPubChem.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = U8VSJXRJTQ;
@@ -890,6 +921,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SearchPubChem/SearchPubChem.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = U8VSJXRJTQ;
