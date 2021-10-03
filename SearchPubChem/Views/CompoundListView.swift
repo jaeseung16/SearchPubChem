@@ -35,6 +35,11 @@ struct CompoundListView: View {
                             } label: {
                                 HStack {
                                     Text(compound.name ?? "N/A")
+                                    
+                                    if let count = compound.solutions?.count, count > 0 {
+                                        Text("💧")
+                                    }
+                                    
                                     Spacer()
                                     Text(compound.formula ?? "N/A")
                                 }

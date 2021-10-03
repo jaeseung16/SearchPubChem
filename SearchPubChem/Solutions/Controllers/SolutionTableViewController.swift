@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SwiftUI
 
 class SolutionTableViewController: UITableViewController {
     // MARK: - Properties
@@ -58,7 +59,7 @@ class SolutionTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let solution = fetchedResultsController.object(at: indexPath)
-        let detailViewController = setupDetailViewController(for: solution)
+        let detailViewController = UIHostingController(rootView: SolutionDetailView(solution: solution))
         navigationController?.pushViewController(detailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
