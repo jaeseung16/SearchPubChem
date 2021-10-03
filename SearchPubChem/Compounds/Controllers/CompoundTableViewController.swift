@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SwiftUI
 
 class CompoundTableViewController: UITableViewController {
     // MARK:- Properties
@@ -101,7 +102,7 @@ class CompoundTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let compound = fetchedResultsController.object(at: indexPath)
-        let detailViewController = setupDetailViewController(for: compound)
+        let detailViewController = UIHostingController(rootView: CompoundDetailView(compound: compound))
         navigationController?.pushViewController(detailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
