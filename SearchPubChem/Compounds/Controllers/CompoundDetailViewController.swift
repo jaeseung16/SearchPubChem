@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 
+@available(*, deprecated, message: "Replaced by CompoundDetailView")
 class CompoundDetailViewController: UIViewController {
     // MARK: - Properties
     // Outlets

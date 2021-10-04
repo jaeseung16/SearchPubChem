@@ -8,6 +8,7 @@
 
 import UIKit
 
+@available(*, deprecated, message: "Replaced by CompoundMiniDetailView")
 class CompoundMiniDetailViewController: UIViewController {
     // MARK: - Properties
     // Outlets
