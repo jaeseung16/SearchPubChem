@@ -14,6 +14,7 @@ struct SolutionDetailView: View {
     
     @State private var absoluteRelative: AbsoluteRelatve = .absolute
     @State private var unit: Unit = .gram
+    @State private var presentCompoundMiniDetailView = false
     
     private var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
@@ -102,15 +103,23 @@ struct SolutionDetailView: View {
                 
                 List {
                     ForEach(compounds) { compound in
-                        if let name = compound.name {
-                            HStack {
-                                Text(name)
-                                Spacer()
-                                
-                                if let amount = amountsToDisplay[name] {
-                                    Text("\(amount)")
+                        Button {
+                            presentCompoundMiniDetailView = true
+                        } label: {
+                            if let name = compound.name {
+                                HStack {
+                                    Text(name)
+                                    
+                                    Spacer()
+                                    
+                                    if let amount = amountsToDisplay[name] {
+                                        Text("\(amount)")
+                                    }
                                 }
                             }
+                        }
+                        .sheet(isPresented: $presentCompoundMiniDetailView) {
+                            CompoundMiniDetailView(compound: compound)
                         }
                     }
                 }
