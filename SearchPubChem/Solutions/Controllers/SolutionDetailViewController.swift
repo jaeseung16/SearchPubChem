@@ -13,6 +13,7 @@ protocol SolutionDetailViewControllerDelegate: AnyObject {
     func remove(solution: Solution)
 }
 
+@available(*, deprecated, message: "Replaced by SolutionDetailView")
 class SolutionDetailViewController: UIViewController {
     // MARK: - Properties
     // IBOutlets
