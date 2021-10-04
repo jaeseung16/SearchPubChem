@@ -15,6 +15,7 @@ struct CompoundDetailView: View {
     
     @State var compound: Compound
     @State private var presentConformerView = false
+    @State private var presentTagView = false
     
     private var solutions: [Solution] {
         var solutions = [Solution]()
@@ -24,6 +25,16 @@ struct CompoundDetailView: View {
             }
         }
         return solutions
+    }
+    
+    private var tags: [CompoundTag] {
+        var tags = [CompoundTag]()
+        compound.tags?.forEach { tag in
+            if let tag = tag as? CompoundTag {
+                tags.append(tag)
+            }
+        }
+        return tags
     }
     
     private var conformer: Conformer? {
@@ -88,7 +99,10 @@ struct CompoundDetailView: View {
         VStack {
             ZStack {
                 HStack {
-                    Text("tags here")
+                    ForEach(tags) { tag in
+                        Text(tag.name ?? "")
+                    }
+                    
                     Spacer()
                     Button {
                         if let conformer = conformer {
@@ -134,13 +148,17 @@ struct CompoundDetailView: View {
         .padding()
         .sheet(isPresented: $presentConformerView) {
             if let conformer = conformer {
-                ConformerView(conformer:conformer, name: compound.name ?? "", formula: compound.formula ?? "")
+                ConformerView(conformer: conformer, name: compound.name ?? "", formula: compound.formula ?? "")
             }
+        }
+        .sheet(isPresented: $presentTagView) {
+            CompoundTagView(compound: compound, tags: compound.tags as? Set<CompoundTag>)
+                .environment(\.managedObjectContext, viewContext)
         }
         .toolbar {
             HStack {
                 Button {
-                    delete()
+                    presentTagView = true
                 } label : {
                     Image(systemName: "tag")
                 }

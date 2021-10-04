@@ -101,6 +101,7 @@
 		90E010D7270A2F8B004A2401 /* ConformerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E010D6270A2F8B004A2401 /* ConformerView.swift */; };
 		90E010D9270A54C9004A2401 /* SolutionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E010D8270A54C9004A2401 /* SolutionDetailView.swift */; };
 		90E19505270B782200B8196A /* CompoundMiniDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E19504270B782200B8196A /* CompoundMiniDetailView.swift */; };
+		90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E19506270BB00300B8196A /* CompoundTagView.swift */; };
 		90E94B1824C11EC900A169D2 /* iPadMasterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E94B1724C11EC900A169D2 /* iPadMasterTableViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -225,6 +226,7 @@
 		90E010D6270A2F8B004A2401 /* ConformerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerView.swift; sourceTree = "<group>"; };
 		90E010D8270A54C9004A2401 /* SolutionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionDetailView.swift; sourceTree = "<group>"; };
 		90E19504270B782200B8196A /* CompoundMiniDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundMiniDetailView.swift; sourceTree = "<group>"; };
+		90E19506270BB00300B8196A /* CompoundTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundTagView.swift; sourceTree = "<group>"; };
 		90E94B1724C11EC900A169D2 /* iPadMasterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadMasterTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -511,6 +513,7 @@
 				90E010D6270A2F8B004A2401 /* ConformerView.swift */,
 				90E010D8270A54C9004A2401 /* SolutionDetailView.swift */,
 				90E19504270B782200B8196A /* CompoundMiniDetailView.swift */,
+				90E19506270BB00300B8196A /* CompoundTagView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				90326EC826604D7C002505C0 /* iPadCompoundTagsViewController.swift in Sources */,
 				90A09DE524B124EA0089C6C0 /* CompoundDTO.swift in Sources */,
 				90E010D9270A54C9004A2401 /* SolutionDetailView.swift in Sources */,
+				90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */,
 				90C9EAD526506B5E0004CA43 /* RecordDumper.swift in Sources */,
 				908E7137207C1D0A007918AE /* UIViewController+Extensions.swift in Sources */,
 				908CD7092040F44000A3C316 /* DataController.swift in Sources */,

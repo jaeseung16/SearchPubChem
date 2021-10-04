@@ -13,6 +13,7 @@ protocol CompoundTagViewControllerDelegate: AnyObject {
     func updateTags() -> Void
 }
 
+@available(*, deprecated, message: "Replaced by CompoundTagView")
 class CompoundTagViewController: UIViewController {
 
     private let collectionViewCellIdentifier = "compoundTagCollectionViewCell"
