@@ -9,6 +9,7 @@
 import UIKit
 import WebKit
 
+@available(*, deprecated, message: "Replaced by Link(destination:label:)")
 class WebPubChemViewController: UIViewController {
     // MARK: - Properties
     // Outlets

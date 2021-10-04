@@ -11,6 +11,7 @@ import CoreData
 
 struct CompoundDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) private var presentationMode
     
     @State var compound: Compound
     @State private var presentConformerView = false
@@ -62,6 +63,25 @@ struct CompoundDetailView: View {
             conformer.atoms.append(atom)
         }
         return conformer
+    }
+    
+    private var urlForPubChem: URL? {
+        guard let cid = compound.cid else {
+            return nil
+        }
+        
+        var component = commonURLComponents()
+        component.path = PubChemSearch.Constant.pathForWeb + "\(cid)"
+        
+        return component.url
+    }
+    
+    private func commonURLComponents() -> URLComponents {
+        var component = URLComponents()
+        component.scheme = PubChemSearch.Constant.scheme
+        component.host = PubChemSearch.Constant.host
+        
+        return component
     }
     
     var body: some View {
@@ -117,7 +137,40 @@ struct CompoundDetailView: View {
                 ConformerView(conformer:conformer, name: compound.name ?? "", formula: compound.formula ?? "")
             }
         }
-        
+        .toolbar {
+            HStack {
+                Button {
+                    delete()
+                } label : {
+                    Image(systemName: "tag")
+                }
+                
+                if urlForPubChem != nil {
+                    Link(destination: urlForPubChem!) {
+                        Image(systemName: "magnifyingglass")
+                    }
+                }
+                
+                Button {
+                    delete()
+                } label: {
+                    Image(systemName: "trash")
+                }
+            }
+        }
     }
+    
+    private func delete() -> Void {
+        viewContext.delete(compound)
+        
+        do {
+            try viewContext.save()
+        } catch {
+            NSLog("Error while saving: \(error.localizedDescription)")
+        }
+        
+        presentationMode.wrappedValue.dismiss()
+    }
+    
 }
 

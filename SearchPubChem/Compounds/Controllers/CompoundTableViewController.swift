@@ -102,7 +102,8 @@ class CompoundTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let compound = fetchedResultsController.object(at: indexPath)
-        let detailViewController = UIHostingController(rootView: CompoundDetailView(compound: compound))
+        let detailViewController = UIHostingController(rootView: CompoundDetailView(compound: compound)
+                                                        .environment(\.managedObjectContext, dataController.viewContext))
         navigationController?.pushViewController(detailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
