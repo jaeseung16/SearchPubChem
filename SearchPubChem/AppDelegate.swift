@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -78,7 +79,12 @@ extension AppDelegate {
             }
             
             if let topViewController = navigationViewController.topViewController as? CompoundTableViewController {
-                topViewController.dataController = dataController
+                navigationViewController.setViewControllers(
+                    [UIHostingController(rootView:
+                                            CompoundListView()
+                                            .environment(\.managedObjectContext, dataController.viewContext))],
+                                                                                 animated: false)
+                                                             
             } else if let topViewController = navigationViewController.topViewController as? SolutionTableViewController {
                 topViewController.dataController = dataController
             }
