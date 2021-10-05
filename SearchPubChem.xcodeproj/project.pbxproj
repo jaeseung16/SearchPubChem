@@ -102,6 +102,7 @@
 		90E010D9270A54C9004A2401 /* SolutionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E010D8270A54C9004A2401 /* SolutionDetailView.swift */; };
 		90E19505270B782200B8196A /* CompoundMiniDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E19504270B782200B8196A /* CompoundMiniDetailView.swift */; };
 		90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E19506270BB00300B8196A /* CompoundTagView.swift */; };
+		90E19509270BCBBC00B8196A /* SelectCompoundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E19508270BCBBC00B8196A /* SelectCompoundsView.swift */; };
 		90E94B1824C11EC900A169D2 /* iPadMasterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E94B1724C11EC900A169D2 /* iPadMasterTableViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -227,6 +228,7 @@
 		90E010D8270A54C9004A2401 /* SolutionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionDetailView.swift; sourceTree = "<group>"; };
 		90E19504270B782200B8196A /* CompoundMiniDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundMiniDetailView.swift; sourceTree = "<group>"; };
 		90E19506270BB00300B8196A /* CompoundTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundTagView.swift; sourceTree = "<group>"; };
+		90E19508270BCBBC00B8196A /* SelectCompoundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCompoundsView.swift; sourceTree = "<group>"; };
 		90E94B1724C11EC900A169D2 /* iPadMasterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadMasterTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -514,6 +516,7 @@
 				90E010D8270A54C9004A2401 /* SolutionDetailView.swift */,
 				90E19504270B782200B8196A /* CompoundMiniDetailView.swift */,
 				90E19506270BB00300B8196A /* CompoundTagView.swift */,
+				90E19508270BCBBC00B8196A /* SelectCompoundsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -695,6 +698,7 @@
 				90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */,
 				90E010D0270A1C16004A2401 /* PersistenceController.swift in Sources */,
 				90D4F74C26516D540082CFAE /* CompoundWrapper.swift in Sources */,
+				90E19509270BCBBC00B8196A /* SelectCompoundsView.swift in Sources */,
 				9062E67C23411DAB0039C136 /* AtomEntity+Extensions.swift in Sources */,
 				90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */,
 				90E94B1824C11EC900A169D2 /* iPadMasterTableViewController.swift in Sources */,

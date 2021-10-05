@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SwiftUI
 
 enum Units: Int {
     case gram = 0, mg, mol, mM
@@ -53,7 +54,9 @@ class MakeSolutionViewController: UIViewController {
     }
 
     @IBAction func addCompounds(_ sender: UIButton) {
-        let compoundCollectionViewController = setupCompoundCollectionViewController()
+        let compoundCollectionViewController = UIHostingController(rootView:
+                                                                    SelectCompoundsView(selectedCompounds: compounds, delegate: self)
+                                                                    .environment(\.managedObjectContext, dataController.viewContext))
         present(compoundCollectionViewController, animated: true, completion: nil)
     }
     
