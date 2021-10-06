@@ -109,7 +109,7 @@ struct CompoundDetailView: View {
                     
                     info()
                 }
-                .frame(minHeight: 0.75 * geometry.size.height)
+                .frame(minHeight: 0.7 * geometry.size.height)
                 .scaledToFit()
                 
                 Divider()
