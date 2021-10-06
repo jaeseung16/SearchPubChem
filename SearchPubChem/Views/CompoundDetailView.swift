@@ -172,14 +172,14 @@ struct CompoundDetailView: View {
                     }
                     
                     Spacer()
-                    Button {
-                        if conformer != nil {
+                    
+                    if conformer != nil {
+                        Button {
                             presentConformerView = true
+                        } label: {
+                            Text("3D")
                         }
-                    } label: {
-                        Text("3D")
                     }
-                    .disabled(conformer == nil)
                 }
                 
                 Spacer()

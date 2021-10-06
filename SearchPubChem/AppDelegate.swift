@@ -82,7 +82,8 @@ extension AppDelegate {
                 navigationViewController.setViewControllers(
                     [UIHostingController(rootView:
                                             CompoundListView()
-                                            .environment(\.managedObjectContext, dataController.viewContext))],
+                                            .environment(\.managedObjectContext, dataController.viewContext)
+                                            .environmentObject(SearchPubChemViewModel()))],
                                                                                  animated: false)
                                                              
             } else if let topViewController = navigationViewController.topViewController as? SolutionTableViewController {
