@@ -20,9 +20,24 @@ struct CompoundListView: View {
     
     var filteredCompounds: Array<Compound> {
         compounds.filter { compound in
-            return true
+            var filter = true
+            
+            if let tag = seletedTag {
+                if let tags = compound.tags {
+                    filter = tags.contains(tag)
+                } else {
+                    filter = false
+                }
+            }
+            return filter
         }
     }
+    
+    @State private var presentSelectTagView = false
+    @State private var presentAddCompoundView = false
+    
+    
+    @State private var seletedTag: CompoundTag?
     
     var body: some View {
         NavigationView {
@@ -46,10 +61,31 @@ struct CompoundListView: View {
                             }
                         }
                     }
+                    .navigationTitle("Compounds")
+                    .toolbar {
+                        HStack {
+                            Spacer()
+                            
+                            Button {
+                                presentSelectTagView = true
+                            } label: {
+                                Image(systemName: "tag")
+                            }
+                            
+                            Button {
+                                presentAddCompoundView = true
+                            } label: {
+                                Image(systemName: "plus")
+                            }
+                        }
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .sheet(isPresented: $presentSelectTagView) {
+                    SelectTagsView(selectedTag: $seletedTag)
                 }
             }
         }
-        
     }
 }
 
