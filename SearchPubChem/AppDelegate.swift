@@ -9,7 +9,7 @@
 import UIKit
 import SwiftUI
 
-@UIApplicationMain
+//@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let dataController = DataController(modelName: "PubChemSolution")
