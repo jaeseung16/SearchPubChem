@@ -96,56 +96,39 @@ struct CompoundDetailView: View {
     }
     
     var body: some View {
-        VStack {
-            ZStack {
-                HStack {
-                    ForEach(tags) { tag in
-                        Text(tag.name ?? "")
+        GeometryReader { geometry in
+            VStack {
+                ZStack {
+                    if let imageData = compound.image, let image = UIImage(data: imageData) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    } else {
+                        Text("N/A")
                     }
                     
-                    Spacer()
-                    Button {
-                        if let conformer = conformer {
-                            presentConformerView = true
-                        }
-                    } label: {
-                        Text("3D")
-                    }
-                    .disabled(conformer == nil)
+                    info()
                 }
+                .frame(minHeight: 0.75 * geometry.size.height)
+                .scaledToFit()
+                
+                Divider()
                 
                 HStack {
-                    Spacer()
-                    Text(compound.name?.uppercased() ?? "")
+                    Text("SOLUTIONS")
+                        .bold()
                     Spacer()
                 }
-            }
-            
-            
-            Text(compound.formula ?? "")
-            Text("\(compound.molecularWeight) gram/mol")
-            
-            if let imageData = compound.image, let image = UIImage(data: imageData) {
-                Image(uiImage: image)
-            } else {
-                Text("N/A")
-            }
-            
-            Text("PubChem CID: \(compound.cid ?? "")")
-            
-            Text("IUPAC Name: \(compound.nameIUPAC ?? "")")
-            
-            Divider()
-            
-            Text("Solutions")
-            
-            List {
-                ForEach(solutions) { solution in
-                    Text(solution.name ?? "")
+                
+                List {
+                    ForEach(solutions) { solution in
+                        Text(solution.name ?? "")
+                    }
                 }
+                .listStyle(PlainListStyle())
+                .background(Color.secondary)
             }
         }
-        .padding()
         .sheet(isPresented: $presentConformerView) {
             if let conformer = conformer {
                 ConformerView(conformer: conformer, name: compound.name ?? "", formula: compound.formula ?? "")
@@ -174,6 +157,52 @@ struct CompoundDetailView: View {
                 } label: {
                     Image(systemName: "trash")
                 }
+            }
+        }
+        .navigationTitle(Text(compound.name?.uppercased() ?? ""))
+        .padding()
+    }
+    
+    private func info() -> some View {
+        VStack {
+            ZStack(alignment: .top) {
+                HStack {
+                    ForEach(tags) { tag in
+                        Text(tag.name ?? "")
+                    }
+                    
+                    Spacer()
+                    Button {
+                        if conformer != nil {
+                            presentConformerView = true
+                        }
+                    } label: {
+                        Text("3D")
+                    }
+                    .disabled(conformer == nil)
+                }
+                
+                Spacer()
+                
+                HStack {
+                    Spacer()
+                    
+                    VStack {
+                        Text(compound.formula ?? "")
+                        Text("\(compound.molecularWeight) gram/mol")
+                            .font(.callout)
+                    }
+                    Spacer()
+                }
+            }
+            
+            Spacer()
+            
+            VStack {
+                Text("PubChem CID: \(compound.cid ?? "")")
+                    .font(.callout)
+                Text("IUPAC Name: \(compound.nameIUPAC ?? "")")
+                    .font(.callout)
             }
         }
     }
