@@ -35,7 +35,7 @@ class MakeSolutionViewController: UIViewController {
     private var amounts = [Double]()
     private var units = [Int]()
     
-    var dataController: DataController!
+    var viewContext: NSManagedObjectContext!
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -56,10 +56,11 @@ class MakeSolutionViewController: UIViewController {
     @IBAction func addCompounds(_ sender: UIButton) {
         let compoundCollectionViewController = UIHostingController(rootView:
                                                                     SelectCompoundsView(selectedCompounds: compounds, delegate: self)
-                                                                    .environment(\.managedObjectContext, dataController.viewContext))
+                                                                    .environment(\.managedObjectContext, viewContext))
         present(compoundCollectionViewController, animated: true, completion: nil)
     }
     
+    /*
     private func setupCompoundCollectionViewController() -> CompoundCollectionViewController {
         let compoundCollectionViewController = storyboard?.instantiateViewController(withIdentifier: collectionViewControllerIdentifier) as! CompoundCollectionViewController
                
@@ -77,8 +78,9 @@ class MakeSolutionViewController: UIViewController {
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
     }
+    */
     
     @IBAction func createSolution(_ sender: UIBarButtonItem) {
         guard labelForSolution.text != "" else {
@@ -97,13 +99,13 @@ class MakeSolutionViewController: UIViewController {
             return
         }
         
-        let solution = Solution(context: dataController.viewContext)
+        let solution = Solution(context: viewContext)
         solution.name = labelForSolution.text!.trimmingCharacters(in: .whitespaces)
         solution.amount = amountsWithUnit as NSObject
         solution.compounds = NSSet(array: compounds)
         
         do {
-            try dataController.viewContext.save()
+            try viewContext.save()
             NSLog("Successfully saved a new solution")
         } catch {
             NSLog("There is an error while saving a new solution: \(error.localizedDescription)")

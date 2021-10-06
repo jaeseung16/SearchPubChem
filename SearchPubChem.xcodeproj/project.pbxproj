@@ -95,6 +95,10 @@
 		90D8B01C270E1C2500C81750 /* AddCompoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D8B01B270E1C2500C81750 /* AddCompoundView.swift */; };
 		90D8B01E270E1E0900C81750 /* SearchPubChemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D8B01D270E1E0900C81750 /* SearchPubChemViewModel.swift */; };
 		90D8B021270E1EEF00C81750 /* SearchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D8B020270E1EEF00C81750 /* SearchType.swift */; };
+		90D8B023270E459300C81750 /* SolutionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D8B022270E459300C81750 /* SolutionListView.swift */; };
+		90D8B027270E501F00C81750 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D8B026270E501F00C81750 /* ContentView.swift */; };
+		90D8B029270E51AD00C81750 /* SearchPubChemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D8B028270E51AD00C81750 /* SearchPubChemApp.swift */; };
+		90D8B02B270E620200C81750 /* MakeSolutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D8B02A270E620200C81750 /* MakeSolutionView.swift */; };
 		90DB476F24BD280C00702FB4 /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90DB476E24BD280C00702FB4 /* iPad.storyboard */; };
 		90DD0E56264B34F400B9AA8E /* iPadCompoundTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DD0E55264B34F400B9AA8E /* iPadCompoundTagViewController.swift */; };
 		90DD0E58264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DD0E57264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift */; };
@@ -224,6 +228,10 @@
 		90D8B01B270E1C2500C81750 /* AddCompoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompoundView.swift; sourceTree = "<group>"; };
 		90D8B01D270E1E0900C81750 /* SearchPubChemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPubChemViewModel.swift; sourceTree = "<group>"; };
 		90D8B020270E1EEF00C81750 /* SearchType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchType.swift; sourceTree = "<group>"; };
+		90D8B022270E459300C81750 /* SolutionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionListView.swift; sourceTree = "<group>"; };
+		90D8B026270E501F00C81750 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		90D8B028270E51AD00C81750 /* SearchPubChemApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPubChemApp.swift; sourceTree = "<group>"; };
+		90D8B02A270E620200C81750 /* MakeSolutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeSolutionView.swift; sourceTree = "<group>"; };
 		90DB476E24BD280C00702FB4 /* iPad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
 		90DD0E55264B34F400B9AA8E /* iPadCompoundTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundTagViewController.swift; sourceTree = "<group>"; };
 		90DD0E57264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundTagCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -441,6 +449,8 @@
 				90778E06204347A9002D9945 /* Compounds */,
 				90778E07204347B6002D9945 /* Solutions */,
 				909AE6A8200CF2F000FEE529 /* AppDelegate.swift */,
+				90D8B026270E501F00C81750 /* ContentView.swift */,
+				90D8B028270E51AD00C81750 /* SearchPubChemApp.swift */,
 				909AE6AC200CF2F000FEE529 /* Main.storyboard */,
 				90DB476E24BD280C00702FB4 /* iPad.storyboard */,
 				909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */,
@@ -528,15 +538,17 @@
 		90E010D1270A2769004A2401 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				90E010D2270A2941004A2401 /* CompoundListView.swift */,
+				90D8B01B270E1C2500C81750 /* AddCompoundView.swift */,
 				90E010D4270A2A71004A2401 /* CompoundDetailView.swift */,
-				90E010D6270A2F8B004A2401 /* ConformerView.swift */,
-				90E010D8270A54C9004A2401 /* SolutionDetailView.swift */,
+				90E010D2270A2941004A2401 /* CompoundListView.swift */,
 				90E19504270B782200B8196A /* CompoundMiniDetailView.swift */,
+				90E010D6270A2F8B004A2401 /* ConformerView.swift */,
 				90E19506270BB00300B8196A /* CompoundTagView.swift */,
 				90E19508270BCBBC00B8196A /* SelectCompoundsView.swift */,
 				90D8B019270D014500C81750 /* SelectTagsView.swift */,
-				90D8B01B270E1C2500C81750 /* AddCompoundView.swift */,
+				90E010D8270A54C9004A2401 /* SolutionDetailView.swift */,
+				90D8B022270E459300C81750 /* SolutionListView.swift */,
+				90D8B02A270E620200C81750 /* MakeSolutionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -716,6 +728,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */,
+				90D8B023270E459300C81750 /* SolutionListView.swift in Sources */,
 				90E010D0270A1C16004A2401 /* PersistenceController.swift in Sources */,
 				90D4F74C26516D540082CFAE /* CompoundWrapper.swift in Sources */,
 				90E19509270BCBBC00B8196A /* SelectCompoundsView.swift in Sources */,
@@ -723,6 +736,7 @@
 				90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */,
 				90E94B1824C11EC900A169D2 /* iPadMasterTableViewController.swift in Sources */,
 				90E010D5270A2A71004A2401 /* CompoundDetailView.swift in Sources */,
+				90D8B02B270E620200C81750 /* MakeSolutionView.swift in Sources */,
 				90E19505270B782200B8196A /* CompoundMiniDetailView.swift in Sources */,
 				90C2FF7524B6946D00C33F4C /* ConformerDTO.swift in Sources */,
 				9090E66F202A76F2007927DD /* SolutionTableViewController.swift in Sources */,
@@ -740,11 +754,13 @@
 				90DD0E58264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift in Sources */,
 				90C9C21624CF94E300E247BE /* iPadWebPubChemViewController.swift in Sources */,
 				908ECAC6205210D000B7DEE0 /* WebPubChemViewController.swift in Sources */,
+				90D8B027270E501F00C81750 /* ContentView.swift in Sources */,
 				90C18BAD2649ED950036C0DE /* CompoundTag+Extensions.swift in Sources */,
 				907FECB42014EDF800B0CEBF /* PubChemSearch.swift in Sources */,
 				90D8B01A270D014500C81750 /* SelectTagsView.swift in Sources */,
 				90326EC826604D7C002505C0 /* iPadCompoundTagsViewController.swift in Sources */,
 				90A09DE524B124EA0089C6C0 /* CompoundDTO.swift in Sources */,
+				90D8B029270E51AD00C81750 /* SearchPubChemApp.swift in Sources */,
 				90E010D9270A54C9004A2401 /* SolutionDetailView.swift in Sources */,
 				90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */,
 				90C9EAD526506B5E0004CA43 /* RecordDumper.swift in Sources */,
