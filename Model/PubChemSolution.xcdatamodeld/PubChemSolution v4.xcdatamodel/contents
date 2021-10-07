@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19206" systemVersion="20G165" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="1.0">
+    <entity name="AtomEntity" representedClassName=".AtomEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="atomicNumber" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="coordX" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="coordY" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="coordZ" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="conformer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ConformerEntity" inverseName="atoms" inverseEntity="ConformerEntity"/>
+    </entity>
+    <entity name="Compound" representedClassName=".Compound" syncable="YES" codeGenerationType="class">
+        <attribute name="cid" optional="YES" attributeType="String"/>
+        <attribute name="conformerDownloaded" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="firstCharacterInName" optional="YES" transient="YES" attributeType="String"/>
+        <attribute name="formula" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="molecularWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nameIUPAC" optional="YES" attributeType="String"/>
+        <relationship name="conformers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ConformerEntity" inverseName="compound" inverseEntity="ConformerEntity"/>
+        <relationship name="ingradients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SolutionIngradient" inverseName="compound" inverseEntity="SolutionIngradient"/>
+        <relationship name="solutions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Solution" inverseName="compounds" inverseEntity="Solution"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CompoundTag" inverseName="compounds" inverseEntity="CompoundTag"/>
+    </entity>
+    <entity name="CompoundTag" representedClassName=".CompoundTag" syncable="YES" codeGenerationType="class">
+        <attribute name="compoundCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="compounds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Compound" inverseName="tags" inverseEntity="Compound"/>
+    </entity>
+    <entity name="ConformerEntity" representedClassName=".ConformerEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="conformerId" optional="YES" attributeType="String"/>
+        <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="atoms" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="AtomEntity" inverseName="conformer" inverseEntity="AtomEntity"/>
+        <relationship name="compound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Compound" inverseName="conformers" inverseEntity="Compound"/>
+    </entity>
+    <entity name="Solution" representedClassName=".Solution" syncable="YES" codeGenerationType="class">
+        <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="compounds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Compound" inverseName="solutions" inverseEntity="Compound"/>
+        <relationship name="ingradients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SolutionIngradient" inverseName="solution" inverseEntity="SolutionIngradient"/>
+    </entity>
+    <entity name="SolutionIngradient" representedClassName="SolutionIngradient" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="unit" optional="YES" attributeType="String"/>
+        <relationship name="compound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Compound" inverseName="ingradients" inverseEntity="Compound"/>
+        <relationship name="solution" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Solution" inverseName="ingradients" inverseEntity="Solution"/>
+    </entity>
+    <elements>
+        <element name="AtomEntity" positionX="-58.9296875" positionY="-241.48046875" width="128" height="119"/>
+        <element name="Compound" positionX="-283.0859375" positionY="-56.3671875" width="128" height="224"/>
+        <element name="CompoundTag" positionX="-81" positionY="-81" width="128" height="89"/>
+        <element name="ConformerEntity" positionX="123.5625" positionY="-63.9609375" width="128" height="103"/>
+        <element name="Solution" positionX="-37.40625" positionY="224.30078125" width="128" height="89"/>
+        <element name="SolutionIngradient" positionX="-81" positionY="-81" width="128" height="89"/>
+    </elements>
+</model>
