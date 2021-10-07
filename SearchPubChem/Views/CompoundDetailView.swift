@@ -157,6 +157,7 @@ struct CompoundDetailView: View {
                 } label: {
                     Image(systemName: "trash")
                 }
+                .disabled(compound.solutions != nil && compound.solutions!.count > 0)
             }
         }
         .navigationTitle(Text(compound.name?.uppercased() ?? ""))
@@ -208,6 +209,15 @@ struct CompoundDetailView: View {
     }
     
     private func delete() -> Void {
+        if let tags = compound.tags {
+            for tag in tags {
+                if let compoundTag = tag as? CompoundTag {
+                    compoundTag.removeFromCompounds(compound)
+                    compoundTag.compoundCount -= 1
+                }
+            }
+        }
+        
         viewContext.delete(compound)
         
         do {
