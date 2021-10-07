@@ -36,6 +36,7 @@ struct SolutionListView: View {
                         ForEach(solutions) { solution in
                             NavigationLink {
                                 SolutionDetailView(solution: solution)
+                                    .environment(\.managedObjectContext, viewContext)
                             } label: {
                                 HStack {
                                     Text(solution.name ?? "N/A")
@@ -67,11 +68,5 @@ struct SolutionListView: View {
                 .environment(\.managedObjectContext, viewContext)
                 .environmentObject(viewModel)
         }
-    }
-}
-
-struct SolutionListView_Previews: PreviewProvider {
-    static var previews: some View {
-        SolutionListView()
     }
 }

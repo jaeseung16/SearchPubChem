@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct SolutionDetailView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) private var presentationMode
     
     var solution: Solution
     
@@ -125,6 +127,13 @@ struct SolutionDetailView: View {
                 }
                 .listStyle(PlainListStyle())
             }
+            .toolbar {
+                Button {
+                    delete()
+                } label: {
+                    Image(systemName: "trash")
+                }
+            }
         }
         .padding()
     }
@@ -162,6 +171,26 @@ struct SolutionDetailView: View {
     
     private func sumOf(_ amounts: [String: Double]) -> Double {
         return amounts.values.reduce(0.0, { x, y in x + y })
+    }
+    
+    private func delete() -> Void {
+        if let compounds = solution.compounds {
+            for compound in compounds {
+                if let compound = compound as? Compound {
+                    compound.removeFromSolutions(solution)
+                }
+            }
+        }
+        
+        viewContext.delete(solution)
+        
+        do {
+            try viewContext.save()
+        } catch {
+            NSLog("Error while saving: \(error.localizedDescription)")
+        }
+        
+        presentationMode.wrappedValue.dismiss()
     }
 }
 
