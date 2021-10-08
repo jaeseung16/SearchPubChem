@@ -17,6 +17,7 @@ struct SolutionDetailView: View {
     @State private var absoluteRelative: AbsoluteRelatve = .absolute
     @State private var unit: Unit = .gram
     @State private var presentCompoundMiniDetailView = false
+    @State private var presentShareSheet = false
     
     private var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
@@ -158,11 +159,27 @@ struct SolutionDetailView: View {
                 .listStyle(PlainListStyle())
             }
             .toolbar {
-                Button {
-                    delete()
-                } label: {
-                    Image(systemName: "trash")
+                HStack {
+                    Button {
+                        presentShareSheet = true
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    
+                    Button {
+                        delete()
+                    } label: {
+                        Image(systemName: "trash")
+                    }
                 }
+                
+            }
+            .sheet(isPresented: $presentShareSheet) {
+                if let url = prepareCSV(), let name = solution.name {
+                    let title = "Sharing \(name).csv"
+                    ShareActivityView(title: title, url: url, applicationActivities: nil)
+                }
+                
             }
         }
         .padding()
@@ -221,6 +238,66 @@ struct SolutionDetailView: View {
         }
         
         presentationMode.wrappedValue.dismiss()
+    }
+    
+    private func prepareCSV() -> URL? {
+        let csvString = buildStringForCSV()
+
+        guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+        
+        let filename = solution.name!.replacingOccurrences(of: "/", with: "-")
+        let csvFileURL = path.appendingPathComponent("\(filename).csv")
+        
+        do {
+            try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
+        } catch {
+            print("Failed to save the csv file")
+        }
+        
+        return csvFileURL
+    }
+    
+    private func buildStringForCSV() -> String {
+        var csvString = "CID, Compound, Molecular Weight (gram/mol), Amount (g), Amount (mol)\n"
+        
+        for ingradient in ingradients {
+            let compound = ingradient.compound
+            
+            csvString += "\(compound.cid!), "
+            csvString += "\(compound.name!), "
+            csvString += "\(compound.molecularWeight), "
+            
+            let amountInGram = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: ingradient.unit, newUnit: .gram)
+            let amountInMol = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: ingradient.unit, newUnit: .mol)
+            
+            csvString += "\(amountInGram), "
+            csvString += "\(amountInMol)\n"
+        }
+        
+        return csvString
+    }
+    
+    private func convert(_ amount: Double, molecularWeight: Double, originalUnit: Unit, newUnit: Unit) -> Double {
+        var convertedAmount = amount
+        switch originalUnit {
+        case .gram:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount
+            case .mol:
+                convertedAmount = amount / molecularWeight
+            }
+        case .mol:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount * molecularWeight
+            case .mol:
+                convertedAmount = amount
+            }
+        }
+        return convertedAmount
     }
 }
 

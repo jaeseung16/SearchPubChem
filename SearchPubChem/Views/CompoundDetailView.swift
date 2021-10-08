@@ -122,7 +122,11 @@ struct CompoundDetailView: View {
                 
                 List {
                     ForEach(solutions) { solution in
-                        Text(solution.name ?? "")
+                        HStack {
+                            Text(solution.name ?? "")
+                            Spacer()
+                            Text(solution.created ?? Date(), style: .date)
+                        }
                     }
                 }
                 .listStyle(PlainListStyle())
