@@ -40,6 +40,11 @@ class DataController {
             if let error = error as NSError? {
                 if let error = error as NSError? {
                     PersistenceController.logger.error("Could not load persistent store: \(storeDescription), \(error), \(error.userInfo)")
+                } else {
+                    let description = NSPersistentStoreDescription()
+                    description.shouldMigrateStoreAutomatically = false
+                    description.shouldInferMappingModelAutomatically = true
+                    self.persistentContainer.persistentStoreDescriptions.append(description)
                 }
             }
             self.autoSaveViewContext(interval: 30)
