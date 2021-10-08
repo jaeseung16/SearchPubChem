@@ -27,6 +27,10 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var imageData: Data?
     @Published var conformer: Conformer?
     
+    // MARK: - for makings a solution
+    @Published var compounds: [Compound]?
+    @Published var solutionLabel = ""
+    
     func resetCompound() -> Void {
         success = false
         errorMessage = nil
@@ -341,5 +345,11 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         
         resetCompound()
     }
-    
+}
+
+extension SearchPubChemViewModel: CompoundCollectionViewDelegate {
+    func selectedCompounds(_ compounds: [Compound], with title: String) {
+        self.compounds = compounds
+        self.solutionLabel = title
+    }
 }

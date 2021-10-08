@@ -102,27 +102,22 @@ class SolutionDetailViewController: UIViewController {
     
     // MARK: - Convinience methods
     private func retrieveDataFromSolution() {
-        guard let compounds = solution.compounds, let amount = solution.amount else {
+        guard solution.ingradients != nil else {
             print("There is no information.")
             return
         }
         
-        for compound in compounds {
-            guard let compound = compound as? Compound else {
+        for ingradient in solution.ingradients! {
+            guard let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound else {
                 print("It is not a compound.")
                 break
             }
             
             self.compounds.append(compound)
             
-            guard let name = compound.name, let value = amount.value(forKey: name) as? Double else {
-                print("No value found")
-                break
-            }
-            
-            amounts.append(value)
-            amountsMol.append(value/compound.molecularWeight)
-            amountsToDisplay.append("\(value)")
+            amounts.append(ingradient.amount)
+            amountsMol.append(ingradient.amount/compound.molecularWeight)
+            amountsToDisplay.append("\(ingradient.amount)")
         }
     }
     

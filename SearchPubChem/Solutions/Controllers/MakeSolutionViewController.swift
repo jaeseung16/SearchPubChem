@@ -101,8 +101,13 @@ class MakeSolutionViewController: UIViewController {
         
         let solution = Solution(context: viewContext)
         solution.name = labelForSolution.text!.trimmingCharacters(in: .whitespaces)
-        solution.amount = amountsWithUnit as NSObject
-        solution.compounds = NSSet(array: compounds)
+        
+        for compound in compounds {
+            let ingradient = SolutionIngradient(context: viewContext)
+            ingradient.compound = compound
+            ingradient.amount = amountsWithUnit[compound.name!]!
+            ingradient.solution = solution
+        }
         
         do {
             try viewContext.save()

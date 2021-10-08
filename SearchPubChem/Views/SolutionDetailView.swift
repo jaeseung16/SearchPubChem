@@ -26,10 +26,24 @@ struct SolutionDetailView: View {
         return dateFormatter
     }
     
+    private var ingradients: [SolutionIngradientDTO] {
+        var ingradients = [SolutionIngradientDTO]()
+        solution.ingradients?.forEach { entity in
+            if let entity = entity as? SolutionIngradient {
+                if let compound = entity.compound, let unitRawValue = entity.unit, let unit = Unit(rawValue: unitRawValue) {
+                    let dto = SolutionIngradientDTO(compound: compound, amount: entity.amount, unit: unit)
+                    ingradients.append(dto)
+                    print("dto=\(dto)")
+                }
+            }
+        }
+        return ingradients
+    }
+    
     private var compounds: [Compound] {
         var compounds = [Compound]()
-        solution.compounds?.forEach({ compound in
-            if let compound = compound as? Compound {
+        solution.ingradients?.forEach({ ingradient in
+            if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound {
                 compounds.append(compound)
             }
         })
@@ -38,24 +52,40 @@ struct SolutionDetailView: View {
     
     private var amounts: [String: Double] {
         var amounts = [String: Double]()
-        for compound in compounds {
-            guard let name = compound.name, let amount = solution.amount, let value = amount.value(forKey: name) as? Double else {
-                print("No value found")
-                break
+        guard solution.ingradients != nil else {
+            return amounts
+        }
+        for ingradient in solution.ingradients! {
+            if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
+                if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
+                    switch unit {
+                    case .gram:
+                        amounts[name] = ingradient.amount
+                    case .mol:
+                        amounts[name] = ingradient.amount * compound.molecularWeight
+                    }
+                }
             }
-            amounts[name] = value
         }
         return amounts
     }
     
     private var amountsMol: [String: Double] {
         var amountsMol = [String: Double]()
-        for compound in compounds {
-            guard let name = compound.name, let amount = solution.amount, let value = amount.value(forKey: name) as? Double else {
-                print("No value found")
-                break
+        guard solution.ingradients != nil else {
+            return amountsMol
+        }
+        for ingradient in solution.ingradients! {
+            if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
+                if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
+                    switch unit {
+                    case .gram:
+                        amountsMol[name] = ingradient.amount / compound.molecularWeight
+                    case .mol:
+                        amountsMol[name] = ingradient.amount
+                    }
+                }
             }
-            amountsMol[name] = value/compound.molecularWeight
         }
         return amountsMol
     }
@@ -104,11 +134,11 @@ struct SolutionDetailView: View {
                 }
                 
                 List {
-                    ForEach(compounds) { compound in
+                    ForEach(ingradients) { ingradient in
                         Button {
                             presentCompoundMiniDetailView = true
                         } label: {
-                            if let name = compound.name {
+                            if let name = ingradient.compound.name {
                                 HStack {
                                     Text(name)
                                     
@@ -121,7 +151,7 @@ struct SolutionDetailView: View {
                             }
                         }
                         .sheet(isPresented: $presentCompoundMiniDetailView) {
-                            CompoundMiniDetailView(compound: compound)
+                            CompoundMiniDetailView(compound: ingradient.compound)
                         }
                     }
                 }

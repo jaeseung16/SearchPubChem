@@ -137,12 +137,17 @@ extension AppDelegate {
         
         
         // Example Solution: Sodium Chloride Aqueous Solution
-        let saltyWater = Solution(context: dataController.viewContext)
-        saltyWater.name = "salty water"
-        saltyWater.compounds = NSSet(array: [water, sodiumChloride])
+        let waterIngradient = SolutionIngradient(context: dataController.viewContext)
+        waterIngradient.compound = water
+        waterIngradient.amount = 1.0
         
-        let amounts = [water.name!: 1.0, sodiumChloride.name!: 0.05]
-        saltyWater.amount = amounts as NSObject
+        let sodiumChlorideIngradient = SolutionIngradient(context: dataController.viewContext)
+        sodiumChlorideIngradient.compound = sodiumChloride
+        sodiumChlorideIngradient.amount = 0.05
+        
+        let saltyWater = Solution(context: dataController.viewContext)
+        waterIngradient.solution = saltyWater
+        sodiumChlorideIngradient.solution = saltyWater
 
         // Load additional compounds
         let recordLoader = RecordLoader(dataController: dataController)
