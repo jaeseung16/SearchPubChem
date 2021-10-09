@@ -92,11 +92,10 @@ class SearchPubChemTests: XCTestCase {
         
         try! migrationManager.migrateStore(from: self.url, sourceType: NSSQLiteStoreType, options: nil, with: mappingModel, toDestinationURL: self.newUrl, destinationType: NSSQLiteStoreType, destinationOptions: nil)
         
-        let newCoordinbator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel!)
-        try! newCoordinbator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: self.newUrl, options: nil)
+        let newCoordinator = NSPersistentStoreCoordinator(managedObjectModel: newManagedObjectModel!)
+        try! newCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: self.newUrl, options: nil)
         let newManagedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        newManagedObjectContext.persistentStoreCoordinator = newCoordinbator
-        
+        newManagedObjectContext.persistentStoreCoordinator = newCoordinator
         
         // MARK: 4 - test the migration
         let newSolutionRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Solution")
@@ -106,61 +105,28 @@ class SearchPubChemTests: XCTestCase {
         
         let newSaltyWater = newSolution.first!
         
-        print("SearchPubChemTests: newSaltyWater = \(newSaltyWater)")
-        
         XCTAssertEqual(newSaltyWater.value(forKey: "name") as? String, "salty water")
         
-        let compounds = newSaltyWater.value(forKey: "compounds") as! NSSet
-        
-        //print("SearchPubChemTests: compounds = \(compounds)")
-        print("SearchPubChemTests: compounds.count = \(compounds.count)")
-        
-        for index in 0..<compounds.count {
-            let compound = compounds.allObjects[index] as! NSManagedObject
-            let name = compound.primitiveValue(forKey: "name") as! String
-            
-            let ingradients = compound.value(forKey: "ingradients") as! NSSet
-            let solutions = compound.value(forKey: "solutions") as! NSSet
-            
-            print("SearchPubChemTests: name=\(name)")
-            print("SearchPubChemTests: ingradients.count=\(String(describing: ingradients.count))")
-            print("SearchPubChemTests: solutions.count=\(String(describing: solutions.count))")
-            //ingradient.setValue(compound, forKey: "compound")
-            //ingradient.setValue(solution, forKey: "solution")
-        }
-        
-        /*
         let ingradients = newSaltyWater.value(forKey: "ingradients") as! NSSet
-        print("SearchPubChemTests: ingradients = \(ingradients)")
-        print("SearchPubChemTests: ingradients.count = \(ingradients.count)")
+        
+        XCTAssertEqual(ingradients.count, 2)
         
         for ingradient in ingradients {
             let ingradient = ingradient as! NSManagedObject
-            print("SearchPubChemTests: ingradient = \(ingradient)")
-            print("SearchPubChemTests: solution = \(ingradient.value(forKey: "solution"))")
-            print("SearchPubChemTests: compound = \(ingradient.value(forKey: "compound"))")
+            let amount = ingradient.primitiveValue(forKey: "amount") as! Double
+            let compoundName = ingradient.primitiveValue(forKey: "compoundName") as! String
+            
+            let compound = ingradient.value(forKey: "compound") as! NSManagedObject
+            let name = compound.primitiveValue(forKey: "name") as! String
+            
+            XCTAssertEqual(compoundName, name)
+            
+            if "water" == name  {
+                XCTAssertEqual(amount, 1.0)
+            } else if "sodium chloride" == name {
+                XCTAssertEqual(amount, 0.05)
+            }
         }
-        
-        
-        let newCompoundRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Compound")
-        let newCompounds = try! newManagedObjectContext.fetch(newCompoundRequest) as! [NSManagedObject]
-        
-        print("SearchPubChemTests: newCompounds = \(newCompounds)")
-        print("SearchPubChemTests: newCompounds.count = \(newCompounds.count)")
-        
-        for compound in newCompounds {
-            let compound = compound as! NSManagedObject
-            print("SearchPubChemTests: compound.name = \(compound.primitiveValue(forKey: "name")))")
-            
-            let solutions = compound.value(forKey: "solutions") as! NSSet
-            
-            print("SearchPubChemTests: solutions.count = \(solutions.count)")
-            
-            let ingradients = compound.value(forKey: "ingradients") as! NSSet
-            
-            print("SearchPubChemTests: ingradients.count = \(ingradients.count)")
-        }
-        */
     }
     
 }

@@ -43,6 +43,8 @@
     </entity>
     <entity name="SolutionIngradient" representedClassName="SolutionIngradient" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="compoundCid" optional="YES" attributeType="String"/>
+        <attribute name="compoundName" optional="YES" attributeType="String"/>
         <attribute name="unit" optional="YES" attributeType="String"/>
         <relationship name="compound" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Compound" inverseName="ingradients" inverseEntity="Compound"/>
         <relationship name="solution" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Solution" inverseName="ingradients" inverseEntity="Solution"/>
@@ -53,6 +55,6 @@
         <element name="CompoundTag" positionX="-81" positionY="-81" width="128" height="89"/>
         <element name="ConformerEntity" positionX="123.5625" positionY="-63.9609375" width="128" height="103"/>
         <element name="Solution" positionX="-37.40625" positionY="224.30078125" width="128" height="89"/>
-        <element name="SolutionIngradient" positionX="-81" positionY="-81" width="128" height="89"/>
+        <element name="SolutionIngradient" positionX="-81" positionY="-81" width="128" height="119"/>
     </elements>
 </model>

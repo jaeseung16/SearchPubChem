@@ -118,6 +118,8 @@ struct MakeSolutionView: View {
                         let entity = SolutionIngradient(context: viewContext)
                         
                         entity.compound = ingradient.compound
+                        entity.compoundName = ingradient.compound.name
+                        entity.compoundCid = ingradient.compound.cid
                         entity.amount = ingradient.amount
                         entity.unit = ingradient.unit.rawValue
                         
