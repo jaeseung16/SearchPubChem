@@ -11,7 +11,6 @@ import CoreData
 
 class SolutionMigrationPolicy: NSEntityMigrationPolicy {
     override func createRelationships(forDestination dInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
-        print("createRelationships")
         if dInstance.entity.name == "Solution" {
             // From the relationship between source Compound and Solution,
             // recreate the relationships between destination Compound and Solution as well as between destination Compound and SolutionIngradient
@@ -44,7 +43,6 @@ class SolutionMigrationPolicy: NSEntityMigrationPolicy {
     }
     
     override func createDestinationInstances(forSource sInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
-        print("createDestinationInstances")
         if sInstance.entity.name == "Solution" {
             let name = sInstance.primitiveValue(forKey: "name")
             let amount = sInstance.primitiveValue(forKey: "amount") as? [String: Double]

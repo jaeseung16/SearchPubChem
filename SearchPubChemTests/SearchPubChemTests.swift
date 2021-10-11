@@ -37,7 +37,7 @@ class SearchPubChemTests: XCTestCase {
     }
 
     override func tearDown() {
-        //self.clearData()
+        self.clearData()
     }
    
     func testHeavyWeightMigration() {

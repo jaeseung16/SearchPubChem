@@ -8,26 +8,26 @@
 
 import Foundation
 import CoreData
+import os
 
 class DataMigrator: NSObject, ObservableObject {
     static let shared = DataMigrator()
+    static let logger = Logger()
     
     let sourceModelName = "PubChemSolution.momd/PubChemSolution v3"
     let destinationModelName = "PubChemSolution.momd/PubChemSolution v4"
     let modelExtension = "mom"
-    
     let storeFilename = "PubChemSolution.sqlite"
+    let hasDBMigradtedKey = "HasDBMigrated"
     
     override init() {
         super.init()
         
-        let isMigrationNecessary = isMigrationNecessary()
-        let hasDBMigrated = UserDefaults.standard.bool(forKey: "HasDBMigrated")
-        if !isMigrationNecessary {
-            UserDefaults.standard.set(true, forKey: "HasDBMigrated")
+        if !isMigrationNecessary() {
+            UserDefaults.standard.set(true, forKey: hasDBMigradtedKey)
         } else {
             migrate()
-            UserDefaults.standard.set(true, forKey: "HasDBMigrated")
+            UserDefaults.standard.set(true, forKey: hasDBMigradtedKey)
         }
     }
     
@@ -50,9 +50,8 @@ class DataMigrator: NSObject, ObservableObject {
     }
     
     private var storeURL: URL? {
-        applicationSupportDirectory.appendingPathComponent("PubChemSolution.sqlite")
+        applicationSupportDirectory.appendingPathComponent(storeFilename)
     }
-    
     
     private var _sourceModel: NSManagedObjectModel?
     var sourceModel: NSManagedObjectModel? {
@@ -75,87 +74,32 @@ class DataMigrator: NSObject, ObservableObject {
     }
     
     func isMigrationNecessary() -> Bool {
-        guard let sourceModel = self.sourceModel, let destinationModel = self.destinationModel else {
+        guard self.sourceModel != nil, let destinationModel = self.destinationModel else {
             return false
         }
         
         guard let storeURL = self.storeURL, let sourceMetaData = self.sourceMetadata(storeURL: storeURL) else {
             return false
         }
-        
-        print("sourceModel.entityVersionHashesByName = \(sourceModel.entityVersionHashesByName)")
-        
-        for entityVersionHash in sourceModel.entityVersionHashesByName {
-            print("\(entityVersionHash.key): \(entityVersionHash.value) \(entityVersionHash.value.debugDescription) \(entityVersionHash.value.hashValue)")
-        }
-        
-        print("storeURL = \(storeURL)")
-        print("sourceMetaData = \(sourceMetaData)")
-        
-        let isMigrationNecessary = !destinationModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: sourceMetaData)
-        
-        print("isMigrationNecessary = \(isMigrationNecessary)")
-        return isMigrationNecessary
-    }
-    
-    enum PubChemSolutionVersion: String, CaseIterable {
-        case v1 = "PubChemSolution.momd/PubChemSolution"
-        case v2 = "PubChemSolution.momd/PubChemSolution v2"
-        case v3 = "PubChemSolution.momd/PubChemSolution v3"
-        case v4 = "PubChemSolution.momd/PubChemSolution v4"
+      
+        return !destinationModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: sourceMetaData)
     }
     
     private func compatibleModelForStoreMetadata(_ metadata: [String : Any]) -> NSManagedObjectModel? {
-        /*
-        print("metadata = \(metadata)")
-        
-        if let versionHashes = metadata[NSStoreModelVersionHashesKey] as? [String: Any] {
-            for key in versionHashes.keys {
-                print("\(key), \(versionHashes[key])")
-                
-                if let data = versionHashes[key] as? Data {
-                    print("\(data.base64EncodedString())")
-                }
-            }
-        }
-        */
-        
         if let sourceModel = self.sourceModel, sourceModel.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata) {
             return sourceModel
         } else {
             return nil
         }
-        
-        /*
-        for version in PubChemSolutionVersion.allCases {
-            print("version = \(version.rawValue)")
-            if let momURL = Bundle.main.url(forResource: version.rawValue, withExtension: modelExtension), let model = NSManagedObjectModel(contentsOf: momURL) {
-                
-                print("model.entityVersionHashesByName = \(model.entityVersionHashesByName)")
-                for entityVersionHash in model.entityVersionHashesByName {
-                    print("\(entityVersionHash.key): \(entityVersionHash.value.hashValue) \(entityVersionHash.value.base64EncodedString(options: []))")
-                }
-                
-                if model.isConfiguration(withName: nil, compatibleWithStoreMetadata: metadata) {
-                    return model
-                }
-            }
-        }
-        print("returning nil")
-        return nil
-        */
     }
     
     func forceWALCheckpointingForStore(at storeURL: URL) {
         let metadata = try? NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
         
         guard let metadata = metadata, let currentModel = compatibleModelForStoreMetadata(metadata) else {
-            print("currentModel = nil")
             return
         }
 
-        print("currentModel = \(currentModel)")
-        
         do {
             let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: currentModel)
             let options = [NSSQLitePragmasOption: ["journal_mode": "DELETE"]]
@@ -163,32 +107,7 @@ class DataMigrator: NSObject, ObservableObject {
             try persistentStoreCoordinator.remove(store)
         } catch {
             if let error = error as NSError? {
-                fatalError("failed to force WAL checkpointing, error: \(error)")
-                //print("Cannot migrate: \(error)")
-            }
-        }
-    }
-    
-    func makeCopy() -> Void {
-        guard let sourceModel = self.sourceModel, let storeURL = self.storeURL, let destinationModel = self.destinationModel else {
-            return
-        }
-        
-        forceWALCheckpointingForStore(at: storeURL)
-        
-        let temporaryPeristentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: sourceModel)
-        let temporaryStoreURL = temporaryDirectory.appendingPathComponent(storeURL.lastPathComponent)
-        
-        print("metadataForPersistentStore=\(try? NSPersistentStoreCoordinator.metadataForPersistentStore(type: .sqlite, at: storeURL, options: nil))")
-        
-        do {
-            let originalStore = try temporaryPeristentStoreCoordinator.addPersistentStore(type: .sqlite, configuration: nil, at: storeURL, options: nil)
-            
-            let _ = try temporaryPeristentStoreCoordinator.migratePersistentStore(originalStore, to: temporaryStoreURL, options: [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true], type: .sqlite)
-        } catch {
-            if let error = error as NSError? {
-                fatalError("Cannot copy persistent store from \(storeURL) to \(temporaryStoreURL): \(error)")
-                //print("Cannot migrate: \(error)")
+                DataMigrator.logger.error("failed to force WAL checkpointing, error: \(error)")
             }
         }
     }
@@ -202,9 +121,6 @@ class DataMigrator: NSObject, ObservableObject {
             return
         }
         
-        print("sourceModel = \(sourceModel)")
-        print("destinationModel = \(destinationModel)")
-        
         forceWALCheckpointingForStore(at: storeURL)
         
         let destinationURL = temporaryDirectory.appendingPathComponent("PubChemSolution.sqlite")
@@ -212,21 +128,16 @@ class DataMigrator: NSObject, ObservableObject {
         let migrationManager = NSMigrationManager(sourceModel: sourceModel, destinationModel: destinationModel)
         let mappingModel = NSMappingModel(from: nil, forSourceModel: sourceModel, destinationModel: destinationModel)
         
-        print("migrationManager = \(migrationManager)")
-        print("mappingModel = \(mappingModel)")
-        
         do {
             try migrationManager.migrateStore(from: storeURL, type: .sqlite, options: nil, mapping: mappingModel!, to: destinationURL, type: .sqlite, options: nil)
         } catch {
             if let error = error as NSError? {
-                fatalError("Cannot migrate: \(error)")
+                DataMigrator.logger.error("Cannot migrate persistent stores from \(storeURL) to \(destinationURL) with using \(mappingModel.debugDescription): \(error)")
             }
         }
         
         replaceStore(at: storeURL, with: destinationURL)
         destoryStore(at: destinationURL)
-        
-        UserDefaults.standard.set(true, forKey: "HasDBMigrated")
     }
     
     private func replaceStore(at storeURL: URL, with replacingStoreURL: URL) {
@@ -234,8 +145,10 @@ class DataMigrator: NSObject, ObservableObject {
             let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: NSManagedObjectModel())
             try persistentStoreCoordinator.replacePersistentStore(at: storeURL, destinationOptions: nil, withPersistentStoreFrom: replacingStoreURL, sourceOptions: nil, type: .sqlite)
             
-        } catch let error {
-            fatalError("failed to replace persistent store at \(storeURL) with \(replacingStoreURL), error: \(error)")
+        } catch {
+            if let error = error as NSError? {
+                DataMigrator.logger.error("failed to replace persistent store at \(storeURL) with \(replacingStoreURL), error: \(error)")
+            }
         }
     }
     
@@ -243,8 +156,10 @@ class DataMigrator: NSObject, ObservableObject {
         do {
             let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: NSManagedObjectModel())
             try persistentStoreCoordinator.destroyPersistentStore(at: storeURL, type: .sqlite, options: nil)
-        } catch let error {
-            fatalError("failed to destroy persistent store at \(storeURL), error: \(error)")
+        } catch {
+            if let error = error as NSError? {
+                DataMigrator.logger.error("failed to destroy persistent store at \(storeURL), error: \(error)")
+            }
         }
     }
 }

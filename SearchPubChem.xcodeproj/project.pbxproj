@@ -509,8 +509,8 @@
 				90725F992042173B0083E1FC /* Managed Object Extensions */,
 				908CD7082040F44000A3C316 /* DataController.swift */,
 				90B12C40271333EF00EF065D /* DataMigrator.swift */,
-				9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */,
 				90E010CF270A1C16004A2401 /* PersistenceController.swift */,
+				9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
