@@ -11,13 +11,23 @@ import SwiftUI
 @main
 struct SearchPubChemApp: App {
     let dataController = DataController.shared
-    let viewModel = SearchPubChemViewModel()
+    
+    @AppStorage("HasLaunchedBefore", store: UserDefaults.standard) var hasLaunchedBefore: Bool = false
+    @AppStorage("HasDBMigrated", store: UserDefaults.standard) var hasDBMigrated: Bool = false
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, dataController.viewContext)
-                .environmentObject(viewModel)
+            if !hasLaunchedBefore {
+                ContentView()
+                    .environment(\.managedObjectContext, dataController.viewContext)
+                    .environmentObject(SearchPubChemViewModel())
+            } else if !hasDBMigrated {
+                
+            } else {
+                ContentView()
+                    .environment(\.managedObjectContext, dataController.viewContext)
+                    .environmentObject(SearchPubChemViewModel())
+            }
         }
     }
 }

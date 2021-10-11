@@ -11,10 +11,10 @@ import CoreData
 import UIKit
 
 class RecordLoader {
-    var dataController: DataController
+    var viewContext: NSManagedObjectContext
     
-    init(dataController: DataController) {
-        self.dataController = dataController
+    init(viewContext: NSManagedObjectContext) {
+        self.viewContext = viewContext
     }
     
     func loadRecords() {
@@ -55,7 +55,7 @@ class RecordLoader {
         var tags = [String: CompoundTag]()
         
         for compound in compounds {
-            let compoundEntity = Compound(context: dataController.viewContext)
+            let compoundEntity = Compound(context: viewContext)
             compoundEntity.cid = compound.cid
             compoundEntity.name = compound.name
             compoundEntity.nameIUPAC = compound.iupacName
@@ -66,12 +66,12 @@ class RecordLoader {
             
             if !compound.conformers.isEmpty {
                 let conformer = compound.conformers[0]
-                let conformerEntity = ConformerEntity(context: dataController.viewContext)
+                let conformerEntity = ConformerEntity(context: viewContext)
                 conformerEntity.compound = compoundEntity
                 conformerEntity.conformerId = conformer.conformerId
             
                 for atom in conformer.atoms {
-                    let atomEntity = AtomEntity(context: dataController.viewContext)
+                    let atomEntity = AtomEntity(context: viewContext)
                     atomEntity.atomicNumber = Int16(atom.atomicNumber)
                     atomEntity.coordX = atom.coordX
                     atomEntity.coordY = atom.coordY
@@ -88,7 +88,7 @@ class RecordLoader {
                         tag.compoundCount += 1
                         compoundTags.insert(tag)
                     } else {
-                        let newTag = CompoundTag(context: dataController.viewContext)
+                        let newTag = CompoundTag(context: viewContext)
                         newTag.name = compoundTag
                         newTag.compoundCount = 1
                         

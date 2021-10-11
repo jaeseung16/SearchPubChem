@@ -41,8 +41,8 @@ class DataController {
     
     private func load(completion: (() -> Void)? = nil) {
         let description = persistentContainer.persistentStoreDescriptions.first
-        description?.shouldMigrateStoreAutomatically = true
-        description?.shouldInferMappingModelAutomatically = true
+        //description?.shouldMigrateStoreAutomatically = true
+        //description?.shouldInferMappingModelAutomatically = true
         //description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         //description?.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
         //description?.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.com.resonance.jlee.SearchPubChem")
@@ -61,12 +61,17 @@ class DataController {
             
             //self.autoSaveViewContext(interval: 30)
             //self.configureContexts()
-            completion?()
+            //completion?()
         }
         
         print("persistentStores = \(persistentContainer.persistentStoreCoordinator.persistentStores)")
         
+        print("HasLaunchedBefore = \(UserDefaults.standard.bool(forKey: "HasLaunchedBefore"))")
+        print("HasDBMigrated = \(UserDefaults.standard.bool(forKey: "HasDBMigrated"))")
+        
         persistentContainer.viewContext.name = "SearchPubChem"
+        
+        preloadData()
         //purgeHistory()
     }
     
@@ -82,10 +87,80 @@ class DataController {
             }
         }
     }
-}
+    
+    func checkIfFirstLaunch() {
+        DispatchQueue.main.async {
+            print("checkIfFirstLaunch()")
+            if !UserDefaults.standard.bool(forKey: "HasLaunchedBefore") {
+                print("First Launch")
+                UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
+                UserDefaults.standard.synchronize()
+                self.preloadData()
+                //saveData()
+            }
+        }
+    }
+    
+    private func preloadData() {
+        print("preloadData 1")
+        do {
+            try dropAllData()
+        } catch {
+            NSLog("Error while dropping all objects in DB")
+        }
+        
+        print("preloadData 2")
+        
+        // Example Compound 1: Water
+        let water = Compound(context: viewContext)
+        water.name = "water"
+        water.firstCharacterInName = "W"
+        water.formula = "H2O"
+        water.molecularWeight = 18.015
+        water.cid = "962"
+        water.nameIUPAC = "oxidane"
+        water.image = try? Data(contentsOf: Bundle.main.url(forResource: "962_water", withExtension: "png")!, options: [])
+        
+        // Example Compound 2: Sodium Chloride
+        let sodiumChloride = Compound(context: viewContext)
+        sodiumChloride.name = "sodium chloride"
+        sodiumChloride.firstCharacterInName = "S"
+        sodiumChloride.formula = "NaCl"
+        sodiumChloride.molecularWeight = 58.44
+        sodiumChloride.cid = "5234"
+        sodiumChloride.nameIUPAC = "sodium chloride"
+        sodiumChloride.image = try? Data(contentsOf: Bundle.main.url(forResource: "5234_sodium chloride", withExtension: "png")!, options: [])
 
-extension DataController  {
-    func dropAllData() throws {
+        // Example Solution: Sodium Chloride Aqueous Solution
+        let waterIngradient = SolutionIngradient(context: viewContext)
+        waterIngradient.compound = water
+        waterIngradient.amount = 1.0
+        waterIngradient.unit = "gram"
+        
+        let sodiumChlorideIngradient = SolutionIngradient(context: viewContext)
+        sodiumChlorideIngradient.compound = sodiumChloride
+        sodiumChlorideIngradient.amount = 0.05
+        sodiumChlorideIngradient.unit = "gram"
+        
+        let saltyWater = Solution(context: viewContext)
+        saltyWater.name = "sakty water"
+        saltyWater.ingradients = NSSet(array: [waterIngradient, sodiumChlorideIngradient])
+        
+        waterIngradient.solution = saltyWater
+        sodiumChlorideIngradient.solution = saltyWater
+        
+        // Load additional compounds
+        let recordLoader = RecordLoader(viewContext: viewContext)
+        recordLoader.loadRecords()
+        
+        do {
+            try viewContext.save()
+        } catch {
+            NSLog("Error while saving by AppDelegate")
+        }
+    }
+    
+    private func dropAllData() throws {
         // delete all the objects in the db. This won't delete the files, it will just leave empty tables.
         let persistentStoreCoordinator = persistentContainer.persistentStoreCoordinator
         let persistentStore = persistentStoreCoordinator.persistentStores[0]
@@ -94,7 +169,7 @@ extension DataController  {
         try persistentStoreCoordinator.destroyPersistentStore(at: urlForPersistentStore, ofType: NSSQLiteStoreType, options: nil)
         try persistentStoreCoordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: urlForPersistentStore, options: nil)
     }
-
+    
     private func autoSaveViewContext(interval: TimeInterval = 30) {
         guard interval > 0 else {
             NSLog("The autosave interval cannot be negative.")

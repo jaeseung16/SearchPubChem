@@ -58,6 +58,8 @@
 		90849827266D79A7002644F6 /* 6305_tryptophan.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497F7266D79A7002644F6 /* 6305_tryptophan.png */; };
 		9084982A266D79A7002644F6 /* 887_methanol.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497FA266D79A7002644F6 /* 887_methanol.png */; };
 		9084982C266D79EF002644F6 /* RecordLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9084982B266D79EF002644F6 /* RecordLoader.swift */; };
+		9089909E27149C5700DC3989 /* 962_water.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909D27149C5700DC3989 /* 962_water.png */; };
+		908990A027149CB100DC3989 /* 5234_sodium chloride.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909F27149CB100DC3989 /* 5234_sodium chloride.png */; };
 		908CD7092040F44000A3C316 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908CD7082040F44000A3C316 /* DataController.swift */; };
 		908E7137207C1D0A007918AE /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */; };
 		908ECAC6205210D000B7DEE0 /* WebPubChemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908ECAC5205210D000B7DEE0 /* WebPubChemViewController.swift */; };
@@ -188,6 +190,8 @@
 		908497F7266D79A7002644F6 /* 6305_tryptophan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6305_tryptophan.png; sourceTree = "<group>"; };
 		908497FA266D79A7002644F6 /* 887_methanol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 887_methanol.png; sourceTree = "<group>"; };
 		9084982B266D79EF002644F6 /* RecordLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordLoader.swift; sourceTree = "<group>"; };
+		9089909D27149C5700DC3989 /* 962_water.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 962_water.png; sourceTree = "<group>"; };
+		9089909F27149CB100DC3989 /* 5234_sodium chloride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "5234_sodium chloride.png"; sourceTree = "<group>"; };
 		908CD7082040F44000A3C316 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		908ECAC5205210D000B7DEE0 /* WebPubChemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPubChemViewController.swift; sourceTree = "<group>"; };
@@ -376,10 +380,12 @@
 				908497DA266D79A5002644F6 /* 702_ethanol.png */,
 				908497CF266D79A5002644F6 /* 750_glycine.png */,
 				908497FA266D79A7002644F6 /* 887_methanol.png */,
+				9089909D27149C5700DC3989 /* 962_water.png */,
 				908497EB266D79A6002644F6 /* 2244_aspirin.png */,
 				908497F0266D79A7002644F6 /* 2682_hexadecan-1-ol.png */,
 				908497D4266D79A5002644F6 /* 3672_ibuprofen.png */,
 				908497EF266D79A7002644F6 /* 3776_propan-2-ol.png */,
+				9089909F27149CB100DC3989 /* 5234_sodium chloride.png */,
 				908497F1266D79A7002644F6 /* 5793_glucose.png */,
 				908497ED266D79A7002644F6 /* 5862_cysteine.png */,
 				908497D5266D79A5002644F6 /* 5951_serine.png */,
@@ -683,6 +689,7 @@
 				9084981B266D79A7002644F6 /* 2244_aspirin.png in Resources */,
 				90849807266D79A7002644F6 /* 6306_isoleucine.png in Resources */,
 				9084982A266D79A7002644F6 /* 887_methanol.png in Resources */,
+				9089909E27149C5700DC3989 /* 962_water.png in Resources */,
 				9084980F266D79A7002644F6 /* 6322_arginine.png in Resources */,
 				90849810266D79A7002644F6 /* 6036_galactose.png in Resources */,
 				90849809266D79A7002644F6 /* 5962_lysine.png in Resources */,
@@ -713,6 +720,7 @@
 				909AE6AE200CF2F000FEE529 /* Main.storyboard in Resources */,
 				90849824266D79A7002644F6 /* 6137_methionine.png in Resources */,
 				90849811266D79A7002644F6 /* 33032_glutamic acid.png in Resources */,
+				908990A027149CB100DC3989 /* 5234_sodium chloride.png in Resources */,
 				908497FF266D79A7002644F6 /* 750_glycine.png in Resources */,
 				90849819266D79A7002644F6 /* 6288_threonine.png in Resources */,
 				908497FE266D79A7002644F6 /* 6267_asparagine.png in Resources */,

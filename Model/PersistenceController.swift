@@ -18,7 +18,6 @@ struct PersistenceController {
         let viewContext = result.container.viewContext
         
         /*
-        
         PersistenceController.save(viewContext: viewContext) { error in
             let nsError = error as NSError
             PersistenceController.logger.error("Unresolved error \(nsError), \(nsError.userInfo)")
