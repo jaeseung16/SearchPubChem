@@ -61,6 +61,7 @@
 		9089909E27149C5700DC3989 /* 962_water.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909D27149C5700DC3989 /* 962_water.png */; };
 		908990A027149CB100DC3989 /* 5234_sodium chloride.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909F27149CB100DC3989 /* 5234_sodium chloride.png */; };
 		908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A12714A6D400DC3989 /* DataMigrationView.swift */; };
+		908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A32714BF9C00DC3989 /* FirstLaunchView.swift */; };
 		908CD7092040F44000A3C316 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908CD7082040F44000A3C316 /* DataController.swift */; };
 		908E7137207C1D0A007918AE /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */; };
 		908ECAC6205210D000B7DEE0 /* WebPubChemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908ECAC5205210D000B7DEE0 /* WebPubChemViewController.swift */; };
@@ -194,6 +195,7 @@
 		9089909D27149C5700DC3989 /* 962_water.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 962_water.png; sourceTree = "<group>"; };
 		9089909F27149CB100DC3989 /* 5234_sodium chloride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "5234_sodium chloride.png"; sourceTree = "<group>"; };
 		908990A12714A6D400DC3989 /* DataMigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrationView.swift; sourceTree = "<group>"; };
+		908990A32714BF9C00DC3989 /* FirstLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLaunchView.swift; sourceTree = "<group>"; };
 		908CD7082040F44000A3C316 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		908ECAC5205210D000B7DEE0 /* WebPubChemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPubChemViewController.swift; sourceTree = "<group>"; };
@@ -574,6 +576,7 @@
 				90D8B02A270E620200C81750 /* MakeSolutionView.swift */,
 				90AE84CE271097C700470E1B /* ActivityView.swift */,
 				908990A12714A6D400DC3989 /* DataMigrationView.swift */,
+				908990A32714BF9C00DC3989 /* FirstLaunchView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -792,6 +795,7 @@
 				90AE84CF271097C700470E1B /* ActivityView.swift in Sources */,
 				90326EC826604D7C002505C0 /* iPadCompoundTagsViewController.swift in Sources */,
 				90A09DE524B124EA0089C6C0 /* CompoundDTO.swift in Sources */,
+				908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */,
 				90D8B029270E51AD00C81750 /* SearchPubChemApp.swift in Sources */,
 				90E010D9270A54C9004A2401 /* SolutionDetailView.swift in Sources */,
 				90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */,
