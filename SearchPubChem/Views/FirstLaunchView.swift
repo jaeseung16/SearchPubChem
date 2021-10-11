@@ -17,7 +17,7 @@ struct FirstLaunchView: View {
             Text("Welcome to SearchPubChem!")
                 .font(.headline)
             
-            Image("SearchPubChem")
+            Image("iPad_Intro")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
             
@@ -54,6 +54,8 @@ struct FirstLaunchView: View {
 
 struct FirstLaunchView_Previews: PreviewProvider {
     static var previews: some View {
-        FirstLaunchView()
+        ForEach(ColorScheme.allCases, id: \.self) {
+            FirstLaunchView().preferredColorScheme($0)
+        }
     }
 }
