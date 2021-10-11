@@ -31,6 +31,23 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var compounds: [Compound]?
     @Published var solutionLabel = ""
     
+    private let dataController = DataController.shared
+    
+    private var subscriptions: Set<AnyCancellable> = []
+    
+    override init() {
+        super.init()
+        
+        NotificationCenter.default
+          .publisher(for: .NSPersistentStoreRemoteChange)
+          .sink { self.fetchUpdates($0) }
+          .store(in: &subscriptions)
+    }
+    
+    func preloadData() -> Void {
+        dataController.preloadData()
+    }
+    
     func resetCompound() -> Void {
         success = false
         errorMessage = nil
@@ -345,6 +362,68 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         
         resetCompound()
     }
+    
+    // MARK: - Persistence History Request
+    private lazy var historyRequestQueue = DispatchQueue(label: "history")
+    private func fetchUpdates(_ notification: Notification) -> Void {
+        print("fetchUpdates \(Date().description(with: Locale.current))")
+        historyRequestQueue.async {
+            let backgroundContext = self.dataController.persistentContainer.newBackgroundContext()
+            backgroundContext.performAndWait {
+                do {
+                    let fetchHistoryRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: self.lastToken)
+                    
+                    if let historyResult = try backgroundContext.execute(fetchHistoryRequest) as? NSPersistentHistoryResult,
+                       let history = historyResult.result as? [NSPersistentHistoryTransaction] {
+                        for transaction in history.reversed() {
+                            self.dataController.viewContext.perform {
+                                if let userInfo = transaction.objectIDNotification().userInfo {
+                                    NSManagedObjectContext.mergeChanges(fromRemoteContextSave: userInfo,
+                                                                        into: [self.dataController.viewContext])
+                                }
+                            }
+                        }
+                        
+                        self.lastToken = history.last?.token
+                    }
+                } catch {
+                    print("Could not convert history result to transactions after lastToken = \(String(describing: self.lastToken)): \(error)")
+                }
+                print("fetchUpdates \(Date().description(with: Locale.current))")
+            }
+        }
+    }
+    
+    private var lastToken: NSPersistentHistoryToken? = nil {
+        didSet {
+            guard let token = lastToken,
+                  let data = try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true) else {
+                return
+            }
+            
+            do {
+                try data.write(to: tokenFile)
+            } catch {
+                let message = "Could not write token data"
+                print("###\(#function): \(message): \(error)")
+            }
+        }
+    }
+    
+    private lazy var tokenFile: URL = {
+        let url = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent("LinkCollector",isDirectory: true)
+        if !FileManager.default.fileExists(atPath: url.path) {
+            do {
+                try FileManager.default.createDirectory(at: url,
+                                                        withIntermediateDirectories: true,
+                                                        attributes: nil)
+            } catch {
+                let message = "Could not create persistent container URL"
+                print("###\(#function): \(message): \(error)")
+            }
+        }
+        return url.appendingPathComponent("token.data", isDirectory: false)
+    }()
 }
 
 extension SearchPubChemViewModel: CompoundCollectionViewDelegate {
