@@ -10,7 +10,7 @@ import SwiftUI
 
 @main
 struct SearchPubChemApp: App {
-    let dataController = DataController(modelName: "PubChemSolution")
+    let dataController = DataController.shared
     let viewModel = SearchPubChemViewModel()
 
     var body: some Scene {

@@ -10,9 +10,11 @@ import Foundation
 import CoreData
 
 class DataController {
+    static let shared = DataController(modelName: "PubChemSolution")
+    
     // MARK: Properties
     // Constants
-    let persistentContainer: NSPersistentContainer
+    var persistentContainer: NSPersistentContainer
     
     // Variables
     var viewContext: NSManagedObjectContext {
@@ -21,7 +23,14 @@ class DataController {
     
     // MARK: - Methods
     init(modelName: String) {
-        persistentContainer = NSPersistentCloudKitContainer(name: modelName)
+        let dataMigrator = DataMigrator.shared
+        let isMigrationNecessary = dataMigrator.isMigrationNecessary()
+        if isMigrationNecessary {
+            //dataMigrator.makeCopy()
+            dataMigrator.migrate()
+        }
+        
+        persistentContainer = NSPersistentContainer(name: modelName)
         load()
     }
     
@@ -32,30 +41,33 @@ class DataController {
     
     private func load(completion: (() -> Void)? = nil) {
         let description = persistentContainer.persistentStoreDescriptions.first
-        description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-        description?.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-        description?.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.com.resonance.jlee.SearchPubChem")
+        description?.shouldMigrateStoreAutomatically = true
+        description?.shouldInferMappingModelAutomatically = true
+        //description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+        //description?.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+        //description?.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.com.resonance.jlee.SearchPubChem")
+        //print("description=\(description)")
         
         persistentContainer.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
-                if let error = error as NSError? {
-                    PersistenceController.logger.error("Could not load persistent store: \(storeDescription), \(error), \(error.userInfo)")
-                } else {
-                    let description = NSPersistentStoreDescription()
-                    description.shouldMigrateStoreAutomatically = false
-                    description.shouldInferMappingModelAutomatically = true
-                    self.persistentContainer.persistentStoreDescriptions.append(description)
+                PersistenceController.logger.error("Could not load persistent store: \(storeDescription), \(error), \(error.userInfo)")
+                
+                /*
+                if error.domain == NSCocoaErrorDomain && error.code == CocoaError.Code.persistentStoreIncompatibleVersionHash.rawValue {
+                    print("try migrate")
                 }
+                */
             }
-            self.autoSaveViewContext(interval: 30)
-            self.configureContexts()
+            
+            //self.autoSaveViewContext(interval: 30)
+            //self.configureContexts()
             completion?()
         }
         
         print("persistentStores = \(persistentContainer.persistentStoreCoordinator.persistentStores)")
         
         persistentContainer.viewContext.name = "SearchPubChem"
-        purgeHistory()
+        //purgeHistory()
     }
     
     private func purgeHistory() {

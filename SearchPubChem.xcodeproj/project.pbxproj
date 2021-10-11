@@ -76,7 +76,8 @@
 		90ACC15A2377201300158299 /* SolutionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ACC1592377201300158299 /* SolutionTableViewCell.swift */; };
 		90AE84CF271097C700470E1B /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE84CE271097C700470E1B /* ActivityView.swift */; };
 		90AE84D12710A46800470E1B /* SolutionMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE84D02710A46800470E1B /* SolutionMigrationPolicy.swift */; };
-		90B6469E27122DD90060684E /* MappingModel.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 90B6469D27122DD90060684E /* MappingModel.xcmappingmodel */; };
+		90B12C41271333EF00EF065D /* DataMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B12C40271333EF00EF065D /* DataMigrator.swift */; };
+		90B12C43271373EE00EF065D /* MappingModel.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 90B12C42271373EE00EF065D /* MappingModel.xcmappingmodel */; };
 		90B75E68265F063400AF30D5 /* CompoundTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B75E67265F063400AF30D5 /* CompoundTagsViewController.swift */; };
 		90BAD4D724C4AA5E00EE5D3E /* iPadCompoundCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BAD4D624C4AA5E00EE5D3E /* iPadCompoundCollectionViewController.swift */; };
 		90BAD4D924C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BAD4D824C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift */; };
@@ -211,7 +212,8 @@
 		90ACC1592377201300158299 /* SolutionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionTableViewCell.swift; sourceTree = "<group>"; };
 		90AE84CE271097C700470E1B /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		90AE84D02710A46800470E1B /* SolutionMigrationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionMigrationPolicy.swift; sourceTree = "<group>"; };
-		90B6469D27122DD90060684E /* MappingModel.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel.xcmappingmodel; sourceTree = "<group>"; };
+		90B12C40271333EF00EF065D /* DataMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrator.swift; sourceTree = "<group>"; };
+		90B12C42271373EE00EF065D /* MappingModel.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel.xcmappingmodel; sourceTree = "<group>"; };
 		90B75E67265F063400AF30D5 /* CompoundTagsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundTagsViewController.swift; sourceTree = "<group>"; };
 		90BAD4D624C4AA5E00EE5D3E /* iPadCompoundCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundCollectionViewController.swift; sourceTree = "<group>"; };
 		90BAD4D824C4B2FE00EE5D3E /* iPadCompoundCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadCompoundCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -492,10 +494,11 @@
 		90A0DCF0201D0FFC0059D7CC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				90B6469D27122DD90060684E /* MappingModel.xcmappingmodel */,
+				90B12C42271373EE00EF065D /* MappingModel.xcmappingmodel */,
 				90AE84D02710A46800470E1B /* SolutionMigrationPolicy.swift */,
 				90725F992042173B0083E1FC /* Managed Object Extensions */,
 				908CD7082040F44000A3C316 /* DataController.swift */,
+				90B12C40271333EF00EF065D /* DataMigrator.swift */,
 				9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */,
 				90E010CF270A1C16004A2401 /* PersistenceController.swift */,
 			);
@@ -740,7 +743,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90B6469E27122DD90060684E /* MappingModel.xcmappingmodel in Sources */,
 				90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */,
 				90D58EF6270FAB0600C626A2 /* SolutionIngradientDTO.swift in Sources */,
 				90D8B023270E459300C81750 /* SolutionListView.swift in Sources */,
@@ -757,6 +759,7 @@
 				9090E66F202A76F2007927DD /* SolutionTableViewController.swift in Sources */,
 				9090EC2120101262003280BD /* SearchByNameViewController.swift in Sources */,
 				90D4F7482651616D0082CFAE /* Compounds.swift in Sources */,
+				90B12C43271373EE00EF065D /* MappingModel.xcmappingmodel in Sources */,
 				90D8B01E270E1E0900C81750 /* SearchPubChemViewModel.swift in Sources */,
 				90725F9B204217540083E1FC /* Compound+Extensions.swift in Sources */,
 				90DD0E56264B34F400B9AA8E /* iPadCompoundTagViewController.swift in Sources */,
@@ -768,6 +771,7 @@
 				907FECB620152CD500B0CEBF /* CompoundDetailViewController.swift in Sources */,
 				90DD0E58264B3EA800B9AA8E /* iPadCompoundTagCollectionViewCell.swift in Sources */,
 				90C9C21624CF94E300E247BE /* iPadWebPubChemViewController.swift in Sources */,
+				90B12C41271333EF00EF065D /* DataMigrator.swift in Sources */,
 				908ECAC6205210D000B7DEE0 /* WebPubChemViewController.swift in Sources */,
 				90D8B027270E501F00C81750 /* ContentView.swift in Sources */,
 				90C18BAD2649ED950036C0DE /* CompoundTag+Extensions.swift in Sources */,
@@ -910,7 +914,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -964,7 +968,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
