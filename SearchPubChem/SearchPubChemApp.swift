@@ -18,8 +18,7 @@ struct SearchPubChemApp: App {
     var body: some Scene {
         WindowGroup {
             if !hasLaunchedBefore {
-                ContentView()
-                    .environment(\.managedObjectContext, dataController.viewContext)
+                FirstLaunchView()
                     .environmentObject(SearchPubChemViewModel())
             } else if !hasDBMigrated {
                 DataMigrationView()

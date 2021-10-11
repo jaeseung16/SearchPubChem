@@ -60,12 +60,12 @@ class DataController {
         
         print("persistentStores = \(persistentContainer.persistentStoreCoordinator.persistentStores)")
         
-        print("HasLaunchedBefore = \(UserDefaults.standard.bool(forKey: "HasLaunchedBefore"))")
-        print("HasDBMigrated = \(UserDefaults.standard.bool(forKey: "HasDBMigrated"))")
+        print("DataController: HasLaunchedBefore = \(UserDefaults.standard.bool(forKey: "HasLaunchedBefore"))")
+        print("DataController: HasDBMigrated = \(UserDefaults.standard.bool(forKey: "HasDBMigrated"))")
         
         persistentContainer.viewContext.name = "SearchPubChem"
         
-        checkIfFirstLaunch()
+        //checkIfFirstLaunch()
         purgeHistory()
     }
     
@@ -89,18 +89,20 @@ class DataController {
                 print("First Launch")
                 UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
                 UserDefaults.standard.synchronize()
-                self.preloadData()
+                //self.preloadData()
                 //saveData()
             }
         }
     }
     
-    private func preloadData() {
+    func preloadData() {
+        /*
         do {
             try dropAllData()
         } catch {
             NSLog("Error while dropping all objects in DB")
         }
+        */
         
         // Example Compound 1: Water
         let water = Compound(context: viewContext)
@@ -149,6 +151,9 @@ class DataController {
         } catch {
             NSLog("Error while saving by AppDelegate")
         }
+        print("DataController: HasLaunchedBefore = \(UserDefaults.standard.bool(forKey: "HasLaunchedBefore"))")
+        print("DataController: HasDBMigrated = \(UserDefaults.standard.bool(forKey: "HasDBMigrated"))")
+        
     }
     
     private func dropAllData() throws {
