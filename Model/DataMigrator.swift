@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class DataMigrator {
+class DataMigrator: NSObject, ObservableObject {
     static let shared = DataMigrator()
     
     let sourceModelName = "PubChemSolution.momd/PubChemSolution v3"
@@ -18,10 +18,17 @@ class DataMigrator {
     
     let storeFilename = "PubChemSolution.sqlite"
     
-    //let persistentContainer: NSPersistentContainer
-    
-    init() {
-        //persistentContainer = NSPersistentContainer(name: "PubChemSolution")
+    override init() {
+        super.init()
+        
+        let isMigrationNecessary = isMigrationNecessary()
+        let hasDBMigrated = UserDefaults.standard.bool(forKey: "HasDBMigrated")
+        if !isMigrationNecessary {
+            UserDefaults.standard.set(true, forKey: "HasDBMigrated")
+        } else {
+            migrate()
+            UserDefaults.standard.set(true, forKey: "HasDBMigrated")
+        }
     }
     
     private var applicationSupportDirectory: URL {
@@ -218,6 +225,8 @@ class DataMigrator {
         
         replaceStore(at: storeURL, with: destinationURL)
         destoryStore(at: destinationURL)
+        
+        UserDefaults.standard.set(true, forKey: "HasDBMigrated")
     }
     
     private func replaceStore(at storeURL: URL, with replacingStoreURL: URL) {

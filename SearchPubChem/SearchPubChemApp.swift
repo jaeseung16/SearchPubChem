@@ -22,7 +22,8 @@ struct SearchPubChemApp: App {
                     .environment(\.managedObjectContext, dataController.viewContext)
                     .environmentObject(SearchPubChemViewModel())
             } else if !hasDBMigrated {
-                
+                DataMigrationView()
+                    .environmentObject(DataMigrator())
             } else {
                 ContentView()
                     .environment(\.managedObjectContext, dataController.viewContext)

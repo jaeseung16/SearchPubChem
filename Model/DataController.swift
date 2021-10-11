@@ -23,17 +23,11 @@ class DataController {
     
     // MARK: - Methods
     init(modelName: String) {
-        let dataMigrator = DataMigrator.shared
-        let isMigrationNecessary = dataMigrator.isMigrationNecessary()
-        if isMigrationNecessary {
-            //dataMigrator.makeCopy()
-            dataMigrator.migrate()
-        }
-        
-        persistentContainer = NSPersistentContainer(name: modelName)
+        persistentContainer = NSPersistentCloudKitContainer(name: modelName)
         load()
     }
     
+    // Tunred off since CloudKit
     private func configureContexts() {
         viewContext.automaticallyMergesChangesFromParent = true
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
@@ -43,9 +37,9 @@ class DataController {
         let description = persistentContainer.persistentStoreDescriptions.first
         //description?.shouldMigrateStoreAutomatically = true
         //description?.shouldInferMappingModelAutomatically = true
-        //description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
-        //description?.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-        //description?.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.com.resonance.jlee.SearchPubChem")
+        description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+        description?.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+        description?.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.com.resonance.jlee.SearchPubChem")
         //print("description=\(description)")
         
         persistentContainer.loadPersistentStores { (storeDescription, error) in
@@ -71,8 +65,8 @@ class DataController {
         
         persistentContainer.viewContext.name = "SearchPubChem"
         
-        preloadData()
-        //purgeHistory()
+        checkIfFirstLaunch()
+        purgeHistory()
     }
     
     private func purgeHistory() {
@@ -102,14 +96,11 @@ class DataController {
     }
     
     private func preloadData() {
-        print("preloadData 1")
         do {
             try dropAllData()
         } catch {
             NSLog("Error while dropping all objects in DB")
         }
-        
-        print("preloadData 2")
         
         // Example Compound 1: Water
         let water = Compound(context: viewContext)
