@@ -8,9 +8,11 @@
 
 import Foundation
 import CoreData
+import os
 
 class DataController {
     static let shared = DataController(modelName: "PubChemSolution")
+    static let logger = Logger()
     
     // MARK: Properties
     // Constants
@@ -41,7 +43,7 @@ class DataController {
 
         persistentContainer.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
-                PersistenceController.logger.error("Could not load persistent store: \(storeDescription), \(error), \(error.userInfo)")
+                DataController.logger.error("Could not load persistent store: \(storeDescription), \(error), \(error.userInfo)")
             }
         }
         
@@ -58,7 +60,7 @@ class DataController {
             try persistentContainer.newBackgroundContext().execute(purgeHistoryRequest)
         } catch {
             if let error = error as NSError? {
-                PersistenceController.logger.error("Could not purge history: \(error), \(error.userInfo)")
+                DataController.logger.error("Could not purge history: \(error), \(error.userInfo)")
             }
         }
     }
