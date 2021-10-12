@@ -99,10 +99,11 @@ class DataController {
         
         let saltyWater = Solution(context: viewContext)
         saltyWater.name = "sakty water"
-        saltyWater.ingradients = NSSet(array: [waterIngradient, sodiumChlorideIngradient])
         
-        waterIngradient.solution = saltyWater
-        sodiumChlorideIngradient.solution = saltyWater
+        saltyWater.addToCompounds(water)
+        saltyWater.addToIngradients(waterIngradient)
+        saltyWater.addToCompounds(sodiumChloride)
+        saltyWater.addToIngradients(sodiumChlorideIngradient)
         
         // Load additional compounds
         let recordLoader = RecordLoader(viewContext: viewContext)

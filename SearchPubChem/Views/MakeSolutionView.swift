@@ -123,8 +123,14 @@ struct MakeSolutionView: View {
                         entity.amount = ingradient.amount
                         entity.unit = ingradient.unit.rawValue
                         
-                        entity.solution = solution
+                        solution.addToIngradients(entity)
                         solution.addToCompounds(ingradient.compound)
+                    }
+                    
+                    do {
+                        try viewContext.save()
+                    } catch {
+                        NSLog("Error while saving by AppDelegate")
                     }
                     
                     presentationMode.wrappedValue.dismiss()
