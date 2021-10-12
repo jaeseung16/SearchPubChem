@@ -185,6 +185,7 @@ struct CompoundDetailView: View {
                 HStack {
                     ForEach(tags) { tag in
                         Text(tag.name ?? "")
+                            .foregroundColor(.black)
                     }
                     
                     Spacer()
@@ -205,8 +206,10 @@ struct CompoundDetailView: View {
                     
                     VStack {
                         Text(compound.formula ?? "")
+                            .foregroundColor(.black)
                         Text("\(compound.molecularWeight) gram/mol")
                             .font(.callout)
+                            .foregroundColor(.black)
                     }
                     Spacer()
                 }
@@ -217,8 +220,11 @@ struct CompoundDetailView: View {
             VStack {
                 Text("PubChem CID: \(compound.cid ?? "")")
                     .font(.callout)
+                    .foregroundColor(.black)
                 Text("IUPAC Name: \(compound.nameIUPAC ?? "")")
                     .font(.callout)
+                    .foregroundColor(.black)
+                    .scaledToFit()
             }
         }
     }

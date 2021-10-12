@@ -39,10 +39,12 @@ struct CompoundMiniDetailView: View {
                 Spacer()
                 
                 Text(name)
+                    .foregroundColor(.black)
                 
                 Spacer()
                 
                 Text(formula)
+                    .foregroundColor(.black)
                 
                 Spacer()
             }

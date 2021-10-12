@@ -104,6 +104,7 @@ struct AddCompoundView: View {
                  
                 VStack {
                     Text(viewModel.propertySet?.MolecularFormula ?? "")
+                        .foregroundColor(.black)
                     Spacer()
                     
                     if viewModel.conformer != nil {
