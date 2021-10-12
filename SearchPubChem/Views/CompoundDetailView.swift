@@ -18,6 +18,7 @@ struct CompoundDetailView: View {
     @State private var presentTagView = false
     
     private let maxHeightFactor = 0.6
+    private let maxWidthFactor = 0.95
     
     private var solutions: [Solution] {
         var solutions = [Solution]()
@@ -111,7 +112,7 @@ struct CompoundDetailView: View {
                     
                     info()
                 }
-                .frame(minHeight: determineMinHeight(in: geometry), maxHeight: maxHeightFactor * geometry.size.height)
+                .frame(maxWidth: maxWidthFactor * geometry.size.width, minHeight: determineMinHeight(in: geometry), maxHeight: maxHeightFactor * geometry.size.height)
                 .scaledToFit()
                 
                 Divider()
