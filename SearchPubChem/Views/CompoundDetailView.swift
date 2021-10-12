@@ -17,6 +17,8 @@ struct CompoundDetailView: View {
     @State private var presentConformerView = false
     @State private var presentTagView = false
     
+    private let maxHeightFactor = 0.6
+    
     private var solutions: [Solution] {
         var solutions = [Solution]()
         compound.solutions?.forEach { solution in
@@ -109,7 +111,7 @@ struct CompoundDetailView: View {
                     
                     info()
                 }
-                .frame(minHeight: 0.7 * geometry.size.height)
+                .frame(minHeight: determineMinHeight(in: geometry), maxHeight: maxHeightFactor * geometry.size.height)
                 .scaledToFit()
                 
                 Divider()
@@ -123,14 +125,17 @@ struct CompoundDetailView: View {
                 List {
                     ForEach(solutions) { solution in
                         HStack {
-                            Text(solution.name ?? "")
-                            Spacer()
-                            Text(solution.created ?? Date(), style: .date)
+                            NavigationLink {
+                                SolutionDetailView(solution: solution)
+                            } label: {
+                                Text(solution.name ?? "")
+                                Spacer()
+                                Text(solution.created ?? Date(), style: .date)
+                            }
                         }
                     }
                 }
                 .listStyle(PlainListStyle())
-                .background(Color.secondary)
             }
         }
         .sheet(isPresented: $presentConformerView) {
@@ -166,6 +171,12 @@ struct CompoundDetailView: View {
         }
         .navigationTitle(Text(compound.name?.uppercased() ?? ""))
         .padding()
+    }
+    
+    private func determineMinHeight(in geometry: GeometryProxy) -> CGFloat {
+        var factor = 10.0 * geometry.size.width / geometry.size.height
+        factor.round(.towardZero)
+        return factor < 6 ? 0.1 * CGFloat(factor) * geometry.size.height : maxHeightFactor * geometry.size.height
     }
     
     private func info() -> some View {
