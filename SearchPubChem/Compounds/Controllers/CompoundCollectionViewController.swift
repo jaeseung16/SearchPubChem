@@ -9,10 +9,6 @@
 import UIKit
 import CoreData
 
-protocol CompoundCollectionViewDelegate: AnyObject {
-    func selectedCompounds(_ compounds: [Compound], with title: String)
-}
-
 class CompoundCollectionViewController: UIViewController {
     // MARK: - Properties
     // Outlets
