@@ -181,7 +181,7 @@ struct CompoundDetailView: View {
     }
     
     private var molecularWeightFormatter: NumberFormatter {
-        let formatter = Formatter()
+        let formatter = NumberFormatter()
         formatter.minimumIntegerDigits = 1
         formatter.maximumIntegerDigits = 10
         formatter.minimumFractionDigits = 1
@@ -217,12 +217,12 @@ struct CompoundDetailView: View {
                     VStack {
                         Text(compound.formula ?? "")
                             .foregroundColor(.black)
-                        Text("\(molecularWeightFormatter.string(from: compound.molecularWeight)) gram/mol")
+                        Text("\(molecularWeightFormatter.string(from: NSNumber(value: compound.molecularWeight)) ?? "0.0") gram/mol")
                             .font(.callout)
                             .foregroundColor(.black)
                     }
                     Spacer()
-                }
+}
             }
             
             Spacer()
