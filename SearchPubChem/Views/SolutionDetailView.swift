@@ -59,16 +59,26 @@ struct SolutionDetailView: View {
         for ingradient in solution.ingradients! {
             if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
                 if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
-                    switch unit {
-                    case .gram:
-                        amounts[name] = ingradient.amount
-                    case .mol:
-                        amounts[name] = ingradient.amount * compound.molecularWeight
-                    }
+                    amounts[name] = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .gram)
                 }
             }
         }
         return amounts
+    }
+    
+    private var amountsInMg: [String: Double] {
+        var amountsInMg = [String: Double]()
+        guard solution.ingradients != nil else {
+            return amountsInMg
+        }
+        for ingradient in solution.ingradients! {
+            if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
+                if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
+                    amountsInMg[name] = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mg)
+                }
+            }
+        }
+        return amountsInMg
     }
     
     private var amountsMol: [String: Double] {
@@ -79,16 +89,26 @@ struct SolutionDetailView: View {
         for ingradient in solution.ingradients! {
             if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
                 if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
-                    switch unit {
-                    case .gram:
-                        amountsMol[name] = ingradient.amount / compound.molecularWeight
-                    case .mol:
-                        amountsMol[name] = ingradient.amount
-                    }
+                    amountsMol[name] = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mol)
                 }
             }
         }
         return amountsMol
+    }
+    
+    private var amountsInMiliMol: [String: Double] {
+        var amountsInMiliMol = [String: Double]()
+        guard solution.ingradients != nil else {
+            return amountsInMiliMol
+        }
+        for ingradient in solution.ingradients! {
+            if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
+                if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
+                    amountsInMiliMol[name] = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mM)
+                }
+            }
+        }
+        return amountsInMiliMol
     }
     
     var body: some View {
@@ -121,13 +141,19 @@ struct SolutionDetailView: View {
                         }
                         .pickerStyle(SegmentedPickerStyle())
 
-                        Picker("", selection: $unit) {
-                            ForEach(Unit.allCases) { item in
-                                Text(item.rawValue)
-                                    .tag(item)
+                        HStack {
+                            Spacer()
+                            
+                            Text("UNIT:")
+                                .font(.caption)
+                            
+                            Picker("Unit", selection: $unit) {
+                                ForEach(Unit.allCases) { item in
+                                    Text(item.rawValue)
+                                        .tag(item)
+                                }
                             }
                         }
-                        .pickerStyle(SegmentedPickerStyle())
                     }
                     .frame(width: geometry.size.width * 0.4)
                     
@@ -191,8 +217,12 @@ struct SolutionDetailView: View {
             switch unit {
             case .gram:
                 factor = 100.0 / sumOf(amounts)
+            case .mg:
+                factor = 100.0 / sumOf(amountsInMg)
             case .mol:
                 factor = 100.0 / sumOf(amountsMol)
+            case .mM:
+                factor = 100.0 / sumOf(amountsInMiliMol)
             }
         }
         
@@ -205,10 +235,22 @@ struct SolutionDetailView: View {
                     amountsToDisplay[name] = amount * factor
                 }
             }
+        case .mg:
+            for name in amounts.keys {
+                if let amountsInMg = amountsInMg[name] {
+                    amountsToDisplay[name] = amountsInMg * factor
+                }
+            }
         case .mol:
             for name in amountsMol.keys {
                 if let amountMol = amountsMol[name] {
                     amountsToDisplay[name] = amountMol * factor
+                }
+            }
+        case .mM:
+            for name in amountsMol.keys {
+                if let amountsInMiliMol = amountsInMiliMol[name] {
+                    amountsToDisplay[name] = amountsInMiliMol * factor
                 }
             }
         }
