@@ -58,12 +58,12 @@
 		908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A32714BF9C00DC3989 /* FirstLaunchView.swift */; };
 		908CD7092040F44000A3C316 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908CD7082040F44000A3C316 /* DataController.swift */; };
 		908E7137207C1D0A007918AE /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */; };
-		909AE6AE200CF2F000FEE529 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6AC200CF2F000FEE529 /* Main.storyboard */; };
 		909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */; };
 		909AE6BE200CF2F000FEE529 /* SearchPubChemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6BD200CF2F000FEE529 /* SearchPubChemTests.swift */; };
 		909AE6C9200CF2F000FEE529 /* SearchPubChemUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6C8200CF2F000FEE529 /* SearchPubChemUITests.swift */; };
 		90A09DE524B124EA0089C6C0 /* CompoundDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A09DE424B124EA0089C6C0 /* CompoundDTO.swift */; };
 		90A28688204638ED00FF796A /* PubChemSearchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A28687204638ED00FF796A /* PubChemSearchConstants.swift */; };
+		90AE2A602717833200E3D085 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6AC200CF2F000FEE529 /* Main.storyboard */; };
 		90AE84CF271097C700470E1B /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE84CE271097C700470E1B /* ActivityView.swift */; };
 		90AE84D12710A46800470E1B /* SolutionMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE84D02710A46800470E1B /* SolutionMigrationPolicy.swift */; };
 		90B12C41271333EF00EF065D /* DataMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B12C40271333EF00EF065D /* DataMigrator.swift */; };
@@ -682,6 +682,7 @@
 				9084981D266D79A7002644F6 /* 5862_cysteine.png in Resources */,
 				90849822266D79A7002644F6 /* 5961_glutamine.png in Resources */,
 				90849804266D79A7002644F6 /* 3672_ibuprofen.png in Resources */,
+				90AE2A602717833200E3D085 /* Main.storyboard in Resources */,
 				9084980A266D79A7002644F6 /* 702_ethanol.png in Resources */,
 				9084981F266D79A7002644F6 /* 3776_propan-2-ol.png in Resources */,
 				90849827266D79A7002644F6 /* 6305_tryptophan.png in Resources */,
@@ -701,7 +702,6 @@
 				90849821266D79A7002644F6 /* 5793_glucose.png in Resources */,
 				908497C9266D76D2002644F6 /* records.json in Resources */,
 				90849820266D79A7002644F6 /* 2682_hexadecan-1-ol.png in Resources */,
-				909AE6AE200CF2F000FEE529 /* Main.storyboard in Resources */,
 				90849824266D79A7002644F6 /* 6137_methionine.png in Resources */,
 				90849811266D79A7002644F6 /* 33032_glutamic acid.png in Resources */,
 				908990A027149CB100DC3989 /* 5234_sodium chloride.png in Resources */,
