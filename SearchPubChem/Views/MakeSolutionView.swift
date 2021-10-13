@@ -90,7 +90,8 @@ struct MakeSolutionView: View {
             }
         }
         .sheet(isPresented: $presentSelectCompoundsView) {
-            SelectCompoundsView(selectedCompounds: selectedCompounds, delegate: viewModel)
+            SelectCompoundsView(selectedCompounds: selectedCompounds)
+                .environmentObject(viewModel)
         }
     }
     

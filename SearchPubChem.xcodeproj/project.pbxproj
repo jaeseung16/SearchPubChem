@@ -50,7 +50,6 @@
 		90849827266D79A7002644F6 /* 6305_tryptophan.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497F7266D79A7002644F6 /* 6305_tryptophan.png */; };
 		9084982A266D79A7002644F6 /* 887_methanol.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497FA266D79A7002644F6 /* 887_methanol.png */; };
 		9084982C266D79EF002644F6 /* RecordLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9084982B266D79EF002644F6 /* RecordLoader.swift */; };
-		9087E640271651660097CFC6 /* CompoundCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9087E63F271651660097CFC6 /* CompoundCollectionViewDelegate.swift */; };
 		9089909E27149C5700DC3989 /* 962_water.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909D27149C5700DC3989 /* 962_water.png */; };
 		908990A027149CB100DC3989 /* 5234_sodium chloride.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909F27149CB100DC3989 /* 5234_sodium chloride.png */; };
 		908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A12714A6D400DC3989 /* DataMigrationView.swift */; };
@@ -766,7 +765,6 @@
 				9065BF5B22EE2F7400350083 /* Elements.swift in Sources */,
 				9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */,
 				90C008AB2309A60C0057217E /* ConformerEntity+Extensions.swift in Sources */,
-				9087E640271651660097CFC6 /* CompoundCollectionViewDelegate.swift in Sources */,
 				90AE84D12710A46800470E1B /* SolutionMigrationPolicy.swift in Sources */,
 				90D4F74A2651687A0082CFAE /* CompoundTagDTO.swift in Sources */,
 				90D8B021270E1EEF00C81750 /* SearchType.swift in Sources */,

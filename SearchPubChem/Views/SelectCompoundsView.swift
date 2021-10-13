@@ -11,6 +11,7 @@ import SwiftUI
 struct SelectCompoundsView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Compound.name, ascending: true)],
@@ -18,7 +19,6 @@ struct SelectCompoundsView: View {
     private var compounds: FetchedResults<Compound>
     
     @State var selectedCompounds: [Compound]
-    var delegate: CompoundCollectionViewDelegate
     
     private var selectedCompoundsLabel: String {
         var compoundNames = [String]()
@@ -84,7 +84,7 @@ struct SelectCompoundsView: View {
             Spacer()
             
             Button {
-                delegate.selectedCompounds(selectedCompounds, with: selectedCompoundsLabel)
+                viewModel.selectedCompounds(selectedCompounds, with: selectedCompoundsLabel)
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Text("Done")

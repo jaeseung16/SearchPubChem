@@ -424,9 +424,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         }
         return url.appendingPathComponent("token.data", isDirectory: false)
     }()
-}
-
-extension SearchPubChemViewModel: CompoundCollectionViewDelegate {
+    
     func selectedCompounds(_ compounds: [Compound], with title: String) {
         self.compounds = compounds
         self.solutionLabel = title
