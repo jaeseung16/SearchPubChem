@@ -110,9 +110,7 @@ struct MakeSolutionView: View {
             
             HStack {
                 Button {
-                    viewModel.compounds = nil
-                    viewModel.solutionLabel = ""
-                    presentationMode.wrappedValue.dismiss()
+                    dissmiss()
                 } label: {
                     Text("Cancel")
                 }
@@ -143,11 +141,17 @@ struct MakeSolutionView: View {
                         NSLog("Error while saving by AppDelegate")
                     }
                     
-                    presentationMode.wrappedValue.dismiss()
+                    dissmiss()
                 } label: {
                     Text("Save")
                 }
             }
         }
+    }
+    
+    private func dissmiss() -> Void {
+        viewModel.compounds = nil
+        viewModel.solutionLabel = ""
+        presentationMode.wrappedValue.dismiss()
     }
 }
