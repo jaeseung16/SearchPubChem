@@ -180,6 +180,15 @@ struct CompoundDetailView: View {
         return factor < 6 ? 0.1 * CGFloat(factor) * geometry.size.height : maxHeightFactor * geometry.size.height
     }
     
+    private var molecularWeightFormatter: NumberFormatter {
+        let formatter = Formatter()
+        formatter.minimumIntegerDigits = 1
+        formatter.maximumIntegerDigits = 10
+        formatter.minimumFractionDigits = 1
+        formatter.maximumFractionDigits = 4
+        return formatter
+    }
+    
     private func info() -> some View {
         VStack {
             ZStack(alignment: .top) {
@@ -208,7 +217,7 @@ struct CompoundDetailView: View {
                     VStack {
                         Text(compound.formula ?? "")
                             .foregroundColor(.black)
-                        Text("\(compound.molecularWeight) gram/mol")
+                        Text("\(molecularWeightFormatter.string(from: compound.molecularWeight)) gram/mol")
                             .font(.callout)
                             .foregroundColor(.black)
                     }
