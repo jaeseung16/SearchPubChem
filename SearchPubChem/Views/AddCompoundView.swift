@@ -39,6 +39,7 @@ struct AddCompoundView: View {
                 }
             } onCommit: {
                 enableSearchButton = true
+                searchValue = searchValue.trimmingCharacters(in: .whitespaces)
             }
             .autocapitalization(.none)
             .multilineTextAlignment(.center)
