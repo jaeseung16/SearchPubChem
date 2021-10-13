@@ -286,35 +286,47 @@ struct SolutionDetailView: View {
             switch newUnit {
             case .gram:
                 convertedAmount = amount
+            case .mg:
+                convertedAmount = 1000.0 * amount
             case .mol:
+                convertedAmount = amount / molecularWeight
+            case .mM:
+                convertedAmount = 1000.0 * amount / molecularWeight
+            }
+        case .mg:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount / 1000.0
+            case .mg:
+                convertedAmount = amount
+            case .mol:
+                convertedAmount = amount / 1000.0 / molecularWeight
+            case .mM:
                 convertedAmount = amount / molecularWeight
             }
         case .mol:
             switch newUnit {
             case .gram:
                 convertedAmount = amount * molecularWeight
+            case .mg:
+                convertedAmount = 1000.0 * amount * molecularWeight
             case .mol:
+                convertedAmount = amount
+            case .mM:
+                convertedAmount = 1000.0 * amount
+            }
+        case .mM:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount / 1000.0 * molecularWeight
+            case .mg:
+                convertedAmount = amount * molecularWeight
+            case .mol:
+                convertedAmount = amount / 1000.0
+            case .mM:
                 convertedAmount = amount
             }
         }
         return convertedAmount
-    }
-}
-
-enum AbsoluteRelatve: String, CaseIterable, Identifiable {
-    case absolute = "actual"
-    case relative = "%"
-    
-    var id: String {
-        self.rawValue
-    }
-}
-
-enum Unit: String, CaseIterable, Identifiable {
-    case gram
-    case mol
-    
-    var id: String {
-        self.rawValue
     }
 }

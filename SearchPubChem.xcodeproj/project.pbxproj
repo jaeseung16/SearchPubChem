@@ -50,6 +50,8 @@
 		90849827266D79A7002644F6 /* 6305_tryptophan.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497F7266D79A7002644F6 /* 6305_tryptophan.png */; };
 		9084982A266D79A7002644F6 /* 887_methanol.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497FA266D79A7002644F6 /* 887_methanol.png */; };
 		9084982C266D79EF002644F6 /* RecordLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9084982B266D79EF002644F6 /* RecordLoader.swift */; };
+		9087E642271662F40097CFC6 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9087E641271662F10097CFC6 /* Unit.swift */; };
+		9087E644271663280097CFC6 /* AbsoluteRelative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9087E643271663280097CFC6 /* AbsoluteRelative.swift */; };
 		9089909E27149C5700DC3989 /* 962_water.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909D27149C5700DC3989 /* 962_water.png */; };
 		908990A027149CB100DC3989 /* 5234_sodium chloride.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909F27149CB100DC3989 /* 5234_sodium chloride.png */; };
 		908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A12714A6D400DC3989 /* DataMigrationView.swift */; };
@@ -167,6 +169,8 @@
 		908497FA266D79A7002644F6 /* 887_methanol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 887_methanol.png; sourceTree = "<group>"; };
 		9084982B266D79EF002644F6 /* RecordLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordLoader.swift; sourceTree = "<group>"; };
 		9087E63F271651660097CFC6 /* CompoundCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		9087E641271662F10097CFC6 /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
+		9087E643271663280097CFC6 /* AbsoluteRelative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbsoluteRelative.swift; sourceTree = "<group>"; };
 		9089909D27149C5700DC3989 /* 962_water.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 962_water.png; sourceTree = "<group>"; };
 		9089909F27149CB100DC3989 /* 5234_sodium chloride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "5234_sodium chloride.png"; sourceTree = "<group>"; };
 		908990A12714A6D400DC3989 /* DataMigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrationView.swift; sourceTree = "<group>"; };
@@ -530,6 +534,8 @@
 				90D8B01D270E1E0900C81750 /* SearchPubChemViewModel.swift */,
 				90D8B020270E1EEF00C81750 /* SearchType.swift */,
 				90D58EF5270FAB0600C626A2 /* SolutionIngradientDTO.swift */,
+				9087E641271662F10097CFC6 /* Unit.swift */,
+				9087E643271663280097CFC6 /* AbsoluteRelative.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -731,6 +737,7 @@
 			files = (
 				90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */,
 				90D58EF6270FAB0600C626A2 /* SolutionIngradientDTO.swift in Sources */,
+				9087E644271663280097CFC6 /* AbsoluteRelative.swift in Sources */,
 				90D8B023270E459300C81750 /* SolutionListView.swift in Sources */,
 				90D4F74C26516D540082CFAE /* CompoundWrapper.swift in Sources */,
 				90E19509270BCBBC00B8196A /* SelectCompoundsView.swift in Sources */,
@@ -759,6 +766,7 @@
 				90D8B029270E51AD00C81750 /* SearchPubChemApp.swift in Sources */,
 				90E010D9270A54C9004A2401 /* SolutionDetailView.swift in Sources */,
 				90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */,
+				9087E642271662F40097CFC6 /* Unit.swift in Sources */,
 				90C9EAD526506B5E0004CA43 /* RecordDumper.swift in Sources */,
 				908E7137207C1D0A007918AE /* UIViewController+Extensions.swift in Sources */,
 				908CD7092040F44000A3C316 /* DataController.swift in Sources */,
