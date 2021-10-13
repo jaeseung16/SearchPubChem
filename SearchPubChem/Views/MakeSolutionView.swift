@@ -42,8 +42,16 @@ struct MakeSolutionView: View {
                 
                 if !viewModel.solutionLabel.isEmpty {
                     TextField("", text: $viewModel.solutionLabel)
+                        .autocapitalization(.none)
+                        .multilineTextAlignment(.center)
+                        .background(RoundedRectangle(cornerRadius: 5.0)
+                                        .fill(Color(.sRGB, white: 0.5, opacity: 0.1)))
                 } else {
                     TextField("", text: $solutionLabel)
+                        .autocapitalization(.none)
+                        .multilineTextAlignment(.center)
+                        .background(RoundedRectangle(cornerRadius: 5.0)
+                                        .fill(Color(.sRGB, white: 0.5, opacity: 0.1)))
                 }
             }
             
@@ -68,7 +76,7 @@ struct MakeSolutionView: View {
                                 .background(RoundedRectangle(cornerRadius: 5.0)
                                                 .fill(Color(.sRGB, white: 0.5, opacity: 0.1)))
                                 .frame(maxWidth: 100.0)
-                                .keyboardType(.numbersAndPunctuation)
+                                .keyboardType(.decimalPad)
                             
                             Picker("", selection: $ingradients[index].unit) {
                                 ForEach(Unit.allCases) { unit in
@@ -142,23 +150,4 @@ struct MakeSolutionView: View {
             }
         }
     }
-    
-    
-    /*
-    func makeUIViewController(context: Context) -> MakeSolutionViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        print("\(storyboard)")
-        guard let makeSolutionViewController = storyboard.instantiateViewController(withIdentifier: "MakeSolutionViewController") as? MakeSolutionViewController else {
-            fatalError("Cannot load from storyboard")
-        }
-        
-        makeSolutionViewController.viewContext = viewContext
-        return makeSolutionViewController
-    }
-    
-    func updateUIViewController(_ uiViewController: MakeSolutionViewController, context: Context) {
-        
-    }
-    */
-
 }
