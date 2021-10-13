@@ -68,6 +68,7 @@ struct MakeSolutionView: View {
                                 .background(RoundedRectangle(cornerRadius: 5.0)
                                                 .fill(Color(.sRGB, white: 0.5, opacity: 0.1)))
                                 .frame(maxWidth: 100.0)
+                                .keyboardType(.numbersAndPunctuation)
                             
                             Picker("", selection: $ingradients[index].unit) {
                                 ForEach(Unit.allCases) { unit in
