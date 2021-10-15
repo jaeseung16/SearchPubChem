@@ -253,11 +253,7 @@ struct CompoundDetailView: View {
         
         viewContext.delete(compound)
         
-        do {
-            try viewContext.save()
-        } catch {
-            NSLog("Error while saving: \(error.localizedDescription)")
-        }
+        viewModel.save(viewContext: viewContext)
         
         presentationMode.wrappedValue.dismiss()
     }

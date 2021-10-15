@@ -115,21 +115,14 @@ struct CompoundTagView: View {
             let newTag = CompoundTag(context: viewContext)
             newTag.compoundCount = 1
             newTag.name = newTagName
+            newTag.addToCompounds(compound)
             
-            //tagsAttachedToCompound.insert(newTag)
-            //setTagsLabel()
+            viewModel.save(viewContext: viewContext)
             
-            if let tags = compound.tags, tags.count > 0 {
-                tags.adding(newTag)
-            } else {
-                compound.tags = NSSet(arrayLiteral: newTag)
+            if tags == nil {
+                tags = Set()
             }
-            
-            do {
-                try viewContext.save()
-            } catch {
-                NSLog("Error while saving in iPadCompoundTagViewController.addNewTag(:)")
-            }
+            tags!.insert(newTag)
         } else {
             print("New tag is not given")
         }
@@ -141,12 +134,7 @@ struct CompoundTagView: View {
             viewContext.delete(tag)
         }
         
-        do {
-            try viewContext.save()
-            NSLog("Saved in iPadCompoundTagViewController.deleteTags(:)")
-        } catch {
-            NSLog("Error while saving in iPadCompoundTagViewController.deleteTags(:)")
-        }
+        viewModel.save(viewContext: viewContext)
     }
     
     private func updateTags() {
@@ -160,15 +148,10 @@ struct CompoundTagView: View {
         
         for tag in tagsAttachedToCompound {
             tag.compoundCount += 1
+            tag.addToCompounds(compound)
         }
         
-        compound.tags = NSSet(array: tagsAttachedToCompound)
-        
-        do {
-            try viewContext.save()
-        } catch {
-            NSLog("Error while saving in iPadCompoundTagViewController.addNewTag(:)")
-        }
+        viewModel.save(viewContext: viewContext)
     }
 }
 

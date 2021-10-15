@@ -136,11 +136,7 @@ struct MakeSolutionView: View {
                         solution.addToCompounds(ingradient.compound)
                     }
                     
-                    do {
-                        try viewContext.save()
-                    } catch {
-                        NSLog("Error while saving by AppDelegate")
-                    }
+                    viewModel.save(viewContext: viewContext)
                     
                     dissmiss()
                 } label: {

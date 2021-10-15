@@ -340,7 +340,6 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         
         let conformerEntity = ConformerEntity(context: viewContext)
         if let conformer = self.conformer {
-            conformerEntity.compound = compound
             conformerEntity.conformerId = conformer.conformerId
             
             for atom in conformer.atoms {
@@ -350,17 +349,26 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
                 atomEntity.coordY = atom.location[1]
                 atomEntity.coordZ = atom.location[2]
                 atomEntity.conformer = conformerEntity
+                
+                conformerEntity.addToAtoms(atomEntity)
             }
+            
+            compound.addToConformers(conformerEntity)
         }
         
-        do {
-            try viewContext.save()
-            NSLog("Saved in SearchByNameViewController.saveCompound(:)")
-        } catch {
-            NSLog("Error while saving in SearchByNameViewController.saveCompound(:)")
-        }
+        save(viewContext: viewContext)
         
         resetCompound()
+    }
+    
+    func save(viewContext: NSManagedObjectContext) {
+        do {
+            try viewContext.save()
+        } catch {
+            NSLog("Error while saving: \(error.localizedDescription)")
+            errorMessage = "Error while saving data"
+            showAlert.toggle()
+        }
     }
     
     // MARK: - Persistence History Request
