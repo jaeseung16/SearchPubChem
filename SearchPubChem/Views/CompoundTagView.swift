@@ -131,6 +131,11 @@ struct CompoundTagView: View {
     private func deleteTag(indexSet: IndexSet) {
         for index in indexSet {
             let tag = allTags[index]
+            
+            if let compounds = tag.compounds {
+                tag.removeFromCompounds(compounds)
+            }
+            
             viewContext.delete(tag)
         }
         
@@ -142,6 +147,7 @@ struct CompoundTagView: View {
             for tag in tags {
                 if let compoundTag = tag as? CompoundTag {
                     compoundTag.compoundCount -= 1
+                    compoundTag.removeFromCompounds(compound)
                 }
             }
         }

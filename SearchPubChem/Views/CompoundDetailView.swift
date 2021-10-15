@@ -194,10 +194,12 @@ struct CompoundDetailView: View {
     private func info() -> some View {
         VStack {
             ZStack(alignment: .top) {
-                HStack {
-                    ForEach(tags) { tag in
-                        Text(tag.name ?? "")
-                            .foregroundColor(.black)
+                HStack(alignment: .top) {
+                    VStack {
+                        ForEach(tags) { tag in
+                            Text(tag.name ?? "")
+                                .foregroundColor(.black)
+                        }
                     }
                     
                     Spacer()
@@ -247,6 +249,23 @@ struct CompoundDetailView: View {
                 if let compoundTag = tag as? CompoundTag {
                     compoundTag.removeFromCompounds(compound)
                     compoundTag.compoundCount -= 1
+                }
+            }
+        }
+        
+        if let conformers = compound.conformers, conformers.count > 0 {
+            for conformerEntity in conformers {
+                if let entity = conformerEntity as? ConformerEntity {
+                    if let atoms = entity.atoms {
+                        for atom in atoms {
+                            if let atomEntity = atom as? AtomEntity {
+                                entity.removeFromAtoms(atomEntity)
+                                viewContext.delete(atomEntity)
+                            }
+                        }
+                    }
+                    compound.removeFromConformers(entity)
+                    viewContext.delete(entity)
                 }
             }
         }

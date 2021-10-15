@@ -26,7 +26,7 @@ class RecordLoader {
         var records: Data?
         do {
             records = try Data(contentsOf: url, options: [])
-            print("records = \(records)")
+            print("records = \(String(describing: records))")
             
         } catch {
             print("Error: Cannot read the table.")
