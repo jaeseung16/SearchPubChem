@@ -22,10 +22,12 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
                       PubChemSearch.PropertyKey.title]
     
     @Published var success = false
-    @Published var errorMessage: String?
     @Published var propertySet: Properties?
     @Published var imageData: Data?
     @Published var conformer: Conformer?
+    
+    @Published var showAlert = false
+    @Published var errorMessage: String?
     
     // MARK: - for makings a solution
     @Published var compounds: [Compound]?
