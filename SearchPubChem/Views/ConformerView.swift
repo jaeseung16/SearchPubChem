@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ConformerView: UIViewControllerRepresentable {
-    
     var conformer: Conformer
     var name: String
     var formula: String

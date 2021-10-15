@@ -37,6 +37,7 @@ struct SolutionListView: View {
                             NavigationLink {
                                 SolutionDetailView(solution: solution)
                                     .environment(\.managedObjectContext, viewContext)
+                                    .environmentObject(viewModel)
                             } label: {
                                 HStack {
                                     Text(solution.name ?? "N/A")

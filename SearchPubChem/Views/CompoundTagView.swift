@@ -11,6 +11,7 @@ import SwiftUI
 struct CompoundTagView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \CompoundTag.name, ascending: true)],

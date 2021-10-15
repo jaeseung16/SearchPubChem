@@ -12,6 +12,7 @@ import CoreData
 struct CompoundDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @State var compound: Compound
     @State private var presentConformerView = false
@@ -147,6 +148,7 @@ struct CompoundDetailView: View {
         .sheet(isPresented: $presentTagView) {
             CompoundTagView(compound: compound, tags: compound.tags as? Set<CompoundTag>)
                 .environment(\.managedObjectContext, viewContext)
+                .environmentObject(viewModel)
         }
         .toolbar {
             HStack {
