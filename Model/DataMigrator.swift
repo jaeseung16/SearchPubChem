@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import os
 
+// Reference: https://williamboles.me/progressive-core-data-migration/
 class DataMigrator: NSObject, ObservableObject {
     static let shared = DataMigrator()
     static let logger = Logger()
