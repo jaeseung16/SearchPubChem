@@ -11,27 +11,23 @@ import Combine
 import CoreData
 
 class SearchPubChemViewModel: NSObject, ObservableObject {
-    private var session = URLSession.shared
+    private var session: URLSession = URLSession.shared
     
-    private let client = PubChemSearch()
-    private let networkErrorString = "The Internet connection appears to be offline"
+    private let networkErrorString: String = "The Internet connection appears to be offline"
     
-    private let compoundProperties = [PubChemSearch.PropertyKey.formula,
-                      PubChemSearch.PropertyKey.weight,
-                      PubChemSearch.PropertyKey.nameIUPAC,
-                      PubChemSearch.PropertyKey.title]
+    private let compoundProperties: [String] = [PubChemSearch.PropertyKey.formula, PubChemSearch.PropertyKey.weight, PubChemSearch.PropertyKey.nameIUPAC, PubChemSearch.PropertyKey.title]
     
-    @Published var success = false
+    @Published var success: Bool = false
     @Published var propertySet: Properties?
     @Published var imageData: Data?
     @Published var conformer: Conformer?
     
-    @Published var showAlert = false
+    @Published var showAlert: Bool = false
     @Published var errorMessage: String?
     
     // MARK: - for makings a solution
     @Published var compounds: [Compound]?
-    @Published var solutionLabel = ""
+    @Published var solutionLabel: String = ""
     
     private let dataController = DataController.shared
     

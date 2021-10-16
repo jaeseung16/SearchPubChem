@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension PubChemSearch {
+class PubChemSearch {
     struct Constant {
         static let scheme = "https"
         static let host = "pubchem.ncbi.nlm.nih.gov"
