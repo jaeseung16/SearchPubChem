@@ -142,7 +142,7 @@ struct CompoundDetailView: View {
         }
         .sheet(isPresented: $presentConformerView) {
             if let conformer = conformer {
-                ConformerView(conformer: conformer, name: compound.name ?? "", formula: compound.formula ?? "")
+                ConformerView(conformer: conformer, name: compound.name ?? "", molecularFormula: compound.formula ?? "")
             }
         }
         .sheet(isPresented: $presentTagView) {

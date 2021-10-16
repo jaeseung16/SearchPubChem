@@ -9,6 +9,7 @@
 import Foundation
 import Combine
 import CoreData
+import SceneKit
 
 class SearchPubChemViewModel: NSObject, ObservableObject {
     private var session: URLSession = URLSession.shared
@@ -434,5 +435,51 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     func selectedCompounds(_ compounds: [Compound], with title: String) {
         self.compounds = compounds
         self.solutionLabel = title
+    }
+    
+    // MARK: - SceneKit
+    @Published var rotation: SCNMatrix4 = SCNMatrix4Identity
+    private var oldRotation: SCNMatrix4 = SCNMatrix4Identity
+    
+    func panGesture(translation: CGSize, isEnded: Bool) {
+        print("translation=\(translation)")
+        let newRotation = coordinateTransform(for: makeRotation(from: translation), with: self.oldRotation)
+        print("newRotation=\(newRotation)")
+        self.rotation = SCNMatrix4Mult(newRotation, self.oldRotation)
+        
+        if isEnded {
+            self.oldRotation = SCNMatrix4Mult(newRotation, self.oldRotation)
+        }
+    }
+    
+    func pinchGesture(scale: CGFloat, isEnded: Bool) {
+        let scale = Float(scale)
+        let newScale = SCNMatrix4MakeScale(scale, scale, scale)
+
+        self.rotation = SCNMatrix4Mult(newScale, self.oldRotation)
+        
+        if isEnded {
+            self.oldRotation = SCNMatrix4Mult(newScale, self.oldRotation)
+        }
+    }
+    
+    func resetRotation() {
+        self.rotation = SCNMatrix4Identity
+        self.oldRotation = SCNMatrix4Identity
+    }
+    
+    private func makeRotation(from translation: CGSize) -> SCNMatrix4 {
+        let length = sqrt( translation.width * translation.width + translation.height * translation.height )
+        let angle = Float(length) * .pi / 180.0
+        let rotationAxis = [CGFloat](arrayLiteral: translation.height / length, translation.width / length)
+        let rotation = SCNMatrix4MakeRotation(angle, Float(rotationAxis[0]), Float(rotationAxis[1]), 0)
+        print("length=\(length), angle=\(angle), rotationAxis=\(rotationAxis)")
+        return rotation
+    }
+    
+    private func coordinateTransform(for rotation: SCNMatrix4, with reference: SCNMatrix4) -> SCNMatrix4 {
+        let inverseOfReference = SCNMatrix4Invert(reference)
+        let transformed = SCNMatrix4Mult(reference, SCNMatrix4Mult(rotation, inverseOfReference))
+        return transformed
     }
 }

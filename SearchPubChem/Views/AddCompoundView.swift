@@ -62,7 +62,7 @@ struct AddCompoundView: View {
         .padding()
         .sheet(isPresented: $presentConformerView) {
             if let conformer = viewModel.conformer {
-                ConformerView(conformer: conformer, name: viewModel.propertySet?.Title ?? "", formula: viewModel.propertySet?.MolecularFormula ?? "")
+                ConformerView(conformer: conformer, name: viewModel.propertySet?.Title ?? "", molecularFormula: viewModel.propertySet?.MolecularFormula ?? "")
             }
         }
     }
