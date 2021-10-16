@@ -24,25 +24,22 @@ struct ConformerView: View {
                 ZStack(alignment: .top) {
                     SceneKitView(conformer: conformer, size: geometry.size)
                         .environmentObject(viewModel)
-                        .simultaneousGesture(MagnificationGesture()
-                                    .onChanged({ value in
-                            print("MagnificationGesture: \(value)")
-                            viewModel.pinchGesture(scale: value, isEnded: false)
-                        })
-                                    .onEnded({ value in
-                            print("MagnificationGesture: ended with \(value)")
-                            viewModel.pinchGesture(scale: value, isEnded: true)
-                        }))
-                        .simultaneousGesture(DragGesture()
-                                    .onChanged({ value in
-                            print("DragGesture: \(value)")
-                            viewModel.panGesture(translation: value.translation, isEnded: false)
-                        })
-                                    .onEnded({ value in
-                            print("DragGesture: ended with \(value)")
-                            viewModel.panGesture(translation: value.translation, isEnded: true)
-                        }))
-                        
+                        .simultaneousGesture(
+                            MagnificationGesture()
+                                .onChanged { value in
+                                    viewModel.pinchGesture(scale: value, isEnded: false)
+                                }
+                                .onEnded { value in
+                                    viewModel.pinchGesture(scale: value, isEnded: true)
+                                })
+                        .simultaneousGesture(
+                            DragGesture()
+                                .onChanged{ value in
+                                    viewModel.panGesture(translation: value.translation, isEnded: false)
+                                }
+                                .onEnded { value in
+                                    viewModel.panGesture(translation: value.translation, isEnded: true)
+                                })
                     
                     VStack {
                         Text("")

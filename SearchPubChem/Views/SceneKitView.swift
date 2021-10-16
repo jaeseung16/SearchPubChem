@@ -14,39 +14,26 @@ struct SceneKitView: UIViewRepresentable {
     
     var conformer: Conformer
     var size: CGSize
-    
-    //@State var geometryNode: SCNNode
-    
+
     func makeUIView(context: Context) -> SCNView {
         let scnView = SCNView(frame: CGRect(origin: CGPoint(x: 0,y: 0), size: self.size))
-        
         setup(scnView)
-        
         return scnView
     }
     
     func updateUIView(_ uiView: SCNView, context: Context) {
         if let geometryNode =  uiView.scene?.rootNode.childNode(withName: "geometryNode", recursively: false) {
-            print("updateUIView: viewModel.rotation = \(viewModel.rotation)")
             geometryNode.transform = SCNMatrix4Mult(viewModel.rotation, SCNMatrix4Identity)
-            
         }
     }
     
     private func setup(_ scnView: SCNView) {
-        scnView.backgroundColor = .lightGray
-        scnView.scene = sceneSetup()
-        
         let geometryNode = createSCNNode(for: self.conformer)
         geometryNode.name = "geometryNode"
         
+        scnView.backgroundColor = .lightGray
+        scnView.scene = sceneSetup()
         scnView.scene?.rootNode.addChildNode(geometryNode)
-        
-        //let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGesture(sender:)))
-        //scnView.addGestureRecognizer(panRecognizer)
-        
-        //let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(pinchGesture(sender:)))
-        //scnView.addGestureRecognizer(pinchRecognizer)
     }
     
     private func createSCNNode(for conformer: Conformer) -> SCNNode {

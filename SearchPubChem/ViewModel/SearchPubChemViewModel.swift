@@ -442,9 +442,8 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     private var oldRotation: SCNMatrix4 = SCNMatrix4Identity
     
     func panGesture(translation: CGSize, isEnded: Bool) {
-        print("translation=\(translation)")
         let newRotation = coordinateTransform(for: makeRotation(from: translation), with: self.oldRotation)
-        print("newRotation=\(newRotation)")
+
         self.rotation = SCNMatrix4Mult(newRotation, self.oldRotation)
         
         if isEnded {
@@ -473,7 +472,6 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         let angle = Float(length) * .pi / 180.0
         let rotationAxis = [CGFloat](arrayLiteral: translation.height / length, translation.width / length)
         let rotation = SCNMatrix4MakeRotation(angle, Float(rotationAxis[0]), Float(rotationAxis[1]), 0)
-        print("length=\(length), angle=\(angle), rotationAxis=\(rotationAxis)")
         return rotation
     }
     

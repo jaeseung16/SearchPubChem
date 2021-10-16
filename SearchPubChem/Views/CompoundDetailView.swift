@@ -47,7 +47,6 @@ struct CompoundDetailView: View {
         }
         
         if let conformers = compound.conformers, conformers.count > 0 {
-            print("conformers = \(conformers)")
             for conformerEntity in conformers {
                 if let entity = conformerEntity as? ConformerEntity {
                     var atoms = [AtomEntity]()

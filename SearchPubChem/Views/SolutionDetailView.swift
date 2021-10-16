@@ -35,7 +35,6 @@ struct SolutionDetailView: View {
                 if let compound = entity.compound, let unitRawValue = entity.unit, let unit = Unit(rawValue: unitRawValue) {
                     let dto = SolutionIngradientDTO(compound: compound, amount: entity.amount, unit: unit)
                     ingradients.append(dto)
-                    print("dto=\(dto)")
                 }
             }
         }

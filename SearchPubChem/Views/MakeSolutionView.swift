@@ -123,7 +123,6 @@ struct MakeSolutionView: View {
                     solution.name = solutionLabel.isEmpty ? viewModel.solutionLabel : solutionLabel
                     
                     for ingradient in ingradients {
-                        print("ingradient = \(ingradient)")
                         let entity = SolutionIngradient(context: viewContext)
                         
                         entity.compound = ingradient.compound
