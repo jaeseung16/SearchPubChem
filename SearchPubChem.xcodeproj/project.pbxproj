@@ -64,7 +64,7 @@
 		90A28688204638ED00FF796A /* PubChemSearchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A28687204638ED00FF796A /* PubChemSearchConstants.swift */; };
 		90AE0822271B29E700DB7846 /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE0821271B29E700DB7846 /* SceneKitView.swift */; };
 		90AE0824271B4B1400DB7846 /* ConformerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE0823271B4B1400DB7846 /* ConformerView.swift */; };
-		90AE84CF271097C700470E1B /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE84CE271097C700470E1B /* ActivityView.swift */; };
+		90AE84CF271097C700470E1B /* ShareActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE84CE271097C700470E1B /* ShareActivityView.swift */; };
 		90AE84D12710A46800470E1B /* SolutionMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AE84D02710A46800470E1B /* SolutionMigrationPolicy.swift */; };
 		90B12C41271333EF00EF065D /* DataMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B12C40271333EF00EF065D /* DataMigrator.swift */; };
 		90B12C43271373EE00EF065D /* MappingModel.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 90B12C42271373EE00EF065D /* MappingModel.xcmappingmodel */; };
@@ -180,7 +180,7 @@
 		90A28687204638ED00FF796A /* PubChemSearchConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemSearchConstants.swift; sourceTree = "<group>"; };
 		90AE0821271B29E700DB7846 /* SceneKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
 		90AE0823271B4B1400DB7846 /* ConformerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerView.swift; sourceTree = "<group>"; };
-		90AE84CE271097C700470E1B /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		90AE84CE271097C700470E1B /* ShareActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActivityView.swift; sourceTree = "<group>"; };
 		90AE84D02710A46800470E1B /* SolutionMigrationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionMigrationPolicy.swift; sourceTree = "<group>"; };
 		90B12C40271333EF00EF065D /* DataMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrator.swift; sourceTree = "<group>"; };
 		90B12C42271373EE00EF065D /* MappingModel.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel.xcmappingmodel; sourceTree = "<group>"; };
@@ -442,7 +442,7 @@
 				90E010D8270A54C9004A2401 /* SolutionDetailView.swift */,
 				90D8B022270E459300C81750 /* SolutionListView.swift */,
 				90D8B02A270E620200C81750 /* MakeSolutionView.swift */,
-				90AE84CE271097C700470E1B /* ActivityView.swift */,
+				90AE84CE271097C700470E1B /* ShareActivityView.swift */,
 				908990A12714A6D400DC3989 /* DataMigrationView.swift */,
 				908990A32714BF9C00DC3989 /* FirstLaunchView.swift */,
 				90AE0821271B29E700DB7846 /* SceneKitView.swift */,
@@ -650,7 +650,7 @@
 				90D8B027270E501F00C81750 /* ContentView.swift in Sources */,
 				90C18BAD2649ED950036C0DE /* CompoundTag+Extensions.swift in Sources */,
 				90D8B01A270D014500C81750 /* SelectTagsView.swift in Sources */,
-				90AE84CF271097C700470E1B /* ActivityView.swift in Sources */,
+				90AE84CF271097C700470E1B /* ShareActivityView.swift in Sources */,
 				90A09DE524B124EA0089C6C0 /* CompoundDTO.swift in Sources */,
 				908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */,
 				90D8B029270E51AD00C81750 /* SearchPubChemApp.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  ActivityView.swift
+//  ShareActivityView.swift
 //  SearchPubChem
 //
 //  Created by Jae Seung Lee on 10/8/21.
