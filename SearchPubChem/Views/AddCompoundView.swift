@@ -79,7 +79,6 @@ struct AddCompoundView: View {
             
             Button {
                 viewModel.saveCompound(searchType: searchType, searchValue: searchValue, viewContext: viewContext)
-                
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Text(Action.Save.rawValue)

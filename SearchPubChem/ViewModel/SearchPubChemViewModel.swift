@@ -360,6 +360,26 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         resetCompound()
     }
     
+    func saveSolution(solutionLabel: String, ingradients: [SolutionIngradientDTO], viewContext: NSManagedObjectContext) -> Void {
+        let solution = Solution(context: viewContext)
+        solution.name = solutionLabel.isEmpty ? self.solutionLabel : solutionLabel
+        
+        for ingradient in ingradients {
+            let entity = SolutionIngradient(context: viewContext)
+            
+            entity.compound = ingradient.compound
+            entity.compoundName = ingradient.compound.name
+            entity.compoundCid = ingradient.compound.cid
+            entity.amount = ingradient.amount
+            entity.unit = ingradient.unit.rawValue
+            
+            solution.addToIngradients(entity)
+            solution.addToCompounds(ingradient.compound)
+        }
+        
+        save(viewContext: viewContext)
+    }
+    
     func save(viewContext: NSManagedObjectContext) {
         do {
             try viewContext.save()

@@ -114,24 +114,7 @@ struct MakeSolutionView: View {
                 Spacer()
                 
                 Button {
-                    let solution = Solution(context: viewContext)
-                    solution.name = solutionLabel.isEmpty ? viewModel.solutionLabel : solutionLabel
-                    
-                    for ingradient in ingradients {
-                        let entity = SolutionIngradient(context: viewContext)
-                        
-                        entity.compound = ingradient.compound
-                        entity.compoundName = ingradient.compound.name
-                        entity.compoundCid = ingradient.compound.cid
-                        entity.amount = ingradient.amount
-                        entity.unit = ingradient.unit.rawValue
-                        
-                        solution.addToIngradients(entity)
-                        solution.addToCompounds(ingradient.compound)
-                    }
-                    
-                    viewModel.save(viewContext: viewContext)
-                    
+                    viewModel.saveSolution(solutionLabel: solutionLabel, ingradients: ingradients, viewContext: viewContext)
                     dissmiss()
                 } label: {
                     Text(Action.Save.rawValue)
