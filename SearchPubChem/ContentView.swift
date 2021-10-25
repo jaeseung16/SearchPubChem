@@ -17,8 +17,6 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             CompoundListView()
-                .environment(\.managedObjectContext, viewContext)
-                .environmentObject(viewModel)
                 .tabItem {
                     if selectedTab == .compound {
                         Image("Compound_Selected", label: Text("Compounds"))
@@ -31,8 +29,6 @@ struct ContentView: View {
                 .tag(SelectedTab.compound)
             
             SolutionListView()
-                .environment(\.managedObjectContext, viewContext)
-                .environmentObject(viewModel)
                 .tabItem {
                     if selectedTab == .solution {
                         Image("Solution_Selected", label: Text("Solutions"))

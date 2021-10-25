@@ -10,8 +10,6 @@ import SwiftUI
 
 @main
 struct SearchPubChemApp: App {
-    let dataController = DataController.shared
-    
     @AppStorage("HasLaunchedBefore", store: UserDefaults.standard) var hasLaunchedBefore: Bool = false
     @AppStorage("HasDBMigrated", store: UserDefaults.standard) var hasDBMigrated: Bool = false
 
@@ -25,7 +23,7 @@ struct SearchPubChemApp: App {
                     .environmentObject(DataMigrator())
             } else {
                 ContentView()
-                    .environment(\.managedObjectContext, dataController.viewContext)
+                    .environment(\.managedObjectContext, DataController.shared.viewContext)
                     .environmentObject(SearchPubChemViewModel())
             }
         }

@@ -146,8 +146,6 @@ struct CompoundDetailView: View {
         }
         .sheet(isPresented: $presentTagView) {
             CompoundTagView(compound: compound, tags: compound.tags as? Set<CompoundTag>)
-                .environment(\.managedObjectContext, viewContext)
-                .environmentObject(viewModel)
         }
         .toolbar {
             HStack {

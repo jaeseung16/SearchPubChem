@@ -23,7 +23,6 @@ struct ConformerView: View {
                 
                 ZStack(alignment: .top) {
                     SceneKitView(conformer: conformer, size: geometry.size)
-                        .environmentObject(viewModel)
                         .simultaneousGesture(
                             MagnificationGesture()
                                 .onChanged { value in

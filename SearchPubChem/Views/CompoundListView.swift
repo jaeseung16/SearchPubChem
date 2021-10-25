@@ -47,8 +47,6 @@ struct CompoundListView: View {
                         ForEach(filteredCompounds) { compound in
                             NavigationLink {
                                 CompoundDetailView(compound: compound)
-                                    .environment(\.managedObjectContext, viewContext)
-                                    .environmentObject(viewModel)
                             } label: {
                                 HStack {
                                     Text(compound.name ?? "N/A")
@@ -88,8 +86,6 @@ struct CompoundListView: View {
                 }
                 .sheet(isPresented: $presentAddCompoundView) {
                     AddCompoundView()
-                        .environment(\.managedObjectContext, viewContext)
-                        .environmentObject(viewModel)
                 }
             }
         }

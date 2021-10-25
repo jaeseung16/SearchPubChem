@@ -36,8 +36,6 @@ struct SolutionListView: View {
                         ForEach(solutions) { solution in
                             NavigationLink {
                                 SolutionDetailView(solution: solution)
-                                    .environment(\.managedObjectContext, viewContext)
-                                    .environmentObject(viewModel)
                             } label: {
                                 HStack {
                                     Text(solution.name ?? "N/A")
@@ -66,8 +64,6 @@ struct SolutionListView: View {
         }
         .sheet(isPresented: $presentMakeSolutionView) {
             MakeSolutionView()
-                .environment(\.managedObjectContext, viewContext)
-                .environmentObject(viewModel)
         }
     }
 }
