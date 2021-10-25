@@ -48,36 +48,13 @@ struct CompoundListView: View {
                             NavigationLink {
                                 CompoundDetailView(compound: compound)
                             } label: {
-                                HStack {
-                                    Text(compound.name ?? "N/A")
-                                    
-                                    if let count = compound.solutions?.count, count > 0 {
-                                        Text("💧")
-                                    }
-                                    
-                                    Spacer()
-                                    Text(compound.formula ?? "N/A")
-                                }
+                                label(for: compound)
                             }
                         }
                     }
                     .navigationTitle(TabItem.Compounds.rawValue)
                     .toolbar {
-                        HStack {
-                            Spacer()
-                            
-                            Button {
-                                presentSelectTagView = true
-                            } label: {
-                                Image(systemName: "tag")
-                            }
-                            
-                            Button {
-                                presentAddCompoundView = true
-                            } label: {
-                                Image(systemName: "plus")
-                            }
-                        }
+                        toolBarContent()
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -87,6 +64,37 @@ struct CompoundListView: View {
                 .sheet(isPresented: $presentAddCompoundView) {
                     AddCompoundView()
                 }
+            }
+        }
+    }
+    
+    private func label(for compound: Compound) -> some View {
+        HStack {
+            Text(compound.name ?? "N/A")
+            
+            if let count = compound.solutions?.count, count > 0 {
+                Text("💧")
+            }
+            
+            Spacer()
+            Text(compound.formula ?? "N/A")
+        }
+    }
+    
+    private func toolBarContent() -> some View {
+        HStack {
+            Spacer()
+            
+            Button {
+                presentSelectTagView = true
+            } label: {
+                Image(systemName: "tag")
+            }
+            
+            Button {
+                presentAddCompoundView = true
+            } label: {
+                Image(systemName: "plus")
             }
         }
     }
