@@ -12,23 +12,29 @@ struct FirstLaunchView: View {
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
+    private let hasLaunchedBeforeKey = "HasLaunchedBefore"
+    private let hasDBMigratedKey = "HasDBMigrated"
+    private let welcomeToSearchPubChem = "Welcome to SearchPubChem!"
+    private let wantToAddSomeExamples = "Would you like to add some example compounds?"
+    private let iPadIntro = "iPad_Intro"
+    
     var body: some View {
         VStack {
-            Text("Welcome to SearchPubChem!")
+            Text(welcomeToSearchPubChem)
                 .font(.headline)
             
-            Image("iPad_Intro")
+            Image(iPadIntro)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
             
-            Text("Would you like to add some example compounds?")
+            Text(wantToAddSomeExamples)
             
             HStack {
                 Spacer()
                 
                 Button {
-                    UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
-                    UserDefaults.standard.set(true, forKey: "HasDBMigrated")
+                    UserDefaults.standard.set(true, forKey: hasLaunchedBeforeKey)
+                    UserDefaults.standard.set(true, forKey: hasDBMigratedKey)
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     Text(Action.No.rawValue)
@@ -37,8 +43,8 @@ struct FirstLaunchView: View {
                 Spacer()
                 
                 Button {
-                    UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
-                    UserDefaults.standard.set(true, forKey: "HasDBMigrated")
+                    UserDefaults.standard.set(true, forKey: hasLaunchedBeforeKey)
+                    UserDefaults.standard.set(true, forKey: hasDBMigratedKey)
                     viewModel.preloadData()
                     presentationMode.wrappedValue.dismiss()
                 } label: {
