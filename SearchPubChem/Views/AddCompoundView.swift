@@ -43,8 +43,7 @@ struct AddCompoundView: View {
             }
             .autocapitalization(.none)
             .multilineTextAlignment(.center)
-            .background(RoundedRectangle(cornerRadius: 5.0)
-                            .fill(Color(.sRGB, white: 0.5, opacity: 0.1)))
+            .roundedBackgroundRectangle()
                 
             Button {
                 viewModel.searchCompound(type: searchType, value: searchValue)

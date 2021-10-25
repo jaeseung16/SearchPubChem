@@ -44,14 +44,12 @@ struct MakeSolutionView: View {
                     TextField("", text: $viewModel.solutionLabel)
                         .autocapitalization(.none)
                         .multilineTextAlignment(.center)
-                        .background(RoundedRectangle(cornerRadius: 5.0)
-                                        .fill(Color(.sRGB, white: 0.5, opacity: 0.1)))
+                        .roundedBackgroundRectangle()
                 } else {
                     TextField("", text: $solutionLabel)
                         .autocapitalization(.none)
                         .multilineTextAlignment(.center)
-                        .background(RoundedRectangle(cornerRadius: 5.0)
-                                        .fill(Color(.sRGB, white: 0.5, opacity: 0.1)))
+                        .roundedBackgroundRectangle()
                 }
             }
             
@@ -73,8 +71,7 @@ struct MakeSolutionView: View {
                             
                             TextField("0.0", value: $ingradients[index].amount, formatter: numberFormatter)
                                 .multilineTextAlignment(.trailing)
-                                .background(RoundedRectangle(cornerRadius: 5.0)
-                                                .fill(Color(.sRGB, white: 0.5, opacity: 0.1)))
+                                .roundedBackgroundRectangle()
                                 .frame(maxWidth: 100.0)
                                 .keyboardType(.decimalPad)
                             
