@@ -49,6 +49,7 @@ struct CompoundMiniDetailView: View {
                 Spacer()
             }
         }
+        .padding()
         .onTapGesture {
             presentationMode.wrappedValue.dismiss()
         }
