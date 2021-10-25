@@ -12,6 +12,8 @@ import SceneKit
 struct SceneKitView: UIViewRepresentable {
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
+    private let nodeName = "geometryNode"
+    
     var conformer: Conformer
     var size: CGSize
 
@@ -22,14 +24,14 @@ struct SceneKitView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: SCNView, context: Context) {
-        if let geometryNode =  uiView.scene?.rootNode.childNode(withName: "geometryNode", recursively: false) {
+        if let geometryNode =  uiView.scene?.rootNode.childNode(withName: nodeName, recursively: false) {
             geometryNode.transform = SCNMatrix4Mult(viewModel.rotation, SCNMatrix4Identity)
         }
     }
     
     private func setup(_ scnView: SCNView) {
         let geometryNode = createSCNNode(for: self.conformer)
-        geometryNode.name = "geometryNode"
+        geometryNode.name = nodeName
         
         scnView.backgroundColor = .lightGray
         scnView.scene = sceneSetup()
@@ -63,29 +65,36 @@ struct SceneKitView: UIViewRepresentable {
         return atomNode
     }
     
-    
     private func sceneSetup() -> SCNScene {
         let scene = SCNScene()
-        
+        scene.rootNode.addChildNode(ambientLightNode)
+        scene.rootNode.addChildNode(omniLightNode)
+        scene.rootNode.addChildNode(cameraNode)
+        return scene
+    }
+    
+    private var ambientLightNode: SCNNode {
         let ambientLightNode = SCNNode()
         ambientLightNode.light = SCNLight()
         ambientLightNode.light!.type = SCNLight.LightType.ambient
         ambientLightNode.light!.color = UIColor(white: 0.67, alpha: 1.0)
-        scene.rootNode.addChildNode(ambientLightNode)
-        
+        return ambientLightNode
+    }
+    
+    private var omniLightNode: SCNNode {
         let omniLightNode = SCNNode()
         omniLightNode.light = SCNLight()
         omniLightNode.light!.type = SCNLight.LightType.omni
         omniLightNode.light!.color = UIColor(white: 0.75, alpha: 1.0)
         omniLightNode.position = SCNVector3Make(0, 50, 50)
-        scene.rootNode.addChildNode(omniLightNode)
-        
+        return omniLightNode
+    }
+    
+    private var cameraNode: SCNNode {
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         cameraNode.position = SCNVector3Make(0, 0, 25)
-        scene.rootNode.addChildNode(cameraNode)
-      
-        return scene
+        return cameraNode
     }
     
 }
