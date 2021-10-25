@@ -37,26 +37,13 @@ struct SolutionListView: View {
                             NavigationLink {
                                 SolutionDetailView(solution: solution)
                             } label: {
-                                HStack {
-                                    Text(solution.name ?? "N/A")
-                                    Spacer()
-                                    
-                                    Text("\(dateFormatter.string(from: solution.created ?? Date()))")
-                                }
+                                label(for: solution)
                             }
                         }
                     }
                     .navigationTitle(TabItem.Solutions.rawValue)
                     .toolbar {
-                        HStack {
-                            Spacer()
-                            
-                            Button {
-                                presentMakeSolutionView = true
-                            } label: {
-                                Image(systemName: "plus")
-                            }
-                        }
+                        toolBarContent()
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -64,6 +51,26 @@ struct SolutionListView: View {
         }
         .sheet(isPresented: $presentMakeSolutionView) {
             MakeSolutionView()
+        }
+    }
+    
+    private func label(for solution: Solution) -> some View {
+        HStack {
+            Text(solution.name ?? "N/A")
+            Spacer()
+            Text("\(dateFormatter.string(from: solution.created ?? Date()))")
+        }
+    }
+    
+    private func toolBarContent() -> some View {
+        HStack {
+            Spacer()
+            
+            Button {
+                presentMakeSolutionView = true
+            } label: {
+                Image(systemName: "plus")
+            }
         }
     }
 }
