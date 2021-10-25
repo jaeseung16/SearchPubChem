@@ -56,7 +56,6 @@
 		908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A12714A6D400DC3989 /* DataMigrationView.swift */; };
 		908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A32714BF9C00DC3989 /* FirstLaunchView.swift */; };
 		908CD7092040F44000A3C316 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908CD7082040F44000A3C316 /* DataController.swift */; };
-		908E7137207C1D0A007918AE /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */; };
 		909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */; };
 		909AE6BE200CF2F000FEE529 /* SearchPubChemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6BD200CF2F000FEE529 /* SearchPubChemTests.swift */; };
 		909AE6C9200CF2F000FEE529 /* SearchPubChemUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6C8200CF2F000FEE529 /* SearchPubChemUITests.swift */; };
@@ -118,7 +117,6 @@
 
 /* Begin PBXFileReference section */
 		902DFADC2027636B001E2AD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		90445109265C646200A004EE /* TagView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagView.xib; sourceTree = "<group>"; };
 		9062E67B23411DAB0039C136 /* AtomEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AtomEntity+Extensions.swift"; sourceTree = "<group>"; };
 		9065BF5A22EE2F7400350083 /* Elements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
 		90725F9A204217540083E1FC /* Compound+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Compound+Extensions.swift"; sourceTree = "<group>"; };
@@ -167,9 +165,7 @@
 		908990A12714A6D400DC3989 /* DataMigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrationView.swift; sourceTree = "<group>"; };
 		908990A32714BF9C00DC3989 /* FirstLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLaunchView.swift; sourceTree = "<group>"; };
 		908CD7082040F44000A3C316 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
-		908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		909AE6A5200CF2F000FEE529 /* SearchPubChem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchPubChem.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		909AE6A8200CF2F000FEE529 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		909AE6B2200CF2F000FEE529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		909AE6B4200CF2F000FEE529 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		909AE6B9200CF2F000FEE529 /* SearchPubChemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SearchPubChemTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -358,14 +354,11 @@
 				90E010CC270A1A8B004A2401 /* SearchPubChem.entitlements */,
 				908A90F724BB959C008DDCFA /* PubChemDownloader */,
 				90B4384C2352A5EF001A7B5E /* Conformer */,
-				909AE6A8200CF2F000FEE529 /* AppDelegate.swift */,
 				90D8B026270E501F00C81750 /* ContentView.swift */,
 				90D8B028270E51AD00C81750 /* SearchPubChemApp.swift */,
 				909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */,
 				902DFADC2027636B001E2AD6 /* Assets.xcassets */,
 				909AE6B4200CF2F000FEE529 /* Info.plist */,
-				908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */,
-				90445109265C646200A004EE /* TagView.xib */,
 				90EB2E2727271B4300C654BB /* TabItem.swift */,
 				90EB2E2927271E6B00C654BB /* Action.swift */,
 			);
@@ -665,7 +658,6 @@
 				90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */,
 				9087E642271662F40097CFC6 /* Unit.swift in Sources */,
 				90C9EAD526506B5E0004CA43 /* RecordDumper.swift in Sources */,
-				908E7137207C1D0A007918AE /* UIViewController+Extensions.swift in Sources */,
 				908CD7092040F44000A3C316 /* DataController.swift in Sources */,
 				90EB2E2A27271E6B00C654BB /* Action.swift in Sources */,
 				9065BF5B22EE2F7400350083 /* Elements.swift in Sources */,
