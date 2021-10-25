@@ -19,24 +19,24 @@ struct ContentView: View {
             CompoundListView()
                 .tabItem {
                     if selectedTab == .compound {
-                        Image("Compound_Selected", label: Text("Compounds"))
+                        Image(TabItem.Compounds.selectedImageName, label: Text(TabItem.Compounds.rawValue))
                     } else {
-                        Image("Compound", label: Text("Compounds"))
+                        Image(TabItem.Compounds.defaultImageName, label: Text(TabItem.Compounds.rawValue))
                     }
                     
-                    Text("Compounds")
+                    Text(TabItem.Compounds.rawValue)
                 }
                 .tag(SelectedTab.compound)
             
             SolutionListView()
                 .tabItem {
                     if selectedTab == .solution {
-                        Image("Solution_Selected", label: Text("Solutions"))
+                        Image(TabItem.Solutions.selectedImageName, label: Text(TabItem.Solutions.rawValue))
                     } else {
-                        Image("Solution", label: Text("Solutions"))
+                        Image(TabItem.Compounds.defaultImageName, label: Text(TabItem.Solutions.rawValue))
                     }
                     
-                    Text("Solutions")
+                    Text(TabItem.Solutions.rawValue)
                 }
                 .tag(SelectedTab.solution)
         }
