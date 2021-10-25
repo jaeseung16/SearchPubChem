@@ -31,7 +31,7 @@ struct FirstLaunchView: View {
                     UserDefaults.standard.set(true, forKey: "HasDBMigrated")
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    Text("No")
+                    Text(Action.No.rawValue)
                 }
                 
                 Spacer()
@@ -42,7 +42,7 @@ struct FirstLaunchView: View {
                     viewModel.preloadData()
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    Text("Yes")
+                    Text(Action.Yes.rawValue)
                 }
                 
                 Spacer()

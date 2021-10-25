@@ -78,7 +78,7 @@ struct SelectCompoundsView: View {
                 selectedCompounds.removeAll()
                 presentationMode.wrappedValue.dismiss()
             } label: {
-                Text("Cancel")
+                Text(Action.Cancel.rawValue)
             }
 
             Spacer()
@@ -87,7 +87,7 @@ struct SelectCompoundsView: View {
                 viewModel.selectedCompounds(selectedCompounds, with: selectedCompoundsLabel)
                 presentationMode.wrappedValue.dismiss()
             } label: {
-                Text("Done")
+                Text(Action.Done.rawValue)
             }
         }
     }

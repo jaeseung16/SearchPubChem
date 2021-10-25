@@ -67,7 +67,7 @@ struct ConformerView: View {
                     viewModel.resetRotation()
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    Text("Back")
+                    Text(Action.Dismiss.rawValue)
                 }
                 
                 Spacer()

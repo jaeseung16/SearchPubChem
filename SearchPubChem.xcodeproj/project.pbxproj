@@ -96,6 +96,7 @@
 		90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E19506270BB00300B8196A /* CompoundTagView.swift */; };
 		90E19509270BCBBC00B8196A /* SelectCompoundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E19508270BCBBC00B8196A /* SelectCompoundsView.swift */; };
 		90EB2E2827271B4400C654BB /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2727271B4300C654BB /* TabItem.swift */; };
+		90EB2E2A27271E6B00C654BB /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2927271E6B00C654BB /* Action.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -217,6 +218,7 @@
 		90E19506270BB00300B8196A /* CompoundTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundTagView.swift; sourceTree = "<group>"; };
 		90E19508270BCBBC00B8196A /* SelectCompoundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCompoundsView.swift; sourceTree = "<group>"; };
 		90EB2E2727271B4300C654BB /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
+		90EB2E2927271E6B00C654BB /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -365,6 +367,7 @@
 				908E7136207C1D0A007918AE /* UIViewController+Extensions.swift */,
 				90445109265C646200A004EE /* TagView.xib */,
 				90EB2E2727271B4300C654BB /* TabItem.swift */,
+				90EB2E2927271E6B00C654BB /* Action.swift */,
 			);
 			path = SearchPubChem;
 			sourceTree = "<group>";
@@ -664,6 +667,7 @@
 				90C9EAD526506B5E0004CA43 /* RecordDumper.swift in Sources */,
 				908E7137207C1D0A007918AE /* UIViewController+Extensions.swift in Sources */,
 				908CD7092040F44000A3C316 /* DataController.swift in Sources */,
+				90EB2E2A27271E6B00C654BB /* Action.swift in Sources */,
 				9065BF5B22EE2F7400350083 /* Elements.swift in Sources */,
 				9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */,
 				90C008AB2309A60C0057217E /* ConformerEntity+Extensions.swift in Sources */,

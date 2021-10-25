@@ -43,7 +43,7 @@ struct ContentView: View {
         .alert(isPresented: $viewModel.showAlert, content: {
             Alert(title: Text("Unable to Save Data"),
                   message: Text(viewModel.errorMessage ?? "No information about the error"),
-                  dismissButton: .default(Text("Dismiss")))
+                  dismissButton: .default(Text(Action.Dismiss.rawValue)))
         })
     }
 }

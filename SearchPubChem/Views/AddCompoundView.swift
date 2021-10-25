@@ -73,7 +73,7 @@ struct AddCompoundView: View {
                 viewModel.resetCompound()
                 presentationMode.wrappedValue.dismiss()
             } label: {
-                Text("Cancel")
+                Text(Action.Cancel.rawValue)
             }
             
             Spacer()
@@ -83,7 +83,7 @@ struct AddCompoundView: View {
                 
                 presentationMode.wrappedValue.dismiss()
             } label: {
-                Text("Save")
+                Text(Action.Save.rawValue)
             }
         }
     }

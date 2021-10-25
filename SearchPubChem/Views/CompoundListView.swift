@@ -61,7 +61,7 @@ struct CompoundListView: View {
                             }
                         }
                     }
-                    .navigationTitle("Compounds")
+                    .navigationTitle(TabItem.Compounds.rawValue)
                     .toolbar {
                         HStack {
                             Spacer()

@@ -52,7 +52,7 @@ struct SelectTagsView: View {
                 Button {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    Text("Cancel")
+                    Text(Action.Cancel.rawValue)
                 }
 
                 Spacer()
@@ -61,7 +61,7 @@ struct SelectTagsView: View {
                     selectedTag = nil
                     presentationMode.wrappedValue.dismiss()
                 } label: {
-                    Text("Reset")
+                    Text(Action.Reset.rawValue)
                 }
             }
         }

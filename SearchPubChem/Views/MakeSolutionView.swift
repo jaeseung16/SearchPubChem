@@ -111,7 +111,7 @@ struct MakeSolutionView: View {
                 Button {
                     dissmiss()
                 } label: {
-                    Text("Cancel")
+                    Text(Action.Cancel.rawValue)
                 }
                 
                 Spacer()
@@ -137,7 +137,7 @@ struct MakeSolutionView: View {
                     
                     dissmiss()
                 } label: {
-                    Text("Save")
+                    Text(Action.Save.rawValue)
                 }
             }
         }

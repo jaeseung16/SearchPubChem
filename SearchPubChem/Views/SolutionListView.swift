@@ -46,7 +46,7 @@ struct SolutionListView: View {
                             }
                         }
                     }
-                    .navigationTitle("Solutions")
+                    .navigationTitle(TabItem.Solutions.rawValue)
                     .toolbar {
                         HStack {
                             Spacer()

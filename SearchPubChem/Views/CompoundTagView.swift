@@ -92,7 +92,7 @@ struct CompoundTagView: View {
             Button {
                 presentationMode.wrappedValue.dismiss()
             } label: {
-                Text("Dismiss")
+                Text(Action.Dismiss.rawValue)
             }
 
             Spacer()
@@ -105,7 +105,7 @@ struct CompoundTagView: View {
                 updateTags()
                 presentationMode.wrappedValue.dismiss()
             } label: {
-                Text("Save")
+                Text(Action.Save.rawValue)
             }
         }
     }
