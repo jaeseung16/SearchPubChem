@@ -52,6 +52,7 @@ struct MakeSolutionView: View {
                         .roundedBackgroundRectangle()
                 }
             }
+            .frame(height: 35)
             
             Button {
                 presentSelectCompoundsView = true
@@ -60,31 +61,7 @@ struct MakeSolutionView: View {
             }
             
             if !ingradients.isEmpty {
-                List {
-                    ForEach(0..<ingradients.count, id:\.self) { index in
-                        HStack {
-                            if let compound = ingradients[index].compound {
-                                Text(compound.name ?? "")
-                            }
-    
-                            Spacer()
-                            
-                            TextField("0.0", value: $ingradients[index].amount, formatter: numberFormatter)
-                                .multilineTextAlignment(.trailing)
-                                .roundedBackgroundRectangle()
-                                .frame(maxWidth: 100.0)
-                                .keyboardType(.decimalPad)
-                            
-                            Picker("", selection: $ingradients[index].unit) {
-                                ForEach(Unit.allCases) { unit in
-                                    Text(unit.rawValue).tag(unit)
-                                }
-                            }
-                            .pickerStyle(MenuPickerStyle())
-                            .frame(width: 50.0)
-                        }
-                    }
-                }
+                ingradientList()
             }
         }
         .padding()
@@ -127,5 +104,33 @@ struct MakeSolutionView: View {
         viewModel.compounds = nil
         viewModel.solutionLabel = ""
         presentationMode.wrappedValue.dismiss()
+    }
+    
+    private func ingradientList() -> some View {
+        List {
+            ForEach(0..<ingradients.count, id:\.self) { index in
+                HStack {
+                    if let compound = ingradients[index].compound {
+                        Text(compound.name ?? "")
+                    }
+
+                    Spacer()
+                    
+                    TextField("0.0", value: $ingradients[index].amount, formatter: numberFormatter)
+                        .multilineTextAlignment(.trailing)
+                        .roundedBackgroundRectangle()
+                        .frame(maxWidth: 100.0)
+                        .keyboardType(.decimalPad)
+                    
+                    Picker("", selection: $ingradients[index].unit) {
+                        ForEach(Unit.allCases) { unit in
+                            Text(unit.rawValue).tag(unit)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                    .frame(width: 50.0)
+                }
+            }
+        }
     }
 }
