@@ -19,7 +19,6 @@ struct DataMigrationView: View {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
                 .onChange(of: hasDBMigrated) { _ in
-                    print("hasDBMigrated \(hasDBMigrated)")
                     presentationMode.wrappedValue.dismiss()
                 }
         }

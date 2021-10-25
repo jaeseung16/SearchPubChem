@@ -13,15 +13,16 @@ struct ShareActivityView: UIViewControllerRepresentable {
     let url: URL
     let applicationActivities: [UIActivity]?
     
+    @Binding var failedToRemoveItem: Bool
+    
     func makeUIViewController(context: Context) -> UIActivityViewController {
         let activityViewController = UIActivityViewController(activityItems: [title, url], applicationActivities: applicationActivities)
         
         activityViewController.completionWithItemsHandler = { (activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, activityError: Error?) in
             do {
                 try FileManager.default.removeItem(at: url)
-                print("Succeeded to remove the item")
             } catch {
-                print("Failed to remove the item")
+                failedToRemoveItem = true
             }
         }
         

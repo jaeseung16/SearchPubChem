@@ -19,6 +19,7 @@ struct SolutionDetailView: View {
     @State private var unit: Unit = .gram
     @State private var presentCompoundMiniDetailView = false
     @State private var presentShareSheet = false
+    @State private var presentAlert = false
     
     private var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
@@ -203,10 +204,14 @@ struct SolutionDetailView: View {
             .sheet(isPresented: $presentShareSheet) {
                 if let url = prepareCSV(), let name = solution.name {
                     let title = "Sharing \(name).csv"
-                    ShareActivityView(title: title, url: url, applicationActivities: nil)
+                    ShareActivityView(title: title, url: url, applicationActivities: nil, failedToRemoveItem: $presentAlert)
                 }
-                
             }
+            .alert(isPresented: $presentAlert, content: {
+                Alert(title: Text("Failed to remove files"),
+                      message: Text("Files generated for \(solution.name ?? "") couldn't be deleted from the document directory"),
+                      dismissButton: .default(Text(Action.Dismiss.rawValue)))
+            })
         }
         .padding()
     }
