@@ -56,27 +56,11 @@ struct CompoundDetailView: View {
                         }
                     })
                     
-                    return populateConformer(for: entity, with: atoms)
+                    return Conformer(cid: compound.cid ?? "", conformerEntity: entity, atomEntities: atoms)
                 }
             }
         }
         return nil
-    }
-    
-    private func populateConformer(for conformerEntity: ConformerEntity, with atomEntities: [AtomEntity]) -> Conformer {
-        let conformer = Conformer()
-        conformer.cid = compound.cid ?? ""
-        conformer.conformerId = conformerEntity.conformerId ?? ""
-        
-        conformer.atoms = [Atom]()
-        for atomEntity in atomEntities {
-            let atom = Atom()
-            atom.number = Int(atomEntity.atomicNumber)
-            atom.location = [atomEntity.coordX, atomEntity.coordY, atomEntity.coordZ]
-            
-            conformer.atoms.append(atom)
-        }
-        return conformer
     }
     
     private var urlForPubChem: URL? {
@@ -117,26 +101,7 @@ struct CompoundDetailView: View {
                 
                 Divider()
                 
-                HStack {
-                    Text("SOLUTIONS")
-                        .bold()
-                    Spacer()
-                }
-                
-                List {
-                    ForEach(solutions) { solution in
-                        HStack {
-                            NavigationLink {
-                                SolutionDetailView(solution: solution)
-                            } label: {
-                                Text(solution.name ?? "")
-                                Spacer()
-                                Text(solution.created ?? Date(), style: .date)
-                            }
-                        }
-                    }
-                }
-                .listStyle(PlainListStyle())
+                solutionListView()
             }
         }
         .sheet(isPresented: $presentConformerView) {
@@ -223,7 +188,7 @@ struct CompoundDetailView: View {
                             .foregroundColor(.black)
                     }
                     Spacer()
-}
+                }
             }
             
             Spacer()
@@ -274,5 +239,29 @@ struct CompoundDetailView: View {
         presentationMode.wrappedValue.dismiss()
     }
     
+    private func solutionListView() -> some View {
+        VStack {
+            HStack {
+                Text("SOLUTIONS")
+                    .bold()
+                Spacer()
+            }
+            
+            List {
+                ForEach(solutions) { solution in
+                    HStack {
+                        NavigationLink {
+                            SolutionDetailView(solution: solution)
+                        } label: {
+                            Text(solution.name ?? "")
+                            Spacer()
+                            Text(solution.created ?? Date(), style: .date)
+                        }
+                    }
+                }
+            }
+            .listStyle(PlainListStyle())
+        }
+    }
 }
 

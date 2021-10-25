@@ -17,7 +17,23 @@ class Conformer {
         atoms = [Atom]()
         cid = ""
         conformerId = ""
-    }    
+    }
+    
+    init(cid: String, conformerEntity: ConformerEntity, atomEntities: [AtomEntity]) {
+        self.cid = cid
+        self.conformerId = conformerEntity.conformerId ?? ""
+        
+        var atoms = [Atom]()
+        for atomEntity in atomEntities {
+            let atom = Atom()
+            atom.number = Int(atomEntity.atomicNumber)
+            atom.location = [atomEntity.coordX, atomEntity.coordY, atomEntity.coordZ]
+            
+            atoms.append(atom)
+        }
+        self.atoms = atoms
+    }
+    
 }
 
 extension Conformer: CustomStringConvertible {
