@@ -33,7 +33,7 @@ struct ContentView: View {
                     if selectedTab == .solution {
                         Image(TabItem.Solutions.selectedImageName, label: Text(TabItem.Solutions.rawValue))
                     } else {
-                        Image(TabItem.Compounds.defaultImageName, label: Text(TabItem.Solutions.rawValue))
+                        Image(TabItem.Solutions.defaultImageName, label: Text(TabItem.Solutions.rawValue))
                     }
                     
                     Text(TabItem.Solutions.rawValue)
