@@ -69,17 +69,7 @@ struct SolutionDetailView: View {
     }
     
     private func getAmounts(in unit: Unit) -> [String: Double] {
-        var amounts = [String: Double]()
-        if let ingradients = solution.ingradients {
-            for ingradient in ingradients {
-                if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
-                    if let unitRawValue = ingradient.unit, let originalUnit = Unit(rawValue: unitRawValue) {
-                        amounts[name] = viewModel.convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: originalUnit, newUnit: unit)
-                    }
-                }
-            }
-        }
-        return amounts
+        return viewModel.getAmounts(of: ingradients, in: unit)
     }
     
     var body: some View {

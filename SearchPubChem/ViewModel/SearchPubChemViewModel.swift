@@ -591,4 +591,17 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         }
         return convertedAmount
     }
+    
+    func getAmounts(of ingradients: [SolutionIngradientDTO], in unit: Unit) -> [String: Double] {
+        var amounts = [String: Double]()
+        for ingradient in ingradients {
+            if let name = ingradient.compound.name {
+                amounts[name] = convert(ingradient.amount,
+                                        molecularWeight: ingradient.compound.molecularWeight,
+                                        originalUnit: ingradient.unit,
+                                        newUnit: unit)
+            }
+        }
+        return amounts
+    }
 }
