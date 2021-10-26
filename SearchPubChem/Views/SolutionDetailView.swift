@@ -123,83 +123,12 @@ struct SolutionDetailView: View {
                     
                 Divider()
                 
-                HStack(alignment: .center) {
-                    Spacer()
-                    
-                    Text("Ingradients")
-                        .frame(width: geometry.size.width * 0.4)
-                    
-                    Spacer()
-                    
-                    VStack {
-                        Text("Amount")
-        
-                        Picker("", selection: $absoluteRelative) {
-                            ForEach(AbsoluteRelatve.allCases) { item in
-                                Text(item.rawValue)
-                                    .tag(item)
-                            }
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-
-                        HStack {
-                            Spacer()
-                            
-                            Text("UNIT:")
-                                .font(.caption)
-                            
-                            Picker("Unit", selection: $unit) {
-                                ForEach(Unit.allCases) { item in
-                                    Text(item.rawValue)
-                                        .tag(item)
-                                }
-                            }
-                        }
-                    }
-                    .frame(width: geometry.size.width * 0.4)
-                    
-                    Spacer()
-                }
+                columnHeads(geometry: geometry)
                 
-                List {
-                    ForEach(ingradients) { ingradient in
-                        Button {
-                            presentCompoundMiniDetailView = true
-                        } label: {
-                            if let name = ingradient.compound.name {
-                                HStack {
-                                    Text(name)
-                                    
-                                    Spacer()
-                                    
-                                    if let amount = amountsToDisplay[name] {
-                                        Text("\(amount)")
-                                    }
-                                }
-                            }
-                        }
-                        .sheet(isPresented: $presentCompoundMiniDetailView) {
-                            CompoundMiniDetailView(compound: ingradient.compound)
-                        }
-                    }
-                }
-                .listStyle(PlainListStyle())
+                ingradientList()
             }
             .toolbar {
-                HStack {
-                    Button {
-                        presentShareSheet = true
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                    }
-                    
-                    Button {
-                        delete()
-                    } label: {
-                        Image(systemName: "trash")
-                    }
-                }
-                
+                toolbarContent()
             }
             .sheet(isPresented: $presentShareSheet) {
                 if let name = solution.name, let url = viewModel.generateCSV(solutionName: name, ingradients: ingradients) {
@@ -215,18 +144,100 @@ struct SolutionDetailView: View {
         .padding()
     }
     
+    private func columnHeads(geometry: GeometryProxy) -> some View {
+        HStack(alignment: .center) {
+            Spacer()
+            
+            Text("Ingradients")
+                .frame(width: geometry.size.width * 0.4)
+            
+            Spacer()
+            
+            VStack {
+                Text("Amount")
+
+                Picker("", selection: $absoluteRelative) {
+                    ForEach(AbsoluteRelatve.allCases) { item in
+                        Text(item.rawValue)
+                            .tag(item)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+
+                HStack {
+                    Spacer()
+                    
+                    Text("UNIT:")
+                        .font(.caption)
+                    
+                    Picker("Unit", selection: $unit) {
+                        ForEach(Unit.allCases) { item in
+                            Text(item.rawValue)
+                                .tag(item)
+                        }
+                    }
+                }
+            }
+            .frame(width: geometry.size.width * 0.4)
+            
+            Spacer()
+        }
+    }
+    
+    private func ingradientList() -> some View {
+        List {
+            ForEach(ingradients) { ingradient in
+                Button {
+                    presentCompoundMiniDetailView = true
+                } label: {
+                    if let name = ingradient.compound.name {
+                        HStack {
+                            Text(name)
+                            
+                            Spacer()
+                            
+                            if let amount = amountsToDisplay[name] {
+                                Text("\(amount)")
+                            }
+                        }
+                    }
+                }
+                .sheet(isPresented: $presentCompoundMiniDetailView) {
+                    CompoundMiniDetailView(compound: ingradient.compound)
+                }
+            }
+        }
+        .listStyle(PlainListStyle())
+    }
+    
+    private func toolbarContent() -> some View {
+        HStack {
+            Button {
+                presentShareSheet = true
+            } label: {
+                Image(systemName: "square.and.arrow.up")
+            }
+            
+            Button {
+                delete()
+            } label: {
+                Image(systemName: "trash")
+            }
+        }
+    }
+    
     private var amountsToDisplay: [String: Double] {
         var factor = 1.0
         if absoluteRelative == .relative {
             switch unit {
             case .gram:
-                factor = 100.0 / sumOf(amounts)
+                factor = 100.0 / sum(of: amounts)
             case .mg:
-                factor = 100.0 / sumOf(amountsInMg)
+                factor = 100.0 / sum(of: amountsInMg)
             case .mol:
-                factor = 100.0 / sumOf(amountsMol)
+                factor = 100.0 / sum(of: amountsMol)
             case .mM:
-                factor = 100.0 / sumOf(amountsInMiliMol)
+                factor = 100.0 / sum(of: amountsInMiliMol)
             }
         }
         
@@ -262,7 +273,7 @@ struct SolutionDetailView: View {
         return amountsToDisplay
     }
     
-    private func sumOf(_ amounts: [String: Double]) -> Double {
+    private func sum(of amounts: [String: Double]) -> Double {
         return amounts.values.reduce(0.0, { x, y in x + y })
     }
     
