@@ -42,7 +42,7 @@ class SearchPubChemTests: XCTestCase {
    
     func testHeavyWeightMigration() {
         // MARK: 1 - read and load the old model
-        let oldModelURL = Bundle(for: AppDelegate.self).url(forResource: "PubChemSolution.momd/PubChemSolution v3", withExtension: "mom")!
+        let oldModelURL = Bundle.main.url(forResource: "PubChemSolution.momd/PubChemSolution v3", withExtension: "mom")!
         let oldManagedObjectModel = NSManagedObjectModel(contentsOf: oldModelURL)
         XCTAssertNotNil(oldManagedObjectModel)
         
@@ -84,7 +84,7 @@ class SearchPubChemTests: XCTestCase {
         
         
         // MARK: 3 - migrate the store to the new model version
-        let newModelURL = Bundle(for: AppDelegate.self).url(forResource: "PubChemSolution.momd/PubChemSolution v4", withExtension: "mom")!
+        let newModelURL = Bundle.main.url(forResource: "PubChemSolution.momd/PubChemSolution v4", withExtension: "mom")!
         let newManagedObjectModel = NSManagedObjectModel(contentsOf: newModelURL)
         
         let mappingModel = NSMappingModel(from: nil, forSourceModel: oldManagedObjectModel, destinationModel: newManagedObjectModel)
