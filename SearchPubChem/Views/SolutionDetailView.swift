@@ -60,7 +60,7 @@ struct SolutionDetailView: View {
         for ingradient in solution.ingradients! {
             if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
                 if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
-                    amounts[name] = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .gram)
+                    amounts[name] = viewModel.convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .gram)
                 }
             }
         }
@@ -75,7 +75,7 @@ struct SolutionDetailView: View {
         for ingradient in solution.ingradients! {
             if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
                 if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
-                    amountsInMg[name] = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mg)
+                    amountsInMg[name] = viewModel.convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mg)
                 }
             }
         }
@@ -90,7 +90,7 @@ struct SolutionDetailView: View {
         for ingradient in solution.ingradients! {
             if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
                 if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
-                    amountsMol[name] = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mol)
+                    amountsMol[name] = viewModel.convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mol)
                 }
             }
         }
@@ -105,7 +105,7 @@ struct SolutionDetailView: View {
         for ingradient in solution.ingradients! {
             if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
                 if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
-                    amountsInMiliMol[name] = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mM)
+                    amountsInMiliMol[name] = viewModel.convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mM)
                 }
             }
         }
@@ -202,9 +202,8 @@ struct SolutionDetailView: View {
                 
             }
             .sheet(isPresented: $presentShareSheet) {
-                if let url = prepareCSV(), let name = solution.name {
-                    let title = "Sharing \(name).csv"
-                    ShareActivityView(title: title, url: url, applicationActivities: nil, failedToRemoveItem: $presentAlert)
+                if let name = solution.name, let url = viewModel.generateCSV(solutionName: name, ingradients: ingradients) {
+                    ShareActivityView(url: url, applicationActivities: nil, failedToRemoveItem: $presentAlert)
                 }
             }
             .alert(isPresented: $presentAlert, content: {
@@ -283,93 +282,4 @@ struct SolutionDetailView: View {
         presentationMode.wrappedValue.dismiss()
     }
     
-    private func prepareCSV() -> URL? {
-        let csvString = buildStringForCSV()
-
-        guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            return nil
-        }
-        
-        let filename = solution.name!.replacingOccurrences(of: "/", with: "-")
-        let csvFileURL = path.appendingPathComponent("\(filename).csv")
-        
-        do {
-            try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
-        } catch {
-            print("Failed to save the csv file")
-        }
-        
-        return csvFileURL
-    }
-    
-    private func buildStringForCSV() -> String {
-        var csvString = "CID, Compound, Molecular Weight (gram/mol), Amount (g), Amount (mol)\n"
-        
-        for ingradient in ingradients {
-            let compound = ingradient.compound
-            
-            csvString += "\(compound.cid!), "
-            csvString += "\(compound.name!), "
-            csvString += "\(compound.molecularWeight), "
-            
-            let amountInGram = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: ingradient.unit, newUnit: .gram)
-            let amountInMol = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: ingradient.unit, newUnit: .mol)
-            
-            csvString += "\(amountInGram), "
-            csvString += "\(amountInMol)\n"
-        }
-        
-        return csvString
-    }
-    
-    private func convert(_ amount: Double, molecularWeight: Double, originalUnit: Unit, newUnit: Unit) -> Double {
-        var convertedAmount = amount
-        switch originalUnit {
-        case .gram:
-            switch newUnit {
-            case .gram:
-                convertedAmount = amount
-            case .mg:
-                convertedAmount = 1000.0 * amount
-            case .mol:
-                convertedAmount = amount / molecularWeight
-            case .mM:
-                convertedAmount = 1000.0 * amount / molecularWeight
-            }
-        case .mg:
-            switch newUnit {
-            case .gram:
-                convertedAmount = amount / 1000.0
-            case .mg:
-                convertedAmount = amount
-            case .mol:
-                convertedAmount = amount / 1000.0 / molecularWeight
-            case .mM:
-                convertedAmount = amount / molecularWeight
-            }
-        case .mol:
-            switch newUnit {
-            case .gram:
-                convertedAmount = amount * molecularWeight
-            case .mg:
-                convertedAmount = 1000.0 * amount * molecularWeight
-            case .mol:
-                convertedAmount = amount
-            case .mM:
-                convertedAmount = 1000.0 * amount
-            }
-        case .mM:
-            switch newUnit {
-            case .gram:
-                convertedAmount = amount / 1000.0 * molecularWeight
-            case .mg:
-                convertedAmount = amount * molecularWeight
-            case .mol:
-                convertedAmount = amount / 1000.0
-            case .mM:
-                convertedAmount = amount
-            }
-        }
-        return convertedAmount
-    }
 }

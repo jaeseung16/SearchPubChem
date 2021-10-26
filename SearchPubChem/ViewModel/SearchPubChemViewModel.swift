@@ -500,4 +500,95 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         let transformed = SCNMatrix4Mult(reference, SCNMatrix4Mult(rotation, inverseOfReference))
         return transformed
     }
+    
+    // MARK: - Solution
+    func generateCSV(solutionName: String, ingradients: [SolutionIngradientDTO]) -> URL? {
+        let csvString = buildCSV(ingradients: ingradients)
+
+        guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+        
+        let filename = solutionName.replacingOccurrences(of: "/", with: "-")
+        let csvFileURL = path.appendingPathComponent("\(filename).csv")
+        
+        do {
+            try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
+        } catch {
+            print("Failed to save the csv file")
+        }
+        
+        return csvFileURL
+    }
+    
+    private func buildCSV(ingradients: [SolutionIngradientDTO]) -> String {
+        var csvString = "CID, Compound, Molecular Weight (gram/mol), Amount (g), Amount (mol)\n"
+        
+        for ingradient in ingradients {
+            let compound = ingradient.compound
+            
+            csvString += "\(compound.cid!), "
+            csvString += "\(compound.name!), "
+            csvString += "\(compound.molecularWeight), "
+            
+            let amountInGram = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: ingradient.unit, newUnit: .gram)
+            let amountInMol = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: ingradient.unit, newUnit: .mol)
+            
+            csvString += "\(amountInGram), "
+            csvString += "\(amountInMol)\n"
+        }
+        
+        return csvString
+    }
+    
+    func convert(_ amount: Double, molecularWeight: Double, originalUnit: Unit, newUnit: Unit) -> Double {
+        var convertedAmount = amount
+        switch originalUnit {
+        case .gram:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount
+            case .mg:
+                convertedAmount = 1000.0 * amount
+            case .mol:
+                convertedAmount = amount / molecularWeight
+            case .mM:
+                convertedAmount = 1000.0 * amount / molecularWeight
+            }
+        case .mg:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount / 1000.0
+            case .mg:
+                convertedAmount = amount
+            case .mol:
+                convertedAmount = amount / 1000.0 / molecularWeight
+            case .mM:
+                convertedAmount = amount / molecularWeight
+            }
+        case .mol:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount * molecularWeight
+            case .mg:
+                convertedAmount = 1000.0 * amount * molecularWeight
+            case .mol:
+                convertedAmount = amount
+            case .mM:
+                convertedAmount = 1000.0 * amount
+            }
+        case .mM:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount / 1000.0 * molecularWeight
+            case .mg:
+                convertedAmount = amount * molecularWeight
+            case .mol:
+                convertedAmount = amount / 1000.0
+            case .mM:
+                convertedAmount = amount
+            }
+        }
+        return convertedAmount
+    }
 }

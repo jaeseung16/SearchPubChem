@@ -9,14 +9,13 @@
 import SwiftUI
 
 struct ShareActivityView: UIViewControllerRepresentable {
-    let title: String
     let url: URL
     let applicationActivities: [UIActivity]?
     
     @Binding var failedToRemoveItem: Bool
     
     func makeUIViewController(context: Context) -> UIActivityViewController {
-        let activityViewController = UIActivityViewController(activityItems: [title, url], applicationActivities: applicationActivities)
+        let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: applicationActivities)
         
         activityViewController.completionWithItemsHandler = { (activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, activityError: Error?) in
             do {
