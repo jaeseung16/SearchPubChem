@@ -53,63 +53,33 @@ struct SolutionDetailView: View {
     }
     
     private var amounts: [String: Double] {
+        return getAmounts(in: .gram)
+    }
+    
+    private var amountsInMg: [String: Double] {
+        return getAmounts(in: .mg)
+    }
+    
+    private var amountsMol: [String: Double] {
+        return getAmounts(in: .mol)
+    }
+    
+    private var amountsInMiliMol: [String: Double] {
+        return getAmounts(in: .mM)
+    }
+    
+    private func getAmounts(in unit: Unit) -> [String: Double] {
         var amounts = [String: Double]()
-        guard solution.ingradients != nil else {
-            return amounts
-        }
-        for ingradient in solution.ingradients! {
-            if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
-                if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
-                    amounts[name] = viewModel.convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .gram)
+        if let ingradients = solution.ingradients {
+            for ingradient in ingradients {
+                if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
+                    if let unitRawValue = ingradient.unit, let originalUnit = Unit(rawValue: unitRawValue) {
+                        amounts[name] = viewModel.convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: originalUnit, newUnit: unit)
+                    }
                 }
             }
         }
         return amounts
-    }
-    
-    private var amountsInMg: [String: Double] {
-        var amountsInMg = [String: Double]()
-        guard solution.ingradients != nil else {
-            return amountsInMg
-        }
-        for ingradient in solution.ingradients! {
-            if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
-                if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
-                    amountsInMg[name] = viewModel.convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mg)
-                }
-            }
-        }
-        return amountsInMg
-    }
-    
-    private var amountsMol: [String: Double] {
-        var amountsMol = [String: Double]()
-        guard solution.ingradients != nil else {
-            return amountsMol
-        }
-        for ingradient in solution.ingradients! {
-            if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
-                if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
-                    amountsMol[name] = viewModel.convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mol)
-                }
-            }
-        }
-        return amountsMol
-    }
-    
-    private var amountsInMiliMol: [String: Double] {
-        var amountsInMiliMol = [String: Double]()
-        guard solution.ingradients != nil else {
-            return amountsInMiliMol
-        }
-        for ingradient in solution.ingradients! {
-            if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound, let name = compound.name {
-                if let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
-                    amountsInMiliMol[name] = viewModel.convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: unit, newUnit: .mM)
-                }
-            }
-        }
-        return amountsInMiliMol
     }
     
     var body: some View {
