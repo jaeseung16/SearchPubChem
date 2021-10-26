@@ -91,7 +91,7 @@ struct SolutionDetailView: View {
                 toolbarContent()
             }
             .sheet(isPresented: $presentShareSheet) {
-                if let name = solution.name, let url = viewModel.generateCSV(solutionName: name, ingradients: ingradients) {
+                if let name = solution.name, let date = solution.created, let url = viewModel.generateCSV(solutionName: name, created: date, ingradients: ingradients) {
                     ShareActivityView(url: url, applicationActivities: nil, failedToRemoveItem: $presentAlert)
                 }
             }

@@ -502,15 +502,15 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     // MARK: - Solution
-    func generateCSV(solutionName: String, ingradients: [SolutionIngradientDTO]) -> URL? {
+    func generateCSV(solutionName: String, created: Date, ingradients: [SolutionIngradientDTO]) -> URL? {
         let csvString = buildCSV(ingradients: ingradients)
 
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             return nil
         }
         
-        let filename = solutionName.replacingOccurrences(of: "/", with: "-")
-        let csvFileURL = path.appendingPathComponent("\(filename).csv")
+        let filename = solutionName.replacingOccurrences(of: "/", with: "_")
+        let csvFileURL = path.appendingPathComponent("\(filename)_\(dateFormatter.string(from: created)).csv")
         
         do {
             try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
@@ -519,6 +519,12 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         }
         
         return csvFileURL
+    }
+    
+    private var dateFormatter: ISO8601DateFormatter {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withYear, .withMonth, .withDay]
+        return dateFormatter
     }
     
     private func buildCSV(ingradients: [SolutionIngradientDTO]) -> String {
