@@ -13,6 +13,8 @@ struct SearchPubChemApp: App {
     @AppStorage("HasLaunchedBefore", store: UserDefaults.standard) var hasLaunchedBefore: Bool = false
     @AppStorage("HasDBMigrated", store: UserDefaults.standard) var hasDBMigrated: Bool = false
 
+    let dataController = DataController.shared
+    
     var body: some Scene {
         WindowGroup {
             if !hasLaunchedBefore {
@@ -23,7 +25,7 @@ struct SearchPubChemApp: App {
                     .environmentObject(DataMigrator())
             } else {
                 ContentView()
-                    .environment(\.managedObjectContext, DataController.shared.viewContext)
+                    .environment(\.managedObjectContext, dataController.viewContext)
                     .environmentObject(SearchPubChemViewModel())
             }
         }
