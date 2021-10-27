@@ -22,7 +22,7 @@ struct CompoundListView: View {
         compounds.filter { compound in
             var filter = true
             
-            if let tag = seletedTag {
+            if let tag = selectedTag {
                 if let tags = compound.tags {
                     filter = tags.contains(tag)
                 } else {
@@ -37,7 +37,15 @@ struct CompoundListView: View {
     @State private var presentAddCompoundView = false
     
     
-    @State private var seletedTag: CompoundTag?
+    @State private var selectedTag: CompoundTag?
+    
+    private var navigationTitle: String {
+        if let tag = selectedTag, let name = tag.name {
+            return name.localizedCapitalized
+        } else {
+            return TabItem.Compounds.rawValue
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -52,14 +60,14 @@ struct CompoundListView: View {
                             }
                         }
                     }
-                    .navigationTitle(TabItem.Compounds.rawValue)
+                    .navigationTitle(navigationTitle)
                     .toolbar {
                         toolBarContent()
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .sheet(isPresented: $presentSelectTagView) {
-                    SelectTagsView(selectedTag: $seletedTag)
+                    SelectTagsView(selectedTag: $selectedTag)
                 }
                 .sheet(isPresented: $presentAddCompoundView) {
                     AddCompoundView()
