@@ -32,9 +32,11 @@ struct SelectTagsView: View {
                             selectedTag = tag
                             presentationMode.wrappedValue.dismiss()
                         } label: {
-                            VStack {
-                                Text(tag.name ?? "")
-                                Text("\(tag.compoundCount)")
+                            if selectedTag != nil && tag == selectedTag {
+                                buttonLabel(for: tag)
+                                    .foregroundColor(.primary)
+                            } else {
+                                buttonLabel(for: tag)
                             }
                         }
                     }
@@ -64,6 +66,13 @@ struct SelectTagsView: View {
                     Text(Action.Reset.rawValue)
                 }
             }
+        }
+    }
+    
+    private func buttonLabel(for tag: CompoundTag) -> some View {
+        VStack {
+            Text(tag.name ?? "")
+            Text("\(tag.compoundCount)")
         }
     }
 }
