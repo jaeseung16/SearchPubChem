@@ -139,6 +139,9 @@ class DataMigrator: NSObject, ObservableObject {
         
         replaceStore(at: storeURL, with: destinationURL)
         destoryStore(at: destinationURL)
+        
+        _sourceModel = nil
+        _destinationModel = nil
     }
     
     private func replaceStore(at storeURL: URL, with replacingStoreURL: URL) {
