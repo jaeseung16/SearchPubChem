@@ -74,6 +74,7 @@ struct MakeSolutionView: View {
         }
         .sheet(isPresented: $presentSelectCompoundsView) {
             SelectCompoundsView(selectedCompounds: selectedCompounds)
+                .environment(\.managedObjectContext, viewContext)
         }
     }
     
