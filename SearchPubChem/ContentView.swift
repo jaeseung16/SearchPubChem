@@ -40,11 +40,13 @@ struct ContentView: View {
                 }
                 .tag(SelectedTab.solution)
         }
-        .alert(isPresented: $viewModel.showAlert, content: {
-            Alert(title: Text("Unable to Save Data"),
-                  message: Text(viewModel.errorMessage ?? "No information about the error"),
-                  dismissButton: .default(Text(Action.Dismiss.rawValue)))
-        })
+        .alert("Unable to Save Data", isPresented: $viewModel.showAlert) {
+            Button {
+                viewModel.errorMessage = nil
+            } label: {
+                Text(Action.Dismiss.rawValue)
+            }
+        }
     }
 }
 

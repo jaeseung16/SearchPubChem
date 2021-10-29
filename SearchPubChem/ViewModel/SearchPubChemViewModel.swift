@@ -63,9 +63,9 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         _ = dataTask(with: component.url!, completionHandler: { (data, error) in
             func sendError(_ error: String) {
                 DispatchQueue.main.async {
-                    self.success = false
                     self.conformer = nil
                     self.errorMessage = error
+                    self.success = false
                 }
             }
             
@@ -143,9 +143,9 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         _ = dataTask(with: component.url!, completionHandler: { (data, error) in
             func sendError(_ error: String) {
                 DispatchQueue.main.async {
-                    self.success = false
                     self.imageData = nil
                     self.errorMessage = error
+                    self.success = false
                 }
             }
             
@@ -162,9 +162,9 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             }
 
             DispatchQueue.main.async {
-                self.success = true
                 self.imageData = data
                 self.errorMessage = nil
+                self.success = true
             }
         })
     }
@@ -173,9 +173,10 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         searchProperties(type: type, value: value) { (properties, error) in
             func sendError(_ error: String) {
                 DispatchQueue.main.async {
-                    self.success = false
-                    self.propertySet = nil
                     self.errorMessage = error
+                    self.propertySet = nil
+                    self.success = false
+                    self.showAlert = true
                 }
             }
             

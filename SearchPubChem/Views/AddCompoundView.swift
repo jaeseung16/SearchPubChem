@@ -18,7 +18,8 @@ struct AddCompoundView: View {
     @State private var presentConformerView = false
     @State private var enableSearchButton = false
     @State private var isEditing = false
-    
+    @State private var showProgress = false
+
     var body: some View {
         VStack {
             header()
@@ -47,6 +48,7 @@ struct AddCompoundView: View {
                 
             Button {
                 viewModel.searchCompound(type: searchType, value: searchValue)
+                showProgress = true
             } label: {
                 Text("Search")
             }
@@ -56,12 +58,29 @@ struct AddCompoundView: View {
                 searchResult()
             } else {
                 Spacer()
+                
+                if showProgress {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                    Spacer()
+                }
             }
         }
         .padding()
+        .onChange(of: viewModel.errorMessage, perform: { _ in
+            showProgress = false
+        })
         .sheet(isPresented: $presentConformerView) {
             if let conformer = viewModel.conformer {
                 ConformerView(conformer: conformer, name: viewModel.propertySet?.Title ?? "", molecularFormula: viewModel.propertySet?.MolecularFormula ?? "")
+            }
+        }
+        .alert(viewModel.errorMessage ?? "Cannot download a compound", isPresented: $viewModel.showAlert) {
+            Button {
+                searchValue = ""
+                viewModel.errorMessage = nil
+            } label: {
+                Text("Dismiss")
             }
         }
     }
