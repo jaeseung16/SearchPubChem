@@ -29,12 +29,6 @@ class DataController {
         load()
     }
     
-    // Tunred off since CloudKit
-    private func configureContexts() {
-        viewContext.automaticallyMergesChangesFromParent = true
-        viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
-    }
-    
     private func load(completion: (() -> Void)? = nil) {
         let description = persistentContainer.persistentStoreDescriptions.first
         description?.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
@@ -53,8 +47,7 @@ class DataController {
     }
     
     private func purgeHistory() {
-        let purgeHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: HistoryToken.shared.last)
-
+        let purgeHistoryRequest = NSPersistentHistoryChangeRequest.deleteHistory(before: HistoryToken.shared.lastSaved)
         do {
             try persistentContainer.newBackgroundContext().execute(purgeHistoryRequest)
         } catch {

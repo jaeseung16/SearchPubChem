@@ -30,6 +30,13 @@ class HistoryToken {
         }
     }
     
+    var lastSaved: NSPersistentHistoryToken? {
+        if let data = try? Data(contentsOf: tokenFile) {
+            return try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? NSPersistentHistoryToken
+        }
+        return nil
+    }
+    
     private lazy var tokenFile: URL = {
         let url = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent(SearchPubChemConstants.appPathComponent.rawValue, isDirectory: true)
         if !FileManager.default.fileExists(atPath: url.path) {

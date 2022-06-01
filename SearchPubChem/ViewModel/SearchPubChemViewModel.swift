@@ -10,9 +10,11 @@ import Foundation
 import Combine
 import CoreData
 import SceneKit
+import os
 
 class SearchPubChemViewModel: NSObject, ObservableObject {
     private var session: URLSession = URLSession.shared
+    private let logger = Logger()
     
     private let networkErrorString: String = "The Internet connection appears to be offline"
     
@@ -70,13 +72,13 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             }
             
             guard error == nil else {
-                NSLog("Error while downloading 3d data: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
+                self.logger.log("Error while downloading 3d data: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
                 sendError(error!.userInfo[NSLocalizedDescriptionKey] as! String)
                 return
             }
             
             guard let data = data else {
-                NSLog("Missing 3d data")
+                self.logger.log("Missing 3d data")
                 sendError("Missing 3d data")
                 return
             }
@@ -84,7 +86,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             let dto: ConformerDTO? = self.decode(from: data)
             
             guard let conformerDTO = dto else {
-                NSLog("Error while parsing data as conformerDTO = \(String(describing: dto))")
+                self.logger.log("Error while parsing data as conformerDTO = \(String(describing: dto))")
                 sendError("Error while parsing 3D data")
                 return
             }
@@ -119,7 +121,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         for coordData in pcCompound.coords[0].conformers[0].data {
             if (coordData.urn.label == "Conformer") {
                 guard let sval = coordData.value.sval else {
-                    print("Cannot parse coordData.value.sval = \(String(describing: coordData.value.sval))")
+                    logger.log("Cannot parse coordData.value.sval = \(String(describing: coordData.value.sval))")
                     continue
                 }
                 value = sval
@@ -150,13 +152,13 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             }
             
             guard error == nil else {
-                NSLog("Error while downloading an image: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
+                self.logger.log("Error while downloading an image: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
                 sendError(error!.userInfo[NSLocalizedDescriptionKey] as! String)
                 return
             }
         
             guard let data = data else {
-                NSLog("Missing image data")
+                self.logger.log("Missing image data")
                 sendError("Missing image data")
                 return
             }
@@ -181,13 +183,13 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             }
             
             guard (error == nil) else {
-                NSLog("Error while getting properties: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
+                self.logger.log("Error while getting properties: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
                 sendError(error!.userInfo[NSLocalizedDescriptionKey] as! String)
                 return
             }
             
             guard let properties = properties else {
-                NSLog("Missing property values")
+                self.logger.log("Missing property values")
                 sendError("Missing property values")
                 return
             }
@@ -221,7 +223,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
                 return
             }
             
-            print(String(data: data, encoding: .utf8) ?? "Not utf8")
+            self.logger.log("\(String(data: data, encoding: .utf8) ?? "Not utf8")")
             
             let dto : CompoundDTO? = self.decode(from: data)
             guard let compoundDTO = dto else {
@@ -267,7 +269,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         do {
             dto = try decoder.decode(T.self, from: data)
         } catch {
-            print("Cannot parse data as type \(T.self)")
+            logger.log("Cannot parse data as type \(T.self)")
             return nil
         }
         return dto
@@ -385,7 +387,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         do {
             try viewContext.save()
         } catch {
-            NSLog("Error while saving: \(error.localizedDescription)")
+            logger.log("Error while saving: \(error.localizedDescription)")
             errorMessage = "Error while saving data"
             showAlert.toggle()
         }
@@ -394,7 +396,6 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     // MARK: - Persistence History Request
     private lazy var historyRequestQueue = DispatchQueue(label: "history")
     private func fetchUpdates(_ notification: Notification) -> Void {
-        print("fetchUpdates \(Date().description(with: Locale.current))")
         historyRequestQueue.async {
             let backgroundContext = self.dataController.persistentContainer.newBackgroundContext()
             backgroundContext.performAndWait {
@@ -415,9 +416,8 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
                         HistoryToken.shared.last = history.last?.token
                     }
                 } catch {
-                    print("Could not convert history result to transactions after lastToken = \(String(describing: HistoryToken.shared.last)): \(error)")
+                    self.logger.log("Could not convert history result to transactions after lastToken = \(String(describing: HistoryToken.shared.last)): \(String(describing: error))")
                 }
-                print("fetchUpdates \(Date().description(with: Locale.current))")
             }
         }
     }
@@ -485,7 +485,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         do {
             try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
         } catch {
-            print("Failed to save the csv file")
+            logger.log("Failed to save the csv file")
         }
         
         return csvFileURL
