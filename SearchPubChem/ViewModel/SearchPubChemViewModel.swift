@@ -28,6 +28,8 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var showAlert: Bool = false
     @Published var errorMessage: String?
     
+    @Published var selectedTag: CompoundTag?
+    
     // MARK: - for makings a solution
     @Published var compounds: [Compound]?
     @Published var solutionLabel: String = ""

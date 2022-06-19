@@ -10,7 +10,6 @@ import SwiftUI
 
 struct CompoundListView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @FetchRequest(
@@ -35,7 +34,6 @@ struct CompoundListView: View {
     
     @State private var presentSelectTagView = false
     @State private var presentAddCompoundView = false
-    
     
     @State private var selectedTag: CompoundTag?
     
@@ -68,9 +66,13 @@ struct CompoundListView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .sheet(isPresented: $presentSelectTagView) {
                     SelectTagsView(selectedTag: $selectedTag)
+                        .environment(\.managedObjectContext, viewContext)
+                        .environmentObject(viewModel)
                 }
                 .sheet(isPresented: $presentAddCompoundView) {
                     AddCompoundView()
+                        .environment(\.managedObjectContext, viewContext)
+                        .environmentObject(viewModel)
                 }
             }
         }

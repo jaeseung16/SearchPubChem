@@ -10,7 +10,8 @@ import SwiftUI
 
 struct SelectTagsView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.presentationMode) private var presentationMode
+    @EnvironmentObject private var viewModel: SearchPubChemViewModel
+    @Environment(\.dismiss) private var dismiss
     
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \CompoundTag.name, ascending: true)],
@@ -25,19 +26,17 @@ struct SelectTagsView: View {
             
             Divider()
             
-            ScrollView {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3)) {
-                    ForEach(tags) { tag in
-                        Button {
-                            selectedTag = tag
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            if selectedTag != nil && tag == selectedTag {
-                                buttonLabel(for: tag)
-                                    .foregroundColor(.primary)
-                            } else {
-                                buttonLabel(for: tag)
-                            }
+            List {
+                ForEach(tags) { tag in
+                    Button {
+                        selectedTag = tag
+                        dismiss.callAsFunction()
+                    } label: {
+                        if selectedTag != nil && tag == selectedTag {
+                            buttonLabel(for: tag)
+                        } else {
+                            buttonLabel(for: tag)
+                                .foregroundColor(.primary)
                         }
                     }
                 }
@@ -51,17 +50,11 @@ struct SelectTagsView: View {
             Text("Select Tags")
             
             HStack {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Text(Action.Cancel.rawValue)
-                }
-
                 Spacer()
                 
                 Button {
                     selectedTag = nil
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss.callAsFunction()
                 } label: {
                     Text(Action.Reset.rawValue)
                 }
@@ -70,9 +63,10 @@ struct SelectTagsView: View {
     }
     
     private func buttonLabel(for tag: CompoundTag) -> some View {
-        VStack {
+        HStack {
             Text(tag.name ?? "")
-            Text("\(tag.compoundCount)")
+            Spacer()
+            Label("\(tag.compoundCount)", systemImage: "allergens")
         }
     }
 }
