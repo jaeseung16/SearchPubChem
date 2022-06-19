@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Persistence
 
 @main
 struct SearchPubChemApp: App {
@@ -14,17 +15,21 @@ struct SearchPubChemApp: App {
     @AppStorage("HasDBMigrated", store: UserDefaults.standard) var hasDBMigrated: Bool = false
     
     var body: some Scene {
+        let persistence = Persistence(name: SearchPubChemConstants.modelName.rawValue,
+                                      identifier: SearchPubChemConstants.containerIdentifier.rawValue)
+        let viewModel = SearchPubChemViewModel(persistence: persistence)
+        
         WindowGroup {
             if !hasLaunchedBefore {
                 FirstLaunchView()
-                    .environmentObject(SearchPubChemViewModel())
+                    .environmentObject(viewModel)
             } else if !hasDBMigrated {
                 DataMigrationView()
                     .environmentObject(DataMigrator())
             } else {
                 ContentView()
-                    .environment(\.managedObjectContext, DataController.shared.viewContext)
-                    .environmentObject(SearchPubChemViewModel())
+                    .environment(\.managedObjectContext, persistence.container.viewContext)
+                    .environmentObject(viewModel)
             }
         }
     }

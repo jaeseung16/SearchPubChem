@@ -10,4 +10,6 @@ import Foundation
 
 enum SearchPubChemConstants: String {
     case appPathComponent = "SearchPubChem"
+    case modelName = "PubChemSolution"
+    case containerIdentifier = "iCloud.com.resonance.jlee.SearchPubChem"
 }

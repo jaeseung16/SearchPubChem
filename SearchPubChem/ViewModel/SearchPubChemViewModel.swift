@@ -11,6 +11,7 @@ import Combine
 import CoreData
 import SceneKit
 import os
+import Persistence
 
 class SearchPubChemViewModel: NSObject, ObservableObject {
     private var session: URLSession = URLSession.shared
@@ -25,6 +26,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var imageData: Data?
     @Published var conformer: Conformer?
     
+    @Published var toggle: Bool = false
     @Published var showAlert: Bool = false
     @Published var errorMessage: String?
     
@@ -34,11 +36,15 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var compounds: [Compound]?
     @Published var solutionLabel: String = ""
     
-    private let dataController = DataController.shared
+    private let persistence: Persistence
+    private var persistenceContainer: NSPersistentCloudKitContainer {
+        persistence.container
+    }
     
     private var subscriptions: Set<AnyCancellable> = []
     
-    override init() {
+    init(persistence: Persistence) {
+        self.persistence = persistence
         super.init()
         
         NotificationCenter.default
@@ -48,7 +54,55 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func preloadData() -> Void {
-        dataController.preloadData()
+        let viewContext = persistenceContainer.viewContext
+        // Example Compound 1: Water
+        let water = Compound(context: viewContext)
+        water.name = "water"
+        water.firstCharacterInName = "W"
+        water.formula = "H2O"
+        water.molecularWeight = 18.015
+        water.cid = "962"
+        water.nameIUPAC = "oxidane"
+        water.image = try? Data(contentsOf: Bundle.main.url(forResource: "962_water", withExtension: "png")!, options: [])
+        
+        // Example Compound 2: Sodium Chloride
+        let sodiumChloride = Compound(context: viewContext)
+        sodiumChloride.name = "sodium chloride"
+        sodiumChloride.firstCharacterInName = "S"
+        sodiumChloride.formula = "NaCl"
+        sodiumChloride.molecularWeight = 58.44
+        sodiumChloride.cid = "5234"
+        sodiumChloride.nameIUPAC = "sodium chloride"
+        sodiumChloride.image = try? Data(contentsOf: Bundle.main.url(forResource: "5234_sodium chloride", withExtension: "png")!, options: [])
+
+        // Example Solution: Sodium Chloride Aqueous Solution
+        let waterIngradient = SolutionIngradient(context: viewContext)
+        waterIngradient.compound = water
+        waterIngradient.amount = 1.0
+        waterIngradient.unit = "gram"
+        
+        let sodiumChlorideIngradient = SolutionIngradient(context: viewContext)
+        sodiumChlorideIngradient.compound = sodiumChloride
+        sodiumChlorideIngradient.amount = 0.05
+        sodiumChlorideIngradient.unit = "gram"
+        
+        let saltyWater = Solution(context: viewContext)
+        saltyWater.name = "sakty water"
+        
+        saltyWater.addToCompounds(water)
+        saltyWater.addToIngradients(waterIngradient)
+        saltyWater.addToCompounds(sodiumChloride)
+        saltyWater.addToIngradients(sodiumChlorideIngradient)
+        
+        // Load additional compounds
+        let recordLoader = RecordLoader(viewContext: viewContext)
+        recordLoader.loadRecords()
+        
+        do {
+            try viewContext.save()
+        } catch {
+            NSLog("Error while saving by AppDelegate")
+        }
     }
     
     func resetCompound() -> Void {
@@ -360,7 +414,9 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             compound.addToConformers(conformerEntity)
         }
         
-        save(viewContext: viewContext)
+        save(viewContext: viewContext) { _ in
+            self.logger.log("Error while saving compound=\(compound, privacy: .public)")
+        }
         
         resetCompound()
     }
@@ -382,44 +438,41 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             solution.addToCompounds(ingradient.compound)
         }
         
-        save(viewContext: viewContext)
+        save(viewContext: viewContext) { _ in
+            self.logger.log("Error while saving solution=\(solution, privacy: .public)")
+        }
     }
     
-    func save(viewContext: NSManagedObjectContext) {
-        do {
-            try viewContext.save()
-        } catch {
-            logger.log("Error while saving: \(error.localizedDescription)")
-            errorMessage = "Error while saving data"
-            showAlert.toggle()
+    func save(viewContext: NSManagedObjectContext, completionHandler: @escaping (Error) -> Void) -> Void {
+        persistence.save { result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self.toggle.toggle()
+                }
+            case .failure(let error):
+                self.logger.log("Error while saving data: \(error.localizedDescription, privacy: .public)")
+                self.logger.log("Error while saving data: \(Thread.callStackSymbols, privacy: .public)")
+                DispatchQueue.main.async {
+                    self.errorMessage = "Error while saving data"
+                    self.showAlert.toggle()
+                    completionHandler(error)
+                }
+            }
         }
     }
     
     // MARK: - Persistence History Request
     private lazy var historyRequestQueue = DispatchQueue(label: "history")
     private func fetchUpdates(_ notification: Notification) -> Void {
-        historyRequestQueue.async {
-            let backgroundContext = self.dataController.persistentContainer.newBackgroundContext()
-            backgroundContext.performAndWait {
-                do {
-                    let fetchHistoryRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: HistoryToken.shared.last)
-                    
-                    if let historyResult = try backgroundContext.execute(fetchHistoryRequest) as? NSPersistentHistoryResult,
-                       let history = historyResult.result as? [NSPersistentHistoryTransaction] {
-                        for transaction in history.reversed() {
-                            self.dataController.viewContext.perform {
-                                if let userInfo = transaction.objectIDNotification().userInfo {
-                                    NSManagedObjectContext.mergeChanges(fromRemoteContextSave: userInfo,
-                                                                        into: [self.dataController.viewContext])
-                                }
-                            }
-                        }
-                        
-                        HistoryToken.shared.last = history.last?.token
-                    }
-                } catch {
-                    self.logger.log("Could not convert history result to transactions after lastToken = \(String(describing: HistoryToken.shared.last)): \(String(describing: error))")
+        persistence.fetchUpdates(notification) { result in
+            switch result {
+            case .success(()):
+                DispatchQueue.main.async {
+                    self.toggle.toggle()
                 }
+            case .failure(let error):
+                self.logger.log("Error while updating history: \(error.localizedDescription, privacy: .public) \(Thread.callStackSymbols, privacy: .public)")
             }
         }
     }
