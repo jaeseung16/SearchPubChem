@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		902B077D2861021D004D9DF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902B077C2861021D004D9DF0 /* AppDelegate.swift */; };
 		902DFADD2027636B001E2AD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 902DFADC2027636B001E2AD6 /* Assets.xcassets */; };
 		903140FD283EE71600A72350 /* SearchPubChemConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903140FC283EE71600A72350 /* SearchPubChemConstants.swift */; };
 		9062E67C23411DAB0039C136 /* AtomEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9062E67B23411DAB0039C136 /* AtomEntity+Extensions.swift */; };
@@ -118,6 +119,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		902B077C2861021D004D9DF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		902DFADC2027636B001E2AD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		903140FC283EE71600A72350 /* SearchPubChemConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPubChemConstants.swift; sourceTree = "<group>"; };
 		9062E67B23411DAB0039C136 /* AtomEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AtomEntity+Extensions.swift"; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				90EB2E2727271B4300C654BB /* TabItem.swift */,
 				90EB2E2927271E6B00C654BB /* Action.swift */,
 				903140FC283EE71600A72350 /* SearchPubChemConstants.swift */,
+				902B077C2861021D004D9DF0 /* AppDelegate.swift */,
 			);
 			path = SearchPubChem;
 			sourceTree = "<group>";
@@ -666,6 +669,7 @@
 				90E010D3270A2941004A2401 /* CompoundListView.swift in Sources */,
 				908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */,
 				90B12C41271333EF00EF065D /* DataMigrator.swift in Sources */,
+				902B077D2861021D004D9DF0 /* AppDelegate.swift in Sources */,
 				90D8B027270E501F00C81750 /* ContentView.swift in Sources */,
 				90C18BAD2649ED950036C0DE /* CompoundTag+Extensions.swift in Sources */,
 				90D8B01A270D014500C81750 /* SelectTagsView.swift in Sources */,
@@ -862,7 +866,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChem;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
@@ -884,7 +888,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChem;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;

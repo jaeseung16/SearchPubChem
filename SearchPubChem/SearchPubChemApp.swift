@@ -11,25 +11,23 @@ import Persistence
 
 @main
 struct SearchPubChemApp: App {
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    
     @AppStorage("HasLaunchedBefore", store: UserDefaults.standard) var hasLaunchedBefore: Bool = false
     @AppStorage("HasDBMigrated", store: UserDefaults.standard) var hasDBMigrated: Bool = false
     
     var body: some Scene {
-        let persistence = Persistence(name: SearchPubChemConstants.modelName.rawValue,
-                                      identifier: SearchPubChemConstants.containerIdentifier.rawValue)
-        let viewModel = SearchPubChemViewModel(persistence: persistence)
-        
         WindowGroup {
             if !hasLaunchedBefore {
                 FirstLaunchView()
-                    .environmentObject(viewModel)
+                    .environmentObject(appDelegate.viewModel)
             } else if !hasDBMigrated {
                 DataMigrationView()
                     .environmentObject(DataMigrator())
             } else {
                 ContentView()
-                    .environment(\.managedObjectContext, persistence.container.viewContext)
-                    .environmentObject(viewModel)
+                    .environment(\.managedObjectContext, appDelegate.persistence.container.viewContext)
+                    .environmentObject(appDelegate.viewModel)
             }
         }
     }
