@@ -18,13 +18,21 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             CompoundListView()
                 .tabItem {
-                    Label(TabItem.Compounds.rawValue, systemImage: "allergens")
+                    if selectedTab == .compound {
+                        Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.selectedImageName)
+                    } else {
+                        Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.defaultImageName)
+                    }
                 }
                 .tag(SelectedTab.compound)
             
             SolutionListView()
                 .tabItem {
-                    Label(TabItem.Solutions.rawValue, systemImage: "testtube.2")
+                    if selectedTab == .solution {
+                        Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.selectedImageName)
+                    } else {
+                        Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.defaultImageName)
+                    }
                 }
                 .tag(SelectedTab.solution)
         }

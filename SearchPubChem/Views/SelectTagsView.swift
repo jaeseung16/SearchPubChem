@@ -33,7 +33,7 @@ struct SelectTagsView: View {
                         dismiss.callAsFunction()
                     } label: {
                         if selectedTag != nil && tag == selectedTag {
-                            buttonLabel(for: tag)
+                            selectedButtonLabel(for: tag)
                         } else {
                             buttonLabel(for: tag)
                                 .foregroundColor(.primary)
@@ -66,8 +66,29 @@ struct SelectTagsView: View {
         HStack {
             Text(tag.name ?? "")
             Spacer()
-            Label("\(tag.compoundCount)", systemImage: "allergens")
+            Label("\(tag.compoundCount)", image: TabItem.Compounds.defaultImageName)
+                .labelStyle(CaptionLabelStyle())
+        }
+    }
+    
+    private func selectedButtonLabel(for tag: CompoundTag) -> some View {
+        HStack {
+            Text(tag.name ?? "")
+            Spacer()
+            Label("\(tag.compoundCount)", image: TabItem.Compounds.selectedImageName)
+                .labelStyle(CaptionLabelStyle())
         }
     }
 }
 
+struct CaptionLabelStyle : LabelStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            configuration.title
+            configuration.icon
+                .scaleEffect(0.6, anchor: .center)
+                .frame(width: 25, height: 25, alignment: .center)
+        }
+        .font(.caption)
+    }
+}
