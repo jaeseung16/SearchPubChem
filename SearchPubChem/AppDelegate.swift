@@ -94,13 +94,13 @@ class AppDelegate: NSObject {
             return
         }
         
-        guard let title = record.value(forKey: recordValueKey) as? String else {
+        guard let name = record.value(forKey: recordValueKey) as? String else {
             return
         }
 
         let content = UNMutableNotificationContent()
         content.title = SearchPubChemConstants.appPathComponent.rawValue
-        content.body = title
+        content.body = name
         content.sound = UNNotificationSound.default
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
@@ -119,7 +119,7 @@ extension AppDelegate: UIApplicationDelegate {
         registerForPushNotifications()
         
         // TODO: - Remove or comment out after testing
-        //UserDefaults.standard.setValue(false, forKey: didCreateArticleSubscription)
+        //UserDefaults.standard.setValue(false, forKey: didCreateCompoundSubscription)
         
         subscribe()
 
@@ -173,6 +173,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        viewModel.selectedCid = response.notification.request.content.body
         completionHandler()
     }
 }

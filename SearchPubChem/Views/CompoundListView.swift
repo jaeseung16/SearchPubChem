@@ -28,6 +28,11 @@ struct CompoundListView: View {
                     filter = false
                 }
             }
+            
+            if !viewModel.selectedCompoundName.isEmpty {
+                filter = compound.name == viewModel.selectedCompoundName
+            }
+            
             return filter
         }
     }
@@ -36,6 +41,7 @@ struct CompoundListView: View {
     @State private var presentAddCompoundView = false
     
     @State private var selectedTag: CompoundTag?
+    @State private var selectedCid: String?
     
     private var navigationTitle: String {
         if let tag = selectedTag, let name = tag.name {
@@ -51,7 +57,7 @@ struct CompoundListView: View {
                 VStack {
                     List {
                         ForEach(filteredCompounds) { compound in
-                            NavigationLink {
+                            NavigationLink(tag: compound.cid ?? "", selection: $selectedCid) {
                                 CompoundDetailView(compound: compound)
                             } label: {
                                 label(for: compound)
@@ -73,6 +79,11 @@ struct CompoundListView: View {
                     AddCompoundView()
                         .environment(\.managedObjectContext, viewContext)
                         .environmentObject(viewModel)
+                }
+                .onChange(of: viewModel.receivedURL) { _ in
+                    if !viewModel.selectedCid.isEmpty {
+                        selectedCid = viewModel.selectedCid
+                    }
                 }
             }
         }

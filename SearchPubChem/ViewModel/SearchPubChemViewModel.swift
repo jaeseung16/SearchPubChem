@@ -17,6 +17,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     private var session: URLSession = URLSession.shared
     private let logger = Logger()
     
+    private let contentsJson = "contents.json"
     private let networkErrorString: String = "The Internet connection appears to be offline"
     
     private let compoundProperties: [String] = [PubChemSearch.PropertyKey.formula, PubChemSearch.PropertyKey.weight, PubChemSearch.PropertyKey.nameIUPAC, PubChemSearch.PropertyKey.title]
@@ -31,6 +32,9 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var errorMessage: String?
     
     @Published var selectedTag: CompoundTag?
+    @Published var receivedURL = false
+    @Published var selectedCid: String = ""
+    @Published var selectedCompoundName: String = ""
     
     // MARK: - for makings a solution
     @Published var compounds: [Compound]?
@@ -634,5 +638,54 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             }
         }
         return amounts
+    }
+    
+    // MARK: - Widget
+    func writeWidgetEntries() {
+        let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
+        
+        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: persistenceContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        do {
+            try fc.performFetch()
+        } catch {
+            logger.log("Failed fetch Compound")
+        }
+        
+        guard let entities = fc.fetchedObjects else {
+            return
+        }
+        
+        guard entities.count > 0 else {
+            return
+        }
+        
+        var widgetEntries = [WidgetEntry]()
+    
+        let numberOfWidgetEntries = 6
+        
+        // Randomly select 6 records to provide widgets per hour
+        for _ in 0..<numberOfWidgetEntries {
+            let entity = entities[Int.random(in: 0..<entities.count)]
+            if let cid = entity.cid, let name = entity.name, let formula = entity.formula, let created = entity.created {
+                widgetEntries.append(WidgetEntry(cid: cid, name: name, formula: formula, image: entity.image, created: created))
+            }
+        }
+        
+        let archiveURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: SearchPubChemConstants.groupIdentifier.rawValue)!
+        logger.log("archiveURL=\(archiveURL)")
+        
+        let encoder = JSONEncoder()
+        
+        if let dataToSave = try? encoder.encode(widgetEntries) {
+            do {
+                try dataToSave.write(to: archiveURL.appendingPathComponent(contentsJson))
+                logger.log("Saved \(widgetEntries.count) widgetEntries")
+            } catch {
+                logger.log("Error: Can't write contents")
+                return
+            }
+        }
     }
 }
