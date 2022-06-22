@@ -30,7 +30,9 @@ struct CompoundListView: View {
             }
             
             if !viewModel.selectedCompoundName.isEmpty {
-                filter = compound.name == viewModel.selectedCompoundName
+                if let name = compound.name {
+                    filter = name.lowercased().contains(viewModel.selectedCompoundName.lowercased())
+                }
             }
             
             return filter
@@ -68,6 +70,7 @@ struct CompoundListView: View {
                     .toolbar {
                         toolBarContent()
                     }
+                    .searchable(text: $viewModel.selectedCompoundName)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .sheet(isPresented: $presentSelectTagView) {
