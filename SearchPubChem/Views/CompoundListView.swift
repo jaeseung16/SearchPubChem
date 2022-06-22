@@ -19,24 +19,17 @@ struct CompoundListView: View {
     
     var filteredCompounds: Array<Compound> {
         compounds.filter { compound in
-            var filter = true
             
-            if let tag = selectedTag {
-                if let tags = compound.tags {
-                    filter = tags.contains(tag)
-                } else {
-                    filter = false
-                }
-            }
-            
-            if !viewModel.selectedCompoundName.isEmpty {
-                if let name = compound.name {
-                    filter = name.lowercased().contains(viewModel.selectedCompoundName.lowercased())
-                }
-            }
-            
-            return filter
+            return isTagged(compound: compound) && nameContainsSearchString(compound: compound)
         }
+    }
+    
+    private func isTagged(compound: Compound) -> Bool {
+        return selectedTag == nil || compound.isTagged(by: selectedTag!)
+    }
+    
+    private func nameContainsSearchString(compound: Compound) -> Bool {
+        return viewModel.selectedCompoundName.isEmpty || compound.nameContains(string: viewModel.selectedCompoundName)
     }
     
     @State private var presentSelectTagView = false

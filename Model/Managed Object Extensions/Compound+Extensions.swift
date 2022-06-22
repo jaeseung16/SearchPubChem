@@ -24,4 +24,18 @@ extension Compound {
         
         firstCharacterInName = String(char).uppercased()
     }
+    
+    public func isTagged(by tag: CompoundTag) -> Bool {
+        guard let tags = self.tags else {
+            return false
+        }
+        return tags.contains(tag)
+    }
+    
+    public func nameContains(string: String) -> Bool {
+        guard let name = self.name else {
+            return false
+        }
+        return name.lowercased().contains(string.lowercased())
+    }
 }
