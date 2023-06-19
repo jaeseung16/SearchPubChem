@@ -111,9 +111,7 @@ struct MakeSolutionView: View {
         List {
             ForEach(0..<ingradients.count, id:\.self) { index in
                 HStack {
-                    if let compound = ingradients[index].compound {
-                        Text(compound.name ?? "")
-                    }
+                    Text(ingradients[index].compound.name ?? "")
 
                     Spacer()
                     

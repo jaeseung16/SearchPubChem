@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,7 +12,7 @@
 		902B0786286107AE004D9DF0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902B0785286107AE004D9DF0 /* SwiftUI.framework */; };
 		902B0789286107AE004D9DF0 /* SearchPubChemWidgetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902B0788286107AE004D9DF0 /* SearchPubChemWidgetExtension.swift */; };
 		902B078B286107B2004D9DF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 902B078A286107B1004D9DF0 /* Assets.xcassets */; };
-		902B078F286107B2004D9DF0 /* SearchPubChemWidgetExtensionExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 902B0782286107AE004D9DF0 /* SearchPubChemWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		902B078F286107B2004D9DF0 /* SearchPubChemWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 902B0782286107AE004D9DF0 /* SearchPubChemWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		902B079628610833004D9DF0 /* WidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902B079528610833004D9DF0 /* WidgetEntry.swift */; };
 		902B07972861083D004D9DF0 /* WidgetEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902B079528610833004D9DF0 /* WidgetEntry.swift */; };
 		902B079A28610B0B004D9DF0 /* SearchPubChemConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903140FC283EE71600A72350 /* SearchPubChemConstants.swift */; };
@@ -136,15 +136,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		902B0794286107B2004D9DF0 /* Embed App Extensions */ = {
+		902B0794286107B2004D9DF0 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				902B078F286107B2004D9DF0 /* SearchPubChemWidgetExtensionExtension.appex in Embed App Extensions */,
+				902B078F286107B2004D9DF0 /* SearchPubChemWidgetExtensionExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -561,7 +561,7 @@
 				909AE6A1200CF2F000FEE529 /* Sources */,
 				909AE6A2200CF2F000FEE529 /* Frameworks */,
 				909AE6A3200CF2F000FEE529 /* Resources */,
-				902B0794286107B2004D9DF0 /* Embed App Extensions */,
+				902B0794286107B2004D9DF0 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -618,8 +618,9 @@
 		909AE69D200CF2F000FEE529 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Jae Seung Lee";
 				TargetAttributes = {
 					902B0781286107AE004D9DF0 = {
@@ -1054,7 +1055,9 @@
 				MARKETING_VERSION = 4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChem;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1077,7 +1080,9 @@
 				MARKETING_VERSION = 4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChem;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
