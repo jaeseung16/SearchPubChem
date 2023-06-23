@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import CoreSpotlight
 
 struct CompoundListView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -79,6 +80,11 @@ struct CompoundListView: View {
                 .onChange(of: viewModel.receivedURL) { _ in
                     if !viewModel.selectedCid.isEmpty {
                         selectedCid = viewModel.selectedCid
+                    }
+                }
+                .onContinueUserActivity(CSSearchableItemActionType) { activity in
+                    viewModel.continueActivity(activity) { cid in
+                        selectedCid = cid
                     }
                 }
             }

@@ -12,6 +12,7 @@ import CoreData
 import SceneKit
 import os
 import Persistence
+import CoreSpotlight
 
 class SearchPubChemViewModel: NSObject, ObservableObject {
     private var session: URLSession = URLSession.shared
@@ -44,8 +45,13 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     private var persistenceContainer: NSPersistentCloudKitContainer {
         persistence.container
     }
+    private var viewContext: NSManagedObjectContext {
+        persistenceContainer.viewContext
+    }
     
     private var subscriptions: Set<AnyCancellable> = []
+    
+    private(set) var spotlightIndexer: SearchPubChemSpotlightDelegate?
     
     init(persistence: Persistence) {
         self.persistence = persistence
@@ -55,10 +61,14 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
           .publisher(for: .NSPersistentStoreRemoteChange)
           .sink { self.fetchUpdates($0) }
           .store(in: &subscriptions)
+        
+        if let persistentStoreDescription = self.persistenceContainer.persistentStoreDescriptions.first {
+            self.spotlightIndexer = SearchPubChemSpotlightDelegate(forStoreWith: persistentStoreDescription, coordinator: self.persistenceContainer.persistentStoreCoordinator)
+            self.toggleSpotlightIndexing(enabled: true)
+        }
     }
     
     func preloadData() -> Void {
-        let viewContext = persistenceContainer.viewContext
         // Example Compound 1: Water
         let water = Compound(context: viewContext)
         water.name = "water"
@@ -645,7 +655,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
         
-        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: persistenceContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
         do {
             try fc.performFetch()
@@ -687,5 +697,43 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
                 return
             }
         }
+    }
+}
+
+extension SearchPubChemViewModel {
+    func toggleSpotlightIndexing(enabled: Bool) {
+        logger.log("enabled=\(enabled) spotlightIndexer=\(self.spotlightIndexer)")
+        guard let spotlightIndexer = spotlightIndexer else { return }
+
+        if enabled {
+          spotlightIndexer.startSpotlightIndexing()
+        } else {
+          spotlightIndexer.stopSpotlightIndexing()
+        }
+    }
+    
+    func continueActivity(_ activity: NSUserActivity, completionHandler: (String) -> Void) {
+        guard let info = activity.userInfo else {
+            return
+        }
+        
+        guard let objectIdentifier = info[CSSearchableItemActivityIdentifier] as? String else {
+            return
+        }
+        
+        guard let objectURI = URL(string: objectIdentifier) else {
+            return
+        }
+        
+        if let compound = selectCompound(for: objectURI), let cid = compound.cid {
+            completionHandler(cid)
+        }
+    }
+    
+    func selectCompound(for url: URL) -> Compound? {
+        guard let objectID = viewContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url) else {
+            return nil
+        }
+        return viewContext.object(with: objectID) as? Compound
     }
 }

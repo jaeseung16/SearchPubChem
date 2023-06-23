@@ -24,6 +24,7 @@
 		9065BF5B22EE2F7400350083 /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9065BF5A22EE2F7400350083 /* Elements.swift */; };
 		90725F9B204217540083E1FC /* Compound+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9A204217540083E1FC /* Compound+Extensions.swift */; };
 		90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9C204217830083E1FC /* Solution+Extensions.swift */; };
+		907AE1C42A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */; };
 		9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */; };
 		908497C9266D76D2002644F6 /* records.json in Resources */ = {isa = PBXBuildFile; fileRef = 908497C8266D76D2002644F6 /* records.json */; };
 		908497FB266D79A7002644F6 /* 6134_lactose.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497CB266D79A5002644F6 /* 6134_lactose.png */; };
@@ -167,6 +168,7 @@
 		9065BF5A22EE2F7400350083 /* Elements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
 		90725F9A204217540083E1FC /* Compound+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Compound+Extensions.swift"; sourceTree = "<group>"; };
 		90725F9C204217830083E1FC /* Solution+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Solution+Extensions.swift"; sourceTree = "<group>"; };
+		907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPubChemSpotlightDelegate.swift; sourceTree = "<group>"; };
 		9081A37F201BEEB800A1FECC /* PubChemSolution.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PubChemSolution.xcdatamodel; sourceTree = "<group>"; };
 		908497C8266D76D2002644F6 /* records.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = records.json; sourceTree = "<group>"; };
 		908497CB266D79A5002644F6 /* 6134_lactose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6134_lactose.png; sourceTree = "<group>"; };
@@ -499,6 +501,7 @@
 				90D58EF5270FAB0600C626A2 /* SolutionIngradientDTO.swift */,
 				9087E641271662F10097CFC6 /* Unit.swift */,
 				9087E643271663280097CFC6 /* AbsoluteRelative.swift */,
+				907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -773,6 +776,7 @@
 				90C2FF7524B6946D00C33F4C /* ConformerDTO.swift in Sources */,
 				90D4F7482651616D0082CFAE /* Compounds.swift in Sources */,
 				90B12C43271373EE00EF065D /* MappingModel.xcmappingmodel in Sources */,
+				907AE1C42A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift in Sources */,
 				90AE0822271B29E700DB7846 /* SceneKitView.swift in Sources */,
 				90D8B01E270E1E0900C81750 /* SearchPubChemViewModel.swift in Sources */,
 				90725F9B204217540083E1FC /* Compound+Extensions.swift in Sources */,
