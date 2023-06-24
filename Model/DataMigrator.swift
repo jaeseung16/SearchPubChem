@@ -27,6 +27,7 @@ class DataMigrator: ObservableObject {
         guard let sourceModelURL = Bundle.main.url(forResource: sourceModelName, withExtension: DataMigrator.modelExtension),
               let destinationModelURL = Bundle.main.url(forResource: destinationModelName, withExtension: DataMigrator.modelExtension) else {
             self.migrator = nil
+            UserDefaults.standard.set(true, forKey: DataMigrator.hasDBMigradtedKey)
             return
         }
         
@@ -36,13 +37,10 @@ class DataMigrator: ObservableObject {
         
         self.migrator = DatabaseMigrator(sourceModelURL: sourceModelURL, destinationModelURL: destinationModelURL, storeURL: storeURL)
         
-        if !isMigrationNecessary() {
-            UserDefaults.standard.set(true, forKey: DataMigrator.hasDBMigradtedKey)
-        } else {
+        if isMigrationNecessary() {
             migrate()
-            UserDefaults.standard.set(true, forKey: DataMigrator.hasDBMigradtedKey)
         }
-        
+        UserDefaults.standard.set(true, forKey: DataMigrator.hasDBMigradtedKey)
     }
     
     func isMigrationNecessary() -> Bool {
