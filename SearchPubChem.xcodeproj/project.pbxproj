@@ -24,6 +24,7 @@
 		9065BF5B22EE2F7400350083 /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9065BF5A22EE2F7400350083 /* Elements.swift */; };
 		90725F9B204217540083E1FC /* Compound+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9A204217540083E1FC /* Compound+Extensions.swift */; };
 		90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9C204217830083E1FC /* Solution+Extensions.swift */; };
+		907327652A47774100B0A8DA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 908C70F82A4652AF00D6C9FA /* Settings.bundle */; };
 		907AE1C42A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */; };
 		9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */; };
 		908497C9266D76D2002644F6 /* records.json in Resources */ = {isa = PBXBuildFile; fileRef = 908497C8266D76D2002644F6 /* records.json */; };
@@ -212,6 +213,7 @@
 		9089909F27149CB100DC3989 /* 5234_sodium chloride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "5234_sodium chloride.png"; sourceTree = "<group>"; };
 		908990A12714A6D400DC3989 /* DataMigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrationView.swift; sourceTree = "<group>"; };
 		908990A32714BF9C00DC3989 /* FirstLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLaunchView.swift; sourceTree = "<group>"; };
+		908C70F82A4652AF00D6C9FA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		909AE6A5200CF2F000FEE529 /* SearchPubChem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchPubChem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909AE6B2200CF2F000FEE529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		909AE6B4200CF2F000FEE529 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -396,6 +398,7 @@
 		909AE69C200CF2F000FEE529 = {
 			isa = PBXGroup;
 			children = (
+				908C70F82A4652AF00D6C9FA /* Settings.bundle */,
 				902B0790286107B2004D9DF0 /* SearchPubChemWidgetExtensionExtension.entitlements */,
 				908497C7266D76C0002644F6 /* Resources */,
 				90A0DCF0201D0FFC0059D7CC /* Model */,
@@ -717,6 +720,7 @@
 				90849820266D79A7002644F6 /* 2682_hexadecan-1-ol.png in Resources */,
 				90849824266D79A7002644F6 /* 6137_methionine.png in Resources */,
 				90849811266D79A7002644F6 /* 33032_glutamic acid.png in Resources */,
+				907327652A47774100B0A8DA /* Settings.bundle in Resources */,
 				908990A027149CB100DC3989 /* 5234_sodium chloride.png in Resources */,
 				908497FF266D79A7002644F6 /* 750_glycine.png in Resources */,
 				90849819266D79A7002644F6 /* 6288_threonine.png in Resources */,

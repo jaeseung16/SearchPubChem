@@ -52,6 +52,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     private var subscriptions: Set<AnyCancellable> = []
     
     private(set) var spotlightIndexer: SearchPubChemSpotlightDelegate?
+    private var spotlightIndexing = false
     
     init(persistence: Persistence) {
         self.persistence = persistence
@@ -64,8 +65,18 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         
         if let persistentStoreDescription = self.persistenceContainer.persistentStoreDescriptions.first {
             self.spotlightIndexer = SearchPubChemSpotlightDelegate(forStoreWith: persistentStoreDescription, coordinator: self.persistenceContainer.persistentStoreCoordinator)
-            self.toggleSpotlightIndexing(enabled: true)
+            self.spotlightIndexing = UserDefaults.standard.bool(forKey: "spotlight_indexing")
+            NotificationCenter.default.addObserver(self, selector: #selector(defaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
         }
+    }
+    
+    @objc private func defaultsChanged() -> Void {
+        if spotlightIndexing != UserDefaults.standard.bool(forKey: "spotlight_indexing") {
+            spotlightIndexing = UserDefaults.standard.bool(forKey: "spotlight_indexing")
+            logger.log("defaultsChanged: spotlightIndexing=\(self.spotlightIndexing)")
+            self.toggleSpotlightIndexing(enabled: spotlightIndexing)
+        }
+        
     }
     
     func preloadData() -> Void {
@@ -706,9 +717,18 @@ extension SearchPubChemViewModel {
         guard let spotlightIndexer = spotlightIndexer else { return }
 
         if enabled {
-          spotlightIndexer.startSpotlightIndexing()
+            indexCompounds()
+            spotlightIndexer.startSpotlightIndexing()
         } else {
-          spotlightIndexer.stopSpotlightIndexing()
+            spotlightIndexer.stopSpotlightIndexing()
+            spotlightIndexer.deleteSpotlightIndex { error in
+                guard let error = error else {
+                    self.logger.log("Successfully deleted spotlight index")
+                    return
+                }
+                
+                self.logger.log("Failed to delete spotlight index: \(error.localizedDescription, privacy: .public)")
+            }
         }
     }
     
@@ -735,5 +755,46 @@ extension SearchPubChemViewModel {
             return nil
         }
         return viewContext.object(with: objectID) as? Compound
+    }
+    
+    private func indexCompounds() -> Void {
+        guard let spotlightIndexer = spotlightIndexer else {
+            self.logger.log("No spotlightIndexer initialized")
+            return
+        }
+        
+        let compounds = fetchCompounds()
+        
+        let searchableItems: [CSSearchableItem] = compounds.compactMap { compound in
+            // Duplicate from SearchPubChemSpotlightDelegate
+            guard let attributeSet = spotlightIndexer.attributeSet(for: compound) else {
+                self.logger.log("Cannot generate attribute set for \(compound, privacy: .public)")
+                return nil
+            }
+            
+            return CSSearchableItem(uniqueIdentifier: nil, domainIdentifier: spotlightIndexer.domainIdentifier(), attributeSet: attributeSet)
+        }
+        
+        CSSearchableIndex(name: spotlightIndexer.indexName()!).indexSearchableItems(searchableItems) { error in
+            guard let error = error else {
+                self.logger.log("Indexed compounds: \(searchableItems, privacy: .public)")
+                return
+            }
+            self.logger.log("Error while indexing compounds: \(error.localizedDescription, privacy: .public)")
+        }
+    }
+    
+    private func fetchCompounds() -> [Compound] {
+        return fetch(NSFetchRequest<Compound>(entityName: "Compound"))
+    }
+    
+    private func fetch<Element>(_ fetchRequest: NSFetchRequest<Element>) -> [Element] {
+        var fetchedEntities = [Element]()
+        do {
+            fetchedEntities = try persistenceContainer.viewContext.fetch(fetchRequest)
+        } catch {
+            self.logger.error("Failed to fetch: \(error.localizedDescription)")
+        }
+        return fetchedEntities
     }
 }
