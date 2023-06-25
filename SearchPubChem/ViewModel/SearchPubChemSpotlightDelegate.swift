@@ -11,16 +11,16 @@ import CoreSpotlight
 
 class SearchPubChemSpotlightDelegate: NSCoreDataCoreSpotlightDelegate {
     override func domainIdentifier() -> String {
-      return "com.resonance.jlee.SearchPubChem"
+        return "com.resonance.jlee.SearchPubChem"
     }
 
     override func indexName() -> String? {
-      return "compound-name-index"
+        return "searchpubchem-compound-index"
     }
       
     override func attributeSet(for object: NSManagedObject) -> CSSearchableItemAttributeSet? {
         guard let compound = object as? Compound else {
-          return nil
+            return nil
         }
 
         let attributeSet = CSSearchableItemAttributeSet(contentType: .text)
