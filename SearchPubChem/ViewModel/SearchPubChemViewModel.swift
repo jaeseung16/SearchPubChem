@@ -36,6 +36,8 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var receivedURL = false
     @Published var selectedCid: String = ""
     @Published var selectedCompoundName: String = ""
+    var spotlightFoundCompounds: [CSSearchableItem] = []
+    var searchQuery: CSSearchQuery?
     
     // MARK: - for makings a solution
     @Published var compounds: [Compound]?
@@ -68,15 +70,15 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             self.spotlightIndexing = UserDefaults.standard.bool(forKey: "spotlight_indexing")
             NotificationCenter.default.addObserver(self, selector: #selector(defaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
         }
+        
+        fetchCompounds()
     }
     
     @objc private func defaultsChanged() -> Void {
         if spotlightIndexing != UserDefaults.standard.bool(forKey: "spotlight_indexing") {
             spotlightIndexing = UserDefaults.standard.bool(forKey: "spotlight_indexing")
-            logger.log("defaultsChanged: spotlightIndexing=\(self.spotlightIndexing)")
-            self.toggleSpotlightIndexing(enabled: spotlightIndexing)
+            toggleSpotlightIndexing(enabled: spotlightIndexing)
         }
-        
     }
     
     func preloadData() -> Void {
@@ -709,6 +711,38 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             }
         }
     }
+    
+    // MARK: -
+    @Published var allCompounds = [Compound]()
+    
+    private func fetchCompounds() {
+        let fetchRequet = NSFetchRequest<Compound>(entityName: "Compound")
+        fetchRequet.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.name, ascending: true)]
+        allCompounds = fetch(fetchRequet)
+    }
+    
+    private func fetch<Element>(_ fetchRequest: NSFetchRequest<Element>) -> [Element] {
+        var fetchedEntities = [Element]()
+        do {
+            fetchedEntities = try persistenceContainer.viewContext.fetch(fetchRequest)
+        } catch {
+            self.logger.error("Failed to fetch: \(error.localizedDescription)")
+        }
+        return fetchedEntities
+    }
+    
+    func searchCompounds(nameContaining searchString: String) -> [Compound] {
+        logger.log("filteredCompounds: spotlightIndexing=\(self.spotlightIndexing)")
+        if spotlightIndexing {
+            searchCompound(searchString)
+            return allCompounds
+        } else {
+            return allCompounds.filter { compound in
+                searchString.isEmpty || compound.nameContains(string: searchString)
+            }
+        }
+    }
+    
 }
 
 extension SearchPubChemViewModel {
@@ -763,9 +797,7 @@ extension SearchPubChemViewModel {
             return
         }
         
-        let compounds = fetchCompounds()
-        
-        let searchableItems: [CSSearchableItem] = compounds.compactMap { compound in
+        let searchableItems: [CSSearchableItem] = allCompounds.compactMap { compound in
             // Duplicate from SearchPubChemSpotlightDelegate
             guard let attributeSet = spotlightIndexer.attributeSet(for: compound) else {
                 self.logger.log("Cannot generate attribute set for \(compound, privacy: .public)")
@@ -784,17 +816,52 @@ extension SearchPubChemViewModel {
         }
     }
     
-    private func fetchCompounds() -> [Compound] {
-        return fetch(NSFetchRequest<Compound>(entityName: "Compound"))
+    func searchCompound(_ name: String) {
+        if name.isEmpty {
+            searchQuery?.cancel()
+            fetchCompounds()
+        } else {
+            searchUsingCoreSpotlight(name)
+        }
     }
     
-    private func fetch<Element>(_ fetchRequest: NSFetchRequest<Element>) -> [Element] {
-        var fetchedEntities = [Element]()
-        do {
-            fetchedEntities = try persistenceContainer.viewContext.fetch(fetchRequest)
-        } catch {
-            self.logger.error("Failed to fetch: \(error.localizedDescription)")
+    private func searchUsingCoreSpotlight(_ name: String) {
+        let escapedName = name.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"")
+        let queryString = "(title == \"*\(escapedName)*\"cd)"
+        
+        searchQuery = CSSearchQuery(queryString: queryString, attributes: ["title"])
+        
+        searchQuery?.foundItemsHandler = { items in
+            DispatchQueue.main.async {
+                self.spotlightFoundCompounds += items
+                self.spotlightFoundCompounds.sort { item1, item2 in
+                    item1.attributeSet.title! < item2.attributeSet.title!
+                }
+            }
         }
-        return fetchedEntities
+        
+        searchQuery?.completionHandler = { error in
+            if let error = error {
+                self.logger.log("Searching \(name) came back with error: \(error.localizedDescription, privacy: .public)")
+            } else {
+                DispatchQueue.main.async {
+                    self.fetchSearchResults(self.spotlightFoundCompounds)
+                    self.spotlightFoundCompounds.removeAll()
+                }
+            }
+        }
+        
+        searchQuery?.start()
+    }
+    
+    private func fetchSearchResults(_ items: [CSSearchableItem]) {
+        let foundCompounds = items.compactMap { (item: CSSearchableItem) -> Compound? in
+            guard let compoundURL = URL(string: item.uniqueIdentifier) else {
+                return nil
+            }
+            return selectCompound(for: compoundURL)
+        }
+        logger.log("Found \(foundCompounds.count) compounds")
+        allCompounds = foundCompounds
     }
 }

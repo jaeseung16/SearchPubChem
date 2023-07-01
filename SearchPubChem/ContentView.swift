@@ -16,7 +16,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            CompoundListView()
+            CompoundListView(compounds: viewModel.allCompounds)
                 .tabItem {
                     if selectedTab == .compound {
                         Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.selectedImageName)

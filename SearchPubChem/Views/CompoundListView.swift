@@ -13,25 +13,7 @@ struct CompoundListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Compound.name, ascending: true)],
-        animation: .default)
-    private var compounds: FetchedResults<Compound>
-    
-    var filteredCompounds: Array<Compound> {
-        compounds.filter { compound in
-            
-            return isTagged(compound: compound) && nameContainsSearchString(compound: compound)
-        }
-    }
-    
-    private func isTagged(compound: Compound) -> Bool {
-        return selectedTag == nil || compound.isTagged(by: selectedTag!)
-    }
-    
-    private func nameContainsSearchString(compound: Compound) -> Bool {
-        return viewModel.selectedCompoundName.isEmpty || compound.nameContains(string: viewModel.selectedCompoundName)
-    }
+    @State var compounds: [Compound]
     
     @State private var presentSelectTagView = false
     @State private var presentAddCompoundView = false
@@ -52,7 +34,7 @@ struct CompoundListView: View {
             GeometryReader { geometry in
                 VStack {
                     List {
-                        ForEach(filteredCompounds) { compound in
+                        ForEach(compounds) { compound in
                             NavigationLink(tag: compound.cid ?? "", selection: $selectedCid) {
                                 CompoundDetailView(compound: compound)
                             } label: {
@@ -86,6 +68,17 @@ struct CompoundListView: View {
                     viewModel.continueActivity(activity) { cid in
                         selectedCid = cid
                     }
+                }
+                .onChange(of: viewModel.allCompounds) { newValue in
+                    compounds = getTagged(compounds: newValue)
+                }
+                .onChange(of: viewModel.selectedCompoundName) { newValue in
+                    let selectedCompounds = viewModel.searchCompounds(nameContaining: newValue)
+                    compounds = getTagged(compounds: selectedCompounds)
+                }
+                .onChange(of: selectedTag) { newValue in
+                    let selectedCompounds = viewModel.searchCompounds(nameContaining: viewModel.selectedCompoundName)
+                    compounds = getTagged(compounds: selectedCompounds)
                 }
             }
         }
@@ -121,10 +114,11 @@ struct CompoundListView: View {
             }
         }
     }
-}
-
-struct CompoundListView_Previews: PreviewProvider {
-    static var previews: some View {
-        CompoundListView()
+    
+    private func getTagged(compounds: [Compound]) -> [Compound] {
+        compounds.filter { compound in
+            selectedTag == nil || compound.isTagged(by: selectedTag!)
+        }
     }
 }
+
