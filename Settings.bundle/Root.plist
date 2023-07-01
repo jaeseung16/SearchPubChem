@@ -12,7 +12,7 @@
 			<key>Title</key>
 			<string>Spotlight Search</string>
 			<key>TrueValue</key>
-			<string></string>
+			<string>YES</string>
 			<key>Key</key>
 			<string>spotlight_indexing</string>
 			<key>DefaultValue</key>
