@@ -23,6 +23,8 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     
     private let compoundProperties: [String] = [PubChemSearch.PropertyKey.formula, PubChemSearch.PropertyKey.weight, PubChemSearch.PropertyKey.nameIUPAC, PubChemSearch.PropertyKey.title]
     
+    private let downloader = PubChemDownloader()
+    
     @Published var success: Bool = false
     @Published var propertySet: Properties?
     @Published var imageData: Data?
@@ -144,47 +146,21 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func download3DData(for cid: String) {
-        var component = commonURLComponents()
-        component.path = PubChemSearch.Constant.pathForCID + cid + "/JSON"
-        component.query = "\(PubChemSearch.QueryString.recordType)=\(PubChemSearch.RecordType.threeD)"
-        
-        _ = dataTask(with: component.url!, completionHandler: { (data, error) in
-            func sendError(_ error: String) {
-                DispatchQueue.main.async {
+        downloader.downloadConformer(for: cid) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let conformerDTO):
+                    self.conformer = self.populateConformer(from: conformerDTO.pcCompounds[0])
+                    self.errorMessage = nil
+                    self.success = true
+                case .failure(let error):
+                    self.logger.log("Error while downloading 3d data: \(error.localizedDescription)")
                     self.conformer = nil
-                    self.errorMessage = error
+                    self.errorMessage = error.localizedDescription
                     self.success = false
                 }
             }
-            
-            guard error == nil else {
-                self.logger.log("Error while downloading 3d data: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
-                sendError(error!.userInfo[NSLocalizedDescriptionKey] as! String)
-                return
-            }
-            
-            guard let data = data else {
-                self.logger.log("Missing 3d data")
-                sendError("Missing 3d data")
-                return
-            }
-            
-            let dto: ConformerDTO? = self.decode(from: data)
-            
-            guard let conformerDTO = dto else {
-                self.logger.log("Error while parsing data as conformerDTO = \(String(describing: dto))")
-                sendError("Error while parsing 3D data")
-                return
-            }
-            
-            let conformer = self.populateConformer(from: conformerDTO.pcCompounds[0])
-            
-            DispatchQueue.main.async {
-                self.success = true
-                self.conformer = conformer
-                self.errorMessage = nil
-            }
-        })
+        }
     }
     
     private func populateConformer(from pcCompound: PCCompound) -> Conformer {
@@ -225,192 +201,44 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func downloadImage(for cid: String) {
-        var component = commonURLComponents()
-        component.path = PubChemSearch.Constant.pathForCID + cid + PubChemSearch.QueryResult.png
-        
-        _ = dataTask(with: component.url!, completionHandler: { (data, error) in
-            func sendError(_ error: String) {
-                DispatchQueue.main.async {
+        downloader.downloadImage(for: cid) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    self.imageData = data
+                    self.errorMessage = nil
+                    self.success = true
+                case .failure(let error):
+                    self.logger.log("Error while downloading an image: \(error.localizedDescription)")
                     self.imageData = nil
-                    self.errorMessage = error
+                    self.errorMessage = error.localizedDescription
                     self.success = false
                 }
             }
-            
-            guard error == nil else {
-                self.logger.log("Error while downloading an image: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
-                sendError(error!.userInfo[NSLocalizedDescriptionKey] as! String)
-                return
-            }
-        
-            guard let data = data else {
-                self.logger.log("Missing image data")
-                sendError("Missing image data")
-                return
-            }
-
-            DispatchQueue.main.async {
-                self.imageData = data
-                self.errorMessage = nil
-                self.success = true
-            }
-        })
+        }
     }
     
     func searchCompound(type: SearchType, value: String) -> Void {
-        searchProperties(type: type, value: value) { (properties, error) in
-            func sendError(_ error: String) {
-                DispatchQueue.main.async {
-                    self.errorMessage = error
+        downloader.downloadProperties(identifier: value, identifierType: type) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let properties):
+                    self.propertySet = properties
+                    self.errorMessage = nil
+                    self.success = true
+                    self.downloadImage(for: "\(properties.CID)")
+                    self.download3DData(for: "\(properties.CID)")
+                case .failure(let error):
+                    self.logger.log("Error while getting properties: \(error.localizedDescription))")
                     self.propertySet = nil
+                    self.errorMessage = error.localizedDescription
                     self.success = false
                     self.showAlert = true
                 }
             }
-            
-            guard (error == nil) else {
-                self.logger.log("Error while getting properties: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
-                sendError(error!.userInfo[NSLocalizedDescriptionKey] as! String)
-                return
-            }
-            
-            guard let properties = properties else {
-                self.logger.log("Missing property values")
-                sendError("Missing property values")
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self.success = true
-                self.propertySet = properties
-                self.errorMessage = nil
-                self.downloadImage(for: "\(properties.CID)")
-                self.download3DData(for: "\(properties.CID)")
-            }
         }
     }
-    
-    private func searchProperties(type: SearchType, value: String, completionHandler: @escaping (_ properties: Properties?, _ error: NSError?) -> Void) {
-        let url = searchURL(type: type, value: value)
-        
-        _ = dataTask(with: url) { (data, error) in
-            func sendError(_ error: String) {
-                let userInfo = [NSLocalizedDescriptionKey: error]
-                completionHandler(nil, NSError(domain: "dataTask", code: 1, userInfo: userInfo))
-            }
-            
-            guard (error == nil) else {
-                completionHandler(nil, error)
-                return
-            }
-            
-            guard let data = data else {
-                sendError("Cannot get the data!")
-                return
-            }
-            
-            self.logger.log("\(String(data: data, encoding: .utf8) ?? "Not utf8")")
-            
-            let dto : CompoundDTO? = self.decode(from: data)
-            guard let compoundDTO = dto else {
-                sendError("Error while parsing data as compoundDTO = \(String(describing: dto))")
-                return
-            }
-            
-            completionHandler(compoundDTO.propertyTable.properties[0], nil)
-        }
-    }
-    
-    private func searchURL(type: SearchType, value: String) -> URL {
-        var pathForProperties = PubChemSearch.Constant.pathForProperties
-        
-        for property in compoundProperties {
-            pathForProperties += property + ","
-        }
-        pathForProperties.remove(at: pathForProperties.index(before: pathForProperties.endIndex))
-        pathForProperties += PubChemSearch.QueryResult.json
-        
-        var component = commonURLComponents()
-        
-        switch type {
-        case .name:
-            component.path = PubChemSearch.Constant.pathForName + value + pathForProperties
-        case .cid:
-            component.path = PubChemSearch.Constant.pathForCID + value + pathForProperties
-        }
-        
-        return component.url!
-    }
-    
-    private func commonURLComponents() -> URLComponents {
-        var component = URLComponents()
-        component.scheme = PubChemSearch.Constant.scheme
-        component.host = PubChemSearch.Constant.host
-        return component
-    }
-    
-    private func decode<T: Codable>(from data: Data) -> T? {
-        let decoder = JSONDecoder()
-        var dto: T
-        do {
-            dto = try decoder.decode(T.self, from: data)
-        } catch {
-            logger.log("Cannot parse data as type \(T.self)")
-            return nil
-        }
-        return dto
-    }
-    
-    private func dataTask(with url: URL, completionHandler: @escaping (_ data: Data?, _ error: NSError?) -> Void) -> URLSessionTask {
-        let request = URLRequest(url: url, timeoutInterval: 15)
-        
-        let task = session.dataTask(with: request) { (data, response, error) in
-            func sendError(_ error: String) {
-                let userInfo = [NSLocalizedDescriptionKey: error]
-                completionHandler(nil, NSError(domain: "dataTask", code: 1, userInfo: userInfo))
-            }
-            
-            guard (error == nil) else {
-                sendError("There was an error with your request: \(error!)")
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                let statusCode = (response as? HTTPURLResponse)!.statusCode
-                var errorString: String
-                
-                if let code = PubChemSearch.Status(rawValue: statusCode) {
-                    switch(code) {
-                    case .badRequest:
-                        errorString = "Request is improperly formed"
-                    case .notFound:
-                        errorString = "The input record was not found"
-                    case .notAllowed:
-                        errorString = "Request not allowed"
-                    case .serverBusy:
-                        errorString = "Too many requests or server is busy"
-                    case .timeOut:
-                        errorString = "The request timed out"
-                    default:
-                        errorString = "Your request returned a stauts code other than 2xx"
-                    }
-                    sendError(errorString + ": HTTP Status = \(statusCode)")
-                }
-                return
-            }
-            
-            guard let data = data else {
-                sendError("No data was returned by the request")
-                return
-            }
-            
-            completionHandler(data, nil)
-        }
-        
-        task.resume()
-        return task
-    }
-    
+
     func saveCompound(searchType: SearchType, searchValue: String, viewContext: NSManagedObjectContext) {
         guard let propertySet = propertySet else {
             return

@@ -25,6 +25,9 @@
 		90725F9B204217540083E1FC /* Compound+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9A204217540083E1FC /* Compound+Extensions.swift */; };
 		90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9C204217830083E1FC /* Solution+Extensions.swift */; };
 		907327652A47774100B0A8DA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 908C70F82A4652AF00D6C9FA /* Settings.bundle */; };
+		907730B92A50DD8E003AA5A8 /* PubChemDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907730B82A50DD8E003AA5A8 /* PubChemDownloader.swift */; };
+		907730BB2A50E048003AA5A8 /* PubChemDownloadError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907730BA2A50E048003AA5A8 /* PubChemDownloadError.swift */; };
+		907AB0F62A51C50700922EF0 /* PubChemDownloading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AB0F52A51C50700922EF0 /* PubChemDownloading.swift */; };
 		907AE1C42A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */; };
 		9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */; };
 		908497C9266D76D2002644F6 /* records.json in Resources */ = {isa = PBXBuildFile; fileRef = 908497C8266D76D2002644F6 /* records.json */; };
@@ -169,6 +172,9 @@
 		9065BF5A22EE2F7400350083 /* Elements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
 		90725F9A204217540083E1FC /* Compound+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Compound+Extensions.swift"; sourceTree = "<group>"; };
 		90725F9C204217830083E1FC /* Solution+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Solution+Extensions.swift"; sourceTree = "<group>"; };
+		907730B82A50DD8E003AA5A8 /* PubChemDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemDownloader.swift; sourceTree = "<group>"; };
+		907730BA2A50E048003AA5A8 /* PubChemDownloadError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemDownloadError.swift; sourceTree = "<group>"; };
+		907AB0F52A51C50700922EF0 /* PubChemDownloading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemDownloading.swift; sourceTree = "<group>"; };
 		907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPubChemSpotlightDelegate.swift; sourceTree = "<group>"; };
 		9081A37F201BEEB800A1FECC /* PubChemSolution.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PubChemSolution.xcdatamodel; sourceTree = "<group>"; };
 		908497C8266D76D2002644F6 /* records.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = records.json; sourceTree = "<group>"; };
@@ -383,6 +389,10 @@
 		908A90F724BB959C008DDCFA /* PubChemDownloader */ = {
 			isa = PBXGroup;
 			children = (
+				90D8B020270E1EEF00C81750 /* SearchType.swift */,
+				907730B82A50DD8E003AA5A8 /* PubChemDownloader.swift */,
+				907730BA2A50E048003AA5A8 /* PubChemDownloadError.swift */,
+				907AB0F52A51C50700922EF0 /* PubChemDownloading.swift */,
 				90A09DE424B124EA0089C6C0 /* CompoundDTO.swift */,
 				90C2FF7424B6946D00C33F4C /* ConformerDTO.swift */,
 				90A28687204638ED00FF796A /* PubChemSearchConstants.swift */,
@@ -500,7 +510,6 @@
 			isa = PBXGroup;
 			children = (
 				90D8B01D270E1E0900C81750 /* SearchPubChemViewModel.swift */,
-				90D8B020270E1EEF00C81750 /* SearchType.swift */,
 				90D58EF5270FAB0600C626A2 /* SolutionIngradientDTO.swift */,
 				9087E641271662F10097CFC6 /* Unit.swift */,
 				9087E643271663280097CFC6 /* AbsoluteRelative.swift */,
@@ -793,8 +802,10 @@
 				902B077D2861021D004D9DF0 /* AppDelegate.swift in Sources */,
 				90D8B027270E501F00C81750 /* ContentView.swift in Sources */,
 				90C18BAD2649ED950036C0DE /* CompoundTag+Extensions.swift in Sources */,
+				907AB0F62A51C50700922EF0 /* PubChemDownloading.swift in Sources */,
 				90D8B01A270D014500C81750 /* SelectTagsView.swift in Sources */,
 				90AE84CF271097C700470E1B /* ShareActivityView.swift in Sources */,
+				907730BB2A50E048003AA5A8 /* PubChemDownloadError.swift in Sources */,
 				90A09DE524B124EA0089C6C0 /* CompoundDTO.swift in Sources */,
 				90EB2E2827271B4400C654BB /* TabItem.swift in Sources */,
 				908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */,
@@ -802,6 +813,7 @@
 				90E010D9270A54C9004A2401 /* SolutionDetailView.swift in Sources */,
 				90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */,
 				9087E642271662F40097CFC6 /* Unit.swift in Sources */,
+				907730B92A50DD8E003AA5A8 /* PubChemDownloader.swift in Sources */,
 				903140FD283EE71600A72350 /* SearchPubChemConstants.swift in Sources */,
 				90C9EAD526506B5E0004CA43 /* RecordDumper.swift in Sources */,
 				90EB2E2A27271E6B00C654BB /* Action.swift in Sources */,
