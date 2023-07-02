@@ -58,6 +58,7 @@ struct SelectTagsView: View {
                 } label: {
                     Text(Action.Reset.rawValue)
                 }
+                .accessibilityIdentifier("resetTagButton")
             }
         }
     }

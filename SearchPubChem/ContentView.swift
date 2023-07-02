@@ -20,8 +20,10 @@ struct ContentView: View {
                 .tabItem {
                     if selectedTab == .compound {
                         Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.selectedImageName)
+                            .accessibilityIdentifier("compoundTabSelected")
                     } else {
                         Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.defaultImageName)
+                            .accessibilityIdentifier("compoundTabUnselected")
                     }
                 }
                 .tag(SelectedTab.compound)
@@ -30,8 +32,10 @@ struct ContentView: View {
                 .tabItem {
                     if selectedTab == .solution {
                         Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.selectedImageName)
+                            .accessibilityIdentifier("solutionTabSelected")
                     } else {
                         Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.defaultImageName)
+                            .accessibilityIdentifier("solutionTabUnselected")
                     }
                 }
                 .tag(SelectedTab.solution)

@@ -106,12 +106,14 @@ struct CompoundListView: View {
             } label: {
                 Image(systemName: "tag")
             }
+            .accessibilityIdentifier("tagButton")
             
             Button {
                 presentAddCompoundView = true
             } label: {
                 Image(systemName: "plus")
             }
+            .accessibilityIdentifier("addButton")
         }
     }
     
