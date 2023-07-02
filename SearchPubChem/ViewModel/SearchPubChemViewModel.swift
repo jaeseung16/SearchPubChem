@@ -52,6 +52,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     private var viewContext: NSManagedObjectContext {
         persistenceContainer.viewContext
     }
+    private let persistenceHelper: PersistenceHelper
     
     private var subscriptions: Set<AnyCancellable> = []
     
@@ -60,6 +61,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     
     init(persistence: Persistence) {
         self.persistence = persistence
+        self.persistenceHelper = PersistenceHelper(persistence: persistence)
         super.init()
         
         NotificationCenter.default
@@ -272,7 +274,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             compound.addToConformers(conformerEntity)
         }
         
-        save(viewContext: viewContext) { _ in
+        save() { _ in
             self.logger.log("Error while saving compound=\(compound, privacy: .public)")
         }
         
@@ -296,28 +298,31 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             solution.addToCompounds(ingradient.compound)
         }
         
-        save(viewContext: viewContext) { _ in
+        save() { _ in
             self.logger.log("Error while saving solution=\(solution, privacy: .public)")
         }
     }
     
-    func save(viewContext: NSManagedObjectContext, completionHandler: @escaping (Error) -> Void) -> Void {
-        persistence.save { result in
-            switch result {
-            case .success(_):
-                DispatchQueue.main.async {
+    func save(completionHandler: @escaping (Error) -> Void) -> Void {
+        persistenceHelper.save { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(_):
                     self.toggle.toggle()
-                }
-            case .failure(let error):
-                self.logger.log("Error while saving data: \(error.localizedDescription, privacy: .public)")
-                self.logger.log("Error while saving data: \(Thread.callStackSymbols, privacy: .public)")
-                DispatchQueue.main.async {
+                case .failure(let error):
+                    self.logger.log("Error while saving data: \(error.localizedDescription, privacy: .public)")
+                    self.logger.log("Error while saving data: \(Thread.callStackSymbols, privacy: .public)")
                     self.errorMessage = "Error while saving data"
                     self.showAlert.toggle()
                     completionHandler(error)
                 }
+                self.fetchCompounds()
             }
         }
+    }
+    
+    func delete(_ object: NSManagedObject) -> Void {
+        persistenceHelper.delete(object)
     }
     
     // MARK: - Persistence History Request

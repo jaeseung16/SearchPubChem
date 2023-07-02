@@ -28,6 +28,7 @@
 		907730B92A50DD8E003AA5A8 /* PubChemDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907730B82A50DD8E003AA5A8 /* PubChemDownloader.swift */; };
 		907730BB2A50E048003AA5A8 /* PubChemDownloadError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907730BA2A50E048003AA5A8 /* PubChemDownloadError.swift */; };
 		907AB0F62A51C50700922EF0 /* PubChemDownloading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AB0F52A51C50700922EF0 /* PubChemDownloading.swift */; };
+		907AB0F82A52306E00922EF0 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AB0F72A52306E00922EF0 /* PersistenceHelper.swift */; };
 		907AE1C42A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */; };
 		9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */; };
 		908497C9266D76D2002644F6 /* records.json in Resources */ = {isa = PBXBuildFile; fileRef = 908497C8266D76D2002644F6 /* records.json */; };
@@ -175,6 +176,7 @@
 		907730B82A50DD8E003AA5A8 /* PubChemDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemDownloader.swift; sourceTree = "<group>"; };
 		907730BA2A50E048003AA5A8 /* PubChemDownloadError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemDownloadError.swift; sourceTree = "<group>"; };
 		907AB0F52A51C50700922EF0 /* PubChemDownloading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemDownloading.swift; sourceTree = "<group>"; };
+		907AB0F72A52306E00922EF0 /* PersistenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
 		907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPubChemSpotlightDelegate.swift; sourceTree = "<group>"; };
 		9081A37F201BEEB800A1FECC /* PubChemSolution.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PubChemSolution.xcdatamodel; sourceTree = "<group>"; };
 		908497C8266D76D2002644F6 /* records.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = records.json; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 				9087E641271662F10097CFC6 /* Unit.swift */,
 				9087E643271663280097CFC6 /* AbsoluteRelative.swift */,
 				907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */,
+				907AB0F72A52306E00922EF0 /* PersistenceHelper.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -780,6 +783,7 @@
 				90D8B023270E459300C81750 /* SolutionListView.swift in Sources */,
 				90D4F74C26516D540082CFAE /* CompoundWrapper.swift in Sources */,
 				90E19509270BCBBC00B8196A /* SelectCompoundsView.swift in Sources */,
+				907AB0F82A52306E00922EF0 /* PersistenceHelper.swift in Sources */,
 				9062E67C23411DAB0039C136 /* AtomEntity+Extensions.swift in Sources */,
 				90AE0824271B4B1400DB7846 /* ConformerView.swift in Sources */,
 				90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */,

@@ -246,11 +246,9 @@ struct SolutionDetailView: View {
             }
         }
         
-        viewContext.delete(solution)
+        viewModel.delete(solution)
         
-        viewModel.save(viewContext: viewContext) { _ in
-            
-        }
+        viewModel.save() { _ in }
         
         presentationMode.wrappedValue.dismiss()
     }

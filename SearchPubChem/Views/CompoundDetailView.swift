@@ -222,21 +222,19 @@ struct CompoundDetailView: View {
                         for atom in atoms {
                             if let atomEntity = atom as? AtomEntity {
                                 entity.removeFromAtoms(atomEntity)
-                                viewContext.delete(atomEntity)
+                                viewModel.delete(atomEntity)
                             }
                         }
                     }
                     compound.removeFromConformers(entity)
-                    viewContext.delete(entity)
+                    viewModel.delete(entity)
                 }
             }
         }
         
-        viewContext.delete(compound)
+        viewModel.delete(compound)
         
-        viewModel.save(viewContext: viewContext) { _ in
-            
-        }
+        viewModel.save() { _ in }
         
         presentationMode.wrappedValue.dismiss()
     }

@@ -117,8 +117,7 @@ struct CompoundTagView: View {
             newTag.name = newTagName
             newTag.addToCompounds(compound)
             
-            viewModel.save(viewContext: viewContext) { _ in
-                
+            viewModel.save() { _ in
             }
             
             if tags == nil {
@@ -138,12 +137,10 @@ struct CompoundTagView: View {
                 tag.removeFromCompounds(compounds)
             }
             
-            viewContext.delete(tag)
+            viewModel.delete(tag)
         }
         
-        viewModel.save(viewContext: viewContext) { _ in
-            
-        }
+        viewModel.save() { _ in }
     }
     
     private func updateTags() {
@@ -161,7 +158,7 @@ struct CompoundTagView: View {
             tag.addToCompounds(compound)
         }
         
-        viewModel.save(viewContext: viewContext) { _ in
+        viewModel.save() { _ in
             
         }
     }
