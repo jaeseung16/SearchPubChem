@@ -68,8 +68,11 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         if let persistentStoreDescription = self.persistenceContainer.persistentStoreDescriptions.first {
             self.spotlightIndexer = SearchPubChemSpotlightDelegate(forStoreWith: persistentStoreDescription, coordinator: self.persistenceContainer.persistentStoreCoordinator)
             self.spotlightIndexing = UserDefaults.standard.bool(forKey: "spotlight_indexing")
+            self.toggleSpotlightIndexing(enabled: self.spotlightIndexing)
             NotificationCenter.default.addObserver(self, selector: #selector(defaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
         }
+        
+        logger.log("spotlightIndexer=\(String(describing: self.spotlightIndexer)) isIndexingEnabled=\(String(describing: self.spotlightIndexer?.isIndexingEnabled))")
         
         fetchCompounds()
     }
