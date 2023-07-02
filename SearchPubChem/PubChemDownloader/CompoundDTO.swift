@@ -26,7 +26,7 @@ struct PropertyTable: Codable {
 
 struct Properties: Codable {
     var CID: Int
-    var IUPACName: String
+    var IUPACName: String?  // For example, they don't populate this property for CO2
     var MolecularFormula: String
     var MolecularWeight: String
     var Title: String
