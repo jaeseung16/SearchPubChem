@@ -38,4 +38,8 @@ extension Compound {
         }
         return name.lowercased().contains(string.lowercased())
     }
+    
+    public var id: String {
+        "\(cid ?? "")_\(created?.formatted() ?? "")"
+    }
 }

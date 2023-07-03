@@ -33,9 +33,9 @@ struct CompoundListView: View {
         NavigationView {
             GeometryReader { geometry in
                 VStack {
-                    List {
-                        ForEach(compounds) { compound in
-                            NavigationLink(tag: compound.cid ?? "", selection: $selectedCid) {
+                    List(selection: $selectedCid) {
+                        ForEach(compounds, id: \.id) { compound in
+                            NavigationLink() {
                                 CompoundDetailView(compound: compound)
                             } label: {
                                 label(for: compound)

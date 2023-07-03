@@ -333,6 +333,9 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             case .success(()):
                 DispatchQueue.main.async {
                     self.toggle.toggle()
+                    if self.selectedCompoundName.isEmpty {
+                        self.fetchCompounds()
+                    }
                 }
             case .failure(let error):
                 self.logger.log("Error while updating history: \(error.localizedDescription, privacy: .public) \(Thread.callStackSymbols, privacy: .public)")
@@ -553,7 +556,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     
     private func fetchCompounds() {
         let fetchRequet = NSFetchRequest<Compound>(entityName: "Compound")
-        fetchRequet.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.name, ascending: true)]
+        fetchRequet.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.name, ascending: true), NSSortDescriptor(keyPath: \Compound.created, ascending: true)]
         allCompounds = fetch(fetchRequet)
     }
     
@@ -573,6 +576,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             searchCompound(searchString)
             return allCompounds
         } else {
+            fetchCompounds()
             return allCompounds.filter { compound in
                 searchString.isEmpty || compound.nameContains(string: searchString)
             }
@@ -615,8 +619,8 @@ extension SearchPubChemViewModel {
             return
         }
         
-        if let compound = selectCompound(for: objectURI), let cid = compound.cid {
-            completionHandler(cid)
+        if let compound = selectCompound(for: objectURI) {
+            completionHandler(compound.id)
         }
     }
     
@@ -698,6 +702,16 @@ extension SearchPubChemViewModel {
             return selectCompound(for: compoundURL)
         }
         logger.log("Found \(foundCompounds.count) compounds")
-        allCompounds = foundCompounds
+        allCompounds = foundCompounds.sorted(by: { compound1, compound2 in
+            if compound1.name == nil {
+                return false
+            } else if compound2.name == nil {
+                return true
+            } else if compound1.name == compound2.name {
+                return compound1.created! < compound2.created!
+            } else {
+                return compound1.name! < compound2.name!
+            }
+        })
     }
 }
