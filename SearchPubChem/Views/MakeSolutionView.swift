@@ -127,7 +127,7 @@ struct MakeSolutionView: View {
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .frame(width: 50.0)
+                    .frame(width: 80.0)
                 }
             }
         }
