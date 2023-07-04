@@ -9,11 +9,15 @@
 import Foundation
 import WidgetKit
 
-struct WidgetEntry: TimelineEntry, Codable {
+struct WidgetEntry: TimelineEntry, Codable, Identifiable {
     let cid: String
     let name: String
     let formula: String
     let image: Data?
     let created: Date
     var date: Date = Date()
+    
+    var id: String {
+        "\(cid)_\(created.formatted())"
+    }
 }

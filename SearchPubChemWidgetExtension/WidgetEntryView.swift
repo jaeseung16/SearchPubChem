@@ -17,7 +17,7 @@ struct WidgetEntryView : View {
     private var widgetURL: URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = SearchPubChemConstants.widgetURLScheme.rawValue
-        urlComponents.path = "/\(entry.cid)"
+        urlComponents.path = "/\(entry.id)"
         urlComponents.query = "\(entry.name)"
         return urlComponents.url
     }
