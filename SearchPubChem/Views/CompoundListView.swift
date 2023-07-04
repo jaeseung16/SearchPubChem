@@ -33,9 +33,9 @@ struct CompoundListView: View {
         NavigationView {
             GeometryReader { geometry in
                 VStack {
-                    List(selection: $selectedCid) {
-                        ForEach(compounds, id: \.id) { compound in
-                            NavigationLink() {
+                    List() {
+                        ForEach(compounds) { compound in
+                            NavigationLink(tag: compound.id, selection: $selectedCid) {
                                 CompoundDetailView(compound: compound)
                             } label: {
                                 label(for: compound)
@@ -64,8 +64,11 @@ struct CompoundListView: View {
                     }
                 }
                 .onContinueUserActivity(CSSearchableItemActionType) { activity in
-                    viewModel.continueActivity(activity) { cid in
-                        selectedCid = cid
+                    viewModel.continueActivity(activity) { compound in
+                        selectedCid = compound.id
+                        if let name = compound.name {
+                            viewModel.selectedCompoundName = name
+                        }
                     }
                 }
                 .onChange(of: viewModel.allCompounds) { newValue in

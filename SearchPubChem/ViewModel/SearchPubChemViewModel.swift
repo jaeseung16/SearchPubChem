@@ -262,6 +262,25 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         persistenceHelper.delete(object)
     }
     
+    func retrieveCompound(id: String) -> Compound? {
+        let splitId = id.split(separator: "_")
+        logger.log("id=\(id): cid=\(splitId[0]), created=\(splitId[1])")
+        
+        let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "cid == %@", "\(splitId[0])")
+        
+        let compounds = persistenceHelper.perform(fetchRequest)
+        
+        return compounds.first { compound in
+            if let created = compound.created {
+                return created.formatted() == "\(splitId[1])"
+            } else {
+                return false
+            }
+        }
+    }
+    
     // MARK: - Persistence History Request
     private lazy var historyRequestQueue = DispatchQueue(label: "history")
     private func fetchUpdates(_ notification: Notification) -> Void {
@@ -524,7 +543,7 @@ extension SearchPubChemViewModel {
         }
     }
     
-    func continueActivity(_ activity: NSUserActivity, completionHandler: (String) -> Void) {
+    func continueActivity(_ activity: NSUserActivity, completionHandler: (Compound) -> Void) {
         guard let info = activity.userInfo else {
             return
         }
@@ -538,7 +557,7 @@ extension SearchPubChemViewModel {
         }
         
         if let compound = selectCompound(for: objectURI) {
-            completionHandler(compound.id)
+            completionHandler(compound)
         }
     }
     

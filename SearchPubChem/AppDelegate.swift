@@ -19,7 +19,8 @@ class AppDelegate: NSObject {
     private let subscriptionID = "compound-updated"
     private let didCreateCompoundSubscription = "didCreateCompoundSubscription"
     private let recordType = "CD_Compound"
-    private let recordValueKey = "CD_name"
+    private let recordNameKey = "CD_name"
+    private let recordCreatedKey = "CD_created"
     
     private let databaseOperationHelper = DatabaseOperationHelper(appName: SearchPubChemConstants.modelName.rawValue)
     
@@ -94,13 +95,13 @@ class AppDelegate: NSObject {
             return
         }
         
-        guard let name = record.value(forKey: recordValueKey) as? String else {
+        guard let name = record.value(forKey: recordNameKey) as? String, let created = record.value(forKey: recordNameKey) as? Date else {
             return
         }
 
         let content = UNMutableNotificationContent()
         content.title = SearchPubChemConstants.appPathComponent.rawValue
-        content.body = name
+        content.body = "\(name)_\(created.formatted())"
         content.sound = UNNotificationSound.default
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
