@@ -89,53 +89,13 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func preloadData() -> Void {
-        // Example Compound 1: Water
-        let water = Compound(context: viewContext)
-        water.name = "water"
-        water.firstCharacterInName = "W"
-        water.formula = "H2O"
-        water.molecularWeight = 18.015
-        water.cid = "962"
-        water.nameIUPAC = "oxidane"
-        water.image = try? Data(contentsOf: Bundle.main.url(forResource: "962_water", withExtension: "png")!, options: [])
-        
-        // Example Compound 2: Sodium Chloride
-        let sodiumChloride = Compound(context: viewContext)
-        sodiumChloride.name = "sodium chloride"
-        sodiumChloride.firstCharacterInName = "S"
-        sodiumChloride.formula = "NaCl"
-        sodiumChloride.molecularWeight = 58.44
-        sodiumChloride.cid = "5234"
-        sodiumChloride.nameIUPAC = "sodium chloride"
-        sodiumChloride.image = try? Data(contentsOf: Bundle.main.url(forResource: "5234_sodium chloride", withExtension: "png")!, options: [])
-
-        // Example Solution: Sodium Chloride Aqueous Solution
-        let waterIngradient = SolutionIngradient(context: viewContext)
-        waterIngradient.compound = water
-        waterIngradient.amount = 1.0
-        waterIngradient.unit = "gram"
-        
-        let sodiumChlorideIngradient = SolutionIngradient(context: viewContext)
-        sodiumChlorideIngradient.compound = sodiumChloride
-        sodiumChlorideIngradient.amount = 0.05
-        sodiumChlorideIngradient.unit = "gram"
-        
-        let saltyWater = Solution(context: viewContext)
-        saltyWater.name = "sakty water"
-        
-        saltyWater.addToCompounds(water)
-        saltyWater.addToIngradients(waterIngradient)
-        saltyWater.addToCompounds(sodiumChloride)
-        saltyWater.addToIngradients(sodiumChlorideIngradient)
-        
-        // Load additional compounds
-        let recordLoader = RecordLoader(viewContext: viewContext)
-        recordLoader.loadRecords()
-        
-        do {
-            try viewContext.save()
-        } catch {
-            NSLog("Error while saving by AppDelegate")
+        persistenceHelper.preloadData { result in
+            switch result {
+            case .success(_):
+                self.logger.log("Preload succeeded")
+            case .failure(let error):
+                self.logger.log("Failed to preload: error=\(error.localizedDescription)")
+            }
         }
     }
     
@@ -147,6 +107,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         conformer = nil
     }
     
+    // MARK: - PubChem API calls
     func download3DData(for cid: String) {
         downloader.downloadConformer(for: cid) { result in
             DispatchQueue.main.async {
@@ -240,88 +201,64 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             }
         }
     }
-
-    func saveCompound(searchType: SearchType, searchValue: String, viewContext: NSManagedObjectContext) {
-        guard let propertySet = propertySet else {
+    
+    // MARK: - Persistence
+    func saveCompound(searchType: SearchType, searchValue: String) {
+        guard let properties = propertySet else {
             return
         }
         
-        let compound = Compound(context: viewContext)
-        compound.name = searchType == .cid ? propertySet.Title : searchValue
-        compound.firstCharacterInName = String(compound.name!.first!).uppercased()
-        compound.formula = propertySet.MolecularFormula
-        compound.molecularWeight = Double(propertySet.MolecularWeight)!
-        compound.cid = "\(propertySet.CID)"
-        compound.nameIUPAC = propertySet.IUPACName
-        compound.image = imageData
-        compound.conformerDownloaded = true
+        let name = searchType == .cid ? properties.Title : searchValue
         
-        let conformerEntity = ConformerEntity(context: viewContext)
-        if let conformer = self.conformer {
-            conformerEntity.conformerId = conformer.conformerId
-            
-            for atom in conformer.atoms {
-                let atomEntity = AtomEntity(context: viewContext)
-                atomEntity.atomicNumber = Int16(atom.number)
-                atomEntity.coordX = atom.location[0]
-                atomEntity.coordY = atom.location[1]
-                atomEntity.coordZ = atom.location[2]
-                atomEntity.conformer = conformerEntity
-                
-                conformerEntity.addToAtoms(atomEntity)
+        persistenceHelper.saveCompound(name, properties: properties, imageData: imageData, conformer: conformer) { result in
+            switch result {
+            case .success(_):
+                self.logger.log("Saved a compound called name=\(name, privacy: .public)")
+            case .failure(let error):
+                self.logger.log("Failed to save a compound called name=\(name, privacy: .public): \(error.localizedDescription)")
             }
-            
-            compound.addToConformers(conformerEntity)
-        }
-        
-        save() { _ in
-            self.logger.log("Error while saving compound=\(compound, privacy: .public)")
-        }
-        
-        resetCompound()
-    }
-    
-    func saveSolution(solutionLabel: String, ingradients: [SolutionIngradientDTO], viewContext: NSManagedObjectContext) -> Void {
-        let solution = Solution(context: viewContext)
-        solution.name = solutionLabel.isEmpty ? self.solutionLabel : solutionLabel
-        
-        for ingradient in ingradients {
-            let entity = SolutionIngradient(context: viewContext)
-            
-            entity.compound = ingradient.compound
-            entity.compoundName = ingradient.compound.name
-            entity.compoundCid = ingradient.compound.cid
-            entity.amount = ingradient.amount
-            entity.unit = ingradient.unit.rawValue
-            
-            solution.addToIngradients(entity)
-            solution.addToCompounds(ingradient.compound)
-        }
-        
-        save() { _ in
-            self.logger.log("Error while saving solution=\(solution, privacy: .public)")
+            self.resetCompound()
+            self.persistenceResultHandler(result)
         }
     }
     
-    func save(completionHandler: @escaping (Error) -> Void) -> Void {
+    func saveSolution(solutionLabel: String, ingradients: [SolutionIngradientDTO]) -> Void {
+        let label = solutionLabel.isEmpty ? self.solutionLabel : solutionLabel
+        
+        persistenceHelper.saveSolution(label, ingradients: ingradients) { result in
+            switch result {
+            case .success(_):
+                self.logger.log("Saved a solution: label=\(label, privacy: .public)")
+            case .failure(let error):
+                self.logger.log("Failed to save a solution: label=\(label, privacy: .public), error=\(error.localizedDescription)")
+            }
+            self.persistenceResultHandler(result)
+        }
+    }
+    
+    private func persistenceResultHandler(_ result: Result<Void, Error>) -> Void {
+        DispatchQueue.main.async {
+            switch result {
+            case .success(_):
+                self.toggle.toggle()
+            case .failure(let error):
+                self.logger.log("Error while saving data: \(error.localizedDescription, privacy: .public)")
+                self.logger.log("Error while saving data: \(Thread.callStackSymbols, privacy: .public)")
+                self.errorMessage = "Error while saving data"
+                self.showAlert.toggle()
+            }
+            self.fetchCompounds()
+        }
+    }
+    
+    func save() -> Void {
         persistenceHelper.save { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(_):
-                    self.toggle.toggle()
-                case .failure(let error):
-                    self.logger.log("Error while saving data: \(error.localizedDescription, privacy: .public)")
-                    self.logger.log("Error while saving data: \(Thread.callStackSymbols, privacy: .public)")
-                    self.errorMessage = "Error while saving data"
-                    self.showAlert.toggle()
-                    completionHandler(error)
-                }
-                self.fetchCompounds()
-            }
+            self.persistenceResultHandler(result)
         }
     }
     
     func delete(_ object: NSManagedObject) -> Void {
+        // This doesn't save to DB
         persistenceHelper.delete(object)
     }
     
@@ -507,19 +444,9 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
         
-        let fc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        let compounds = persistenceHelper.perform(fetchRequest)
         
-        do {
-            try fc.performFetch()
-        } catch {
-            logger.log("Failed fetch Compound")
-        }
-        
-        guard let entities = fc.fetchedObjects else {
-            return
-        }
-        
-        guard entities.count > 0 else {
+        guard compounds.count > 0 else {
             return
         }
         
@@ -529,9 +456,9 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         
         // Randomly select 6 records to provide widgets per hour
         for _ in 0..<numberOfWidgetEntries {
-            let entity = entities[Int.random(in: 0..<entities.count)]
-            if let cid = entity.cid, let name = entity.name, let formula = entity.formula, let created = entity.created {
-                widgetEntries.append(WidgetEntry(cid: cid, name: name, formula: formula, image: entity.image, created: created))
+            let compound = compounds[Int.random(in: 0..<compounds.count)]
+            if let cid = compound.cid, let name = compound.name, let formula = compound.formula, let created = compound.created {
+                widgetEntries.append(WidgetEntry(cid: cid, name: name, formula: formula, image: compound.image, created: created))
             }
         }
         
@@ -556,18 +483,9 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     
     private func fetchCompounds() {
         let fetchRequet = NSFetchRequest<Compound>(entityName: "Compound")
-        fetchRequet.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.name, ascending: true), NSSortDescriptor(keyPath: \Compound.created, ascending: true)]
-        allCompounds = fetch(fetchRequet)
-    }
-    
-    private func fetch<Element>(_ fetchRequest: NSFetchRequest<Element>) -> [Element] {
-        var fetchedEntities = [Element]()
-        do {
-            fetchedEntities = try persistenceContainer.viewContext.fetch(fetchRequest)
-        } catch {
-            self.logger.error("Failed to fetch: \(error.localizedDescription)")
-        }
-        return fetchedEntities
+        fetchRequet.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.name, ascending: true),
+                                       NSSortDescriptor(keyPath: \Compound.created, ascending: true)]
+        allCompounds = persistenceHelper.perform(fetchRequet)
     }
     
     func searchCompounds(nameContaining searchString: String) -> [Compound] {

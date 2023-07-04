@@ -92,7 +92,7 @@ struct MakeSolutionView: View {
                 Spacer()
                 
                 Button {
-                    viewModel.saveSolution(solutionLabel: solutionLabel, ingradients: ingradients, viewContext: viewContext)
+                    viewModel.saveSolution(solutionLabel: solutionLabel, ingradients: ingradients)
                     dissmiss()
                 } label: {
                     Text(Action.Save.rawValue)

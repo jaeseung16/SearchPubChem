@@ -56,7 +56,6 @@ struct CompoundListView: View {
                 }
                 .sheet(isPresented: $presentAddCompoundView) {
                     AddCompoundView()
-                        .environment(\.managedObjectContext, viewContext)
                         .environmentObject(viewModel)
                 }
                 .onChange(of: viewModel.receivedURL) { _ in

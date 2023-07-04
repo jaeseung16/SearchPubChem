@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct AddCompoundView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
@@ -97,7 +96,7 @@ struct AddCompoundView: View {
             Spacer()
             
             Button {
-                viewModel.saveCompound(searchType: searchType, searchValue: searchValue, viewContext: viewContext)
+                viewModel.saveCompound(searchType: searchType, searchValue: searchValue)
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Text(Action.Save.rawValue)

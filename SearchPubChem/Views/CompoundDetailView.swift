@@ -234,7 +234,7 @@ struct CompoundDetailView: View {
         
         viewModel.delete(compound)
         
-        viewModel.save() { _ in }
+        viewModel.save()
         
         presentationMode.wrappedValue.dismiss()
     }
