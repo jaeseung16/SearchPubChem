@@ -18,6 +18,6 @@ struct WidgetEntry: TimelineEntry, Codable, Identifiable {
     var date: Date = Date()
     
     var id: String {
-        "\(cid)_\(created.formatted())"
+        "\(cid)_\(created.timeIntervalSince1970)"
     }
 }

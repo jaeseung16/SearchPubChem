@@ -40,6 +40,6 @@ extension Compound {
     }
     
     public var id: String {
-        "\(cid ?? "")_\(created?.formatted() ?? "")"
+        "\(cid ?? "")_\(created?.timeIntervalSince1970 ?? 0.0)"
     }
 }

@@ -101,7 +101,7 @@ class AppDelegate: NSObject {
 
         let content = UNMutableNotificationContent()
         content.title = SearchPubChemConstants.appPathComponent.rawValue
-        content.body = "\(name)_\(created.formatted())"
+        content.body = "\(name)_\(created.timeIntervalSince1970)"
         content.sound = UNNotificationSound.default
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
