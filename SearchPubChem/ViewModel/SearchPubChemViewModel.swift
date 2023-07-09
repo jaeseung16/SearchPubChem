@@ -79,6 +79,8 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         
         logger.log("spotlightIndexer=\(String(describing: self.spotlightIndexer)) isIndexingEnabled=\(String(describing: self.spotlightIndexer?.isIndexingEnabled))")
         
+        self.persistence.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        
         fetchEntities()
     }
     
