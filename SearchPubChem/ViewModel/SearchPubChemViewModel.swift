@@ -79,7 +79,12 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         
         logger.log("spotlightIndexer=\(String(describing: self.spotlightIndexer)) isIndexingEnabled=\(String(describing: self.spotlightIndexer?.isIndexingEnabled))")
         
+        fetchEntities()
+    }
+    
+    private func fetchEntities() {
         fetchCompounds()
+        fetchTags()
     }
     
     @objc private func defaultsChanged() -> Void {
@@ -332,7 +337,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
                 self.errorMessage = "Error while saving data"
                 self.showAlert.toggle()
             }
-            self.fetchCompounds()
+            self.fetchEntities()
         }
     }
     
@@ -375,7 +380,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
                 DispatchQueue.main.async {
                     self.toggle.toggle()
                     if self.selectedCompoundName.isEmpty {
-                        self.fetchCompounds()
+                        self.fetchEntities()
                     }
                 }
             case .failure(let error):
@@ -586,12 +591,20 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     
     // MARK: -
     @Published var allCompounds = [Compound]()
+    @Published var allTags = [CompoundTag]()
     
     private func fetchCompounds() {
         let fetchRequet = NSFetchRequest<Compound>(entityName: "Compound")
         fetchRequet.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.name, ascending: true),
                                        NSSortDescriptor(keyPath: \Compound.created, ascending: true)]
         allCompounds = persistenceHelper.perform(fetchRequet)
+    }
+    
+    private func fetchTags() {
+        let fetchRequet = NSFetchRequest<CompoundTag>(entityName: "CompoundTag")
+        fetchRequet.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.name, ascending: true),
+                                       NSSortDescriptor(keyPath: \Compound.created, ascending: true)]
+        allTags = persistenceHelper.perform(fetchRequet)
     }
     
     func searchCompounds(nameContaining searchString: String) -> [Compound] {

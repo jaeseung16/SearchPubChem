@@ -9,14 +9,8 @@
 import SwiftUI
 
 struct SelectTagsView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     @Environment(\.dismiss) private var dismiss
-    
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \CompoundTag.name, ascending: true)],
-        animation: .default)
-    private var tags: FetchedResults<CompoundTag>
     
     @Binding var selectedTag: CompoundTag?
     
@@ -27,7 +21,7 @@ struct SelectTagsView: View {
             Divider()
             
             List {
-                ForEach(tags) { tag in
+                ForEach(viewModel.allTags) { tag in
                     Button {
                         selectedTag = tag
                         dismiss.callAsFunction()

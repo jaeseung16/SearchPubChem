@@ -51,7 +51,6 @@ struct CompoundListView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .sheet(isPresented: $presentSelectTagView) {
                     SelectTagsView(selectedTag: $selectedTag)
-                        .environment(\.managedObjectContext, viewContext)
                         .environmentObject(viewModel)
                 }
                 .sheet(isPresented: $presentAddCompoundView) {
