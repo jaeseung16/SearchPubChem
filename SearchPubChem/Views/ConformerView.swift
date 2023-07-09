@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+@available(*, deprecated)
 struct ConformerView: View {
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel

@@ -24,6 +24,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     private let compoundProperties: [String] = [PubChemSearch.PropertyKey.formula, PubChemSearch.PropertyKey.weight, PubChemSearch.PropertyKey.nameIUPAC, PubChemSearch.PropertyKey.title]
     
     private let downloader = PubChemDownloader()
+    private let conformerSceneHelper = ConformerSceneHelper()
     
     @Published var success: Bool = false
     @Published var propertySet: Properties?
@@ -308,8 +309,9 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var rotation: SCNMatrix4 = SCNMatrix4Identity
     private var oldRotation: SCNMatrix4 = SCNMatrix4Identity
     
+    @available(*, deprecated)
     func panGesture(translation: CGSize, isEnded: Bool) {
-        let newRotation = coordinateTransform(for: makeRotation(from: translation), with: self.oldRotation)
+        let newRotation = conformerSceneHelper.coordinateTransform(from: translation, with: self.oldRotation)
 
         self.rotation = SCNMatrix4Mult(newRotation, self.oldRotation)
         
@@ -318,6 +320,12 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         }
     }
     
+    func panGesture(translation: CGSize, reference: SCNMatrix4, isEnded: Bool, completionHandler: @escaping (SCNMatrix4, SCNMatrix4) -> Void) {
+        let transform = conformerSceneHelper.coordinateTransform(from: translation, with: reference)
+        completionHandler(SCNMatrix4Mult(transform, reference), isEnded ? SCNMatrix4Mult(transform, reference) : reference)
+    }
+    
+    @available(*, deprecated)
     func pinchGesture(scale: CGFloat, isEnded: Bool) {
         let scale = Float(scale)
         let newScale = SCNMatrix4MakeScale(scale, scale, scale)
@@ -329,23 +337,18 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         }
     }
     
+    func pinchGesture(scale: CGFloat, reference: SCNMatrix4, isEnded: Bool, completionHandler: @escaping (SCNMatrix4, SCNMatrix4) -> Void) {
+        let transform = conformerSceneHelper.coordinateTransform(from: Float(scale))
+        completionHandler(SCNMatrix4Mult(transform, reference), isEnded ? SCNMatrix4Mult(transform, reference) : reference)
+    }
+    
     func resetRotation() {
         self.rotation = SCNMatrix4Identity
         self.oldRotation = SCNMatrix4Identity
     }
     
-    private func makeRotation(from translation: CGSize) -> SCNMatrix4 {
-        let length = sqrt( translation.width * translation.width + translation.height * translation.height )
-        let angle = Float(length) * .pi / 180.0
-        let rotationAxis = [CGFloat](arrayLiteral: translation.height / length, translation.width / length)
-        let rotation = SCNMatrix4MakeRotation(angle, Float(rotationAxis[0]), Float(rotationAxis[1]), 0)
-        return rotation
-    }
-    
-    private func coordinateTransform(for rotation: SCNMatrix4, with reference: SCNMatrix4) -> SCNMatrix4 {
-        let inverseOfReference = SCNMatrix4Invert(reference)
-        let transformed = SCNMatrix4Mult(reference, SCNMatrix4Mult(rotation, inverseOfReference))
-        return transformed
+    func makeScene(_ conformer: Conformer) -> SCNScene {
+        return conformerSceneHelper.makeScene(conformer)
     }
     
     // MARK: - Solution

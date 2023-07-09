@@ -9,6 +9,7 @@
 import SwiftUI
 import SceneKit
 
+@available(*, deprecated)
 struct SceneKitView: UIViewRepresentable {
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     

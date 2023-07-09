@@ -67,12 +67,14 @@
 		90849827266D79A7002644F6 /* 6305_tryptophan.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497F7266D79A7002644F6 /* 6305_tryptophan.png */; };
 		9084982A266D79A7002644F6 /* 887_methanol.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497FA266D79A7002644F6 /* 887_methanol.png */; };
 		9084982C266D79EF002644F6 /* RecordLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9084982B266D79EF002644F6 /* RecordLoader.swift */; };
+		90863D782A58CDB800A9A7EB /* ConformerSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90863D772A58CDB800A9A7EB /* ConformerSceneView.swift */; };
 		9087E642271662F40097CFC6 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9087E641271662F10097CFC6 /* Unit.swift */; };
 		9087E644271663280097CFC6 /* AbsoluteRelative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9087E643271663280097CFC6 /* AbsoluteRelative.swift */; };
 		9089909E27149C5700DC3989 /* 962_water.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909D27149C5700DC3989 /* 962_water.png */; };
 		908990A027149CB100DC3989 /* 5234_sodium chloride.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909F27149CB100DC3989 /* 5234_sodium chloride.png */; };
 		908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A12714A6D400DC3989 /* DataMigrationView.swift */; };
 		908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A32714BF9C00DC3989 /* FirstLaunchView.swift */; };
+		9089A0E92A5AF9CF00C14859 /* ConformerSceneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */; };
 		909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */; };
 		909AE6BE200CF2F000FEE529 /* SearchPubChemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6BD200CF2F000FEE529 /* SearchPubChemTests.swift */; };
 		909AE6C9200CF2F000FEE529 /* SearchPubChemUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6C8200CF2F000FEE529 /* SearchPubChemUITests.swift */; };
@@ -215,12 +217,14 @@
 		908497F7266D79A7002644F6 /* 6305_tryptophan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6305_tryptophan.png; sourceTree = "<group>"; };
 		908497FA266D79A7002644F6 /* 887_methanol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 887_methanol.png; sourceTree = "<group>"; };
 		9084982B266D79EF002644F6 /* RecordLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordLoader.swift; sourceTree = "<group>"; };
+		90863D772A58CDB800A9A7EB /* ConformerSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerSceneView.swift; sourceTree = "<group>"; };
 		9087E641271662F10097CFC6 /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
 		9087E643271663280097CFC6 /* AbsoluteRelative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbsoluteRelative.swift; sourceTree = "<group>"; };
 		9089909D27149C5700DC3989 /* 962_water.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 962_water.png; sourceTree = "<group>"; };
 		9089909F27149CB100DC3989 /* 5234_sodium chloride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "5234_sodium chloride.png"; sourceTree = "<group>"; };
 		908990A12714A6D400DC3989 /* DataMigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrationView.swift; sourceTree = "<group>"; };
 		908990A32714BF9C00DC3989 /* FirstLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLaunchView.swift; sourceTree = "<group>"; };
+		9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerSceneHelper.swift; sourceTree = "<group>"; };
 		908C70F82A4652AF00D6C9FA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		909AE6A5200CF2F000FEE529 /* SearchPubChem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchPubChem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909AE6B2200CF2F000FEE529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -517,6 +521,7 @@
 				9087E643271663280097CFC6 /* AbsoluteRelative.swift */,
 				907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */,
 				907AB0F72A52306E00922EF0 /* PersistenceHelper.swift */,
+				9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -540,6 +545,7 @@
 				908990A32714BF9C00DC3989 /* FirstLaunchView.swift */,
 				90AE0821271B29E700DB7846 /* SceneKitView.swift */,
 				90AE0823271B4B1400DB7846 /* ConformerView.swift */,
+				90863D772A58CDB800A9A7EB /* ConformerSceneView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -814,6 +820,7 @@
 				90EB2E2827271B4400C654BB /* TabItem.swift in Sources */,
 				908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */,
 				90D8B029270E51AD00C81750 /* SearchPubChemApp.swift in Sources */,
+				9089A0E92A5AF9CF00C14859 /* ConformerSceneHelper.swift in Sources */,
 				90E010D9270A54C9004A2401 /* SolutionDetailView.swift in Sources */,
 				90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */,
 				9087E642271662F40097CFC6 /* Unit.swift in Sources */,
@@ -824,6 +831,7 @@
 				9065BF5B22EE2F7400350083 /* Elements.swift in Sources */,
 				9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */,
 				90C008AB2309A60C0057217E /* ConformerEntity+Extensions.swift in Sources */,
+				90863D782A58CDB800A9A7EB /* ConformerSceneView.swift in Sources */,
 				90AE84D12710A46800470E1B /* SolutionMigrationPolicy.swift in Sources */,
 				90D4F74A2651687A0082CFAE /* CompoundTagDTO.swift in Sources */,
 				90D8B021270E1EEF00C81750 /* SearchType.swift in Sources */,
