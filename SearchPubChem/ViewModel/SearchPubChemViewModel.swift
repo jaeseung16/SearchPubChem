@@ -223,6 +223,90 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         }
     }
     
+    func delete(compound: Compound) {
+        if let tags = compound.tags {
+            for tag in tags {
+                if let compoundTag = tag as? CompoundTag {
+                    compoundTag.removeFromCompounds(compound)
+                    compoundTag.compoundCount -= 1
+                }
+            }
+        }
+        
+        if let conformers = compound.conformers, conformers.count > 0 {
+            for conformerEntity in conformers {
+                if let entity = conformerEntity as? ConformerEntity {
+                    if let atoms = entity.atoms {
+                        for atom in atoms {
+                            if let atomEntity = atom as? AtomEntity {
+                                entity.removeFromAtoms(atomEntity)
+                                delete(atomEntity)
+                            }
+                        }
+                    }
+                    compound.removeFromConformers(entity)
+                    delete(entity)
+                }
+            }
+        }
+        
+        delete(compound)
+        
+        save()
+    }
+    
+    func saveTag(name: String, compound: Compound, completionHandler: @escaping (CompoundTag) -> Void) -> Void {
+        persistenceHelper.saveNewTag(name, for: compound) { result in
+            switch result {
+            case .success(let tag):
+                self.logger.log("Saved a tag named=\(name, privacy: .public)")
+                completionHandler(tag)
+            case .failure(let error):
+                self.logger.log("Failed to save a tag named=\(name, privacy: .public): \(error.localizedDescription)")
+                self.errorMessage = "Failed to save a tag named \(name)"
+                self.showAlert.toggle()
+            }
+        }
+    }
+    
+    func saveTag(name: String, compound: Compound) -> CompoundTag {
+        let newTag = CompoundTag(context: viewContext)
+        newTag.compoundCount = 1
+        newTag.name = name
+        newTag.addToCompounds(compound)
+        
+        save()
+        
+        return newTag
+    }
+    
+    func delete(tag: CompoundTag) -> Void {
+        if let compounds = tag.compounds {
+            tag.removeFromCompounds(compounds)
+        }
+        
+        delete(tag)
+        save()
+    }
+    
+    func update(compound: Compound, newTags: [CompoundTag]) -> Void {
+        if let oldTags = compound.tags {
+            for tag in oldTags {
+                if let compoundTag = tag as? CompoundTag {
+                    compoundTag.compoundCount -= 1
+                    compoundTag.removeFromCompounds(compound)
+                }
+            }
+        }
+        
+        for tag in newTags {
+            tag.compoundCount += 1
+            tag.addToCompounds(compound)
+        }
+        
+        save()
+    }
+    
     func saveSolution(solutionLabel: String, ingradients: [SolutionIngradientDTO]) -> Void {
         let label = solutionLabel.isEmpty ? self.solutionLabel : solutionLabel
         

@@ -10,7 +10,6 @@ import SwiftUI
 import CoreData
 
 struct CompoundDetailView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
@@ -206,36 +205,7 @@ struct CompoundDetailView: View {
     }
     
     private func delete() -> Void {
-        if let tags = compound.tags {
-            for tag in tags {
-                if let compoundTag = tag as? CompoundTag {
-                    compoundTag.removeFromCompounds(compound)
-                    compoundTag.compoundCount -= 1
-                }
-            }
-        }
-        
-        if let conformers = compound.conformers, conformers.count > 0 {
-            for conformerEntity in conformers {
-                if let entity = conformerEntity as? ConformerEntity {
-                    if let atoms = entity.atoms {
-                        for atom in atoms {
-                            if let atomEntity = atom as? AtomEntity {
-                                entity.removeFromAtoms(atomEntity)
-                                viewModel.delete(atomEntity)
-                            }
-                        }
-                    }
-                    compound.removeFromConformers(entity)
-                    viewModel.delete(entity)
-                }
-            }
-        }
-        
-        viewModel.delete(compound)
-        
-        viewModel.save()
-        
+        viewModel.delete(compound: compound)
         presentationMode.wrappedValue.dismiss()
     }
     

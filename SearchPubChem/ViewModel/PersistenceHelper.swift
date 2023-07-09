@@ -82,6 +82,22 @@ class PersistenceHelper {
         
         save() { completionHandler($0) }
     }
+    
+    func saveNewTag(_ name: String, for compound: Compound, completionHandler: @escaping (Result<CompoundTag, Error>) -> Void) -> Void {
+        let newTag = CompoundTag(context: viewContext)
+        newTag.compoundCount = 1
+        newTag.name = name
+        newTag.addToCompounds(compound)
+        
+        save() { result in
+            switch result {
+            case .success(_):
+                completionHandler(.success(newTag))
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }
+        }
+    }
    
     func perform<Element>(_ fetchRequest: NSFetchRequest<Element>) -> [Element] {
         var fetchedEntities = [Element]()

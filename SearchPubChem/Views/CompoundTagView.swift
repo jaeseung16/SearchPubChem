@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct CompoundTagView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
@@ -112,52 +111,25 @@ struct CompoundTagView: View {
     
     private func addTag() {
         if !newTagName.isEmpty {
-            let newTag = CompoundTag(context: viewContext)
-            newTag.compoundCount = 1
-            newTag.name = newTagName
-            newTag.addToCompounds(compound)
-            
-            viewModel.save()
-            
-            if tags == nil {
-                tags = Set()
+            viewModel.saveTag(name: newTagName, compound: compound) { tag in
+                if tags == nil {
+                    tags = Set()
+                }
+                tags!.insert(tag)
             }
-            tags!.insert(newTag)
         } else {
             print("New tag is not given")
         }
     }
     
     private func deleteTag(indexSet: IndexSet) {
-        for index in indexSet {
-            let tag = allTags[index]
-            
-            if let compounds = tag.compounds {
-                tag.removeFromCompounds(compounds)
-            }
-            
-            viewModel.delete(tag)
+        indexSet.forEach {
+            viewModel.delete(tag: allTags[$0])
         }
-        
-        viewModel.save()
     }
     
     private func updateTags() {
-        if let tags = compound.tags {
-            for tag in tags {
-                if let compoundTag = tag as? CompoundTag {
-                    compoundTag.compoundCount -= 1
-                    compoundTag.removeFromCompounds(compound)
-                }
-            }
-        }
-        
-        for tag in tagsAttachedToCompound {
-            tag.compoundCount += 1
-            tag.addToCompounds(compound)
-        }
-        
-        viewModel.save()
+        viewModel.update(compound: compound, newTags: tagsAttachedToCompound)
     }
 }
 
