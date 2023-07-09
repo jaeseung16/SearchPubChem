@@ -106,7 +106,7 @@ struct CompoundDetailView: View {
         }
         .sheet(isPresented: $presentConformerView) {
             if let conformer = conformer {
-                ConformerView(conformer: conformer, name: compound.name ?? "", molecularFormula: compound.formula ?? "")
+                ConformerSceneView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
             }
         }
         .sheet(isPresented: $presentTagView) {
