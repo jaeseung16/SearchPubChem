@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct SolutionDetailView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     

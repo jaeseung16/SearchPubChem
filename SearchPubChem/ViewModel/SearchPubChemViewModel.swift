@@ -85,6 +85,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     private func fetchEntities() {
         fetchCompounds()
         fetchTags()
+        fetchSolutions()
     }
     
     @objc private func defaultsChanged() -> Void {
@@ -592,6 +593,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     // MARK: -
     @Published var allCompounds = [Compound]()
     @Published var allTags = [CompoundTag]()
+    @Published var allSolutions = [Solution]()
     
     private func fetchCompounds() {
         let fetchRequet = NSFetchRequest<Compound>(entityName: "Compound")
@@ -618,6 +620,12 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
                 searchString.isEmpty || compound.nameContains(string: searchString)
             }
         }
+    }
+    
+    private func fetchSolutions() {
+        let fetchRequest = NSFetchRequest<Solution>(entityName: "Solution")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.created, ascending: false)]
+        allSolutions = persistenceHelper.perform(fetchRequest)
     }
     
 }

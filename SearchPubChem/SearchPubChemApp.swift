@@ -27,7 +27,6 @@ struct SearchPubChemApp: App {
                     .environmentObject(DataMigrator())
             } else {
                 ContentView()
-                    .environment(\.managedObjectContext, appDelegate.persistence.container.viewContext)
                     .environmentObject(appDelegate.viewModel)
                     .onChange(of: scenePhase) { phase in
                         if phase == .background {

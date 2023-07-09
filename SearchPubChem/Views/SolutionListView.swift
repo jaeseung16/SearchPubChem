@@ -9,14 +9,8 @@
 import SwiftUI
 
 struct SolutionListView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
-    
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Solution.created, ascending: false)],
-        animation: .default)
-    private var solutions: FetchedResults<Solution>
     
     @State private var presentMakeSolutionView = false
     
@@ -33,7 +27,7 @@ struct SolutionListView: View {
             GeometryReader { geometry in
                 VStack {
                     List {
-                        ForEach(solutions) { solution in
+                        ForEach(viewModel.allSolutions) { solution in
                             NavigationLink {
                                 SolutionDetailView(solution: solution)
                             } label: {

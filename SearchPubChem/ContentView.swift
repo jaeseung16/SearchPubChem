@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var viewModel: SearchPubChemViewModel
     
     @State private var selectedTab = SelectedTab.compound

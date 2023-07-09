@@ -9,14 +9,8 @@
 import SwiftUI
 
 struct SelectCompoundsView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
-    
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Compound.name, ascending: true)],
-        animation: .default)
-    private var compounds: FetchedResults<Compound>
     
     @State var selectedCompounds: [Compound]
     
@@ -45,7 +39,7 @@ struct SelectCompoundsView: View {
                 
                 ScrollView {
                     LazyVGrid(columns: Array(repeating: GridItem.init(.flexible()), count: 3)) {
-                        ForEach(compounds) { compound in
+                        ForEach(viewModel.allCompounds) { compound in
                             Button {
                                 if let index = selectedCompounds.firstIndex(of: compound) {
                                     selectedCompounds.remove(at: index)

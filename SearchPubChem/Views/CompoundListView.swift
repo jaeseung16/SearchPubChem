@@ -10,7 +10,6 @@ import SwiftUI
 import CoreSpotlight
 
 struct CompoundListView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @State var compounds: [Compound]

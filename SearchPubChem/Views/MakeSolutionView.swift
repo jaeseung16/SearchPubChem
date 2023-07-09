@@ -10,7 +10,6 @@ import SwiftUI
 import CoreData
 
 struct MakeSolutionView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
@@ -74,7 +73,6 @@ struct MakeSolutionView: View {
         }
         .sheet(isPresented: $presentSelectCompoundsView) {
             SelectCompoundsView(selectedCompounds: selectedCompounds)
-                .environment(\.managedObjectContext, viewContext)
         }
     }
     
