@@ -12,11 +12,6 @@ struct CompoundTagView: View {
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \CompoundTag.name, ascending: true)],
-        animation: .default)
-    private var allTags: FetchedResults<CompoundTag>
-    
     var compound: Compound
     
     @State var tags: Set<CompoundTag>?
@@ -65,7 +60,7 @@ struct CompoundTagView: View {
             }
             
             List {
-                ForEach(allTags) { tag in
+                ForEach(viewModel.allTags) { tag in
                     Button {
                         if tags == nil {
                             tags = Set()
@@ -123,9 +118,7 @@ struct CompoundTagView: View {
     }
     
     private func deleteTag(indexSet: IndexSet) {
-        indexSet.forEach {
-            viewModel.delete(tag: allTags[$0])
-        }
+        viewModel.deleteTags(indexSet)
     }
     
     private func updateTags() {

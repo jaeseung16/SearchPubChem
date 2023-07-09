@@ -230,29 +230,24 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func delete(compound: Compound) {
-        if let tags = compound.tags {
-            for tag in tags {
-                if let compoundTag = tag as? CompoundTag {
-                    compoundTag.removeFromCompounds(compound)
-                    compoundTag.compoundCount -= 1
-                }
+        compound.tags?.forEach { tag in
+            if let compoundTag = tag as? CompoundTag {
+                compoundTag.removeFromCompounds(compound)
+                compoundTag.compoundCount -= 1
             }
         }
         
-        if let conformers = compound.conformers, conformers.count > 0 {
-            for conformerEntity in conformers {
-                if let entity = conformerEntity as? ConformerEntity {
-                    if let atoms = entity.atoms {
-                        for atom in atoms {
-                            if let atomEntity = atom as? AtomEntity {
-                                entity.removeFromAtoms(atomEntity)
-                                delete(atomEntity)
-                            }
-                        }
+        compound.conformers?.forEach { conformer in
+            if let entity = conformer as? ConformerEntity {
+                entity.atoms?.forEach { atom in
+                    if let atomEntity = atom as? AtomEntity {
+                        entity.removeFromAtoms(atomEntity)
+                        delete(atomEntity)
                     }
-                    compound.removeFromConformers(entity)
-                    delete(entity)
                 }
+                
+                compound.removeFromConformers(entity)
+                delete(entity)
             }
         }
         
@@ -284,6 +279,13 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         save()
         
         return newTag
+    }
+    
+    func deleteTags(_ indexSet: IndexSet) -> Void {
+        indexSet.map { allTags[$0] }
+            .forEach { delete($0) }
+        
+        save()
     }
     
     func delete(tag: CompoundTag) -> Void {
