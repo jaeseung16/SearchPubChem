@@ -20,14 +20,6 @@ struct SolutionDetailView: View {
     @State private var presentShareSheet = false
     @State private var presentAlert = false
     
-    private var dateFormatter: DateFormatter {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        dateFormatter.locale = Locale.current
-        return dateFormatter
-    }
-    
     private var ingradients: [SolutionIngradientDTO] {
         var ingradients = [SolutionIngradientDTO]()
         solution.ingradients?.forEach { entity in
@@ -39,16 +31,6 @@ struct SolutionDetailView: View {
             }
         }
         return ingradients
-    }
-    
-    private var compounds: [Compound] {
-        var compounds = [Compound]()
-        solution.ingradients?.forEach({ ingradient in
-            if let ingradient = ingradient as? SolutionIngradient, let compound = ingradient.compound {
-                compounds.append(compound)
-            }
-        })
-        return compounds
     }
     
     private var amounts: [String: Double] {
@@ -78,10 +60,10 @@ struct SolutionDetailView: View {
             VStack {
                 Text(solution.name?.uppercased() ?? "")
                     .font(.headline)
-                
-                Text("Created on " + dateFormatter.string(from: solution.created ?? Date()))
-                    .font(.caption)
                     
+                created(on: solution.created ?? Date())
+                    .font(.caption)
+                   
                 Divider()
                 
                 columnHeads(geometry: geometry)
@@ -108,6 +90,10 @@ struct SolutionDetailView: View {
             })
         }
         .padding()
+    }
+    
+    private func created(on date: Date) -> some View {
+        Text("Created on ") + Text(date, style: .date)
     }
     
     private func columnHeads(geometry: GeometryProxy) -> some View {
@@ -195,13 +181,13 @@ struct SolutionDetailView: View {
         if absoluteRelative == .relative {
             switch unit {
             case .gram:
-                factor = 100.0 / sum(of: amounts)
+                factor = 100.0 / total(amounts)
             case .mg:
-                factor = 100.0 / sum(of: amountsInMg)
+                factor = 100.0 / total(amountsInMg)
             case .mol:
-                factor = 100.0 / sum(of: amountsMol)
+                factor = 100.0 / total(amountsMol)
             case .mM:
-                factor = 100.0 / sum(of: amountsInMiliMol)
+                factor = 100.0 / total(amountsInMiliMol)
             }
         }
         
@@ -209,44 +195,26 @@ struct SolutionDetailView: View {
         
         switch unit {
         case .gram:
-            for name in amounts.keys {
-                if let amount = amounts[name] {
-                    amountsToDisplay[name] = amount * factor
-                }
-            }
+            amountsToDisplay = amounts.mapValues { $0 * factor }
         case .mg:
-            for name in amounts.keys {
-                if let amountsInMg = amountsInMg[name] {
-                    amountsToDisplay[name] = amountsInMg * factor
-                }
-            }
+            amountsToDisplay = amountsInMg.mapValues { $0 * factor }
         case .mol:
-            for name in amountsMol.keys {
-                if let amountMol = amountsMol[name] {
-                    amountsToDisplay[name] = amountMol * factor
-                }
-            }
+            amountsToDisplay = amountsMol.mapValues { $0 * factor }
         case .mM:
-            for name in amountsMol.keys {
-                if let amountsInMiliMol = amountsInMiliMol[name] {
-                    amountsToDisplay[name] = amountsInMiliMol * factor
-                }
-            }
+            amountsToDisplay = amountsInMiliMol.mapValues { $0 * factor }
         }
         
         return amountsToDisplay
     }
     
-    private func sum(of amounts: [String: Double]) -> Double {
+    private func total(_ amounts: [String: Double]) -> Double {
         return amounts.values.reduce(0.0, { x, y in x + y })
     }
     
     private func delete() -> Void {
-        if let compounds = solution.compounds {
-            for compound in compounds {
-                if let compound = compound as? Compound {
-                    compound.removeFromSolutions(solution)
-                }
+        solution.compounds?.forEach { compound in
+            if let compound = compound as? Compound {
+                compound.removeFromSolutions(solution)
             }
         }
         
