@@ -71,6 +71,8 @@ struct SolutionDetailView: View {
         return viewModel.getAmounts(of: ingradients, in: unit)
     }
     
+    @State private var compound: Compound?
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -88,6 +90,11 @@ struct SolutionDetailView: View {
             }
             .toolbar {
                 toolbarContent()
+            }
+            .sheet(isPresented: $presentCompoundMiniDetailView) {
+                if let compound = compound {
+                    CompoundMiniDetailView(compound: compound)
+                }
             }
             .sheet(isPresented: $presentShareSheet) {
                 if let name = solution.name, let date = solution.created, let url = viewModel.generateCSV(solutionName: name, created: date, ingradients: ingradients) {
@@ -147,6 +154,7 @@ struct SolutionDetailView: View {
         List {
             ForEach(ingradients) { ingradient in
                 Button {
+                    compound = ingradient.compound
                     presentCompoundMiniDetailView = true
                 } label: {
                     if let name = ingradient.compound.name {
@@ -160,9 +168,6 @@ struct SolutionDetailView: View {
                             }
                         }
                     }
-                }
-                .sheet(isPresented: $presentCompoundMiniDetailView) {
-                    CompoundMiniDetailView(compound: ingradient.compound)
                 }
             }
         }
