@@ -15,15 +15,8 @@ struct SelectCompoundsView: View {
     @State var selectedCompounds: [Compound]
     
     private var selectedCompoundsLabel: String {
-        var compoundNames = [String]()
-        
-        for compound in selectedCompounds {
-            if let name = compound.name {
-                compoundNames.append(name)
-            }
-        }
-        
-        return compoundNames.joined(separator: "/")
+        return selectedCompounds.compactMap { $0.name }
+            .joined(separator: "/")
     }
     
     var body: some View {
