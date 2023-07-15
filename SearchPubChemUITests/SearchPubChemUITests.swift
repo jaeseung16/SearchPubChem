@@ -76,4 +76,53 @@ class SearchPubChemUITests: XCTestCase {
         
         XCTAssert(compoundTabSelected.exists)
     }
+    
+    func testAddCompoundButton() {
+        app.launch()
+        
+        let compoundTabSelected = app.buttons["compoundTabSelected"]
+        let compoundTabUnselected = app.buttons["compoundTabUnselected"]
+        if compoundTabUnselected.exists {
+            compoundTabUnselected.tap()
+        }
+        
+        let addCompoundButton = app.buttons["addCompoundButton"]
+        XCTAssert(addCompoundButton.exists)
+        
+        addCompoundButton.tap()
+        
+        let cancelAddCompoundButton = app.buttons["cancelAddCompoundButton"]
+        XCTAssert(cancelAddCompoundButton.exists)
+
+        cancelAddCompoundButton.tap()
+        XCTAssertFalse(cancelAddCompoundButton.waitForExistence(timeout: 0.5))
+        
+        XCTAssert(compoundTabSelected.exists)
+    }
+    
+    func testMakeSolutionButton() {
+        // Use recording to get started writing UI tests.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        app.launch()
+        
+        let solutionTabSelected = app.buttons["solutionTabSelected"]
+        let solutionTabUnselected = app.buttons["solutionTabUnselected"]
+        
+        if solutionTabUnselected.exists {
+            solutionTabUnselected.tap()
+        }
+        
+        let makeSolutionButton = app.buttons["makeSolutionButton"]
+        XCTAssert(makeSolutionButton.exists)
+        
+        makeSolutionButton.tap()
+        
+        let cancelMakeSolutionButton = app.buttons["cancelMakeSolutionButton"]
+        XCTAssert(cancelMakeSolutionButton.exists)
+
+        cancelMakeSolutionButton.tap()
+        XCTAssertFalse(cancelMakeSolutionButton.waitForExistence(timeout: 0.5))
+        
+        XCTAssert(solutionTabSelected.exists)
+    }
 }

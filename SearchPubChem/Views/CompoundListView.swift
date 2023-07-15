@@ -113,7 +113,7 @@ struct CompoundListView: View {
             } label: {
                 Image(systemName: "plus")
             }
-            .accessibilityIdentifier("addButton")
+            .accessibilityIdentifier("addCompoundButton")
         }
     }
     

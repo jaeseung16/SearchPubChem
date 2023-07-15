@@ -92,6 +92,7 @@ struct AddCompoundView: View {
             } label: {
                 Text(Action.Cancel.rawValue)
             }
+            .accessibilityIdentifier("cancelAddCompoundButton")
             
             Spacer()
             

@@ -65,6 +65,7 @@ struct SolutionListView: View {
             } label: {
                 Image(systemName: "plus")
             }
+            .accessibilityIdentifier("makeSolutionButton")
         }
     }
 }

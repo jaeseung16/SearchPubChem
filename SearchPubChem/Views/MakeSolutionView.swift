@@ -58,6 +58,7 @@ struct MakeSolutionView: View {
             } label: {
                 Text("Add compounds")
             }
+            .accessibilityIdentifier("addCompoundsButton")
             
             if !ingradients.isEmpty {
                 ingradientList()
@@ -86,6 +87,7 @@ struct MakeSolutionView: View {
                 } label: {
                     Text(Action.Cancel.rawValue)
                 }
+                .accessibilityIdentifier("cancelMakeSolutionButton")
                 
                 Spacer()
                 
