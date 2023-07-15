@@ -71,7 +71,11 @@ struct AddCompoundView: View {
         })
         .sheet(isPresented: $presentConformerView) {
             if let conformer = viewModel.conformer {
-                ConformerSceneView(scene: viewModel.makeScene(conformer), name: viewModel.propertySet?.Title ?? "", molecularFormula: viewModel.propertySet?.MolecularFormula ?? "")
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    ConformerView(scene: viewModel.makeScene(conformer), name: viewModel.propertySet?.Title ?? "", molecularFormula: viewModel.propertySet?.MolecularFormula ?? "")
+                } else {
+                    ConformerSceneView(scene: viewModel.makeScene(conformer), name: viewModel.propertySet?.Title ?? "", molecularFormula: viewModel.propertySet?.MolecularFormula ?? "")
+                }
             }
         }
         .alert(viewModel.errorMessage ?? "Cannot download a compound", isPresented: $viewModel.showAlert) {

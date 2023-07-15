@@ -9,18 +9,17 @@
 import SwiftUI
 import SceneKit
 
-@available(*, deprecated)
 struct SceneKitView: UIViewRepresentable {
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     private let nodeName = "geometryNode"
     
-    var conformer: Conformer
+    var scene: SCNScene
     var size: CGSize
 
     func makeUIView(context: Context) -> SCNView {
         let scnView = SCNView(frame: CGRect(origin: CGPoint(x: 0,y: 0), size: self.size))
-        setup(scnView)
+        scnView.scene = scene
         return scnView
     }
     
@@ -29,73 +28,4 @@ struct SceneKitView: UIViewRepresentable {
             geometryNode.transform = SCNMatrix4Mult(viewModel.rotation, SCNMatrix4Identity)
         }
     }
-    
-    private func setup(_ scnView: SCNView) {
-        let geometryNode = createSCNNode(for: self.conformer)
-        geometryNode.name = nodeName
-        
-        scnView.backgroundColor = .lightGray
-        scnView.scene = sceneSetup()
-        scnView.scene?.rootNode.addChildNode(geometryNode)
-    }
-    
-    private func createSCNNode(for conformer: Conformer) -> SCNNode {
-        let atomsNode = SCNNode()
-        
-        for atom in conformer.atoms {
-            let atomNode = SCNNode(geometry: createSCNNode(for: atom))
-            atomNode.position = SCNVector3Make(Float(atom.location[0]), Float(atom.location[1]), Float(atom.location[2]))
-            atomsNode.addChildNode(atomNode)
-        }
-  
-        return atomsNode
-    }
-    
-    private func createSCNNode(for atom: Atom) -> SCNGeometry {
-        guard let element = Elements(rawValue: atom.number) else {
-            print("No such element: atomic number = \(atom.number)")
-            return SCNGeometry()
-        }
-
-        let radius = element.getVanDerWaalsRadius() > 0 ? element.getVanDerWaalsRadius() : element.getCovalentRadius()
-        
-        let atomNode = SCNSphere(radius: CGFloat(radius) / 200.0)
-        atomNode.firstMaterial?.diffuse.contents = element.getColor()
-        atomNode.firstMaterial?.specular.contents = UIColor.white
-        
-        return atomNode
-    }
-    
-    private func sceneSetup() -> SCNScene {
-        let scene = SCNScene()
-        scene.rootNode.addChildNode(ambientLightNode)
-        scene.rootNode.addChildNode(omniLightNode)
-        scene.rootNode.addChildNode(cameraNode)
-        return scene
-    }
-    
-    private var ambientLightNode: SCNNode {
-        let ambientLightNode = SCNNode()
-        ambientLightNode.light = SCNLight()
-        ambientLightNode.light!.type = SCNLight.LightType.ambient
-        ambientLightNode.light!.color = UIColor(white: 0.67, alpha: 1.0)
-        return ambientLightNode
-    }
-    
-    private var omniLightNode: SCNNode {
-        let omniLightNode = SCNNode()
-        omniLightNode.light = SCNLight()
-        omniLightNode.light!.type = SCNLight.LightType.omni
-        omniLightNode.light!.color = UIColor(white: 0.75, alpha: 1.0)
-        omniLightNode.position = SCNVector3Make(0, 50, 50)
-        return omniLightNode
-    }
-    
-    private var cameraNode: SCNNode {
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        cameraNode.position = SCNVector3Make(0, 0, 25)
-        return cameraNode
-    }
-    
 }

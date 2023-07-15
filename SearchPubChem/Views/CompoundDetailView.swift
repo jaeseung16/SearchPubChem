@@ -105,7 +105,11 @@ struct CompoundDetailView: View {
         }
         .sheet(isPresented: $presentConformerView) {
             if let conformer = conformer {
-                ConformerSceneView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    ConformerView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
+                } else {
+                    ConformerSceneView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
+                }
             }
         }
         .sheet(isPresented: $presentTagView) {
