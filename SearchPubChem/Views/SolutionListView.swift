@@ -45,6 +45,7 @@ struct SolutionListView: View {
         }
         .sheet(isPresented: $presentMakeSolutionView) {
             MakeSolutionView()
+                .environmentObject(viewModel)
         }
     }
     
