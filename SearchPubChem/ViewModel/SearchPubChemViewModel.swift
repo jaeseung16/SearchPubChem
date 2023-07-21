@@ -693,7 +693,7 @@ extension SearchPubChemViewModel {
                 return nil
             }
             
-            return CSSearchableItem(uniqueIdentifier: nil, domainIdentifier: spotlightIndexer.domainIdentifier(), attributeSet: attributeSet)
+            return CSSearchableItem(uniqueIdentifier: compound.objectID.uriRepresentation().absoluteString, domainIdentifier: spotlightIndexer.domainIdentifier(), attributeSet: attributeSet)
         }
         
         CSSearchableIndex(name: spotlightIndexer.indexName()!).indexSearchableItems(searchableItems) { error in
