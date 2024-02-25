@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -27,6 +27,37 @@
 		907327652A47774100B0A8DA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 908C70F82A4652AF00D6C9FA /* Settings.bundle */; };
 		907730B92A50DD8E003AA5A8 /* PubChemDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907730B82A50DD8E003AA5A8 /* PubChemDownloader.swift */; };
 		907730BB2A50E048003AA5A8 /* PubChemDownloadError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907730BA2A50E048003AA5A8 /* PubChemDownloadError.swift */; };
+		9077FC922B8B8887009724F2 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 9077FC912B8B8887009724F2 /* RealityKitContent */; };
+		9077FC942B8B8887009724F2 /* VisionSearchPubChemApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077FC932B8B8887009724F2 /* VisionSearchPubChemApp.swift */; };
+		9077FC962B8B8887009724F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077FC952B8B8887009724F2 /* ContentView.swift */; };
+		9077FC982B8B8888009724F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9077FC972B8B8888009724F2 /* Assets.xcassets */; };
+		9077FC9B2B8B8888009724F2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9077FC9A2B8B8888009724F2 /* Preview Assets.xcassets */; };
+		9077FCA22B8B89D6009724F2 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 9077FCA12B8B89D6009724F2 /* Persistence */; };
+		9077FCA92B8B8A89009724F2 /* VisionSearchPubChemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077FCA82B8B8A89009724F2 /* VisionSearchPubChemViewModel.swift */; };
+		9077FCAC2B8B8B33009724F2 /* CompoundListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077FCAB2B8B8B33009724F2 /* CompoundListView.swift */; };
+		9077FCAD2B8B8B93009724F2 /* PubChemSolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */; };
+		9077FCAE2B8B8BD3009724F2 /* PubChemSearchConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A28687204638ED00FF796A /* PubChemSearchConstants.swift */; };
+		9077FCAF2B8B8BE3009724F2 /* PubChemDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907730B82A50DD8E003AA5A8 /* PubChemDownloader.swift */; };
+		9077FCB02B8B8BF1009724F2 /* ConformerDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C2FF7424B6946D00C33F4C /* ConformerDTO.swift */; };
+		9077FCB12B8B8BF9009724F2 /* PubChemDownloadError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907730BA2A50E048003AA5A8 /* PubChemDownloadError.swift */; };
+		9077FCB22B8B8BFF009724F2 /* PubChemDownloading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AB0F52A51C50700922EF0 /* PubChemDownloading.swift */; };
+		9077FCB32B8B8C10009724F2 /* SearchType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D8B020270E1EEF00C81750 /* SearchType.swift */; };
+		9077FCB42B8B8C53009724F2 /* CompoundDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A09DE424B124EA0089C6C0 /* CompoundDTO.swift */; };
+		9077FCB52B8B8C85009724F2 /* AtomEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9062E67B23411DAB0039C136 /* AtomEntity+Extensions.swift */; };
+		9077FCB62B8B8C87009724F2 /* Compound+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9A204217540083E1FC /* Compound+Extensions.swift */; };
+		9077FCB72B8B8C8A009724F2 /* CompoundTag+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C18BAC2649ED950036C0DE /* CompoundTag+Extensions.swift */; };
+		9077FCB82B8B8C8C009724F2 /* ConformerEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C008AA2309A60C0057217E /* ConformerEntity+Extensions.swift */; };
+		9077FCB92B8B8C8E009724F2 /* Solution+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9C204217830083E1FC /* Solution+Extensions.swift */; };
+		9077FCBB2B8B8CBB009724F2 /* VisionPersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077FCBA2B8B8CBB009724F2 /* VisionPersistenceHelper.swift */; };
+		9077FCBC2B8B8CE6009724F2 /* Conformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069322E4EFBF0054E7C2 /* Conformer.swift */; };
+		9077FCBD2B8B8CE9009724F2 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069722E4F2220054E7C2 /* Atom.swift */; };
+		9077FCBE2B8B8CEB009724F2 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069522E4F0250054E7C2 /* Element.swift */; };
+		9077FCBF2B8B8CED009724F2 /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9065BF5A22EE2F7400350083 /* Elements.swift */; };
+		9077FCC02B8B8DE3009724F2 /* SearchPubChemConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903140FC283EE71600A72350 /* SearchPubChemConstants.swift */; };
+		9077FCC12B8B8E92009724F2 /* RecordLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9084982B266D79EF002644F6 /* RecordLoader.swift */; };
+		9077FCC22B8B8E9A009724F2 /* CompoundWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D4F74B26516D540082CFAE /* CompoundWrapper.swift */; };
+		9077FCC32B8B8EB4009724F2 /* records.json in Resources */ = {isa = PBXBuildFile; fileRef = 908497C8266D76D2002644F6 /* records.json */; };
+		9077FCC62B8B90E7009724F2 /* CompoundDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077FCC52B8B90E7009724F2 /* CompoundDetailView.swift */; };
 		907AB0F62A51C50700922EF0 /* PubChemDownloading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AB0F52A51C50700922EF0 /* PubChemDownloading.swift */; };
 		907AB0F82A52306E00922EF0 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AB0F72A52306E00922EF0 /* PersistenceHelper.swift */; };
 		907AE1C42A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */; };
@@ -177,6 +208,18 @@
 		90725F9C204217830083E1FC /* Solution+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Solution+Extensions.swift"; sourceTree = "<group>"; };
 		907730B82A50DD8E003AA5A8 /* PubChemDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemDownloader.swift; sourceTree = "<group>"; };
 		907730BA2A50E048003AA5A8 /* PubChemDownloadError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemDownloadError.swift; sourceTree = "<group>"; };
+		9077FC8D2B8B8887009724F2 /* VisionSearchPubChem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisionSearchPubChem.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9077FC902B8B8887009724F2 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
+		9077FC932B8B8887009724F2 /* VisionSearchPubChemApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionSearchPubChemApp.swift; sourceTree = "<group>"; };
+		9077FC952B8B8887009724F2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		9077FC972B8B8888009724F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9077FC9A2B8B8888009724F2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9077FC9C2B8B8888009724F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9077FCA82B8B8A89009724F2 /* VisionSearchPubChemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionSearchPubChemViewModel.swift; sourceTree = "<group>"; };
+		9077FCAB2B8B8B33009724F2 /* CompoundListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundListView.swift; sourceTree = "<group>"; };
+		9077FCBA2B8B8CBB009724F2 /* VisionPersistenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionPersistenceHelper.swift; sourceTree = "<group>"; };
+		9077FCC42B8B8EF5009724F2 /* VisionSearchPubChem.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VisionSearchPubChem.entitlements; sourceTree = "<group>"; };
+		9077FCC52B8B90E7009724F2 /* CompoundDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundDetailView.swift; sourceTree = "<group>"; };
 		907AB0F52A51C50700922EF0 /* PubChemDownloading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemDownloading.swift; sourceTree = "<group>"; };
 		907AB0F72A52306E00922EF0 /* PersistenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
 		907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPubChemSpotlightDelegate.swift; sourceTree = "<group>"; };
@@ -289,6 +332,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9077FC8A2B8B8887009724F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9077FCA22B8B89D6009724F2 /* Persistence in Frameworks */,
+				9077FC922B8B8887009724F2 /* RealityKitContent in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		909AE6A2200CF2F000FEE529 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -338,6 +390,55 @@
 				90725F9C204217830083E1FC /* Solution+Extensions.swift */,
 			);
 			path = "Managed Object Extensions";
+			sourceTree = "<group>";
+		};
+		9077FC8E2B8B8887009724F2 /* VisionSearchPubChem */ = {
+			isa = PBXGroup;
+			children = (
+				9077FCC42B8B8EF5009724F2 /* VisionSearchPubChem.entitlements */,
+				9077FCAA2B8B8B22009724F2 /* View */,
+				9077FCA72B8B8A74009724F2 /* ViewModel */,
+				9077FC932B8B8887009724F2 /* VisionSearchPubChemApp.swift */,
+				9077FC952B8B8887009724F2 /* ContentView.swift */,
+				9077FC972B8B8888009724F2 /* Assets.xcassets */,
+				9077FC9C2B8B8888009724F2 /* Info.plist */,
+				9077FC992B8B8888009724F2 /* Preview Content */,
+			);
+			path = VisionSearchPubChem;
+			sourceTree = "<group>";
+		};
+		9077FC8F2B8B8887009724F2 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				9077FC902B8B8887009724F2 /* RealityKitContent */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		9077FC992B8B8888009724F2 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				9077FC9A2B8B8888009724F2 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9077FCA72B8B8A74009724F2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				9077FCA82B8B8A89009724F2 /* VisionSearchPubChemViewModel.swift */,
+				9077FCBA2B8B8CBB009724F2 /* VisionPersistenceHelper.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		9077FCAA2B8B8B22009724F2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9077FCAB2B8B8B33009724F2 /* CompoundListView.swift */,
+				9077FCC52B8B90E7009724F2 /* CompoundDetailView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		908497C7266D76C0002644F6 /* Resources */ = {
@@ -422,6 +523,8 @@
 				909AE6BC200CF2F000FEE529 /* SearchPubChemTests */,
 				909AE6C7200CF2F000FEE529 /* SearchPubChemUITests */,
 				902B0787286107AE004D9DF0 /* SearchPubChemWidgetExtension */,
+				9077FC8E2B8B8887009724F2 /* VisionSearchPubChem */,
+				9077FC8F2B8B8887009724F2 /* Packages */,
 				909AE6A6200CF2F000FEE529 /* Products */,
 				90C9C21724CF969E00E247BE /* Frameworks */,
 			);
@@ -434,6 +537,7 @@
 				909AE6B9200CF2F000FEE529 /* SearchPubChemTests.xctest */,
 				909AE6C4200CF2F000FEE529 /* SearchPubChemUITests.xctest */,
 				902B0782286107AE004D9DF0 /* SearchPubChemWidgetExtensionExtension.appex */,
+				9077FC8D2B8B8887009724F2 /* VisionSearchPubChem.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -578,6 +682,27 @@
 			productReference = 902B0782286107AE004D9DF0 /* SearchPubChemWidgetExtensionExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		9077FC8C2B8B8887009724F2 /* VisionSearchPubChem */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9077FC9F2B8B8888009724F2 /* Build configuration list for PBXNativeTarget "VisionSearchPubChem" */;
+			buildPhases = (
+				9077FC892B8B8887009724F2 /* Sources */,
+				9077FC8A2B8B8887009724F2 /* Frameworks */,
+				9077FC8B2B8B8887009724F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VisionSearchPubChem;
+			packageProductDependencies = (
+				9077FC912B8B8887009724F2 /* RealityKitContent */,
+				9077FCA12B8B89D6009724F2 /* Persistence */,
+			);
+			productName = VisionSearchPubChem;
+			productReference = 9077FC8D2B8B8887009724F2 /* VisionSearchPubChem.app */;
+			productType = "com.apple.product-type.application";
+		};
 		909AE6A4200CF2F000FEE529 /* SearchPubChem */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 909AE6CD200CF2F000FEE529 /* Build configuration list for PBXNativeTarget "SearchPubChem" */;
@@ -643,12 +768,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1340;
+				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Jae Seung Lee";
 				TargetAttributes = {
 					902B0781286107AE004D9DF0 = {
 						CreatedOnToolsVersion = 13.4.1;
+					};
+					9077FC8C2B8B8887009724F2 = {
+						CreatedOnToolsVersion = 15.2;
 					};
 					909AE6A4200CF2F000FEE529 = {
 						CreatedOnToolsVersion = 9.2;
@@ -689,6 +817,7 @@
 				909AE6B8200CF2F000FEE529 /* SearchPubChemTests */,
 				909AE6C3200CF2F000FEE529 /* SearchPubChemUITests */,
 				902B0781286107AE004D9DF0 /* SearchPubChemWidgetExtensionExtension */,
+				9077FC8C2B8B8887009724F2 /* VisionSearchPubChem */,
 			);
 		};
 /* End PBXProject section */
@@ -699,6 +828,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				902B078B286107B2004D9DF0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9077FC8B2B8B8887009724F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9077FC9B2B8B8888009724F2 /* Preview Assets.xcassets in Resources */,
+				9077FCC32B8B8EB4009724F2 /* records.json in Resources */,
+				9077FC982B8B8888009724F2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -775,6 +914,39 @@
 				902B07972861083D004D9DF0 /* WidgetEntry.swift in Sources */,
 				902B0789286107AE004D9DF0 /* SearchPubChemWidgetExtension.swift in Sources */,
 				902B079E28610C0C004D9DF0 /* WidgetEntryView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9077FC892B8B8887009724F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9077FCAE2B8B8BD3009724F2 /* PubChemSearchConstants.swift in Sources */,
+				9077FCB52B8B8C85009724F2 /* AtomEntity+Extensions.swift in Sources */,
+				9077FCC02B8B8DE3009724F2 /* SearchPubChemConstants.swift in Sources */,
+				9077FCBD2B8B8CE9009724F2 /* Atom.swift in Sources */,
+				9077FCB62B8B8C87009724F2 /* Compound+Extensions.swift in Sources */,
+				9077FCB32B8B8C10009724F2 /* SearchType.swift in Sources */,
+				9077FCBE2B8B8CEB009724F2 /* Element.swift in Sources */,
+				9077FCB92B8B8C8E009724F2 /* Solution+Extensions.swift in Sources */,
+				9077FCC62B8B90E7009724F2 /* CompoundDetailView.swift in Sources */,
+				9077FCB72B8B8C8A009724F2 /* CompoundTag+Extensions.swift in Sources */,
+				9077FCB22B8B8BFF009724F2 /* PubChemDownloading.swift in Sources */,
+				9077FCAD2B8B8B93009724F2 /* PubChemSolution.xcdatamodeld in Sources */,
+				9077FCC12B8B8E92009724F2 /* RecordLoader.swift in Sources */,
+				9077FC962B8B8887009724F2 /* ContentView.swift in Sources */,
+				9077FCAC2B8B8B33009724F2 /* CompoundListView.swift in Sources */,
+				9077FCC22B8B8E9A009724F2 /* CompoundWrapper.swift in Sources */,
+				9077FCAF2B8B8BE3009724F2 /* PubChemDownloader.swift in Sources */,
+				9077FCB12B8B8BF9009724F2 /* PubChemDownloadError.swift in Sources */,
+				9077FCB42B8B8C53009724F2 /* CompoundDTO.swift in Sources */,
+				9077FCBB2B8B8CBB009724F2 /* VisionPersistenceHelper.swift in Sources */,
+				9077FCBC2B8B8CE6009724F2 /* Conformer.swift in Sources */,
+				9077FCB82B8B8C8C009724F2 /* ConformerEntity+Extensions.swift in Sources */,
+				9077FCA92B8B8A89009724F2 /* VisionSearchPubChemViewModel.swift in Sources */,
+				9077FC942B8B8887009724F2 /* VisionSearchPubChemApp.swift in Sources */,
+				9077FCBF2B8B8CED009724F2 /* Elements.swift in Sources */,
+				9077FCB02B8B8BF1009724F2 /* ConformerDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -956,6 +1128,80 @@
 			};
 			name = Release;
 		};
+		9077FC9D2B8B8888009724F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = VisionSearchPubChem/VisionSearchPubChem.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"VisionSearchPubChem/Preview Content\"";
+				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.VisionSearchPubChem;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
+			};
+			name = Debug;
+		};
+		9077FC9E2B8B8888009724F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = VisionSearchPubChem/VisionSearchPubChem.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"VisionSearchPubChem/Preview Content\"";
+				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.VisionSearchPubChem;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
+			};
+			name = Release;
+		};
 		909AE6CB200CF2F000FEE529 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1092,6 +1338,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1119,6 +1366,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1226,6 +1474,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		9077FC9F2B8B8888009724F2 /* Build configuration list for PBXNativeTarget "VisionSearchPubChem" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9077FC9D2B8B8888009724F2 /* Debug */,
+				9077FC9E2B8B8888009724F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		909AE6A0200CF2F000FEE529 /* Build configuration list for PBXProject "SearchPubChem" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1276,6 +1533,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9077FC912B8B8887009724F2 /* RealityKitContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RealityKitContent;
+		};
+		9077FCA12B8B89D6009724F2 /* Persistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 90E6E10E285F7AF5007B6933 /* XCRemoteSwiftPackageReference "PersistenceSwift" */;
+			productName = Persistence;
+		};
 		90E6E10F285F7AF5007B6933 /* Persistence */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 90E6E10E285F7AF5007B6933 /* XCRemoteSwiftPackageReference "PersistenceSwift" */;
