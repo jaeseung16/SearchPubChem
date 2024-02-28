@@ -18,13 +18,16 @@ struct CompoundListView: View {
     var body: some View {
         NavigationSplitView {
             List(compounds, selection: $selectedCompound) { compound in
-                label(for: compound)
+                NavigationLink(value: compound) {
+                    label(for: compound)
+                }
+                .hoverEffect()
             }
+            .navigationTitle("Compounds")
         } detail: {
-            if let selectedCompound = selectedCompound {
+            if let selectedCompound {
                 CompoundDetailView(compound: selectedCompound)
-            } else {
-                EmptyView()
+                    .id(selectedCompound)
             }
         }
     }
