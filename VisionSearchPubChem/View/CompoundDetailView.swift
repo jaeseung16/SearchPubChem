@@ -74,20 +74,64 @@ struct CompoundDetailView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                ZStack {
+                HStack {
+                    Text("Formula: \(compound.formula ?? "")")
+                        .foregroundColor(.primary)
+                    Spacer()
+                }
+                
+                HStack {
+                    Text("Molecular Weight (gram/mol): \(molecularWeightFormatter.string(from: NSNumber(value: compound.molecularWeight)) ?? "Unknown")")
+                        .font(.callout)
+                        .foregroundColor(.primary)
+                    Spacer()
+                }
+                
+                HStack {
+                    Spacer()
+                    
                     if let imageData = compound.image, let image = UIImage(data: imageData) {
                         Image(uiImage: image)
                             .resizable()
-                            .aspectRatio(contentMode: .fill)
+                            .aspectRatio(contentMode: .fit)
                     } else {
                         Text("N/A")
                     }
                     
-                    info()
+                    Spacer()
                 }
-                .frame(maxWidth: maxWidthFactor * geometry.size.width, minHeight: determineMinHeight(in: geometry), maxHeight: maxHeightFactor * geometry.size.height)
-                .scaledToFit()
+                
+                HStack(alignment: .top) {
+                    VStack {
+                        ForEach(tags) { tag in
+                            Text(tag.name ?? "")
+                                .foregroundColor(.primary)
+                        }
+                    }
+                    Spacer()
+                }
+
+                Spacer()
+                
+                HStack {
+                    Text("PubChem CID: \(compound.cid ?? "")")
+                        .font(.callout)
+                        .foregroundColor(.primary)
+                    
+                    Spacer()
+                }
+                
+                HStack {
+                    Text("IUPAC Name: \(compound.nameIUPAC ?? "")")
+                        .font(.callout)
+                        .foregroundColor(.primary)
+                        .scaledToFit()
+                    
+                    Spacer()
+                }
             }
+            .padding()
+            .background(.thinMaterial, in: .rect(cornerRadius: 12))
         }
         .toolbar {
             HStack {
