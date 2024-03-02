@@ -13,9 +13,11 @@ import RealityKitContent
 struct ContentView: View {
     @EnvironmentObject var viewModel: VisionSearchPubChemViewModel
     
+    @Binding var compound: Compound?
+    
     var body: some View {
         VStack {
-            CompoundListView(compounds: viewModel.allCompounds)
+            CompoundListView(compounds: viewModel.allCompounds, selectedCompound: $compound)
         }
         .padding()
     }

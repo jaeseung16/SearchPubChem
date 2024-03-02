@@ -15,10 +15,20 @@ struct VisionSearchPubChemApp: App {
     private static var persistence = Persistence(name: SearchPubChemConstants.modelName.rawValue, identifier: SearchPubChemConstants.containerIdentifier.rawValue)
     private static var viewModel = VisionSearchPubChemViewModel(persistence: persistence)
     
+    @State private var compound: Compound?
+    
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        WindowGroup(id: "compounds") {
+            ContentView(compound: $compound)
                 .environmentObject(VisionSearchPubChemApp.viewModel)
         }
+        .windowStyle(.plain)
+        
+        WindowGroup(id: "conformer") {
+            ConformerView(compound: $compound)
+                .environmentObject(VisionSearchPubChemApp.viewModel)
+        }
+        .windowStyle(.volumetric)
+        .defaultSize(width: 0.5, height: 0.5, depth: 0.5, in: .meters)
     }
 }

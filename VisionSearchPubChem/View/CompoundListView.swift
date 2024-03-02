@@ -13,7 +13,7 @@ struct CompoundListView: View {
     
     @State var compounds: [Compound]
     
-    @State private var selectedCompound: Compound?
+    @Binding var selectedCompound: Compound?
     
     var body: some View {
         NavigationSplitView {

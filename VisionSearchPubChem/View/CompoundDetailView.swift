@@ -11,10 +11,12 @@ import CoreData
 
 struct CompoundDetailView: View {
     @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
     @EnvironmentObject private var viewModel: VisionSearchPubChemViewModel
     
     @State var compound: Compound
-    @State private var presentConformerView = false
+    @State private var presentConformer = false
     @State private var presentTagView = false
     
     private let maxHeightFactor = 0.6
@@ -101,6 +103,27 @@ struct CompoundDetailView: View {
                     Spacer()
                 }
                 
+                HStack {
+                    Spacer()
+                    
+                    if conformer != nil {
+                        Toggle(isOn: $presentConformer) {
+                            Text("3D")
+                        }
+                        .toggleStyle(.button)
+                    }
+                    
+                    Spacer()
+                }
+                .onChange(of: presentConformer) { _, presentConformer in
+                    print("presentConformer=\(presentConformer)")
+                    if presentConformer {
+                        openWindow(id: "conformer")
+                    } else {
+                        dismissWindow(id: "conformer")
+                    }
+                }
+                    
                 HStack(alignment: .top) {
                     VStack {
                         ForEach(tags) { tag in
@@ -189,7 +212,7 @@ struct CompoundDetailView: View {
                     
                     if conformer != nil {
                         Button {
-                            presentConformerView = true
+                            presentConformer = true
                         } label: {
                             Text("3D")
                         }
