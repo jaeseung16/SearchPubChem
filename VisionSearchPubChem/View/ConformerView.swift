@@ -39,7 +39,7 @@ struct ConformerView: View {
                     
                     let bounds = content.convert(geometry.frame(in: .local), from: .local, to: content)
                     
-                    let scale = bounds.extents.min() / Float(3 * maxLocation)
+                    let scale = bounds.extents.min() / Float(3 * (maxLocation + 1.0))
                     
                     let boxMeshResource = MeshResource.generateBox(size: bounds.extents.min())
                     let boxShapeResource = ShapeResource.generateBox(size: bounds.extents)
