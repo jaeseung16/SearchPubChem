@@ -15,6 +15,9 @@ struct CompoundListView: View {
     
     @Binding var selectedCompound: Compound?
     
+    @State private var presentSelectTagView = false
+    @State private var presentAddCompoundView = false
+    
     var body: some View {
         NavigationSplitView {
             List(compounds, selection: $selectedCompound) { compound in
@@ -24,11 +27,41 @@ struct CompoundListView: View {
                 .hoverEffect()
             }
             .navigationTitle("Compounds")
+            .toolbar {
+                HStack {
+                    Spacer()
+                    /*
+                    Button {
+                        presentSelectTagView = true
+                    } label: {
+                        Image(systemName: "tag")
+                    }
+                    .accessibilityIdentifier("tagButton")
+                    */
+                    
+                    Button {
+                        presentAddCompoundView = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .accessibilityIdentifier("addCompoundButton")
+                }
+            }
         } detail: {
             if let selectedCompound {
                 CompoundDetailView(compound: selectedCompound)
                     .id(selectedCompound)
             }
+        }
+        .sheet(isPresented: $presentAddCompoundView) {
+            AddCompoundView()
+                .environmentObject(viewModel)
+        }
+        .refreshable {
+            compounds = viewModel.allCompounds
+        }
+        .onChange(of: viewModel.allCompounds) {
+            compounds = viewModel.allCompounds
         }
     }
     

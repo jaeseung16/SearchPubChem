@@ -108,6 +108,8 @@
 		908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A12714A6D400DC3989 /* DataMigrationView.swift */; };
 		908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A32714BF9C00DC3989 /* FirstLaunchView.swift */; };
 		9089A0E92A5AF9CF00C14859 /* ConformerSceneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */; };
+		908E383C2B950413003C0A61 /* AddCompoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E383B2B950413003C0A61 /* AddCompoundView.swift */; };
+		908E383D2B950458003C0A61 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2927271E6B00C654BB /* Action.swift */; };
 		909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */; };
 		909AE6BE200CF2F000FEE529 /* SearchPubChemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6BD200CF2F000FEE529 /* SearchPubChemTests.swift */; };
 		909AE6C9200CF2F000FEE529 /* SearchPubChemUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6C8200CF2F000FEE529 /* SearchPubChemUITests.swift */; };
@@ -273,6 +275,7 @@
 		908990A32714BF9C00DC3989 /* FirstLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLaunchView.swift; sourceTree = "<group>"; };
 		9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerSceneHelper.swift; sourceTree = "<group>"; };
 		908C70F82A4652AF00D6C9FA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		908E383B2B950413003C0A61 /* AddCompoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompoundView.swift; sourceTree = "<group>"; };
 		909AE6A5200CF2F000FEE529 /* SearchPubChem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchPubChem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909AE6B2200CF2F000FEE529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		909AE6B4200CF2F000FEE529 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -443,6 +446,7 @@
 				9077FCC52B8B90E7009724F2 /* CompoundDetailView.swift */,
 				9069141F2B8FEADC00914ED3 /* ConformerView.swift */,
 				906CF9902B9395C500909231 /* DragRotationModifier.swift */,
+				908E383B2B950413003C0A61 /* AddCompoundView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -936,9 +940,11 @@
 				9077FCBE2B8B8CEB009724F2 /* Element.swift in Sources */,
 				9077FCB92B8B8C8E009724F2 /* Solution+Extensions.swift in Sources */,
 				9077FCC62B8B90E7009724F2 /* CompoundDetailView.swift in Sources */,
+				908E383C2B950413003C0A61 /* AddCompoundView.swift in Sources */,
 				9077FCB72B8B8C8A009724F2 /* CompoundTag+Extensions.swift in Sources */,
 				9077FCB22B8B8BFF009724F2 /* PubChemDownloading.swift in Sources */,
 				9077FCAD2B8B8B93009724F2 /* PubChemSolution.xcdatamodeld in Sources */,
+				908E383D2B950458003C0A61 /* Action.swift in Sources */,
 				906914202B8FEADC00914ED3 /* ConformerView.swift in Sources */,
 				9077FCC12B8B8E92009724F2 /* RecordLoader.swift in Sources */,
 				9077FC962B8B8887009724F2 /* ContentView.swift in Sources */,

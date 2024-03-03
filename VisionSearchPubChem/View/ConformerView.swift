@@ -44,6 +44,7 @@ struct ConformerView: View {
                     let boxMeshResource = MeshResource.generateBox(size: bounds.extents.min())
                     let boxShapeResource = ShapeResource.generateBox(size: bounds.extents)
                     let boxEntity = ModelEntity(mesh: boxMeshResource, materials: [UnlitMaterial(color: .clear)], collisionShape: boxShapeResource, mass: 0.0)
+                    boxEntity.name = "\(conformer.cid): \(conformer.conformerId)"
                     
                     for atom in conformer.atoms {
                         guard let element = Elements(rawValue: atom.number) else {
@@ -56,6 +57,7 @@ struct ConformerView: View {
                         
                         let sphereMeshResource = MeshResource.generateSphere(radius: Float(radius) * scale / 200.0)
                         let sphereEntity = ModelEntity(mesh: sphereMeshResource, materials: [SimpleMaterial(color: element.getColor(), roughness: 0, isMetallic: false)])
+                        sphereEntity.name = atom.description
                         sphereEntity.position = SIMD3<Float>(x: location[0], y: location[1], z: location[2])
                         sphereEntity.generateCollisionShapes(recursive: false)
                         sphereEntity.components[InputTargetComponent.self] = .init()
