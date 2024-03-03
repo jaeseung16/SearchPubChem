@@ -23,7 +23,6 @@
 		9062E67C23411DAB0039C136 /* AtomEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9062E67B23411DAB0039C136 /* AtomEntity+Extensions.swift */; };
 		9065BF5B22EE2F7400350083 /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9065BF5A22EE2F7400350083 /* Elements.swift */; };
 		906914202B8FEADC00914ED3 /* ConformerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9069141F2B8FEADC00914ED3 /* ConformerView.swift */; };
-		906CF9912B9395C500909231 /* DragRotationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906CF9902B9395C500909231 /* DragRotationModifier.swift */; };
 		90725F9B204217540083E1FC /* Compound+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9A204217540083E1FC /* Compound+Extensions.swift */; };
 		90725F9D204217830083E1FC /* Solution+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90725F9C204217830083E1FC /* Solution+Extensions.swift */; };
 		907327652A47774100B0A8DA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 908C70F82A4652AF00D6C9FA /* Settings.bundle */; };
@@ -209,7 +208,6 @@
 		9062E67B23411DAB0039C136 /* AtomEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AtomEntity+Extensions.swift"; sourceTree = "<group>"; };
 		9065BF5A22EE2F7400350083 /* Elements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
 		9069141F2B8FEADC00914ED3 /* ConformerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerView.swift; sourceTree = "<group>"; };
-		906CF9902B9395C500909231 /* DragRotationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragRotationModifier.swift; sourceTree = "<group>"; };
 		90725F9A204217540083E1FC /* Compound+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Compound+Extensions.swift"; sourceTree = "<group>"; };
 		90725F9C204217830083E1FC /* Solution+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Solution+Extensions.swift"; sourceTree = "<group>"; };
 		907730B82A50DD8E003AA5A8 /* PubChemDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PubChemDownloader.swift; sourceTree = "<group>"; };
@@ -445,7 +443,6 @@
 				9077FCAB2B8B8B33009724F2 /* CompoundListView.swift */,
 				9077FCC52B8B90E7009724F2 /* CompoundDetailView.swift */,
 				9069141F2B8FEADC00914ED3 /* ConformerView.swift */,
-				906CF9902B9395C500909231 /* DragRotationModifier.swift */,
 				908E383B2B950413003C0A61 /* AddCompoundView.swift */,
 			);
 			path = View;
@@ -955,7 +952,6 @@
 				9077FCB42B8B8C53009724F2 /* CompoundDTO.swift in Sources */,
 				9077FCBB2B8B8CBB009724F2 /* VisionPersistenceHelper.swift in Sources */,
 				9077FCBC2B8B8CE6009724F2 /* Conformer.swift in Sources */,
-				906CF9912B9395C500909231 /* DragRotationModifier.swift in Sources */,
 				9077FCB82B8B8C8C009724F2 /* ConformerEntity+Extensions.swift in Sources */,
 				9077FCA92B8B8A89009724F2 /* VisionSearchPubChemViewModel.swift in Sources */,
 				9077FC942B8B8887009724F2 /* VisionSearchPubChemApp.swift in Sources */,
