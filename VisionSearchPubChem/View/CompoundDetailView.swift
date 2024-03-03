@@ -17,7 +17,6 @@ struct CompoundDetailView: View {
     
     @State var compound: Compound
     @State private var presentConformer = false
-    @State private var presentTagView = false
     
     private let maxHeightFactor = 0.6
     private let maxWidthFactor = 0.95
@@ -115,12 +114,17 @@ struct CompoundDetailView: View {
                     
                     Spacer()
                 }
-                .onChange(of: presentConformer) { _, presentConformer in
-                    print("presentConformer=\(presentConformer)")
-                    if presentConformer {
-                        openWindow(id: "conformer")
+                .onChange(of: presentConformer) { oldValue, newValue in
+                    viewModel.isConformerViewOpen = newValue
+                    if newValue {
+                        openWindow(id: WindowId.conformer.rawValue)
                     } else {
-                        dismissWindow(id: "conformer")
+                        dismissWindow(id: WindowId.conformer.rawValue)
+                    }
+                }
+                .onChange(of: viewModel.isConformerViewOpen) { oldValue, newValue in
+                    if oldValue && !newValue {
+                        presentConformer = false
                     }
                 }
                     
@@ -158,15 +162,9 @@ struct CompoundDetailView: View {
         }
         .toolbar {
             HStack {
-                Button {
-                    presentTagView = true
-                } label : {
-                    Image(systemName: "tag")
-                }
-                
-                if urlForPubChem != nil {
-                    Link(destination: urlForPubChem!) {
-                        Image(systemName: "magnifyingglass")
+                if let urlForPubChem {
+                    Link(destination: urlForPubChem) {
+                        Image(systemName: "link")
                     }
                 }
                 
@@ -178,7 +176,7 @@ struct CompoundDetailView: View {
                 .disabled(compound.solutions != nil && compound.solutions!.count > 0)
             }
         }
-        .navigationTitle(Text(compound.name?.uppercased() ?? ""))
+        .navigationTitle(Text(compound.name ?? ""))
         .padding()
     }
     
@@ -197,63 +195,10 @@ struct CompoundDetailView: View {
         return formatter
     }
     
-    private func info() -> some View {
-        VStack {
-            ZStack(alignment: .top) {
-                HStack(alignment: .top) {
-                    VStack {
-                        ForEach(tags) { tag in
-                            Text(tag.name ?? "")
-                                .foregroundColor(.black)
-                        }
-                    }
-                    
-                    Spacer()
-                    
-                    if conformer != nil {
-                        Button {
-                            presentConformer = true
-                        } label: {
-                            Text("3D")
-                        }
-                    }
-                }
-                
-                Spacer()
-                
-                HStack {
-                    Spacer()
-                    
-                    VStack {
-                        Text(compound.formula ?? "")
-                            .foregroundColor(.black)
-                        Text("\(molecularWeightFormatter.string(from: NSNumber(value: compound.molecularWeight)) ?? "0.0") gram/mol")
-                            .font(.callout)
-                            .foregroundColor(.black)
-                    }
-                    Spacer()
-                }
-            }
-            
-            Spacer()
-            
-            VStack {
-                Text("PubChem CID: \(compound.cid ?? "")")
-                    .font(.callout)
-                    .foregroundColor(.black)
-                Text("IUPAC Name: \(compound.nameIUPAC ?? "")")
-                    .font(.callout)
-                    .foregroundColor(.black)
-                    .scaledToFit()
-            }
-        }
-    }
-    
     private func delete() -> Void {
         viewModel.delete(compound: compound)
         presentationMode.wrappedValue.dismiss()
     }
-    
     
 }
 

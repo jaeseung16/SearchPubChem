@@ -18,13 +18,13 @@ struct VisionSearchPubChemApp: App {
     @State private var compound: Compound?
     
     var body: some Scene {
-        WindowGroup(id: "compounds") {
+        WindowGroup(id: WindowId.compounds.rawValue) {
             ContentView(compound: $compound)
                 .environmentObject(VisionSearchPubChemApp.viewModel)
         }
         .windowStyle(.plain)
         
-        WindowGroup(id: "conformer") {
+        WindowGroup(id: WindowId.conformer.rawValue) {
             ConformerView(compound: $compound)
                 .environmentObject(VisionSearchPubChemApp.viewModel)
         }

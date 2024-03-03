@@ -109,6 +109,7 @@
 		9089A0E92A5AF9CF00C14859 /* ConformerSceneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */; };
 		908E383C2B950413003C0A61 /* AddCompoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E383B2B950413003C0A61 /* AddCompoundView.swift */; };
 		908E383D2B950458003C0A61 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2927271E6B00C654BB /* Action.swift */; };
+		908E383F2B9511FA003C0A61 /* WindowId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E383E2B9511FA003C0A61 /* WindowId.swift */; };
 		909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */; };
 		909AE6BE200CF2F000FEE529 /* SearchPubChemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6BD200CF2F000FEE529 /* SearchPubChemTests.swift */; };
 		909AE6C9200CF2F000FEE529 /* SearchPubChemUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6C8200CF2F000FEE529 /* SearchPubChemUITests.swift */; };
@@ -274,6 +275,7 @@
 		9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerSceneHelper.swift; sourceTree = "<group>"; };
 		908C70F82A4652AF00D6C9FA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		908E383B2B950413003C0A61 /* AddCompoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompoundView.swift; sourceTree = "<group>"; };
+		908E383E2B9511FA003C0A61 /* WindowId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowId.swift; sourceTree = "<group>"; };
 		909AE6A5200CF2F000FEE529 /* SearchPubChem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchPubChem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909AE6B2200CF2F000FEE529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		909AE6B4200CF2F000FEE529 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -408,6 +410,7 @@
 				9077FC972B8B8888009724F2 /* Assets.xcassets */,
 				9077FC9C2B8B8888009724F2 /* Info.plist */,
 				9077FC992B8B8888009724F2 /* Preview Content */,
+				908E383E2B9511FA003C0A61 /* WindowId.swift */,
 			);
 			path = VisionSearchPubChem;
 			sourceTree = "<group>";
@@ -956,6 +959,7 @@
 				9077FCA92B8B8A89009724F2 /* VisionSearchPubChemViewModel.swift in Sources */,
 				9077FC942B8B8887009724F2 /* VisionSearchPubChemApp.swift in Sources */,
 				9077FCBF2B8B8CED009724F2 /* Elements.swift in Sources */,
+				908E383F2B9511FA003C0A61 /* WindowId.swift in Sources */,
 				9077FCB02B8B8BF1009724F2 /* ConformerDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

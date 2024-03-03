@@ -90,6 +90,9 @@ struct ConformerView: View {
             )
             .hoverEffect()
         }
+        .onDisappear {
+            viewModel.isConformerViewOpen = false
+        }
     }
     
     private var conformer: Conformer? {
