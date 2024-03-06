@@ -107,6 +107,7 @@
 		908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A12714A6D400DC3989 /* DataMigrationView.swift */; };
 		908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A32714BF9C00DC3989 /* FirstLaunchView.swift */; };
 		9089A0E92A5AF9CF00C14859 /* ConformerSceneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */; };
+		9089DEE32B96994D004024E6 /* CompoundTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089DEE22B96994D004024E6 /* CompoundTagView.swift */; };
 		908E383C2B950413003C0A61 /* AddCompoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E383B2B950413003C0A61 /* AddCompoundView.swift */; };
 		908E383D2B950458003C0A61 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2927271E6B00C654BB /* Action.swift */; };
 		908E383F2B9511FA003C0A61 /* WindowId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E383E2B9511FA003C0A61 /* WindowId.swift */; };
@@ -273,6 +274,7 @@
 		908990A12714A6D400DC3989 /* DataMigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrationView.swift; sourceTree = "<group>"; };
 		908990A32714BF9C00DC3989 /* FirstLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLaunchView.swift; sourceTree = "<group>"; };
 		9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerSceneHelper.swift; sourceTree = "<group>"; };
+		9089DEE22B96994D004024E6 /* CompoundTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundTagView.swift; sourceTree = "<group>"; };
 		908C70F82A4652AF00D6C9FA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		908E383B2B950413003C0A61 /* AddCompoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompoundView.swift; sourceTree = "<group>"; };
 		908E383E2B9511FA003C0A61 /* WindowId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowId.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 				9077FCC52B8B90E7009724F2 /* CompoundDetailView.swift */,
 				9069141F2B8FEADC00914ED3 /* ConformerView.swift */,
 				908E383B2B950413003C0A61 /* AddCompoundView.swift */,
+				9089DEE22B96994D004024E6 /* CompoundTagView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -931,6 +934,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9089DEE32B96994D004024E6 /* CompoundTagView.swift in Sources */,
 				9077FCAE2B8B8BD3009724F2 /* PubChemSearchConstants.swift in Sources */,
 				9077FCB52B8B8C85009724F2 /* AtomEntity+Extensions.swift in Sources */,
 				9077FCC02B8B8DE3009724F2 /* SearchPubChemConstants.swift in Sources */,
