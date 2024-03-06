@@ -17,6 +17,7 @@ struct CompoundDetailView: View {
     
     @State var compound: Compound
     @State private var presentConformer = false
+    @State private var presentTagView = false
     
     private let maxHeightFactor = 0.6
     private let maxWidthFactor = 0.95
@@ -74,90 +75,104 @@ struct CompoundDetailView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                HStack {
-                    Text("Formula: \(compound.formula ?? "")")
-                        .foregroundColor(.primary)
-                    Spacer()
-                }
-                
-                HStack {
-                    Text("Molecular Weight (gram/mol): \(molecularWeightFormatter.string(from: NSNumber(value: compound.molecularWeight)) ?? "Unknown")")
-                        .font(.callout)
-                        .foregroundColor(.primary)
-                    Spacer()
-                }
-                
-                HStack {
-                    Spacer()
-                    
+            HStack {
+                VStack {
                     if let imageData = compound.image, let image = UIImage(data: imageData) {
+                        Spacer()
                         Image(uiImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                    } else {
-                        Text("N/A")
                     }
                     
                     Spacer()
-                }
-                
-                HStack {
-                    Spacer()
                     
-                    if conformer != nil {
+                    if let conformer {
                         Toggle(isOn: $presentConformer) {
                             Text("3D")
                         }
                         .toggleStyle(.button)
-                    }
-                    
-                    Spacer()
-                }
-                .onChange(of: presentConformer) { oldValue, newValue in
-                    viewModel.isConformerViewOpen = newValue
-                    if newValue {
-                        openWindow(id: WindowId.conformer.rawValue)
-                    } else {
-                        dismissWindow(id: WindowId.conformer.rawValue)
-                    }
-                }
-                .onChange(of: viewModel.isConformerViewOpen) { oldValue, newValue in
-                    if oldValue && !newValue {
-                        presentConformer = false
-                    }
-                }
-                    
-                HStack(alignment: .top) {
-                    VStack {
-                        ForEach(tags) { tag in
-                            Text(tag.name ?? "")
-                                .foregroundColor(.primary)
+                        .onChange(of: presentConformer) { oldValue, newValue in
+                            viewModel.isConformerViewOpen = newValue
+                            if newValue {
+                                openWindow(id: WindowId.conformer.rawValue)
+                            } else {
+                                dismissWindow(id: WindowId.conformer.rawValue)
+                            }
+                        }
+                        .onChange(of: viewModel.isConformerViewOpen) { oldValue, newValue in
+                            if oldValue && !newValue {
+                                presentConformer = false
+                            }
                         }
                     }
-                    Spacer()
                 }
-
-                Spacer()
+                .padding()
+                .frame(maxWidth: 0.5 * geometry.size.width)
                 
-                HStack {
-                    Text("PubChem CID: \(compound.cid ?? "")")
-                        .font(.callout)
-                        .foregroundColor(.primary)
+                Divider()
+                
+                VStack(alignment: .leading) {
+                    Grid(alignment: .leading) {
+                        GridRow {
+                            Text("Formula")
+                                .foregroundColor(.secondary)
+                            
+                            Text("\(compound.formula ?? "")")
+                                .foregroundColor(.primary)
+                        }
+                        
+                        GridRow {
+                            Text("Molecular Weight")
+                                .foregroundColor(.secondary)
+                            
+                            Text("\(molecularWeightFormatter.string(from: NSNumber(value: compound.molecularWeight)) ?? "Unknown") gram/mol")
+                                .foregroundColor(.primary)
+                        }
+                        
+                        GridRow {
+                            Text("PubChem CID")
+                                .foregroundColor(.secondary)
+                            
+                            Text("\(compound.cid ?? "")")
+                                .foregroundColor(.primary)
+                        }
+                        
+                        GridRow(alignment: .top) {
+                            Text("IUPAC Name")
+                                .foregroundColor(.secondary)
+                            
+                            Text("\(compound.nameIUPAC ?? "")")
+                                .foregroundColor(.primary)
+                        }
+                        
+                        GridRow(alignment: .top) {
+                            Button {
+                                presentTagView = true
+                            } label: {
+                                Label {
+                                    Text("Tags")
+                                        .foregroundColor(.secondary)
+                                } icon: {
+                                    Image(systemName: "tag.circle")
+                                }
+                            }
+                            .buttonStyle(.plain)
+                            
+                            Text("\(tags.compactMap {$0.name}.joined(separator: ", "))")
+                                .foregroundColor(.primary)
+                        }
+                        .sheet(isPresented: $presentTagView) {
+                            CompoundTagView(compound: compound, tags: compound.tags as? Set<CompoundTag>)
+                                .frame(minWidth: 0.5 * geometry.size.width, minHeight: geometry.size.height)
+                        }
+                    }
                     
                     Spacer()
                 }
+                .padding()
+                .frame(maxWidth: 0.5 * geometry.size.width, alignment: .leading)
                 
-                HStack {
-                    Text("IUPAC Name: \(compound.nameIUPAC ?? "")")
-                        .font(.callout)
-                        .foregroundColor(.primary)
-                        .scaledToFit()
-                    
-                    Spacer()
-                }
             }
-            .padding()
             .background(.thinMaterial, in: .rect(cornerRadius: 12))
         }
         .toolbar {
