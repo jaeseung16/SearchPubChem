@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		901E5D882B9937F800DFF0BD /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 901E5D872B9937F800DFF0BD /* Persistence */; };
 		902B077D2861021D004D9DF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902B077C2861021D004D9DF0 /* AppDelegate.swift */; };
 		902B0784286107AE004D9DF0 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902B0783286107AE004D9DF0 /* WidgetKit.framework */; };
 		902B0786286107AE004D9DF0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 902B0785286107AE004D9DF0 /* SwiftUI.framework */; };
@@ -33,7 +34,6 @@
 		9077FC962B8B8887009724F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077FC952B8B8887009724F2 /* ContentView.swift */; };
 		9077FC982B8B8888009724F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9077FC972B8B8888009724F2 /* Assets.xcassets */; };
 		9077FC9B2B8B8888009724F2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9077FC9A2B8B8888009724F2 /* Preview Assets.xcassets */; };
-		9077FCA22B8B89D6009724F2 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 9077FCA12B8B89D6009724F2 /* Persistence */; };
 		9077FCA92B8B8A89009724F2 /* VisionSearchPubChemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077FCA82B8B8A89009724F2 /* VisionSearchPubChemViewModel.swift */; };
 		9077FCAC2B8B8B33009724F2 /* CompoundListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9077FCAB2B8B8B33009724F2 /* CompoundListView.swift */; };
 		9077FCAD2B8B8B93009724F2 /* PubChemSolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */; };
@@ -345,7 +345,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9077FCA22B8B89D6009724F2 /* Persistence in Frameworks */,
+				901E5D882B9937F800DFF0BD /* Persistence in Frameworks */,
 				9077FC922B8B8887009724F2 /* RealityKitContent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -710,7 +710,7 @@
 			name = VisionSearchPubChem;
 			packageProductDependencies = (
 				9077FC912B8B8887009724F2 /* RealityKitContent */,
-				9077FCA12B8B89D6009724F2 /* Persistence */,
+				901E5D872B9937F800DFF0BD /* Persistence */,
 			);
 			productName = VisionSearchPubChem;
 			productReference = 9077FC8D2B8B8887009724F2 /* VisionSearchPubChem.app */;
@@ -1553,14 +1553,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9077FC912B8B8887009724F2 /* RealityKitContent */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = RealityKitContent;
-		};
-		9077FCA12B8B89D6009724F2 /* Persistence */ = {
+		901E5D872B9937F800DFF0BD /* Persistence */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 90E6E10E285F7AF5007B6933 /* XCRemoteSwiftPackageReference "PersistenceSwift" */;
 			productName = Persistence;
+		};
+		9077FC912B8B8887009724F2 /* RealityKitContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RealityKitContent;
 		};
 		90E6E10F285F7AF5007B6933 /* Persistence */ = {
 			isa = XCSwiftPackageProductDependency;

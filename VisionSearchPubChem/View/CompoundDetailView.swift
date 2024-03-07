@@ -86,7 +86,7 @@ struct CompoundDetailView: View {
                     
                     Spacer()
                     
-                    if let conformer {
+                    if conformer != nil {
                         Toggle(isOn: $presentConformer) {
                             Text("3D")
                         }
