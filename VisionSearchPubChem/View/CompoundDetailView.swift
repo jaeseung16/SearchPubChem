@@ -176,13 +176,15 @@ struct CompoundDetailView: View {
             .background(.thinMaterial, in: .rect(cornerRadius: 12))
         }
         .toolbar {
-            HStack {
+            ToolbarItem(placement: .automatic) {
                 if let urlForPubChem {
                     Link(destination: urlForPubChem) {
                         Image(systemName: "link")
                     }
                 }
-                
+            }
+            
+            ToolbarItem(placement: .automatic) {
                 Button {
                     delete()
                 } label: {
