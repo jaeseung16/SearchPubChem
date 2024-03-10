@@ -17,8 +17,9 @@ struct ConformerView: View {
     @State private var entity: Entity?
     
     @State private var totalRotation3D = Rotation3D.identity
-    @State private var rotationAxis = RotationAxis3D(x: 0, y: 0, z: 0)
+    @State private var rotationAxis = RotationAxis3D(x: 0, y: 1, z: 0)
     @State private var rotationAngle = Angle.zero
+    @State private var tapped = false
     
     var body: some View {
         GeometryReader3D { geometry in
@@ -78,7 +79,7 @@ struct ConformerView: View {
                     .font(.extraLargeTitle)
                     .offset(y: -20)
             }
-            .gesture(
+            .simultaneousGesture(
                 DragGesture()
                     .targetedToAnyEntity()
                     .onChanged{ value in
@@ -88,10 +89,30 @@ struct ConformerView: View {
                         rotate(from: value.convert(value.startLocation3D, from: .local, to: .scene), to: value.convert(value.location3D, from: .local, to: .scene), ended: true)
                     }
             )
+            .simultaneousGesture(
+                TapGesture(count: 1)
+                    .targetedToAnyEntity()
+                    .onEnded { _ in
+                        tapped.toggle()
+                    }
+                
+            )
             .hoverEffect()
         }
         .onDisappear {
             viewModel.isConformerViewOpen = false
+        }
+        .onChange(of: tapped) { oldValue, newValue in
+            withAnimation(.linear(duration: 2.0)) {
+                let newRotation3D = Rotation3D(angle: Angle2D(radians: .pi),
+                                               axis: RotationAxis3D(x: 0.0, y: 1.0, z: 0.0))
+                
+                let newTotalRotation3D = newRotation3D * totalRotation3D
+                
+                rotationAngle = Angle(radians: newTotalRotation3D.angle.radians)
+                rotationAxis = newTotalRotation3D.axis
+                totalRotation3D = newTotalRotation3D
+            }
         }
     }
     
