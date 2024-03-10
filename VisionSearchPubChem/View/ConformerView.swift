@@ -82,10 +82,10 @@ struct ConformerView: View {
                 DragGesture()
                     .targetedToAnyEntity()
                     .onChanged{ value in
-                        rotate(by: value.convert(value.translation3D, from: .local, to: .scene), ended: false)
+                        rotate(from: value.convert(value.startLocation3D, from: .local, to: .scene), to: value.convert(value.location3D, from: .local, to: .scene), ended: false)
                     }
                     .onEnded { value in
-                        rotate(by: value.convert(value.translation3D, from: .local, to: .scene),  ended: true)
+                        rotate(from: value.convert(value.startLocation3D, from: .local, to: .scene), to: value.convert(value.location3D, from: .local, to: .scene), ended: true)
                     }
             )
             .hoverEffect()
@@ -117,10 +117,13 @@ struct ConformerView: View {
         return nil
     }
     
-    private func rotate(by translation3D: SIMD3<Float>, ended: Bool) {
-        let translation2D = Vector3D(x: translation3D.y, y: translation3D.x, z: 0.0)
-        let newRotation3D = Rotation3D(angle: Angle2D(radians: translation2D.length * .pi),
-                                       axis: RotationAxis3D(x: translation2D.x, y: translation2D.y, z: 0))
+    private func rotate(from start3D: SIMD3<Float>, to to3D: SIMD3<Float>, ended: Bool) {
+        let startVector3D = Vector3D(start3D)
+        let toVector3D = Vector3D(to3D)
+        let newRotationVector3D = startVector3D.cross(toVector3D).normalized
+        
+        let newRotation3D = Rotation3D(angle: Angle2D(radians: (toVector3D - startVector3D).length * .pi),
+                                       axis: RotationAxis3D(x: -1.0 * newRotationVector3D.x, y: 1.0 * newRotationVector3D.y, z: -1.0 * newRotationVector3D.z))
         
         let newTotalRotation3D = newRotation3D * totalRotation3D
         
