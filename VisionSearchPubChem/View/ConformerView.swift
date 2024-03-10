@@ -11,6 +11,7 @@ import RealityKit
 
 struct ConformerView: View {
     @EnvironmentObject private var viewModel: VisionSearchPubChemViewModel
+    @Environment(\.openWindow) private var openWindow
     
     @Binding var compound: Compound?
     
@@ -75,9 +76,9 @@ struct ConformerView: View {
                 }
                 .rotation3DEffect(rotationAngle, axis: rotationAxis)
                 
-                Text("\(compound?.name ?? "")")
-                    .font(.extraLargeTitle)
-                    .offset(y: -20)
+                //Text("\(compound?.name ?? "")")
+                //    .font(.extraLargeTitle)
+                //    .offset(y: -20)
             }
             .simultaneousGesture(
                 DragGesture()
@@ -112,6 +113,11 @@ struct ConformerView: View {
                 rotationAngle = Angle(radians: newTotalRotation3D.angle.radians)
                 rotationAxis = newTotalRotation3D.axis
                 totalRotation3D = newTotalRotation3D
+            }
+        }
+        .onChange(of: viewModel.isCompoundListViewOpen) { oldValue, newValue in
+            if oldValue && !newValue {
+                openWindow(id: WindowId.compounds.rawValue)
             }
         }
     }

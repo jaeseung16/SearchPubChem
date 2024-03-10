@@ -80,6 +80,12 @@ struct CompoundListView: View {
             .onChange(of: selectedTag) {
                 compounds = getTagged(compounds: viewModel.allCompounds)
             }
+            .onAppear {
+                viewModel.isCompoundListViewOpen = true
+            }
+            .onDisappear {
+                viewModel.isCompoundListViewOpen = false
+            }
         }
         
     }

@@ -91,12 +91,14 @@ struct CompoundDetailView: View {
                             Text("3D")
                         }
                         .toggleStyle(.button)
-                        .onChange(of: presentConformer) { oldValue, newValue in
-                            viewModel.isConformerViewOpen = newValue
-                            if newValue {
-                                openWindow(id: WindowId.conformer.rawValue)
-                            } else {
-                                dismissWindow(id: WindowId.conformer.rawValue)
+                        .onChange(of: presentConformer) { _, newValue in
+                            if viewModel.isConformerViewOpen != newValue {
+                                viewModel.isConformerViewOpen = newValue
+                                if newValue {
+                                    openWindow(id: WindowId.conformer.rawValue)
+                                } else {
+                                    dismissWindow(id: WindowId.conformer.rawValue)
+                                }
                             }
                         }
                         .onChange(of: viewModel.isConformerViewOpen) { oldValue, newValue in
@@ -195,6 +197,11 @@ struct CompoundDetailView: View {
         }
         .navigationTitle(Text(compound.name ?? ""))
         .padding()
+        .onAppear {
+            if !presentConformer && viewModel.isConformerViewOpen {
+                presentConformer = true
+            }
+        }
     }
     
     private func determineMinHeight(in geometry: GeometryProxy) -> CGFloat {
