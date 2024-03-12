@@ -29,37 +29,30 @@ struct CompoundListView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            NavigationSplitView {
-                List(compounds, selection: $selectedCompound) { compound in
-                    NavigationLink(value: compound) {
-                        label(for: compound)
-                    }
-                    .hoverEffect()
+            List(compounds, selection: $selectedCompound) { compound in
+                NavigationLink(value: compound) {
+                    label(for: compound)
                 }
-                .navigationTitle(navigationTitle)
-                .toolbar {
-                    ToolbarItem(placement: .bottomOrnament) {
-                        Button {
-                            presentSelectTagView = true
-                        } label: {
-                            Image(systemName: "tag")
-                        }
-                        .accessibilityIdentifier("tagButton")
+                .hoverEffect()
+            }
+            .navigationTitle(navigationTitle)
+            .toolbar {
+                ToolbarItem(placement: .bottomOrnament) {
+                    Button {
+                        presentSelectTagView = true
+                    } label: {
+                        Image(systemName: "tag")
                     }
-                    
-                    ToolbarItem(placement: .bottomOrnament) {
-                        Button {
-                            presentAddCompoundView = true
-                        } label: {
-                            Image(systemName: "plus")
-                        }
-                        .accessibilityIdentifier("addCompoundButton")
-                    }
+                    .accessibilityIdentifier("tagButton")
                 }
-            } detail: {
-                if let selectedCompound {
-                    CompoundDetailView(compound: selectedCompound)
-                        .id(selectedCompound)
+                
+                ToolbarItem(placement: .bottomOrnament) {
+                    Button {
+                        presentAddCompoundView = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .accessibilityIdentifier("addCompoundButton")
                 }
             }
             .sheet(isPresented: $presentSelectTagView) {

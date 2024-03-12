@@ -15,7 +15,7 @@ struct CompoundDetailView: View {
     @Environment(\.dismissWindow) private var dismissWindow
     @EnvironmentObject private var viewModel: VisionSearchPubChemViewModel
     
-    @State var compound: Compound
+    @Binding var compound: Compound?
     @State private var presentConformer = false
     @State private var presentTagView = false
     
@@ -24,7 +24,7 @@ struct CompoundDetailView: View {
     
     private var tags: [CompoundTag] {
         var tags = [CompoundTag]()
-        compound.tags?.forEach { tag in
+        compound?.tags?.forEach { tag in
             if let tag = tag as? CompoundTag {
                 tags.append(tag)
             }
@@ -33,7 +33,7 @@ struct CompoundDetailView: View {
     }
     
     private var conformer: Conformer? {
-        guard compound.conformerDownloaded else {
+        guard let compound, compound.conformerDownloaded else {
             return nil
         }
         
@@ -55,7 +55,7 @@ struct CompoundDetailView: View {
     }
     
     private var urlForPubChem: URL? {
-        guard let cid = compound.cid else {
+        guard let cid = compound?.cid else {
             return nil
         }
         
@@ -77,7 +77,7 @@ struct CompoundDetailView: View {
         GeometryReader { geometry in
             HStack {
                 VStack {
-                    if let imageData = compound.image, let image = UIImage(data: imageData) {
+                    if let imageData = compound?.image, let image = UIImage(data: imageData) {
                         Spacer()
                         Image(uiImage: image)
                             .resizable()
@@ -113,94 +113,110 @@ struct CompoundDetailView: View {
                 
                 Divider()
                 
-                VStack(alignment: .leading) {
-                    Grid(alignment: .leading) {
-                        GridRow {
-                            Text("Formula")
-                                .foregroundColor(.secondary)
-                            
-                            Text("\(compound.formula ?? "")")
-                                .foregroundColor(.primary)
-                        }
-                        
-                        GridRow {
-                            Text("Molecular Weight")
-                                .foregroundColor(.secondary)
-                            
-                            Text("\(molecularWeightFormatter.string(from: NSNumber(value: compound.molecularWeight)) ?? "Unknown") gram/mol")
-                                .foregroundColor(.primary)
-                        }
-                        
-                        GridRow {
-                            Text("PubChem CID")
-                                .foregroundColor(.secondary)
-                            
-                            Text("\(compound.cid ?? "")")
-                                .foregroundColor(.primary)
-                        }
-                        
-                        GridRow(alignment: .top) {
-                            Text("IUPAC Name")
-                                .foregroundColor(.secondary)
-                            
-                            Text("\(compound.nameIUPAC ?? "")")
-                                .foregroundColor(.primary)
-                        }
-                        
-                        GridRow(alignment: .top) {
-                            Button {
-                                presentTagView = true
-                            } label: {
-                                Label {
-                                    Text("Tags")
-                                        .foregroundColor(.secondary)
-                                } icon: {
-                                    Image(systemName: "tag.circle")
-                                }
-                            }
-                            .buttonStyle(.plain)
-                            
-                            Text("\(tags.compactMap {$0.name}.joined(separator: ", "))")
-                                .foregroundColor(.primary)
-                        }
-                        .sheet(isPresented: $presentTagView) {
-                            CompoundTagView(compound: compound, tags: compound.tags as? Set<CompoundTag>)
-                                .frame(minWidth: 0.5 * geometry.size.width, minHeight: geometry.size.height)
-                        }
-                    }
-                    
-                    Spacer()
-                }
-                .padding()
-                .frame(maxWidth: 0.5 * geometry.size.width, alignment: .leading)
+               VStack(alignment: .leading) {
+                   Grid(alignment: .leading) {
+                       GridRow {
+                           Text("Formula")
+                               .foregroundColor(.secondary)
+                           
+                           Text("\(compound?.formula ?? "")")
+                               .foregroundColor(.primary)
+                       }
+                       
+                       GridRow {
+                           Text("Molecular Weight")
+                               .foregroundColor(.secondary)
+                           
+                           if let molecularWeight = compound?.molecularWeight {
+                               Text("\(molecularWeightFormatter.string(from: NSNumber(value: molecularWeight))) gram/mol")
+                                   .foregroundColor(.primary)
+                           } else {
+                               Text("Unkown")
+                           }
+                           
+                           
+                       }
+                       
+                       GridRow {
+                           Text("PubChem CID")
+                               .foregroundColor(.secondary)
+                           
+                           Text("\(compound?.cid ?? "")")
+                               .foregroundColor(.primary)
+                       }
+                       
+                       GridRow(alignment: .top) {
+                           Text("IUPAC Name")
+                               .foregroundColor(.secondary)
+                           
+                           Text("\(compound?.nameIUPAC ?? "")")
+                               .foregroundColor(.primary)
+                       }
+                       
+                       GridRow(alignment: .top) {
+                           Button {
+                               presentTagView = true
+                           } label: {
+                               Label {
+                                   Text("Tags")
+                                       .foregroundColor(.secondary)
+                               } icon: {
+                                   Image(systemName: "tag.circle")
+                               }
+                           }
+                           .buttonStyle(.plain)
+                           
+                           Text("\(tags.compactMap {$0.name}.joined(separator: ", "))")
+                               .foregroundColor(.primary)
+                       }
+                       .sheet(isPresented: $presentTagView) {
+                           if let compound {
+                               CompoundTagView(compound: compound, tags: compound.tags as? Set<CompoundTag>)
+                                   .frame(minWidth: 0.5 * geometry.size.width, minHeight: geometry.size.height)
+                           }
+                       }
+                   }
+                   
+                   Spacer()
+               }
+               .padding()
+               .frame(maxWidth: 0.5 * geometry.size.width, alignment: .leading)
                 
             }
             .background(.thinMaterial, in: .rect(cornerRadius: 12))
-        }
-        .toolbar {
-            ToolbarItem(placement: .automatic) {
+            .toolbar {
                 if let urlForPubChem {
-                    Link(destination: urlForPubChem) {
-                        Image(systemName: "link")
+                    ToolbarItem(placement: .automatic) {
+                        Link(destination: urlForPubChem) {
+                            Image(systemName: "link")
+                        }
                     }
                 }
-            }
-            
-            ToolbarItem(placement: .automatic) {
-                Button {
-                    delete()
-                } label: {
-                    Image(systemName: "trash")
+                
+                ToolbarItem(placement: .automatic) {
+                    Button {
+                        delete()
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                    .disabled(deleteDisabled)
                 }
-                .disabled(compound.solutions != nil && compound.solutions!.count > 0)
+            }
+            .navigationTitle(Text(compound?.name ?? ""))
+            .padding()
+            .onAppear {
+                if !presentConformer && viewModel.isConformerViewOpen {
+                    presentConformer = true
+                }
             }
         }
-        .navigationTitle(Text(compound.name ?? ""))
-        .padding()
-        .onAppear {
-            if !presentConformer && viewModel.isConformerViewOpen {
-                presentConformer = true
-            }
+    }
+    
+    private var deleteDisabled: Bool {
+        if let solutions = compound?.solutions {
+            return solutions.count > 0
+        } else {
+            return false
         }
     }
     
@@ -220,8 +236,10 @@ struct CompoundDetailView: View {
     }
     
     private func delete() -> Void {
-        viewModel.delete(compound: compound)
-        presentationMode.wrappedValue.dismiss()
+        if let compound {
+            viewModel.delete(compound: compound)
+            presentationMode.wrappedValue.dismiss()
+        }
     }
     
 }

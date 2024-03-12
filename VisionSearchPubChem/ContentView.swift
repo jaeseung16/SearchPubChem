@@ -13,11 +13,35 @@ import RealityKitContent
 struct ContentView: View {
     @EnvironmentObject var viewModel: VisionSearchPubChemViewModel
     
+    @State private var selectedTab: TabItem?
+    
     @Binding var compound: Compound?
     
     var body: some View {
-        VStack {
-            CompoundListView(compounds: viewModel.allCompounds, selectedCompound: $compound)
+        NavigationSplitView {
+            List(TabItem.allCases, selection: $selectedTab) {
+                Text($0.rawValue)
+            }
+        } content: {
+            switch selectedTab {
+            case .Compounds:
+                CompoundListView(compounds: viewModel.allCompounds, selectedCompound: $compound)
+                    .environmentObject(viewModel)
+            case .Solutions:
+                EmptyView()
+            case .none:
+                EmptyView()
+            }
+        } detail: {
+            switch selectedTab {
+            case .Compounds:
+                CompoundDetailView(compound: $compound)
+                    .environmentObject(viewModel)
+            case .Solutions:
+                EmptyView()
+            case .none:
+                EmptyView()
+            }
         }
         .padding()
     }
