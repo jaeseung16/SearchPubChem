@@ -30,29 +30,28 @@ struct IngredientDetailView: View {
     }
     
     var body: some View {
-        ZStack {
+        VStack {
+            Spacer()
+            
+            Text(name)
+                .foregroundColor(.primary)
+            
             if let image = image {
                 Image(uiImage: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
             }
             
-            VStack {
-                Spacer()
-                
-                Text(name)
-                    .foregroundColor(.black)
-                
-                Spacer()
-                
-                Text(formula)
-                    .foregroundColor(.black)
-                
-                Spacer()
+            Text(formula)
+                .foregroundColor(.primary)
+            
+            Spacer()
+            
+            Button("Dismiss") {
+                presentationMode.wrappedValue.dismiss()
             }
         }
         .padding()
-        .onTapGesture {
-            presentationMode.wrappedValue.dismiss()
-        }
     }
 }
 

@@ -53,21 +53,40 @@ struct SolutionDetailView: View {
     }
     
     @State private var compound: Compound?
+    @State private var selectedIngradient: SolutionIngradientDTO.ID?
     
     var body: some View {
         GeometryReader { geometry in
             VStack {
                 Text(solution?.name?.uppercased() ?? "")
                     .font(.headline)
-                    
+                
                 created(on: solution?.created ?? Date())
                     .font(.caption)
-                   
+                
                 Divider()
                 
-                columnHeads(geometry: geometry)
+                optionSelector(geometry: geometry)
                 
-                ingradientList()
+                Table(ingradients, selection: $selectedIngradient) {
+                    TableColumn("Ingradient") { ingradient in
+                        Text("\(ingradient.compound.name ?? "")")
+                    }
+                    TableColumn("Amount") { ingradient in
+                        if let name = ingradient.compound.name, let amount = amountsToDisplay[name] {
+                            Text("\(amount)")
+                        } else {
+                            Text("")
+                        }
+                    }
+                    TableColumn("%") { ingradient in
+                        if let name = ingradient.compound.name, let amount = percentToDisplay[name] {
+                            Text("\(amount)")
+                        } else {
+                            Text("")
+                        }
+                    }
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .automatic) {
@@ -89,7 +108,7 @@ struct SolutionDetailView: View {
             .sheet(isPresented: $presentCompoundMiniDetailView) {
                 if let compound = compound {
                     IngredientDetailView(compound: compound)
-                        .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
+                        .frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height)
                 }
             }
             .sheet(isPresented: $presentShareSheet) {
@@ -102,6 +121,21 @@ struct SolutionDetailView: View {
                       message: Text("Files generated for \(solution?.name ?? "") couldn't be deleted from the document directory"),
                       dismissButton: .default(Text(Action.Dismiss.rawValue)))
             }
+            .onChange(of: selectedIngradient) { oldValue, newValue in
+                if newValue != nil, let ingradient = ingradients.first(where: {$0.id == newValue!}) {
+                    compound = ingradient.compound
+                }
+            }
+            .onChange(of: compound) { oldValue, newValue in
+                if newValue != nil {
+                    presentCompoundMiniDetailView = true
+                }
+            }
+            .onChange(of: presentCompoundMiniDetailView) { oldValue, newValue in
+                if !newValue {
+                    selectedIngradient = nil
+                }
+            }
         }
         .padding()
     }
@@ -110,68 +144,21 @@ struct SolutionDetailView: View {
         Text("Created on ") + Text(date, style: .date)
     }
     
-    private func columnHeads(geometry: GeometryProxy) -> some View {
+    private func optionSelector(geometry: GeometryProxy) -> some View {
         HStack(alignment: .center) {
             Spacer()
             
-            Text("Ingradients")
-                .frame(width: geometry.size.width * 0.4)
+            Text("UNIT:")
+                .font(.caption)
             
-            Spacer()
-            
-            VStack {
-                Text("Amount")
-
-                Picker("", selection: $absoluteRelative) {
-                    ForEach(AbsoluteRelatve.allCases) { item in
-                        Text(item.rawValue)
-                            .tag(item)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-
-                HStack {
-                    Spacer()
-                    
-                    Text("UNIT:")
-                        .font(.caption)
-                    
-                    Picker("Unit", selection: $unit) {
-                        ForEach(Unit.allCases) { item in
-                            Text(item.rawValue)
-                                .tag(item)
-                        }
-                    }
+            Picker("Unit", selection: $unit) {
+                ForEach(Unit.allCases) { item in
+                    Text(item.rawValue)
+                        .tag(item)
                 }
             }
-            .frame(width: geometry.size.width * 0.4)
-            
-            Spacer()
+            .pickerStyle(SegmentedPickerStyle())
         }
-    }
-    
-    private func ingradientList() -> some View {
-        List {
-            ForEach(ingradients) { ingradient in
-                Button {
-                    compound = ingradient.compound
-                    presentCompoundMiniDetailView = true
-                } label: {
-                    if let name = ingradient.compound.name {
-                        HStack {
-                            Text(name)
-                            
-                            Spacer()
-                            
-                            if let amount = amountsToDisplay[name] {
-                                Text("\(amount)")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .listStyle(PlainListStyle())
     }
     
     private func toolbarContent() -> some View {
@@ -191,30 +178,37 @@ struct SolutionDetailView: View {
     }
     
     private var amountsToDisplay: [String: Double] {
-        var factor = 1.0
-        if absoluteRelative == .relative {
-            switch unit {
-            case .gram:
-                factor = 100.0 / total(amounts)
-            case .mg:
-                factor = 100.0 / total(amountsInMg)
-            case .mol:
-                factor = 100.0 / total(amountsMol)
-            case .mM:
-                factor = 100.0 / total(amountsInMiliMol)
-            }
-        }
-        
         var amountsToDisplay = [String: Double]()
         
         switch unit {
         case .gram:
+            amountsToDisplay = amounts
+        case .mg:
+            amountsToDisplay = amountsInMg
+        case .mol:
+            amountsToDisplay = amountsMol
+        case .mM:
+            amountsToDisplay = amountsInMiliMol
+        }
+        
+        return amountsToDisplay
+    }
+    
+    private var percentToDisplay: [String: Double] {
+        var amountsToDisplay = [String: Double]()
+        
+        switch unit {
+        case .gram:
+            let factor = 100.0 / total(amounts)
             amountsToDisplay = amounts.mapValues { $0 * factor }
         case .mg:
+            let factor = 100.0 / total(amountsInMg)
             amountsToDisplay = amountsInMg.mapValues { $0 * factor }
         case .mol:
+            let factor = 100.0 / total(amountsMol)
             amountsToDisplay = amountsMol.mapValues { $0 * factor }
         case .mM:
+            let factor = 100.0 / total(amountsInMiliMol)
             amountsToDisplay = amountsInMiliMol.mapValues { $0 * factor }
         }
         
