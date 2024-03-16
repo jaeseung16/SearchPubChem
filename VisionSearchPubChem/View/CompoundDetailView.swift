@@ -127,14 +127,8 @@ struct CompoundDetailView: View {
                            Text("Molecular Weight")
                                .foregroundColor(.secondary)
                            
-                           if let molecularWeight = compound?.molecularWeight {
-                               Text("\(molecularWeightFormatter.string(from: NSNumber(value: molecularWeight))) gram/mol")
-                                   .foregroundColor(.primary)
-                           } else {
-                               Text("Unkown")
-                           }
-                           
-                           
+                           Text(molecularWeightString)
+                               .foregroundColor(.primary)  
                        }
                        
                        GridRow {
@@ -233,6 +227,15 @@ struct CompoundDetailView: View {
         formatter.minimumFractionDigits = 1
         formatter.maximumFractionDigits = 4
         return formatter
+    }
+    
+    private var molecularWeightString: String {
+        if let molecularWeight = compound?.molecularWeight, 
+            let text = molecularWeightFormatter.string(from: NSNumber(value: molecularWeight)) {
+            return "\(text) gram/mol"
+        } else {
+            return "Unkown"
+        }
     }
     
     private func delete() -> Void {
