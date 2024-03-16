@@ -47,6 +47,7 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     
     // MARK: - for makings a solution
     @Published var compounds: [Compound]?
+    @Published var solutionLabel: String = ""
     
     private let persistence: Persistence
     private var persistenceContainer: NSPersistentCloudKitContainer {
@@ -80,6 +81,7 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     private func fetchEntities() {
         fetchCompounds()
         fetchTags()
+        fetchSolutions()
     }
     
     func preloadData() -> Void {
@@ -302,6 +304,20 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
         save()
     }
     
+    func saveSolution(solutionLabel: String, ingradients: [SolutionIngradientDTO]) -> Void {
+        let label = solutionLabel.isEmpty ? self.solutionLabel : solutionLabel
+        
+        persistenceHelper.saveSolution(label, ingradients: ingradients) { result in
+            switch result {
+            case .success(_):
+                self.logger.log("Saved a solution: label=\(label, privacy: .public)")
+            case .failure(let error):
+                self.logger.log("Failed to save a solution: label=\(label, privacy: .public), error=\(error.localizedDescription)")
+            }
+            self.persistenceResultHandler(result)
+        }
+    }
+    
     private func persistenceResultHandler(_ result: Result<Void, Error>) -> Void {
         DispatchQueue.main.async {
             switch result {
@@ -367,11 +383,13 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     
     func selectedCompounds(_ compounds: [Compound], with title: String) {
         self.compounds = compounds
+        self.solutionLabel = title
     }
     
     // MARK: -
     @Published var allCompounds = [Compound]()
     @Published var allTags = [CompoundTag]()
+    @Published var allSolutions = [Solution]()
     
     private func fetchCompounds() {
         let fetchRequet = NSFetchRequest<Compound>(entityName: "Compound")
@@ -387,4 +405,120 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
         allTags = persistenceHelper.perform(fetchRequet)
     }
     
+    private func fetchSolutions() {
+        let fetchRequest = NSFetchRequest<Solution>(entityName: "Solution")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.created, ascending: false)]
+        allSolutions = persistenceHelper.perform(fetchRequest)
+    }
+    
+    // MARK: - Solution
+    func generateCSV(solutionName: String, created: Date, ingradients: [SolutionIngradientDTO]) -> URL? {
+        let csvString = buildCSV(ingradients: ingradients)
+
+        guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            logger.log("Can't get a path for solutionName=\(solutionName), created=\(created)")
+            return nil
+        }
+        
+        let filename = solutionName.replacingOccurrences(of: "/", with: "_")
+        let csvFileURL = path.appendingPathComponent("\(filename)_\(dateFormatter.string(from: created)).csv")
+        
+        do {
+            try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
+        } catch {
+            logger.log("Failed to save the csv file")
+        }
+        
+        return csvFileURL
+    }
+    
+    private var dateFormatter: ISO8601DateFormatter {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withYear, .withMonth, .withDay]
+        return dateFormatter
+    }
+    
+    private func buildCSV(ingradients: [SolutionIngradientDTO]) -> String {
+        var csvString = "CID, Compound, Molecular Weight (gram/mol), Amount (g), Amount (mol)\n"
+        
+        for ingradient in ingradients {
+            let compound = ingradient.compound
+            
+            csvString += "\(compound.cid!), "
+            csvString += "\(compound.name!), "
+            csvString += "\(compound.molecularWeight), "
+            
+            let amountInGram = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: ingradient.unit, newUnit: .gram)
+            let amountInMol = convert(ingradient.amount, molecularWeight: compound.molecularWeight, originalUnit: ingradient.unit, newUnit: .mol)
+            
+            csvString += "\(amountInGram), "
+            csvString += "\(amountInMol)\n"
+        }
+        
+        return csvString
+    }
+    
+    func convert(_ amount: Double, molecularWeight: Double, originalUnit: Unit, newUnit: Unit) -> Double {
+        var convertedAmount = amount
+        switch originalUnit {
+        case .gram:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount
+            case .mg:
+                convertedAmount = 1000.0 * amount
+            case .mol:
+                convertedAmount = amount / molecularWeight
+            case .mM:
+                convertedAmount = 1000.0 * amount / molecularWeight
+            }
+        case .mg:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount / 1000.0
+            case .mg:
+                convertedAmount = amount
+            case .mol:
+                convertedAmount = amount / 1000.0 / molecularWeight
+            case .mM:
+                convertedAmount = amount / molecularWeight
+            }
+        case .mol:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount * molecularWeight
+            case .mg:
+                convertedAmount = 1000.0 * amount * molecularWeight
+            case .mol:
+                convertedAmount = amount
+            case .mM:
+                convertedAmount = 1000.0 * amount
+            }
+        case .mM:
+            switch newUnit {
+            case .gram:
+                convertedAmount = amount / 1000.0 * molecularWeight
+            case .mg:
+                convertedAmount = amount * molecularWeight
+            case .mol:
+                convertedAmount = amount / 1000.0
+            case .mM:
+                convertedAmount = amount
+            }
+        }
+        return convertedAmount
+    }
+    
+    func getAmounts(of ingradients: [SolutionIngradientDTO], in unit: Unit) -> [String: Double] {
+        var amounts = [String: Double]()
+        for ingradient in ingradients {
+            if let name = ingradient.compound.name {
+                amounts[name] = convert(ingradient.amount,
+                                        molecularWeight: ingradient.compound.molecularWeight,
+                                        originalUnit: ingradient.unit,
+                                        newUnit: unit)
+            }
+        }
+        return amounts
+    }
 }

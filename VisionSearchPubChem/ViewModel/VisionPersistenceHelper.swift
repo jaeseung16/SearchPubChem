@@ -63,6 +63,26 @@ class VisionPersistenceHelper {
         save { completionHandler($0) }
     }
     
+    func saveSolution(_ label: String, ingradients: [SolutionIngradientDTO], completionHandler: @escaping (Result<Void, Error>) -> Void) -> Void {
+        let solution = Solution(context: viewContext)
+        solution.name = label
+        
+        for ingradient in ingradients {
+            let entity = SolutionIngradient(context: viewContext)
+            
+            entity.compound = ingradient.compound
+            entity.compoundName = ingradient.compound.name
+            entity.compoundCid = ingradient.compound.cid
+            entity.amount = ingradient.amount
+            entity.unit = ingradient.unit.rawValue
+            
+            solution.addToIngradients(entity)
+            solution.addToCompounds(ingradient.compound)
+        }
+        
+        save() { completionHandler($0) }
+    }
+    
     func saveNewTag(_ name: String, for compound: Compound, completionHandler: @escaping (Result<CompoundTag, Error>) -> Void) -> Void {
         let newTag = CompoundTag(context: viewContext)
         newTag.compoundCount = 1

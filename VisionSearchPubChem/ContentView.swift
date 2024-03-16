@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var selectedTab: TabItem?
     
     @Binding var compound: Compound?
+    @State var solution: Solution?
     
     var body: some View {
         NavigationSplitView {
@@ -28,7 +29,7 @@ struct ContentView: View {
                 CompoundListView(compounds: viewModel.allCompounds, selectedCompound: $compound)
                     .environmentObject(viewModel)
             case .Solutions:
-                EmptyView()
+                SolutionListView(selectedSolution: $solution)
             case .none:
                 EmptyView()
             }
@@ -42,7 +43,11 @@ struct ContentView: View {
                     EmptyView()
                 }
             case .Solutions:
-                EmptyView()
+                if solution != nil {
+                    SolutionDetailView(solution: $solution)
+                } else {
+                    EmptyView()
+                }
             case .none:
                 EmptyView()
             }
