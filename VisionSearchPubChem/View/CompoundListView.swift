@@ -58,7 +58,7 @@ struct CompoundListView: View {
             .sheet(isPresented: $presentSelectTagView) {
                 SelectTagsView(selectedTag: $selectedTag)
                     .environmentObject(viewModel)
-                    .frame(minWidth: 0.5 * geometry.size.width, minHeight: geometry.size.height)
+                    .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
             }
             .sheet(isPresented: $presentAddCompoundView) {
                 AddCompoundView()

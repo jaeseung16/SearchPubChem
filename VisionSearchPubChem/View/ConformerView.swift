@@ -41,10 +41,10 @@ struct ConformerView: View {
                     
                     let bounds = content.convert(geometry.frame(in: .local), from: .local, to: content)
                     
-                    let scale = bounds.extents.min() / Float(3 * (maxLocation + 1.0))
+                    let scale = 0.95 * bounds.extents.min() / Float(3 * (maxLocation + 1.0))
                     
-                    let boxMeshResource = MeshResource.generateBox(size: bounds.extents.min())
-                    let boxShapeResource = ShapeResource.generateBox(size: bounds.extents)
+                    let boxMeshResource = MeshResource.generateBox(size: 0.95 * bounds.extents.min())
+                    let boxShapeResource = ShapeResource.generateBox(size: 0.95 * bounds.extents)
                     let boxEntity = ModelEntity(mesh: boxMeshResource, materials: [UnlitMaterial(color: .clear)], collisionShape: boxShapeResource, mass: 0.0)
                     boxEntity.name = "\(conformer.cid): \(conformer.conformerId)"
                     
@@ -75,30 +75,45 @@ struct ConformerView: View {
                     ProgressView()
                 }
                 .rotation3DEffect(rotationAngle, axis: rotationAxis)
+                .simultaneousGesture(
+                    DragGesture()
+                        .targetedToAnyEntity()
+                        .onChanged{ value in
+                            rotate(from: value.convert(value.startLocation3D, from: .local, to: .scene), to: value.convert(value.location3D, from: .local, to: .scene), ended: false)
+                        }
+                        .onEnded { value in
+                            rotate(from: value.convert(value.startLocation3D, from: .local, to: .scene), to: value.convert(value.location3D, from: .local, to: .scene), ended: true)
+                        }
+                )
+                .simultaneousGesture(
+                    TapGesture(count: 1)
+                        .targetedToAnyEntity()
+                        .onEnded { _ in
+                            tapped.toggle()
+                        }
+                    
+                )
+                .hoverEffect()
                 
-                //Text("\(compound?.name ?? "")")
-                //    .font(.extraLargeTitle)
-                //    .offset(y: -20)
+                RealityView { content in
+                    let text = "\(compound?.name ?? "")"
+                    let materialVar = UnlitMaterial(color: .label)
+                    let depth: Float = 0.001
+                    
+                    let textMeshResource = MeshResource.generateText(text,
+                                                                     extrusionDepth: depth,
+                                                                     font: .systemFont(ofSize: 0.03))
+                    
+                    let textEntity = ModelEntity(mesh: textMeshResource,
+                                                 materials: [materialVar])
+                    
+                    let bounds = content.convert(geometry.frame(in: .local), from: .local, to: content)
+                    textEntity.position.y = -0.35 * bounds.extents.y
+                    textEntity.position.z = 0.25 * bounds.extents.z
+                    
+                    content.add(textEntity)
+                }
             }
-            .simultaneousGesture(
-                DragGesture()
-                    .targetedToAnyEntity()
-                    .onChanged{ value in
-                        rotate(from: value.convert(value.startLocation3D, from: .local, to: .scene), to: value.convert(value.location3D, from: .local, to: .scene), ended: false)
-                    }
-                    .onEnded { value in
-                        rotate(from: value.convert(value.startLocation3D, from: .local, to: .scene), to: value.convert(value.location3D, from: .local, to: .scene), ended: true)
-                    }
-            )
-            .simultaneousGesture(
-                TapGesture(count: 1)
-                    .targetedToAnyEntity()
-                    .onEnded { _ in
-                        tapped.toggle()
-                    }
-                
-            )
-            .hoverEffect()
         }
         .onDisappear {
             viewModel.isConformerViewOpen = false
