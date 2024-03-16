@@ -35,8 +35,12 @@ struct ContentView: View {
         } detail: {
             switch selectedTab {
             case .Compounds:
-                CompoundDetailView(compound: $compound)
-                    .environmentObject(viewModel)
+                if compound != nil {
+                    CompoundDetailView(compound: $compound)
+                        .environmentObject(viewModel)
+                } else {
+                    EmptyView()
+                }
             case .Solutions:
                 EmptyView()
             case .none:
