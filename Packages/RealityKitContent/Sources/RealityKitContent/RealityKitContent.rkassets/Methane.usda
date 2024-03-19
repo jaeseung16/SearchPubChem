@@ -1,0 +1,87 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 1.0 (409.100.15)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["Carbon", "Hydrogen_1", "Hydrogen_2", "Hydrogen_3", "Hydrogen_4"]
+    def "Carbon" (
+        active = true
+        references = @Carbon.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def "Hydrogen_4" (
+        active = true
+        references = @Hydrogen.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.04593, 0.03874, -0.09121)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Sphere"
+        {
+            over "DefaultMaterial"
+            {
+                token outputs:surface.connect = </Root/Hydrogen_4/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            }
+        }
+    }
+
+    def "Hydrogen_3" (
+        active = true
+        references = @Hydrogen.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.07782, -0.03735, 0.06692)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Sphere"
+        {
+            over "DefaultMaterial"
+            {
+                token outputs:surface.connect = </Root/Hydrogen_3/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            }
+        }
+    }
+
+    def "Hydrogen_2" (
+        active = true
+        references = @Hydrogen.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.06833, -0.08134, -0.02536)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Sphere"
+        {
+            over "DefaultMaterial"
+            {
+                token outputs:surface.connect = </Root/Hydrogen_2/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            }
+        }
+    }
+
+    def "Hydrogen_1" (
+        active = true
+        references = @Hydrogen.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.05541, 0.07996, 0.04965)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+}
+
