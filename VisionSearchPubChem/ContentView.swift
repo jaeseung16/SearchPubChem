@@ -12,6 +12,9 @@ import RealityKitContent
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: VisionSearchPubChemViewModel
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
+    @AppStorage("HasLaunchedBefore", store: UserDefaults.standard) var hasLaunchedBefore: Bool = false
     
     @State private var selectedTab: TabItem?
     
@@ -53,5 +56,15 @@ struct ContentView: View {
             }
         }
         .padding()
+        .onAppear {
+            if !hasLaunchedBefore {
+                openWindow(id: WindowId.firstLaunch.rawValue)
+            }
+        }
+        .onChange(of: hasLaunchedBefore) { oldValue, newValue in
+            if newValue {
+                dismissWindow.callAsFunction(id: WindowId.firstLaunch.rawValue)
+            }
+        }
     }
 }

@@ -11,4 +11,5 @@ import Foundation
 enum WindowId: String {
     case compounds
     case conformer
+    case firstLaunch
 }

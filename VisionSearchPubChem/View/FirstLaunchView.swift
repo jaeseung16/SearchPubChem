@@ -11,14 +11,10 @@ import RealityKit
 import RealityKitContent
 
 struct FirstLaunchView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismissWindow) private var dismissWindow
     @EnvironmentObject private var viewModel: VisionSearchPubChemViewModel
     
-    private let hasLaunchedBeforeKey = "HasLaunchedBefore"
-    private let hasDBMigratedKey = "HasDBMigrated"
     private let welcomeToSearchPubChem = "Welcome to SearchPubChem!"
-    private let wantToAddSomeExamples = "Would you like to add some example compounds?"
-    private let iPadIntro = "iPad_Intro"
     private let scale = SIMD3<Float>(0.5, 0.5, 0.5)
     
     @State private var waterEntity: Entity?
@@ -88,38 +84,23 @@ struct FirstLaunchView: View {
                     
                 }
                 
-                VStack {
-                    Text(welcomeToSearchPubChem)
-                        .font(.headline)
+                RealityView { content in
+                    let materialVar = UnlitMaterial(color: .label)
+                    let depth: Float = 0.001
                     
-                    Spacer()
+                    let welcomeTextMeshResource = MeshResource.generateText(welcomeToSearchPubChem,
+                                                                     extrusionDepth: depth,
+                                                                     font: .systemFont(ofSize: 0.03))
                     
-                    Text(wantToAddSomeExamples)
+                    let welcomeTextEntity = ModelEntity(mesh: welcomeTextMeshResource, materials: [materialVar])
+                    welcomeTextEntity.setPosition(SIMD3<Float>(-0.25, 0.25, 0.0), relativeTo: nil)
                     
-                    HStack {
-                        Spacer()
-                        
-                        Button {
-                            UserDefaults.standard.set(true, forKey: hasLaunchedBeforeKey)
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Text(Action.No.rawValue)
-                        }
-                        
-                        Spacer()
-                        
-                        Button {
-                            UserDefaults.standard.set(true, forKey: hasLaunchedBeforeKey)
-                            viewModel.preloadData()
-                            presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            Text(Action.Yes.rawValue)
-                        }
-                        
-                        Spacer()
-                    }
+                    content.add(welcomeTextEntity)
                 }
                 
+                AddSamplesView()
+                    .environmentObject(viewModel)
+                    .offset(y: 0.4 * geometry.size.height)
             }
             .padding()
         }
@@ -152,4 +133,43 @@ struct FirstLaunchView: View {
         }
     }
 
+}
+
+
+struct AddSamplesView: View {
+    @EnvironmentObject private var viewModel: VisionSearchPubChemViewModel
+    @AppStorage("HasLaunchedBefore", store: UserDefaults.standard) var hasLaunchedBefore: Bool = false
+    
+    private let wantToAddSomeExamples = "Would you like to add some example compounds?"
+    
+    var body: some View {
+        VStack {
+            Text(wantToAddSomeExamples)
+                .font(.title)
+            
+            HStack {
+                Spacer()
+                
+                Button {
+                    hasLaunchedBefore = true
+                } label: {
+                    Text(Action.No.rawValue)
+                }
+                
+                Spacer()
+                
+                Button {
+                    hasLaunchedBefore = true
+                    viewModel.preloadData()
+                } label: {
+                    Text(Action.Yes.rawValue)
+                }
+                
+                Spacer()
+            }
+        }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 5.0).foregroundColor(.clear))
+        .glassBackgroundEffect()
+    }
 }

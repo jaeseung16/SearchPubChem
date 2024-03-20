@@ -30,5 +30,13 @@ struct VisionSearchPubChemApp: App {
         }
         .windowStyle(.volumetric)
         .defaultSize(width: 0.6, height: 0.6, depth: 0.6, in: .meters)
+        
+        WindowGroup(id: WindowId.firstLaunch.rawValue) {
+            FirstLaunchView()
+                .environmentObject(VisionSearchPubChemApp.viewModel)
+        }
+        .windowStyle(.volumetric)
+        .defaultSize(width: 0.6, height: 0.6, depth: 0.6, in: .meters)
+        
     }
 }
