@@ -66,6 +66,42 @@
 		907AB0F62A51C50700922EF0 /* PubChemDownloading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AB0F52A51C50700922EF0 /* PubChemDownloading.swift */; };
 		907AB0F82A52306E00922EF0 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AB0F72A52306E00922EF0 /* PersistenceHelper.swift */; };
 		907AE1C42A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */; };
+		907BC4F12BAB997700AC42D4 /* 5862_cysteine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497ED266D79A7002644F6 /* 5862_cysteine.png */; };
+		907BC4F22BAB997700AC42D4 /* 6137_methionine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497F4266D79A7002644F6 /* 6137_methionine.png */; };
+		907BC4F32BAB997700AC42D4 /* 3672_ibuprofen.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497D4266D79A5002644F6 /* 3672_ibuprofen.png */; };
+		907BC4F42BAB997700AC42D4 /* 2244_aspirin.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EB266D79A6002644F6 /* 2244_aspirin.png */; };
+		907BC4F52BAB997700AC42D4 /* 6036_galactose.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497E0266D79A6002644F6 /* 6036_galactose.png */; };
+		907BC4F62BAB997700AC42D4 /* 6140_phenylalanine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497DE266D79A6002644F6 /* 6140_phenylalanine.png */; };
+		907BC4F72BAB997700AC42D4 /* 6287_valine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497F5266D79A7002644F6 /* 6287_valine.png */; };
+		907BC4F82BAB997700AC42D4 /* 6305_tryptophan.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497F7266D79A7002644F6 /* 6305_tryptophan.png */; };
+		907BC4F92BAB997700AC42D4 /* 6255_maltose.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497E4266D79A6002644F6 /* 6255_maltose.png */; };
+		907BC4FA2BAB997700AC42D4 /* 3776_propan-2-ol.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EF266D79A7002644F6 /* 3776_propan-2-ol.png */; };
+		907BC4FB2BAB997700AC42D4 /* 750_glycine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497CF266D79A5002644F6 /* 750_glycine.png */; };
+		907BC4FC2BAB997700AC42D4 /* 962_water.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909D27149C5700DC3989 /* 962_water.png */; };
+		907BC4FD2BAB997700AC42D4 /* 2682_hexadecan-1-ol.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497F0266D79A7002644F6 /* 2682_hexadecan-1-ol.png */; };
+		907BC4FE2BAB997700AC42D4 /* 6134_lactose.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497CB266D79A5002644F6 /* 6134_lactose.png */; };
+		907BC4FF2BAB997700AC42D4 /* 6322_arginine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497DF266D79A6002644F6 /* 6322_arginine.png */; };
+		907BC5002BAB997700AC42D4 /* 5234_sodium chloride.png in Resources */ = {isa = PBXBuildFile; fileRef = 9089909F27149CB100DC3989 /* 5234_sodium chloride.png */; };
+		907BC5012BAB997700AC42D4 /* 5988_sucrose.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497EE266D79A7002644F6 /* 5988_sucrose.png */; };
+		907BC5022BAB997700AC42D4 /* 6106_leucine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497F3266D79A7002644F6 /* 6106_leucine.png */; };
+		907BC5032BAB997700AC42D4 /* 5793_glucose.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497F1266D79A7002644F6 /* 5793_glucose.png */; };
+		907BC5042BAB997700AC42D4 /* 145742_proline.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497E6266D79A6002644F6 /* 145742_proline.png */; };
+		907BC5052BAB997700AC42D4 /* 702_ethanol.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497DA266D79A5002644F6 /* 702_ethanol.png */; };
+		907BC5062BAB997700AC42D4 /* 5960_aspartic acid.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497D3266D79A5002644F6 /* 5960_aspartic acid.png */; };
+		907BC5072BAB997700AC42D4 /* 5962_lysine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497D9266D79A5002644F6 /* 5962_lysine.png */; };
+		907BC5082BAB997700AC42D4 /* 6267_asparagine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497CE266D79A5002644F6 /* 6267_asparagine.png */; };
+		907BC5092BAB997700AC42D4 /* 6306_isoleucine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497D7266D79A5002644F6 /* 6306_isoleucine.png */; };
+		907BC50A2BAB997700AC42D4 /* 602_alanine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497DD266D79A6002644F6 /* 602_alanine.png */; };
+		907BC50B2BAB997700AC42D4 /* 5951_serine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497D5266D79A5002644F6 /* 5951_serine.png */; };
+		907BC50C2BAB997700AC42D4 /* 5961_glutamine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497F2266D79A7002644F6 /* 5961_glutamine.png */; };
+		907BC50D2BAB997700AC42D4 /* 6057_tyrosine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497E3266D79A6002644F6 /* 6057_tyrosine.png */; };
+		907BC50E2BAB997700AC42D4 /* 6288_threonine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497E9266D79A6002644F6 /* 6288_threonine.png */; };
+		907BC50F2BAB997700AC42D4 /* 33032_glutamic acid.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497E1266D79A6002644F6 /* 33032_glutamic acid.png */; };
+		907BC5102BAB997700AC42D4 /* 6274_histidine.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497CC266D79A5002644F6 /* 6274_histidine.png */; };
+		907BC5112BAB997700AC42D4 /* 887_methanol.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497FA266D79A7002644F6 /* 887_methanol.png */; };
+		907BC5122BAB997700AC42D4 /* 6276_pentan-1-ol.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497D6266D79A5002644F6 /* 6276_pentan-1-ol.png */; };
+		907BC5132BAB997700AC42D4 /* 263_butan-1-ol.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497D0266D79A5002644F6 /* 263_butan-1-ol.png */; };
+		907BC5142BAB997700AC42D4 /* 2723872_fructose.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497CD266D79A5002644F6 /* 2723872_fructose.png */; };
 		9081A380201BEEB800A1FECC /* PubChemSolution.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9081A37E201BEEB800A1FECC /* PubChemSolution.xcdatamodeld */; };
 		908497C9266D76D2002644F6 /* records.json in Resources */ = {isa = PBXBuildFile; fileRef = 908497C8266D76D2002644F6 /* records.json */; };
 		908497FB266D79A7002644F6 /* 6134_lactose.png in Resources */ = {isa = PBXBuildFile; fileRef = 908497CB266D79A5002644F6 /* 6134_lactose.png */; };
@@ -879,6 +915,42 @@
 				9077FC9B2B8B8888009724F2 /* Preview Assets.xcassets in Resources */,
 				9077FCC32B8B8EB4009724F2 /* records.json in Resources */,
 				9077FC982B8B8888009724F2 /* Assets.xcassets in Resources */,
+				907BC4F12BAB997700AC42D4 /* 5862_cysteine.png in Resources */,
+				907BC4F22BAB997700AC42D4 /* 6137_methionine.png in Resources */,
+				907BC4F32BAB997700AC42D4 /* 3672_ibuprofen.png in Resources */,
+				907BC4F42BAB997700AC42D4 /* 2244_aspirin.png in Resources */,
+				907BC4F52BAB997700AC42D4 /* 6036_galactose.png in Resources */,
+				907BC4F62BAB997700AC42D4 /* 6140_phenylalanine.png in Resources */,
+				907BC4F72BAB997700AC42D4 /* 6287_valine.png in Resources */,
+				907BC4F82BAB997700AC42D4 /* 6305_tryptophan.png in Resources */,
+				907BC4F92BAB997700AC42D4 /* 6255_maltose.png in Resources */,
+				907BC4FA2BAB997700AC42D4 /* 3776_propan-2-ol.png in Resources */,
+				907BC4FB2BAB997700AC42D4 /* 750_glycine.png in Resources */,
+				907BC4FC2BAB997700AC42D4 /* 962_water.png in Resources */,
+				907BC4FD2BAB997700AC42D4 /* 2682_hexadecan-1-ol.png in Resources */,
+				907BC4FE2BAB997700AC42D4 /* 6134_lactose.png in Resources */,
+				907BC4FF2BAB997700AC42D4 /* 6322_arginine.png in Resources */,
+				907BC5002BAB997700AC42D4 /* 5234_sodium chloride.png in Resources */,
+				907BC5012BAB997700AC42D4 /* 5988_sucrose.png in Resources */,
+				907BC5022BAB997700AC42D4 /* 6106_leucine.png in Resources */,
+				907BC5032BAB997700AC42D4 /* 5793_glucose.png in Resources */,
+				907BC5042BAB997700AC42D4 /* 145742_proline.png in Resources */,
+				907BC5052BAB997700AC42D4 /* 702_ethanol.png in Resources */,
+				907BC5062BAB997700AC42D4 /* 5960_aspartic acid.png in Resources */,
+				907BC5072BAB997700AC42D4 /* 5962_lysine.png in Resources */,
+				907BC5082BAB997700AC42D4 /* 6267_asparagine.png in Resources */,
+				907BC5092BAB997700AC42D4 /* 6306_isoleucine.png in Resources */,
+				907BC50A2BAB997700AC42D4 /* 602_alanine.png in Resources */,
+				907BC50B2BAB997700AC42D4 /* 5951_serine.png in Resources */,
+				907BC50C2BAB997700AC42D4 /* 5961_glutamine.png in Resources */,
+				907BC50D2BAB997700AC42D4 /* 6057_tyrosine.png in Resources */,
+				907BC50E2BAB997700AC42D4 /* 6288_threonine.png in Resources */,
+				907BC50F2BAB997700AC42D4 /* 33032_glutamic acid.png in Resources */,
+				907BC5102BAB997700AC42D4 /* 6274_histidine.png in Resources */,
+				907BC5112BAB997700AC42D4 /* 887_methanol.png in Resources */,
+				907BC5122BAB997700AC42D4 /* 6276_pentan-1-ol.png in Resources */,
+				907BC5132BAB997700AC42D4 /* 263_butan-1-ol.png in Resources */,
+				907BC5142BAB997700AC42D4 /* 2723872_fructose.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
