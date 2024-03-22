@@ -157,6 +157,7 @@
 		908E383C2B950413003C0A61 /* AddCompoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E383B2B950413003C0A61 /* AddCompoundView.swift */; };
 		908E383D2B950458003C0A61 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2927271E6B00C654BB /* Action.swift */; };
 		908E383F2B9511FA003C0A61 /* WindowId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E383E2B9511FA003C0A61 /* WindowId.swift */; };
+		9096A3A92BAE313B00B55667 /* VisionAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9096A3A82BAE313B00B55667 /* VisionAppDelegate.swift */; };
 		909818B92BA1120F0074227C /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2727271B4300C654BB /* TabItem.swift */; };
 		909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */; };
 		909AE6BE200CF2F000FEE529 /* SearchPubChemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6BD200CF2F000FEE529 /* SearchPubChemTests.swift */; };
@@ -333,6 +334,7 @@
 		908C70F82A4652AF00D6C9FA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		908E383B2B950413003C0A61 /* AddCompoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompoundView.swift; sourceTree = "<group>"; };
 		908E383E2B9511FA003C0A61 /* WindowId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowId.swift; sourceTree = "<group>"; };
+		9096A3A82BAE313B00B55667 /* VisionAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionAppDelegate.swift; sourceTree = "<group>"; };
 		909AE6A5200CF2F000FEE529 /* SearchPubChem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchPubChem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909AE6B2200CF2F000FEE529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		909AE6B4200CF2F000FEE529 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 				9077FCAA2B8B8B22009724F2 /* View */,
 				9077FCA72B8B8A74009724F2 /* ViewModel */,
 				9077FC932B8B8887009724F2 /* VisionSearchPubChemApp.swift */,
+				9096A3A82BAE313B00B55667 /* VisionAppDelegate.swift */,
 				9077FC952B8B8887009724F2 /* ContentView.swift */,
 				9077FC972B8B8888009724F2 /* Assets.xcassets */,
 				9077FC9C2B8B8888009724F2 /* Info.plist */,
@@ -1052,6 +1055,7 @@
 				9077FCC62B8B90E7009724F2 /* CompoundDetailView.swift in Sources */,
 				908E383C2B950413003C0A61 /* AddCompoundView.swift in Sources */,
 				9077FCB72B8B8C8A009724F2 /* CompoundTag+Extensions.swift in Sources */,
+				9096A3A92BAE313B00B55667 /* VisionAppDelegate.swift in Sources */,
 				9077FCB22B8B8BFF009724F2 /* PubChemDownloading.swift in Sources */,
 				9077FCAD2B8B8B93009724F2 /* PubChemSolution.xcdatamodeld in Sources */,
 				908E383D2B950458003C0A61 /* Action.swift in Sources */,

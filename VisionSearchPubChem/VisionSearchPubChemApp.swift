@@ -11,29 +11,27 @@ import Persistence
 
 @main
 struct VisionSearchPubChemApp: App {
-    
-    private static var persistence = Persistence(name: SearchPubChemConstants.modelName.rawValue, identifier: SearchPubChemConstants.containerIdentifier.rawValue)
-    private static var viewModel = VisionSearchPubChemViewModel(persistence: persistence)
+    @UIApplicationDelegateAdaptor private var appDelegate: VisionAppDelegate
     
     @State private var compound: Compound?
     
     var body: some Scene {
         WindowGroup(id: WindowId.compounds.rawValue) {
             ContentView(compound: $compound)
-                .environmentObject(VisionSearchPubChemApp.viewModel)
+                .environmentObject(appDelegate.viewModel)
         }
         .windowStyle(.plain)
         
         WindowGroup(id: WindowId.conformer.rawValue) {
             ConformerView(compound: $compound)
-                .environmentObject(VisionSearchPubChemApp.viewModel)
+                .environmentObject(appDelegate.viewModel)
         }
         .windowStyle(.volumetric)
         .defaultSize(width: 0.6, height: 0.6, depth: 0.6, in: .meters)
         
         WindowGroup(id: WindowId.firstLaunch.rawValue) {
             FirstLaunchView()
-                .environmentObject(VisionSearchPubChemApp.viewModel)
+                .environmentObject(appDelegate.viewModel)
         }
         .windowStyle(.volumetric)
         .defaultSize(width: 0.6, height: 0.6, depth: 0.6, in: .meters)
