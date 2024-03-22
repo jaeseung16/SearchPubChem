@@ -1,6 +1,7 @@
-## User settings
-xcuserdata/
+## Xcode Patch
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddate/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
 
-## Xcode 8 and earlier
-*.xcscmblueprint
-*.xccheckout
