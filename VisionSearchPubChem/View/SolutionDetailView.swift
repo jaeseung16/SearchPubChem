@@ -134,6 +134,7 @@ struct SolutionDetailView: View {
             .onChange(of: presentCompoundMiniDetailView) { oldValue, newValue in
                 if !newValue {
                     selectedIngradient = nil
+                    compound = nil
                 }
             }
         }
