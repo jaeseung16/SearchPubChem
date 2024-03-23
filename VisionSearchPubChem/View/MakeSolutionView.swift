@@ -60,7 +60,7 @@ struct MakeSolutionView: View {
                 .accessibilityIdentifier("addCompoundsButton")
                 
                 if !ingradients.isEmpty {
-                    ingradientList()
+                    ingradientList(geometry: geometry)
                 }
             }
             .padding()
@@ -137,24 +137,26 @@ struct MakeSolutionView: View {
         presentationMode.wrappedValue.dismiss()
     }
     
-    private func ingradientList() -> some View {
+    private func ingradientList(geometry: GeometryProxy) -> some View {
         List {
             ForEach(0..<ingradients.count, id:\.self) { index in
                 HStack {
                     Text(ingradients[index].compound.name ?? "")
+                        .multilineTextAlignment(.leading)
 
                     Spacer()
                     
                     TextField("0.0", value: $ingradients[index].amount, formatter: numberFormatter)
                         .multilineTextAlignment(.trailing)
-                        .keyboardType(.decimalPad)
+                        .keyboardType(.numbersAndPunctuation)
+                        .frame(width: 0.25 * geometry.size.width)
                     
                     Picker("", selection: $ingradients[index].unit) {
                         ForEach(Unit.allCases) { unit in
                             Text(unit.rawValue).tag(unit)
-                                
                         }
                     }
+                    .frame(width: 0.25 * geometry.size.width)
                 }
             }
         }
