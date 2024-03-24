@@ -358,6 +358,7 @@
 		90C18BAB2649ECC60036C0DE /* PubChemSolution v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PubChemSolution v3.xcdatamodel"; sourceTree = "<group>"; };
 		90C18BAC2649ED950036C0DE /* CompoundTag+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CompoundTag+Extensions.swift"; sourceTree = "<group>"; };
 		90C2FF7424B6946D00C33F4C /* ConformerDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerDTO.swift; sourceTree = "<group>"; };
+		90C940032BB0B48E00D7A7A1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		90C9C21824CF969E00E247BE /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		90C9EAD426506B5E0004CA43 /* RecordDumper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDumper.swift; sourceTree = "<group>"; };
 		90CE069322E4EFBF0054E7C2 /* Conformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conformer.swift; sourceTree = "<group>"; };
@@ -472,6 +473,7 @@
 				9077FC9C2B8B8888009724F2 /* Info.plist */,
 				9077FC992B8B8888009724F2 /* Preview Content */,
 				908E383E2B9511FA003C0A61 /* WindowId.swift */,
+				90C940032BB0B48E00D7A7A1 /* PrivacyInfo.xcprivacy */,
 			);
 			path = VisionSearchPubChem;
 			sourceTree = "<group>";
