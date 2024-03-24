@@ -9,7 +9,7 @@
 import Foundation
 
 enum WindowId: String {
-    case compounds
+    case main
     case conformer
     case firstLaunch
 }

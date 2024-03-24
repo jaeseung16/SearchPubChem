@@ -16,7 +16,7 @@ struct VisionSearchPubChemApp: App {
     @State private var compound: Compound?
     
     var body: some Scene {
-        WindowGroup(id: WindowId.compounds.rawValue) {
+        WindowGroup(id: WindowId.main.rawValue) {
             ContentView(compound: $compound)
                 .environmentObject(appDelegate.viewModel)
         }

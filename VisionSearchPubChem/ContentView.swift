@@ -66,5 +66,11 @@ struct ContentView: View {
                 dismissWindow.callAsFunction(id: WindowId.firstLaunch.rawValue)
             }
         }
+        .onAppear {
+            viewModel.isMainWindowOpen = true
+        }
+        .onDisappear {
+            viewModel.isMainWindowOpen = false
+        }
     }
 }

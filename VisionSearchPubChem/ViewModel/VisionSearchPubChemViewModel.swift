@@ -42,7 +42,7 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     var spotlightFoundCompounds: [CSSearchableItem] = []
     var searchQuery: CSSearchQuery?
     
-    @Published var isCompoundListViewOpen = false
+    @Published var isMainWindowOpen = false
     @Published var isConformerViewOpen = false
     
     // MARK: - for makings a solution

@@ -130,9 +130,9 @@ struct ConformerView: View {
                 totalRotation3D = newTotalRotation3D
             }
         }
-        .onChange(of: viewModel.isCompoundListViewOpen) { oldValue, newValue in
-            if oldValue && !newValue {
-                openWindow(id: WindowId.compounds.rawValue)
+        .onChange(of: viewModel.isMainWindowOpen) { oldValue, newValue in
+            if !newValue {
+                openWindow(id: WindowId.main.rawValue)
             }
         }
     }
