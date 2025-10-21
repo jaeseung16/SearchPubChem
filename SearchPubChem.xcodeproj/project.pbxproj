@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -114,6 +114,7 @@
 		90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E19506270BB00300B8196A /* CompoundTagView.swift */; };
 		90E19509270BCBBC00B8196A /* SelectCompoundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E19508270BCBBC00B8196A /* SelectCompoundsView.swift */; };
 		90E6E110285F7AF5007B6933 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 90E6E10F285F7AF5007B6933 /* Persistence */; };
+		90E8111C2EA8483300358E9B /* AppIcon_iOS26.icon in Resources */ = {isa = PBXBuildFile; fileRef = 90E8111B2EA8483300358E9B /* AppIcon_iOS26.icon */; };
 		90EB2E2827271B4400C654BB /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2727271B4300C654BB /* TabItem.swift */; };
 		90EB2E2A27271E6B00C654BB /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2927271E6B00C654BB /* Action.swift */; };
 		90EB2E2D27275CBA00C654BB /* RoundedBackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2C27275CBA00C654BB /* RoundedBackgroundRectangle.swift */; };
@@ -274,6 +275,7 @@
 		90E19504270B782200B8196A /* CompoundMiniDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundMiniDetailView.swift; sourceTree = "<group>"; };
 		90E19506270BB00300B8196A /* CompoundTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundTagView.swift; sourceTree = "<group>"; };
 		90E19508270BCBBC00B8196A /* SelectCompoundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCompoundsView.swift; sourceTree = "<group>"; };
+		90E8111B2EA8483300358E9B /* AppIcon_iOS26.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon_iOS26.icon; sourceTree = "<group>"; };
 		90EB2E2727271B4300C654BB /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
 		90EB2E2927271E6B00C654BB /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		90EB2E2C27275CBA00C654BB /* RoundedBackgroundRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBackgroundRectangle.swift; sourceTree = "<group>"; };
@@ -450,6 +452,7 @@
 				90D8B028270E51AD00C81750 /* SearchPubChemApp.swift */,
 				909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */,
 				902DFADC2027636B001E2AD6 /* Assets.xcassets */,
+				90E8111B2EA8483300358E9B /* AppIcon_iOS26.icon */,
 				909AE6B4200CF2F000FEE529 /* Info.plist */,
 				90EB2E2727271B4300C654BB /* TabItem.swift */,
 				90EB2E2927271E6B00C654BB /* Action.swift */,
@@ -737,6 +740,7 @@
 				908497C9266D76D2002644F6 /* records.json in Resources */,
 				90849820266D79A7002644F6 /* 2682_hexadecan-1-ol.png in Resources */,
 				90849824266D79A7002644F6 /* 6137_methionine.png in Resources */,
+				90E8111C2EA8483300358E9B /* AppIcon_iOS26.icon in Resources */,
 				90849811266D79A7002644F6 /* 33032_glutamic acid.png in Resources */,
 				907327652A47774100B0A8DA /* Settings.bundle in Resources */,
 				908990A027149CB100DC3989 /* 5234_sodium chloride.png in Resources */,
@@ -1074,7 +1078,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_iOS26;
 				CODE_SIGN_ENTITLEMENTS = SearchPubChem/SearchPubChem.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
@@ -1101,7 +1105,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_iOS26;
 				CODE_SIGN_ENTITLEMENTS = SearchPubChem/SearchPubChem.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
