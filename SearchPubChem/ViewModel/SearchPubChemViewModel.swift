@@ -47,11 +47,8 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var solutionLabel: String = ""
     
     private let persistence: Persistence
-    private var persistenceContainer: NSPersistentCloudKitContainer {
-        persistence.container
-    }
     private var viewContext: NSManagedObjectContext {
-        persistenceContainer.viewContext
+        persistence.container.viewContext
     }
     private let persistenceHelper: PersistenceHelper
     
@@ -70,8 +67,8 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
           .sink { self.fetchUpdates($0) }
           .store(in: &subscriptions)
         
-        if let persistentStoreDescription = self.persistenceContainer.persistentStoreDescriptions.first {
-            self.spotlightIndexer = SearchPubChemSpotlightDelegate(forStoreWith: persistentStoreDescription, coordinator: self.persistenceContainer.persistentStoreCoordinator)
+        if let spotlightIndexer = persistence.createCoreSpotlightDelegate() as? SearchPubChemSpotlightDelegate {
+            self.spotlightIndexer = spotlightIndexer
             self.spotlightIndexing = UserDefaults.standard.bool(forKey: "spotlight_indexing")
             self.toggleSpotlightIndexing(enabled: self.spotlightIndexing)
             NotificationCenter.default.addObserver(self, selector: #selector(defaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
