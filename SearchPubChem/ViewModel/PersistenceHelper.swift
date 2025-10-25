@@ -11,7 +11,7 @@ import CoreData
 import os
 import Persistence
 
-class PersistenceHelper {
+final class PersistenceHelper: Sendable {
     private static let logger = Logger()
     
     private let persistence: Persistence
@@ -23,15 +23,58 @@ class PersistenceHelper {
         self.persistence = persistence
     }
     
-    func save(completionHandler: @escaping (Result<Void, Error>) -> Void) -> Void {
-        persistence.save { completionHandler($0) }
+    func save() async throws -> Void {
+        try await persistence.save()
+    }
+    
+    func save(completionHandler: @escaping @Sendable (Result<Void, Error>) -> Void) -> Void {
+        Task {
+            do {
+                try await save()
+                completionHandler(.success(()))
+            } catch {
+                completionHandler(.failure(error))
+            }
+        }
     }
     
     func delete(_ object: NSManagedObject) -> Void {
         viewContext.delete(object)
     }
     
-    func saveCompound(_ name: String, properties: Properties, imageData: Data?, conformer: Conformer?, completionHandler: @escaping (Result<Void, Error>) -> Void) -> Void {
+    func save(compound name: String, properties: Properties, image: Data?, conformer: Conformer?) async throws -> Void {
+        let compound = Compound(context: viewContext)
+        compound.name = name
+        compound.firstCharacterInName = String(compound.name!.first!).uppercased()
+        compound.formula = properties.MolecularFormula
+        compound.molecularWeight = Double(properties.MolecularWeight)!
+        compound.cid = "\(properties.CID)"
+        compound.nameIUPAC = properties.IUPACName
+        compound.image = image
+        compound.conformerDownloaded = true
+            
+        let conformerEntity = ConformerEntity(context: viewContext)
+        if let conformer = conformer {
+            conformerEntity.conformerId = conformer.conformerId
+            
+            for atom in conformer.atoms {
+                let atomEntity = AtomEntity(context: viewContext)
+                atomEntity.atomicNumber = Int16(atom.number)
+                atomEntity.coordX = atom.location[0]
+                atomEntity.coordY = atom.location[1]
+                atomEntity.coordZ = atom.location[2]
+                atomEntity.conformer = conformerEntity
+                
+                conformerEntity.addToAtoms(atomEntity)
+            }
+            
+            compound.addToConformers(conformerEntity)
+        }
+        
+        try await save()
+    }
+    
+    func saveCompound(_ name: String, properties: Properties, imageData: Data?, conformer: Conformer?) async throws -> Void {
         let compound = Compound(context: viewContext)
         compound.name = name
         compound.firstCharacterInName = String(compound.name!.first!).uppercased()
@@ -60,10 +103,11 @@ class PersistenceHelper {
             compound.addToConformers(conformerEntity)
         }
         
-        save { completionHandler($0) }
+        try await save()
+        return
     }
     
-    func saveSolution(_ label: String, ingradients: [SolutionIngradientDTO], completionHandler: @escaping (Result<Void, Error>) -> Void) -> Void {
+    func saveSolution(_ label: String, ingradients: [SolutionIngradientDTO]) async throws -> Void {
         let solution = Solution(context: viewContext)
         solution.name = label
         
@@ -80,22 +124,25 @@ class PersistenceHelper {
             solution.addToCompounds(ingradient.compound)
         }
         
-        save() { completionHandler($0) }
+        try await save()
+        return
     }
     
-    func saveNewTag(_ name: String, for compound: Compound, completionHandler: @escaping (Result<CompoundTag, Error>) -> Void) -> Void {
-        let newTag = CompoundTag(context: viewContext)
-        newTag.compoundCount = 1
-        newTag.name = name
-        newTag.addToCompounds(compound)
-        
-        save() { result in
-            switch result {
-            case .success(_):
-                completionHandler(.success(newTag))
-            case .failure(let error):
-                completionHandler(.failure(error))
+    func saveNewTag(_ name: String, for compoundId: NSManagedObjectID) async throws -> CompoundTag {
+        if let compound = fetchObject(with: compoundId, in: viewContext) as? Compound {
+            let newTag = CompoundTag(context: viewContext)
+            newTag.compoundCount = 1
+            newTag.name = name
+            newTag.addToCompounds(compound)
+            
+            do {
+                try await save()
+                return newTag
+            } catch let error {
+                throw error
             }
+        } else {
+            throw SearchPubChemError.noCompoundsFound
         }
     }
    
@@ -109,7 +156,7 @@ class PersistenceHelper {
         return fetchedEntities
     }
     
-    func preloadData(completionHandler: @escaping (Result<Void, Error>) -> Void) -> Void {
+    func preloadData() async throws -> Void {
         // Example Compound 1: Water
         let water = Compound(context: viewContext)
         water.name = "water"
@@ -129,7 +176,7 @@ class PersistenceHelper {
         sodiumChloride.cid = "5234"
         sodiumChloride.nameIUPAC = "sodium chloride"
         sodiumChloride.image = try? Data(contentsOf: Bundle.main.url(forResource: "5234_sodium chloride", withExtension: "png")!, options: [])
-
+        
         // Example Solution: Sodium Chloride Aqueous Solution
         let waterIngradient = SolutionIngradient(context: viewContext)
         waterIngradient.compound = water
@@ -153,6 +200,19 @@ class PersistenceHelper {
         let recordLoader = RecordLoader(viewContext: viewContext)
         recordLoader.loadRecords()
         
-        save() { completionHandler($0) }
+        try await save()
+        return
+    }
+    
+    private func fetchObject(with objectID: NSManagedObjectID, in context: NSManagedObjectContext) -> NSManagedObject? {
+        do {
+            // Attempt to retrieve the object with the given NSManagedObjectID
+            let managedObject = try context.existingObject(with: objectID)
+            return managedObject
+        } catch {
+            // Handle any errors that occur during the fetch
+            PersistenceHelper.logger.error("Error fetching object with ID \(objectID, privacy: .public): \(error.localizedDescription, privacy: .public)")
+            return nil
+        }
     }
 }

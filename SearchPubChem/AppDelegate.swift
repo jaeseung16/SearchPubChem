@@ -13,6 +13,7 @@ import CloudKit
 import os
 import Persistence
 
+@MainActor
 class AppDelegate: NSObject {
     private let logger = Logger()
     
@@ -39,13 +40,14 @@ class AppDelegate: NSObject {
     }
     
     private func registerForPushNotifications() {
-        UNUserNotificationCenter.current()
-            .requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] granted, _ in
-                guard granted else {
-                    return
-                }
-                self?.getNotificationSettings()
+        Task {
+            do {
+                try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge])
+                getNotificationSettings()
+            } catch {
+                logger.log("Error whie requesting notification authorization: \(error.localizedDescription)")
             }
+        }
     }
 
     private func getNotificationSettings() {
@@ -168,13 +170,16 @@ extension AppDelegate: UIApplicationDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         logger.info("userNotificationCenter: notification=\(notification)")
         completionHandler([.banner, .sound])
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        viewModel.selectedCid = response.notification.request.content.body
+    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let selectedCid = response.notification.request.content.body
+        Task { @MainActor in
+            viewModel.selectedCid = selectedCid
+        }
         completionHandler()
     }
 }
