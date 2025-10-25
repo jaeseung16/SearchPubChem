@@ -93,7 +93,7 @@ struct SolutionDetailView: View {
     }
     
     private func created(on date: Date) -> some View {
-        Text("Created on ") + Text(date, style: .date)
+        Text("Created on \(date, style: .date) ")
     }
     
     private func columnHeads(geometry: GeometryProxy) -> some View {
