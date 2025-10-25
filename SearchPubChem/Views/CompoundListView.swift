@@ -19,6 +19,7 @@ struct CompoundListView: View {
     
     @State private var selectedTag: CompoundTag?
     @State private var selectedCid: String?
+    @State private var selectedCompound: Compound?
     
     private var navigationTitle: String {
         if let tag = selectedTag, let name = tag.name {
@@ -29,57 +30,60 @@ struct CompoundListView: View {
     }
     
     var body: some View {
-        NavigationView {
-            GeometryReader { geometry in
-                VStack {
-                    List() {
-                        ForEach(compounds) { compound in
-                            NavigationLink(tag: compound.id, selection: $selectedCid) {
-                                CompoundDetailView(compound: compound)
-                            } label: {
-                                label(for: compound)
-                            }
+        GeometryReader { geometry in
+            NavigationSplitView {
+                List(selection: $selectedCompound) {
+                    ForEach(compounds) { compound in
+                        NavigationLink(value: compound) {
+                            label(for: compound)
                         }
                     }
-                    .navigationTitle(navigationTitle)
-                    .toolbar {
-                        toolBarContent()
-                    }
-                    .searchable(text: $viewModel.selectedCompoundName)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                .sheet(isPresented: $presentSelectTagView) {
-                    SelectTagsView(selectedTag: $selectedTag)
-                        .environmentObject(viewModel)
+                .navigationTitle(navigationTitle)
+                .toolbar {
+                    toolBarContent()
                 }
-                .sheet(isPresented: $presentAddCompoundView) {
-                    AddCompoundView()
-                        .environmentObject(viewModel)
+                .searchable(text: $viewModel.selectedCompoundName)
+            } detail: {
+                if let selectedCompound {
+                    CompoundDetailView(compound: selectedCompound)
+                        .id(selectedCompound)
+                } else {
+                    EmptyView()
                 }
-                .onChange(of: viewModel.receivedURL) {
-                    if !viewModel.selectedCid.isEmpty {
-                        selectedCid = viewModel.selectedCid
+            }
+            .sheet(isPresented: $presentSelectTagView) {
+                SelectTagsView(selectedTag: $selectedTag)
+                    .environmentObject(viewModel)
+            }
+            .sheet(isPresented: $presentAddCompoundView) {
+                AddCompoundView()
+                    .environmentObject(viewModel)
+            }
+            .onChange(of: viewModel.receivedURL) {
+                if !viewModel.selectedCid.isEmpty {
+                    selectedCid = viewModel.selectedCid
+                }
+            }
+            .onContinueUserActivity(CSSearchableItemActionType) { activity in
+                viewModel.continueActivity(activity) { compound in
+                    selectedCid = compound.id
+                    if let name = compound.name {
+                        viewModel.selectedCompoundName = name
                     }
                 }
-                .onContinueUserActivity(CSSearchableItemActionType) { activity in
-                    viewModel.continueActivity(activity) { compound in
-                        selectedCid = compound.id
-                        if let name = compound.name {
-                            viewModel.selectedCompoundName = name
-                        }
-                    }
-                }
-                .onChange(of: viewModel.allCompounds) { _, newValue in
-                    compounds = getTagged(compounds: newValue)
-                }
-                .onChange(of: viewModel.selectedCompoundName) { _, newValue in
-                    let selectedCompounds = viewModel.searchCompounds(nameContaining: newValue)
-                    compounds = getTagged(compounds: selectedCompounds)
-                }
-                .onChange(of: selectedTag) { _, newValue in
-                    let selectedCompounds = viewModel.searchCompounds(nameContaining: viewModel.selectedCompoundName)
-                    compounds = getTagged(compounds: selectedCompounds)
-                }
+            }
+            .onChange(of: viewModel.allCompounds) { _, newValue in
+                compounds = getTagged(compounds: newValue)
+            }
+            .onChange(of: viewModel.selectedCompoundName) { _, newValue in
+                let selectedCompounds = viewModel.searchCompounds(nameContaining: newValue)
+                compounds = getTagged(compounds: selectedCompounds)
+            }
+            .onChange(of: selectedTag) { _, newValue in
+                let selectedCompounds = viewModel.searchCompounds(nameContaining: viewModel.selectedCompoundName)
+                compounds = getTagged(compounds: selectedCompounds)
             }
         }
     }
