@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DataMigrationView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var dataMigrator: DataMigrator
     
     @AppStorage("HasDBMigrated", store: UserDefaults.standard) var hasDBMigrated: Bool = false
@@ -18,8 +18,8 @@ struct DataMigrationView: View {
         VStack {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
-                .onChange(of: hasDBMigrated) { _ in
-                    presentationMode.wrappedValue.dismiss()
+                .onChange(of: hasDBMigrated) {
+                    dismiss.callAsFunction()
                 }
         }
     }

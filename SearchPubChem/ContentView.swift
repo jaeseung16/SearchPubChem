@@ -46,7 +46,7 @@ struct ContentView: View {
                 Text(Action.Dismiss.rawValue)
             }
         }
-        .onChange(of: viewModel.receivedURL) { _ in
+        .onChange(of: viewModel.receivedURL) {
             selectedTab = .compound
         }
     }

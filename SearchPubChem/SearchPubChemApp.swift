@@ -28,8 +28,8 @@ struct SearchPubChemApp: App {
             } else {
                 ContentView()
                     .environmentObject(appDelegate.viewModel)
-                    .onChange(of: scenePhase) { phase in
-                        if phase == .background {
+                    .onChange(of: scenePhase) { _, newValue in
+                        if newValue == .background {
                             appDelegate.viewModel.writeWidgetEntries()
                         }
                     }

@@ -56,7 +56,7 @@ struct CompoundListView: View {
                     AddCompoundView()
                         .environmentObject(viewModel)
                 }
-                .onChange(of: viewModel.receivedURL) { _ in
+                .onChange(of: viewModel.receivedURL) {
                     if !viewModel.selectedCid.isEmpty {
                         selectedCid = viewModel.selectedCid
                     }
@@ -69,14 +69,14 @@ struct CompoundListView: View {
                         }
                     }
                 }
-                .onChange(of: viewModel.allCompounds) { newValue in
+                .onChange(of: viewModel.allCompounds) { _, newValue in
                     compounds = getTagged(compounds: newValue)
                 }
-                .onChange(of: viewModel.selectedCompoundName) { newValue in
+                .onChange(of: viewModel.selectedCompoundName) { _, newValue in
                     let selectedCompounds = viewModel.searchCompounds(nameContaining: newValue)
                     compounds = getTagged(compounds: selectedCompounds)
                 }
-                .onChange(of: selectedTag) { newValue in
+                .onChange(of: selectedTag) { _, newValue in
                     let selectedCompounds = viewModel.searchCompounds(nameContaining: viewModel.selectedCompoundName)
                     compounds = getTagged(compounds: selectedCompounds)
                 }

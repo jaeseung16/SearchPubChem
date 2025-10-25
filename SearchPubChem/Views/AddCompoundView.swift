@@ -66,9 +66,9 @@ struct AddCompoundView: View {
             }
         }
         .padding()
-        .onChange(of: viewModel.errorMessage, perform: { _ in
+        .onChange(of: viewModel.errorMessage) {
             showProgress = false
-        })
+        }
         .sheet(isPresented: $presentConformerView) {
             if let conformer = viewModel.conformer {
                 if UIDevice.current.userInterfaceIdiom == .phone {
