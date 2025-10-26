@@ -33,6 +33,12 @@ struct SolutionListView: View {
                         }
                     }
                 }
+                .navigationTitle(TabItem.Solutions.rawValue)
+                .toolbar {
+                    ToolbarItemGroup {
+                        toolBarContent()
+                    }
+                }
             } detail: {
                 if let selectedSolution {
                     SolutionDetailView(solution: selectedSolution)
@@ -41,11 +47,6 @@ struct SolutionListView: View {
                     EmptyView()
                 }
             }
-            .navigationTitle(TabItem.Solutions.rawValue)
-            .toolbar {
-                toolBarContent()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .sheet(isPresented: $presentMakeSolutionView) {
                 MakeSolutionView()
                     .environmentObject(viewModel)

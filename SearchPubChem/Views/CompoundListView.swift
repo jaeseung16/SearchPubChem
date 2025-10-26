@@ -42,7 +42,9 @@ struct CompoundListView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .navigationTitle(navigationTitle)
                 .toolbar {
-                    toolBarContent()
+                    ToolbarItemGroup {
+                        toolBarContent()
+                    }
                 }
                 .searchable(text: $viewModel.selectedCompoundName)
             } detail: {
