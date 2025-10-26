@@ -15,29 +15,17 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            CompoundListView(compounds: viewModel.allCompounds)
-                .tabItem {
-                    if selectedTab == .compound {
-                        Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.selectedImageName)
-                            .accessibilityIdentifier("compoundTabSelected")
-                    } else {
-                        Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.defaultImageName)
-                            .accessibilityIdentifier("compoundTabUnselected")
-                    }
-                }
-                .tag(SelectedTab.compound)
+            Tab(value: .compound) {
+                CompoundListView(compounds: viewModel.allCompounds)
+            } label: {
+                Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.defaultImageName)
+            }
             
-            SolutionListView()
-                .tabItem {
-                    if selectedTab == .solution {
-                        Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.selectedImageName)
-                            .accessibilityIdentifier("solutionTabSelected")
-                    } else {
-                        Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.defaultImageName)
-                            .accessibilityIdentifier("solutionTabUnselected")
-                    }
-                }
-                .tag(SelectedTab.solution)
+            Tab(value: .solution) {
+                SolutionListView()
+            } label: {
+                Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.defaultImageName)
+            }
         }
         .alert("Unable to Save Data", isPresented: $viewModel.showAlert) {
             Button {
