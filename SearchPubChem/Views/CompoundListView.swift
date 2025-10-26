@@ -7,37 +7,18 @@
 //
 
 import SwiftUI
+import CoreSpotlight
 
 struct CompoundListView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Compound.name, ascending: true)],
-        animation: .default)
-    private var compounds: FetchedResults<Compound>
-    
-    var filteredCompounds: Array<Compound> {
-        compounds.filter { compound in
-            var filter = true
-            
-            if let tag = selectedTag {
-                if let tags = compound.tags {
-                    filter = tags.contains(tag)
-                } else {
-                    filter = false
-                }
-            }
-            return filter
-        }
-    }
+    @State var compounds: [Compound]
     
     @State private var presentSelectTagView = false
     @State private var presentAddCompoundView = false
     
-    
     @State private var selectedTag: CompoundTag?
+    @State private var selectedCid: String?
     
     private var navigationTitle: String {
         if let tag = selectedTag, let name = tag.name {
@@ -51,9 +32,9 @@ struct CompoundListView: View {
         NavigationView {
             GeometryReader { geometry in
                 VStack {
-                    List {
-                        ForEach(filteredCompounds) { compound in
-                            NavigationLink {
+                    List() {
+                        ForEach(compounds) { compound in
+                            NavigationLink(tag: compound.id, selection: $selectedCid) {
                                 CompoundDetailView(compound: compound)
                             } label: {
                                 label(for: compound)
@@ -64,13 +45,40 @@ struct CompoundListView: View {
                     .toolbar {
                         toolBarContent()
                     }
+                    .searchable(text: $viewModel.selectedCompoundName)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .sheet(isPresented: $presentSelectTagView) {
                     SelectTagsView(selectedTag: $selectedTag)
+                        .environmentObject(viewModel)
                 }
                 .sheet(isPresented: $presentAddCompoundView) {
                     AddCompoundView()
+                        .environmentObject(viewModel)
+                }
+                .onChange(of: viewModel.receivedURL) { _ in
+                    if !viewModel.selectedCid.isEmpty {
+                        selectedCid = viewModel.selectedCid
+                    }
+                }
+                .onContinueUserActivity(CSSearchableItemActionType) { activity in
+                    viewModel.continueActivity(activity) { compound in
+                        selectedCid = compound.id
+                        if let name = compound.name {
+                            viewModel.selectedCompoundName = name
+                        }
+                    }
+                }
+                .onChange(of: viewModel.allCompounds) { newValue in
+                    compounds = getTagged(compounds: newValue)
+                }
+                .onChange(of: viewModel.selectedCompoundName) { newValue in
+                    let selectedCompounds = viewModel.searchCompounds(nameContaining: newValue)
+                    compounds = getTagged(compounds: selectedCompounds)
+                }
+                .onChange(of: selectedTag) { newValue in
+                    let selectedCompounds = viewModel.searchCompounds(nameContaining: viewModel.selectedCompoundName)
+                    compounds = getTagged(compounds: selectedCompounds)
                 }
             }
         }
@@ -98,18 +106,21 @@ struct CompoundListView: View {
             } label: {
                 Image(systemName: "tag")
             }
+            .accessibilityIdentifier("tagButton")
             
             Button {
                 presentAddCompoundView = true
             } label: {
                 Image(systemName: "plus")
             }
+            .accessibilityIdentifier("addCompoundButton")
+        }
+    }
+    
+    private func getTagged(compounds: [Compound]) -> [Compound] {
+        compounds.filter { compound in
+            selectedTag == nil || compound.isTagged(by: selectedTag!)
         }
     }
 }
 
-struct CompoundListView_Previews: PreviewProvider {
-    static var previews: some View {
-        CompoundListView()
-    }
-}

@@ -9,42 +9,46 @@
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var viewModel: SearchPubChemViewModel
     
     @State private var selectedTab = SelectedTab.compound
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            CompoundListView()
+            CompoundListView(compounds: viewModel.allCompounds)
                 .tabItem {
                     if selectedTab == .compound {
-                        Image(TabItem.Compounds.selectedImageName, label: Text(TabItem.Compounds.rawValue))
+                        Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.selectedImageName)
+                            .accessibilityIdentifier("compoundTabSelected")
                     } else {
-                        Image(TabItem.Compounds.defaultImageName, label: Text(TabItem.Compounds.rawValue))
+                        Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.defaultImageName)
+                            .accessibilityIdentifier("compoundTabUnselected")
                     }
-                    
-                    Text(TabItem.Compounds.rawValue)
                 }
                 .tag(SelectedTab.compound)
             
             SolutionListView()
                 .tabItem {
                     if selectedTab == .solution {
-                        Image(TabItem.Solutions.selectedImageName, label: Text(TabItem.Solutions.rawValue))
+                        Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.selectedImageName)
+                            .accessibilityIdentifier("solutionTabSelected")
                     } else {
-                        Image(TabItem.Solutions.defaultImageName, label: Text(TabItem.Solutions.rawValue))
+                        Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.defaultImageName)
+                            .accessibilityIdentifier("solutionTabUnselected")
                     }
-                    
-                    Text(TabItem.Solutions.rawValue)
                 }
                 .tag(SelectedTab.solution)
         }
-        .alert(isPresented: $viewModel.showAlert, content: {
-            Alert(title: Text("Unable to Save Data"),
-                  message: Text(viewModel.errorMessage ?? "No information about the error"),
-                  dismissButton: .default(Text(Action.Dismiss.rawValue)))
-        })
+        .alert("Unable to Save Data", isPresented: $viewModel.showAlert) {
+            Button {
+                viewModel.errorMessage = nil
+            } label: {
+                Text(Action.Dismiss.rawValue)
+            }
+        }
+        .onChange(of: viewModel.receivedURL) { _ in
+            selectedTab = .compound
+        }
     }
 }
 

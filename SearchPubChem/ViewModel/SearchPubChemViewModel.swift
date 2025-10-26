@@ -10,41 +10,102 @@ import Foundation
 import Combine
 import CoreData
 import SceneKit
+import os
+import Persistence
+import CoreSpotlight
 
 class SearchPubChemViewModel: NSObject, ObservableObject {
     private var session: URLSession = URLSession.shared
+    private let logger = Logger()
     
+    private let contentsJson = "contents.json"
     private let networkErrorString: String = "The Internet connection appears to be offline"
     
     private let compoundProperties: [String] = [PubChemSearch.PropertyKey.formula, PubChemSearch.PropertyKey.weight, PubChemSearch.PropertyKey.nameIUPAC, PubChemSearch.PropertyKey.title]
+    
+    private let downloader = PubChemDownloader()
+    private let conformerSceneHelper = ConformerSceneHelper()
     
     @Published var success: Bool = false
     @Published var propertySet: Properties?
     @Published var imageData: Data?
     @Published var conformer: Conformer?
     
+    @Published var toggle: Bool = false
     @Published var showAlert: Bool = false
     @Published var errorMessage: String?
+    
+    @Published var selectedTag: CompoundTag?
+    @Published var receivedURL = false
+    @Published var selectedCid: String = ""
+    @Published var selectedCompoundName: String = ""
+    var spotlightFoundCompounds: [CSSearchableItem] = []
+    var searchQuery: CSSearchQuery?
     
     // MARK: - for makings a solution
     @Published var compounds: [Compound]?
     @Published var solutionLabel: String = ""
     
-    private let dataController = DataController.shared
+    private let persistence: Persistence
+    private var persistenceContainer: NSPersistentCloudKitContainer {
+        persistence.container
+    }
+    private var viewContext: NSManagedObjectContext {
+        persistenceContainer.viewContext
+    }
+    private let persistenceHelper: PersistenceHelper
     
     private var subscriptions: Set<AnyCancellable> = []
     
-    override init() {
+    private(set) var spotlightIndexer: SearchPubChemSpotlightDelegate?
+    private var spotlightIndexing = false
+    
+    init(persistence: Persistence) {
+        self.persistence = persistence
+        self.persistenceHelper = PersistenceHelper(persistence: persistence)
         super.init()
         
         NotificationCenter.default
           .publisher(for: .NSPersistentStoreRemoteChange)
           .sink { self.fetchUpdates($0) }
           .store(in: &subscriptions)
+        
+        if let persistentStoreDescription = self.persistenceContainer.persistentStoreDescriptions.first {
+            self.spotlightIndexer = SearchPubChemSpotlightDelegate(forStoreWith: persistentStoreDescription, coordinator: self.persistenceContainer.persistentStoreCoordinator)
+            self.spotlightIndexing = UserDefaults.standard.bool(forKey: "spotlight_indexing")
+            self.toggleSpotlightIndexing(enabled: self.spotlightIndexing)
+            NotificationCenter.default.addObserver(self, selector: #selector(defaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
+        }
+        
+        logger.log("spotlightIndexer=\(String(describing: self.spotlightIndexer)) isIndexingEnabled=\(String(describing: self.spotlightIndexer?.isIndexingEnabled))")
+        
+        self.persistence.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        
+        fetchEntities()
+    }
+    
+    private func fetchEntities() {
+        fetchCompounds()
+        fetchTags()
+        fetchSolutions()
+    }
+    
+    @objc private func defaultsChanged() -> Void {
+        if spotlightIndexing != UserDefaults.standard.bool(forKey: "spotlight_indexing") {
+            spotlightIndexing = UserDefaults.standard.bool(forKey: "spotlight_indexing")
+            toggleSpotlightIndexing(enabled: spotlightIndexing)
+        }
     }
     
     func preloadData() -> Void {
-        dataController.preloadData()
+        persistenceHelper.preloadData { result in
+            switch result {
+            case .success(_):
+                self.logger.log("Preload succeeded")
+            case .failure(let error):
+                self.logger.log("Failed to preload: error=\(error.localizedDescription)")
+            }
+        }
     }
     
     func resetCompound() -> Void {
@@ -55,48 +116,23 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         conformer = nil
     }
     
+    // MARK: - PubChem API calls
     func download3DData(for cid: String) {
-        var component = commonURLComponents()
-        component.path = PubChemSearch.Constant.pathForCID + cid + "/JSON"
-        component.query = "\(PubChemSearch.QueryString.recordType)=\(PubChemSearch.RecordType.threeD)"
-        
-        _ = dataTask(with: component.url!, completionHandler: { (data, error) in
-            func sendError(_ error: String) {
-                DispatchQueue.main.async {
-                    self.success = false
+        downloader.downloadConformer(for: cid) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let conformerDTO):
+                    self.conformer = self.populateConformer(from: conformerDTO.pcCompounds[0])
+                    self.errorMessage = nil
+                    self.success = true
+                case .failure(let error):
+                    self.logger.log("Error while downloading 3d data: \(error.localizedDescription)")
                     self.conformer = nil
-                    self.errorMessage = error
+                    self.errorMessage = error.localizedDescription
+                    self.success = false
                 }
             }
-            
-            guard error == nil else {
-                NSLog("Error while downloading 3d data: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
-                sendError(error!.userInfo[NSLocalizedDescriptionKey] as! String)
-                return
-            }
-            
-            guard let data = data else {
-                NSLog("Missing 3d data")
-                sendError("Missing 3d data")
-                return
-            }
-            
-            let dto: ConformerDTO? = self.decode(from: data)
-            
-            guard let conformerDTO = dto else {
-                NSLog("Error while parsing data as conformerDTO = \(String(describing: dto))")
-                sendError("Error while parsing 3D data")
-                return
-            }
-            
-            let conformer = self.populateConformer(from: conformerDTO.pcCompounds[0])
-            
-            DispatchQueue.main.async {
-                self.success = true
-                self.conformer = conformer
-                self.errorMessage = nil
-            }
-        })
+        }
     }
     
     private func populateConformer(from pcCompound: PCCompound) -> Conformer {
@@ -119,7 +155,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         for coordData in pcCompound.coords[0].conformers[0].data {
             if (coordData.urn.label == "Conformer") {
                 guard let sval = coordData.value.sval else {
-                    print("Cannot parse coordData.value.sval = \(String(describing: coordData.value.sval))")
+                    logger.log("Cannot parse coordData.value.sval = \(String(describing: coordData.value.sval))")
                     continue
                 }
                 value = sval
@@ -137,320 +173,226 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func downloadImage(for cid: String) {
-        var component = commonURLComponents()
-        component.path = PubChemSearch.Constant.pathForCID + cid + PubChemSearch.QueryResult.png
-        
-        _ = dataTask(with: component.url!, completionHandler: { (data, error) in
-            func sendError(_ error: String) {
-                DispatchQueue.main.async {
-                    self.success = false
+        downloader.downloadImage(for: cid) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    self.imageData = data
+                    self.errorMessage = nil
+                    self.success = true
+                case .failure(let error):
+                    self.logger.log("Error while downloading an image: \(error.localizedDescription)")
                     self.imageData = nil
-                    self.errorMessage = error
+                    self.errorMessage = error.localizedDescription
+                    self.success = false
                 }
             }
-            
-            guard error == nil else {
-                NSLog("Error while downloading an image: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
-                sendError(error!.userInfo[NSLocalizedDescriptionKey] as! String)
-                return
-            }
-        
-            guard let data = data else {
-                NSLog("Missing image data")
-                sendError("Missing image data")
-                return
-            }
-
-            DispatchQueue.main.async {
-                self.success = true
-                self.imageData = data
-                self.errorMessage = nil
-            }
-        })
+        }
     }
     
     func searchCompound(type: SearchType, value: String) -> Void {
-        searchProperties(type: type, value: value) { (properties, error) in
-            func sendError(_ error: String) {
-                DispatchQueue.main.async {
-                    self.success = false
-                    self.propertySet = nil
-                    self.errorMessage = error
-                }
-            }
-            
-            guard (error == nil) else {
-                NSLog("Error while getting properties: \(String(describing: error!.userInfo[NSLocalizedDescriptionKey]))")
-                sendError(error!.userInfo[NSLocalizedDescriptionKey] as! String)
-                return
-            }
-            
-            guard let properties = properties else {
-                NSLog("Missing property values")
-                sendError("Missing property values")
-                return
-            }
-            
+        downloader.downloadProperties(identifier: value, identifierType: type) { result in
             DispatchQueue.main.async {
-                self.success = true
-                self.propertySet = properties
-                self.errorMessage = nil
-                self.downloadImage(for: "\(properties.CID)")
-                self.download3DData(for: "\(properties.CID)")
-            }
-        }
-    }
-    
-    private func searchProperties(type: SearchType, value: String, completionHandler: @escaping (_ properties: Properties?, _ error: NSError?) -> Void) {
-        let url = searchURL(type: type, value: value)
-        
-        _ = dataTask(with: url) { (data, error) in
-            func sendError(_ error: String) {
-                let userInfo = [NSLocalizedDescriptionKey: error]
-                completionHandler(nil, NSError(domain: "dataTask", code: 1, userInfo: userInfo))
-            }
-            
-            guard (error == nil) else {
-                completionHandler(nil, error)
-                return
-            }
-            
-            guard let data = data else {
-                sendError("Cannot get the data!")
-                return
-            }
-            
-            print(String(data: data, encoding: .utf8) ?? "Not utf8")
-            
-            let dto : CompoundDTO? = self.decode(from: data)
-            guard let compoundDTO = dto else {
-                sendError("Error while parsing data as compoundDTO = \(String(describing: dto))")
-                return
-            }
-            
-            completionHandler(compoundDTO.propertyTable.properties[0], nil)
-        }
-    }
-    
-    private func searchURL(type: SearchType, value: String) -> URL {
-        var pathForProperties = PubChemSearch.Constant.pathForProperties
-        
-        for property in compoundProperties {
-            pathForProperties += property + ","
-        }
-        pathForProperties.remove(at: pathForProperties.index(before: pathForProperties.endIndex))
-        pathForProperties += PubChemSearch.QueryResult.json
-        
-        var component = commonURLComponents()
-        
-        switch type {
-        case .name:
-            component.path = PubChemSearch.Constant.pathForName + value + pathForProperties
-        case .cid:
-            component.path = PubChemSearch.Constant.pathForCID + value + pathForProperties
-        }
-        
-        return component.url!
-    }
-    
-    private func commonURLComponents() -> URLComponents {
-        var component = URLComponents()
-        component.scheme = PubChemSearch.Constant.scheme
-        component.host = PubChemSearch.Constant.host
-        return component
-    }
-    
-    private func decode<T: Codable>(from data: Data) -> T? {
-        let decoder = JSONDecoder()
-        var dto: T
-        do {
-            dto = try decoder.decode(T.self, from: data)
-        } catch {
-            print("Cannot parse data as type \(T.self)")
-            return nil
-        }
-        return dto
-    }
-    
-    private func dataTask(with url: URL, completionHandler: @escaping (_ data: Data?, _ error: NSError?) -> Void) -> URLSessionTask {
-        let request = URLRequest(url: url, timeoutInterval: 15)
-        
-        let task = session.dataTask(with: request) { (data, response, error) in
-            func sendError(_ error: String) {
-                let userInfo = [NSLocalizedDescriptionKey: error]
-                completionHandler(nil, NSError(domain: "dataTask", code: 1, userInfo: userInfo))
-            }
-            
-            guard (error == nil) else {
-                sendError("There was an error with your request: \(error!)")
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                let statusCode = (response as? HTTPURLResponse)!.statusCode
-                var errorString: String
-                
-                if let code = PubChemSearch.Status(rawValue: statusCode) {
-                    switch(code) {
-                    case .badRequest:
-                        errorString = "Request is improperly formed"
-                    case .notFound:
-                        errorString = "The input record was not found"
-                    case .notAllowed:
-                        errorString = "Request not allowed"
-                    case .serverBusy:
-                        errorString = "Too many requests or server is busy"
-                    case .timeOut:
-                        errorString = "The request timed out"
-                    default:
-                        errorString = "Your request returned a stauts code other than 2xx"
-                    }
-                    sendError(errorString + ": HTTP Status = \(statusCode)")
+                switch result {
+                case .success(let properties):
+                    self.propertySet = properties
+                    self.errorMessage = nil
+                    self.success = true
+                    self.downloadImage(for: "\(properties.CID)")
+                    self.download3DData(for: "\(properties.CID)")
+                case .failure(let error):
+                    self.logger.log("Error while getting properties: \(error.localizedDescription))")
+                    self.propertySet = nil
+                    self.errorMessage = error.localizedDescription
+                    self.success = false
+                    self.showAlert = true
                 }
-                return
             }
-            
-            guard let data = data else {
-                sendError("No data was returned by the request")
-                return
-            }
-            
-            completionHandler(data, nil)
         }
-        
-        task.resume()
-        return task
     }
     
-    func saveCompound(searchType: SearchType, searchValue: String, viewContext: NSManagedObjectContext) {
-        guard let propertySet = propertySet else {
+    // MARK: - Persistence
+    func saveCompound(searchType: SearchType, searchValue: String) {
+        guard let properties = propertySet else {
             return
         }
         
-        let compound = Compound(context: viewContext)
-        compound.name = searchType == .cid ? propertySet.Title : searchValue
-        compound.firstCharacterInName = String(compound.name!.first!).uppercased()
-        compound.formula = propertySet.MolecularFormula
-        compound.molecularWeight = Double(propertySet.MolecularWeight)!
-        compound.cid = "\(propertySet.CID)"
-        compound.nameIUPAC = propertySet.IUPACName
-        compound.image = imageData
-        compound.conformerDownloaded = true
+        let name = searchType == .cid ? properties.Title : searchValue
         
-        let conformerEntity = ConformerEntity(context: viewContext)
-        if let conformer = self.conformer {
-            conformerEntity.conformerId = conformer.conformerId
-            
-            for atom in conformer.atoms {
-                let atomEntity = AtomEntity(context: viewContext)
-                atomEntity.atomicNumber = Int16(atom.number)
-                atomEntity.coordX = atom.location[0]
-                atomEntity.coordY = atom.location[1]
-                atomEntity.coordZ = atom.location[2]
-                atomEntity.conformer = conformerEntity
-                
-                conformerEntity.addToAtoms(atomEntity)
+        persistenceHelper.saveCompound(name, properties: properties, imageData: imageData, conformer: conformer) { result in
+            switch result {
+            case .success(_):
+                self.logger.log("Saved a compound called name=\(name, privacy: .public)")
+            case .failure(let error):
+                self.logger.log("Failed to save a compound called name=\(name, privacy: .public): \(error.localizedDescription)")
             }
-            
-            compound.addToConformers(conformerEntity)
+            self.resetCompound()
+            self.persistenceResultHandler(result)
         }
-        
-        save(viewContext: viewContext)
-        
-        resetCompound()
     }
     
-    func saveSolution(solutionLabel: String, ingradients: [SolutionIngradientDTO], viewContext: NSManagedObjectContext) -> Void {
-        let solution = Solution(context: viewContext)
-        solution.name = solutionLabel.isEmpty ? self.solutionLabel : solutionLabel
-        
-        for ingradient in ingradients {
-            let entity = SolutionIngradient(context: viewContext)
-            
-            entity.compound = ingradient.compound
-            entity.compoundName = ingradient.compound.name
-            entity.compoundCid = ingradient.compound.cid
-            entity.amount = ingradient.amount
-            entity.unit = ingradient.unit.rawValue
-            
-            solution.addToIngradients(entity)
-            solution.addToCompounds(ingradient.compound)
+    func delete(compound: Compound) {
+        compound.tags?.forEach { tag in
+            if let compoundTag = tag as? CompoundTag {
+                compoundTag.removeFromCompounds(compound)
+                compoundTag.compoundCount -= 1
+            }
         }
         
-        save(viewContext: viewContext)
+        compound.conformers?.forEach { conformer in
+            if let entity = conformer as? ConformerEntity {
+                entity.atoms?.forEach { atom in
+                    if let atomEntity = atom as? AtomEntity {
+                        entity.removeFromAtoms(atomEntity)
+                        delete(atomEntity)
+                    }
+                }
+                
+                compound.removeFromConformers(entity)
+                delete(entity)
+            }
+        }
+        
+        delete(compound)
+        
+        save()
     }
     
-    func save(viewContext: NSManagedObjectContext) {
-        do {
-            try viewContext.save()
-        } catch {
-            NSLog("Error while saving: \(error.localizedDescription)")
-            errorMessage = "Error while saving data"
-            showAlert.toggle()
+    func saveTag(name: String, compound: Compound, completionHandler: @escaping (CompoundTag) -> Void) -> Void {
+        persistenceHelper.saveNewTag(name, for: compound) { result in
+            switch result {
+            case .success(let tag):
+                self.logger.log("Saved a tag named=\(name, privacy: .public)")
+                completionHandler(tag)
+            case .failure(let error):
+                self.logger.log("Failed to save a tag named=\(name, privacy: .public): \(error.localizedDescription)")
+                self.errorMessage = "Failed to save a tag named \(name)"
+                self.showAlert.toggle()
+            }
+        }
+    }
+    
+    func saveTag(name: String, compound: Compound) -> CompoundTag {
+        let newTag = CompoundTag(context: viewContext)
+        newTag.compoundCount = 1
+        newTag.name = name
+        newTag.addToCompounds(compound)
+        
+        save()
+        
+        return newTag
+    }
+    
+    func deleteTags(_ indexSet: IndexSet) -> Void {
+        indexSet.map { allTags[$0] }
+            .forEach { delete($0) }
+        
+        save()
+    }
+    
+    func delete(tag: CompoundTag) -> Void {
+        if let compounds = tag.compounds {
+            tag.removeFromCompounds(compounds)
+        }
+        
+        delete(tag)
+        save()
+    }
+    
+    func update(compound: Compound, newTags: [CompoundTag]) -> Void {
+        if let oldTags = compound.tags {
+            for tag in oldTags {
+                if let compoundTag = tag as? CompoundTag {
+                    compoundTag.compoundCount -= 1
+                    compoundTag.removeFromCompounds(compound)
+                }
+            }
+        }
+        
+        for tag in newTags {
+            tag.compoundCount += 1
+            tag.addToCompounds(compound)
+        }
+        
+        save()
+    }
+    
+    func saveSolution(solutionLabel: String, ingradients: [SolutionIngradientDTO]) -> Void {
+        let label = solutionLabel.isEmpty ? self.solutionLabel : solutionLabel
+        
+        persistenceHelper.saveSolution(label, ingradients: ingradients) { result in
+            switch result {
+            case .success(_):
+                self.logger.log("Saved a solution: label=\(label, privacy: .public)")
+            case .failure(let error):
+                self.logger.log("Failed to save a solution: label=\(label, privacy: .public), error=\(error.localizedDescription)")
+            }
+            self.persistenceResultHandler(result)
+        }
+    }
+    
+    private func persistenceResultHandler(_ result: Result<Void, Error>) -> Void {
+        DispatchQueue.main.async {
+            switch result {
+            case .success(_):
+                self.toggle.toggle()
+            case .failure(let error):
+                self.logger.log("Error while saving data: \(error.localizedDescription, privacy: .public)")
+                self.logger.log("Error while saving data: \(Thread.callStackSymbols, privacy: .public)")
+                self.errorMessage = "Error while saving data"
+                self.showAlert.toggle()
+            }
+            self.fetchEntities()
+        }
+    }
+    
+    func save() -> Void {
+        persistenceHelper.save { result in
+            self.persistenceResultHandler(result)
+        }
+    }
+    
+    func delete(_ object: NSManagedObject) -> Void {
+        // This doesn't save to DB
+        persistenceHelper.delete(object)
+    }
+    
+    func retrieveCompound(id: String) -> Compound? {
+        let splitId = id.split(separator: "_")
+        logger.log("id=\(id): cid=\(splitId[0]), created=\(splitId[1])")
+        
+        let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "cid == %@", "\(splitId[0])")
+        
+        let compounds = persistenceHelper.perform(fetchRequest)
+        
+        return compounds.first { compound in
+            if let created = compound.created {
+                return created.formatted() == "\(splitId[1])"
+            } else {
+                return false
+            }
         }
     }
     
     // MARK: - Persistence History Request
     private lazy var historyRequestQueue = DispatchQueue(label: "history")
     private func fetchUpdates(_ notification: Notification) -> Void {
-        print("fetchUpdates \(Date().description(with: Locale.current))")
-        historyRequestQueue.async {
-            let backgroundContext = self.dataController.persistentContainer.newBackgroundContext()
-            backgroundContext.performAndWait {
-                do {
-                    let fetchHistoryRequest = NSPersistentHistoryChangeRequest.fetchHistory(after: self.lastToken)
-                    
-                    if let historyResult = try backgroundContext.execute(fetchHistoryRequest) as? NSPersistentHistoryResult,
-                       let history = historyResult.result as? [NSPersistentHistoryTransaction] {
-                        for transaction in history.reversed() {
-                            self.dataController.viewContext.perform {
-                                if let userInfo = transaction.objectIDNotification().userInfo {
-                                    NSManagedObjectContext.mergeChanges(fromRemoteContextSave: userInfo,
-                                                                        into: [self.dataController.viewContext])
-                                }
-                            }
-                        }
-                        
-                        self.lastToken = history.last?.token
+        persistence.fetchUpdates(notification) { result in
+            switch result {
+            case .success(()):
+                DispatchQueue.main.async {
+                    self.toggle.toggle()
+                    if self.selectedCompoundName.isEmpty {
+                        self.fetchEntities()
                     }
-                } catch {
-                    print("Could not convert history result to transactions after lastToken = \(String(describing: self.lastToken)): \(error)")
                 }
-                print("fetchUpdates \(Date().description(with: Locale.current))")
+            case .failure(let error):
+                self.logger.log("Error while updating history: \(error.localizedDescription, privacy: .public) \(Thread.callStackSymbols, privacy: .public)")
             }
         }
     }
-    
-    private var lastToken: NSPersistentHistoryToken? = nil {
-        didSet {
-            guard let token = lastToken,
-                  let data = try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true) else {
-                return
-            }
-            
-            do {
-                try data.write(to: tokenFile)
-            } catch {
-                let message = "Could not write token data"
-                print("###\(#function): \(message): \(error)")
-            }
-        }
-    }
-    
-    private lazy var tokenFile: URL = {
-        let url = NSPersistentContainer.defaultDirectoryURL().appendingPathComponent("LinkCollector",isDirectory: true)
-        if !FileManager.default.fileExists(atPath: url.path) {
-            do {
-                try FileManager.default.createDirectory(at: url,
-                                                        withIntermediateDirectories: true,
-                                                        attributes: nil)
-            } catch {
-                let message = "Could not create persistent container URL"
-                print("###\(#function): \(message): \(error)")
-            }
-        }
-        return url.appendingPathComponent("token.data", isDirectory: false)
-    }()
     
     func selectedCompounds(_ compounds: [Compound], with title: String) {
         self.compounds = compounds
@@ -461,8 +403,9 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var rotation: SCNMatrix4 = SCNMatrix4Identity
     private var oldRotation: SCNMatrix4 = SCNMatrix4Identity
     
+    @available(*, deprecated)
     func panGesture(translation: CGSize, isEnded: Bool) {
-        let newRotation = coordinateTransform(for: makeRotation(from: translation), with: self.oldRotation)
+        let newRotation = conformerSceneHelper.coordinateTransform(from: translation, with: self.oldRotation)
 
         self.rotation = SCNMatrix4Mult(newRotation, self.oldRotation)
         
@@ -471,6 +414,12 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         }
     }
     
+    func panGesture(translation: CGSize, reference: SCNMatrix4, isEnded: Bool, completionHandler: @escaping (SCNMatrix4, SCNMatrix4) -> Void) {
+        let transform = conformerSceneHelper.coordinateTransform(from: translation, with: reference)
+        completionHandler(SCNMatrix4Mult(transform, reference), isEnded ? SCNMatrix4Mult(transform, reference) : reference)
+    }
+    
+    @available(*, deprecated)
     func pinchGesture(scale: CGFloat, isEnded: Bool) {
         let scale = Float(scale)
         let newScale = SCNMatrix4MakeScale(scale, scale, scale)
@@ -482,23 +431,18 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         }
     }
     
+    func pinchGesture(scale: CGFloat, reference: SCNMatrix4, isEnded: Bool, completionHandler: @escaping (SCNMatrix4, SCNMatrix4) -> Void) {
+        let transform = conformerSceneHelper.coordinateTransform(from: Float(scale))
+        completionHandler(SCNMatrix4Mult(transform, reference), isEnded ? SCNMatrix4Mult(transform, reference) : reference)
+    }
+    
     func resetRotation() {
         self.rotation = SCNMatrix4Identity
         self.oldRotation = SCNMatrix4Identity
     }
     
-    private func makeRotation(from translation: CGSize) -> SCNMatrix4 {
-        let length = sqrt( translation.width * translation.width + translation.height * translation.height )
-        let angle = Float(length) * .pi / 180.0
-        let rotationAxis = [CGFloat](arrayLiteral: translation.height / length, translation.width / length)
-        let rotation = SCNMatrix4MakeRotation(angle, Float(rotationAxis[0]), Float(rotationAxis[1]), 0)
-        return rotation
-    }
-    
-    private func coordinateTransform(for rotation: SCNMatrix4, with reference: SCNMatrix4) -> SCNMatrix4 {
-        let inverseOfReference = SCNMatrix4Invert(reference)
-        let transformed = SCNMatrix4Mult(reference, SCNMatrix4Mult(rotation, inverseOfReference))
-        return transformed
+    func makeScene(_ conformer: Conformer) -> SCNScene {
+        return conformerSceneHelper.makeScene(conformer)
     }
     
     // MARK: - Solution
@@ -515,7 +459,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         do {
             try csvString.write(to: csvFileURL, atomically: true, encoding: .utf8)
         } catch {
-            print("Failed to save the csv file")
+            logger.log("Failed to save the csv file")
         }
         
         return csvFileURL
@@ -609,5 +553,214 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             }
         }
         return amounts
+    }
+    
+    // MARK: - Widget
+    func writeWidgetEntries() {
+        let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
+        
+        let compounds = persistenceHelper.perform(fetchRequest)
+        
+        guard compounds.count > 0 else {
+            return
+        }
+        
+        var widgetEntries = [WidgetEntry]()
+    
+        let numberOfWidgetEntries = 6
+        
+        // Randomly select 6 records to provide widgets per hour
+        for _ in 0..<numberOfWidgetEntries {
+            let compound = compounds[Int.random(in: 0..<compounds.count)]
+            if let cid = compound.cid, let name = compound.name, let formula = compound.formula, let created = compound.created {
+                widgetEntries.append(WidgetEntry(cid: cid, name: name, formula: formula, image: compound.image, created: created))
+            }
+        }
+        
+        let archiveURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: SearchPubChemConstants.groupIdentifier.rawValue)!
+        logger.log("archiveURL=\(archiveURL)")
+        
+        let encoder = JSONEncoder()
+        
+        if let dataToSave = try? encoder.encode(widgetEntries) {
+            do {
+                try dataToSave.write(to: archiveURL.appendingPathComponent(contentsJson))
+                logger.log("Saved \(widgetEntries.count) widgetEntries")
+            } catch {
+                logger.log("Error: Can't write contents")
+                return
+            }
+        }
+    }
+    
+    // MARK: -
+    @Published var allCompounds = [Compound]()
+    @Published var allTags = [CompoundTag]()
+    @Published var allSolutions = [Solution]()
+    
+    private func fetchCompounds() {
+        let fetchRequet = NSFetchRequest<Compound>(entityName: "Compound")
+        fetchRequet.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.name, ascending: true),
+                                       NSSortDescriptor(keyPath: \Compound.created, ascending: true)]
+        allCompounds = persistenceHelper.perform(fetchRequet)
+    }
+    
+    private func fetchTags() {
+        let fetchRequet = NSFetchRequest<CompoundTag>(entityName: "CompoundTag")
+        fetchRequet.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.name, ascending: true),
+                                       NSSortDescriptor(keyPath: \Compound.created, ascending: true)]
+        allTags = persistenceHelper.perform(fetchRequet)
+    }
+    
+    func searchCompounds(nameContaining searchString: String) -> [Compound] {
+        logger.log("filteredCompounds: spotlightIndexing=\(self.spotlightIndexing)")
+        if spotlightIndexing {
+            searchCompound(searchString)
+            return allCompounds
+        } else {
+            fetchCompounds()
+            return allCompounds.filter { compound in
+                searchString.isEmpty || compound.nameContains(string: searchString)
+            }
+        }
+    }
+    
+    private func fetchSolutions() {
+        let fetchRequest = NSFetchRequest<Solution>(entityName: "Solution")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Compound.created, ascending: false)]
+        allSolutions = persistenceHelper.perform(fetchRequest)
+    }
+    
+}
+
+extension SearchPubChemViewModel {
+    func toggleSpotlightIndexing(enabled: Bool) {
+        logger.log("enabled=\(enabled) spotlightIndexer=\(self.spotlightIndexer)")
+        guard let spotlightIndexer = spotlightIndexer else { return }
+
+        if enabled {
+            indexCompounds()
+            spotlightIndexer.startSpotlightIndexing()
+        } else {
+            spotlightIndexer.stopSpotlightIndexing()
+            spotlightIndexer.deleteSpotlightIndex { error in
+                guard let error = error else {
+                    self.logger.log("Successfully deleted spotlight index")
+                    return
+                }
+                
+                self.logger.log("Failed to delete spotlight index: \(error.localizedDescription, privacy: .public)")
+            }
+        }
+    }
+    
+    func continueActivity(_ activity: NSUserActivity, completionHandler: (Compound) -> Void) {
+        guard let info = activity.userInfo else {
+            return
+        }
+        
+        guard let objectIdentifier = info[CSSearchableItemActivityIdentifier] as? String else {
+            return
+        }
+        
+        guard let objectURI = URL(string: objectIdentifier) else {
+            return
+        }
+        
+        if let compound = selectCompound(for: objectURI) {
+            completionHandler(compound)
+        }
+    }
+    
+    func selectCompound(for url: URL) -> Compound? {
+        guard let objectID = viewContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url) else {
+            return nil
+        }
+        return viewContext.object(with: objectID) as? Compound
+    }
+    
+    private func indexCompounds() -> Void {
+        guard let spotlightIndexer = spotlightIndexer else {
+            self.logger.log("No spotlightIndexer initialized")
+            return
+        }
+        
+        let searchableItems: [CSSearchableItem] = allCompounds.compactMap { compound in
+            // Duplicate from SearchPubChemSpotlightDelegate
+            guard let attributeSet = spotlightIndexer.attributeSet(for: compound) else {
+                self.logger.log("Cannot generate attribute set for \(compound, privacy: .public)")
+                return nil
+            }
+            
+            return CSSearchableItem(uniqueIdentifier: compound.objectID.uriRepresentation().absoluteString, domainIdentifier: spotlightIndexer.domainIdentifier(), attributeSet: attributeSet)
+        }
+        
+        CSSearchableIndex(name: spotlightIndexer.indexName()!).indexSearchableItems(searchableItems) { error in
+            guard let error = error else {
+                self.logger.log("Indexed compounds: \(searchableItems, privacy: .public)")
+                return
+            }
+            self.logger.log("Error while indexing compounds: \(error.localizedDescription, privacy: .public)")
+        }
+    }
+    
+    func searchCompound(_ name: String) {
+        if name.isEmpty {
+            searchQuery?.cancel()
+            fetchCompounds()
+        } else {
+            searchUsingCoreSpotlight(name)
+        }
+    }
+    
+    private func searchUsingCoreSpotlight(_ name: String) {
+        let escapedName = name.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"")
+        let queryString = "(title == \"*\(escapedName)*\"cd)"
+        
+        searchQuery = CSSearchQuery(queryString: queryString, attributes: ["title"])
+        
+        searchQuery?.foundItemsHandler = { items in
+            DispatchQueue.main.async {
+                self.spotlightFoundCompounds += items
+                self.spotlightFoundCompounds.sort { item1, item2 in
+                    item1.attributeSet.title! < item2.attributeSet.title!
+                }
+            }
+        }
+        
+        searchQuery?.completionHandler = { error in
+            if let error = error {
+                self.logger.log("Searching \(name) came back with error: \(error.localizedDescription, privacy: .public)")
+            } else {
+                DispatchQueue.main.async {
+                    self.fetchSearchResults(self.spotlightFoundCompounds)
+                    self.spotlightFoundCompounds.removeAll()
+                }
+            }
+        }
+        
+        searchQuery?.start()
+    }
+    
+    private func fetchSearchResults(_ items: [CSSearchableItem]) {
+        let foundCompounds = items.compactMap { (item: CSSearchableItem) -> Compound? in
+            guard let compoundURL = URL(string: item.uniqueIdentifier) else {
+                return nil
+            }
+            return selectCompound(for: compoundURL)
+        }
+        logger.log("Found \(foundCompounds.count) compounds")
+        allCompounds = foundCompounds.sorted(by: { compound1, compound2 in
+            if compound1.name == nil {
+                return false
+            } else if compound2.name == nil {
+                return true
+            } else if compound1.name == compound2.name {
+                return compound1.created! < compound2.created!
+            } else {
+                return compound1.name! < compound2.name!
+            }
+        })
     }
 }

@@ -9,14 +9,8 @@
 import SwiftUI
 
 struct CompoundTagView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
-    
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \CompoundTag.name, ascending: true)],
-        animation: .default)
-    private var allTags: FetchedResults<CompoundTag>
     
     var compound: Compound
     
@@ -66,7 +60,7 @@ struct CompoundTagView: View {
             }
             
             List {
-                ForEach(allTags) { tag in
+                ForEach(viewModel.allTags) { tag in
                     Button {
                         if tags == nil {
                             tags = Set()
@@ -112,52 +106,23 @@ struct CompoundTagView: View {
     
     private func addTag() {
         if !newTagName.isEmpty {
-            let newTag = CompoundTag(context: viewContext)
-            newTag.compoundCount = 1
-            newTag.name = newTagName
-            newTag.addToCompounds(compound)
-            
-            viewModel.save(viewContext: viewContext)
-            
-            if tags == nil {
-                tags = Set()
+            viewModel.saveTag(name: newTagName, compound: compound) { tag in
+                if tags == nil {
+                    tags = Set()
+                }
+                tags!.insert(tag)
             }
-            tags!.insert(newTag)
         } else {
             print("New tag is not given")
         }
     }
     
     private func deleteTag(indexSet: IndexSet) {
-        for index in indexSet {
-            let tag = allTags[index]
-            
-            if let compounds = tag.compounds {
-                tag.removeFromCompounds(compounds)
-            }
-            
-            viewContext.delete(tag)
-        }
-        
-        viewModel.save(viewContext: viewContext)
+        viewModel.deleteTags(indexSet)
     }
     
     private func updateTags() {
-        if let tags = compound.tags {
-            for tag in tags {
-                if let compoundTag = tag as? CompoundTag {
-                    compoundTag.compoundCount -= 1
-                    compoundTag.removeFromCompounds(compound)
-                }
-            }
-        }
-        
-        for tag in tagsAttachedToCompound {
-            tag.compoundCount += 1
-            tag.addToCompounds(compound)
-        }
-        
-        viewModel.save(viewContext: viewContext)
+        viewModel.update(compound: compound, newTags: tagsAttachedToCompound)
     }
 }
 

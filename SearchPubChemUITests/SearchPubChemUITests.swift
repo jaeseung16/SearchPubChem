@@ -9,7 +9,8 @@
 import XCTest
 
 class SearchPubChemUITests: XCTestCase {
-        
+    var app: XCUIApplication!
+    
     override func setUp() {
         super.setUp()
         
@@ -18,8 +19,10 @@ class SearchPubChemUITests: XCTestCase {
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
-
+        app = XCUIApplication()
+        // We send a command line argument to our app,
+        // to enable it to reset its state
+        app.launchArguments.append("--uitesting")
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
     
@@ -28,10 +31,98 @@ class SearchPubChemUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testSelectTabs() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-                
+        app.launch()
+        
+        let compoundTabSelected = app.buttons["compoundTabSelected"]
+        let compoundTabUnselected = app.buttons["compoundTabUnselected"]
+        let solutionTabSelected = app.buttons["solutionTabSelected"]
+        let solutionTabUnselected = app.buttons["solutionTabUnselected"]
+        
+        XCTAssert(compoundTabSelected.exists)
+        XCTAssert(solutionTabUnselected.exists)
+        
+        solutionTabUnselected.tap()
+        
+        XCTAssert(compoundTabUnselected.exists)
+        XCTAssert(solutionTabSelected.exists)
+        
+        compoundTabUnselected.tap()
+        XCTAssert(compoundTabSelected.exists)
+        XCTAssert(solutionTabUnselected.exists)
     }
     
+    func testTagButton() {
+        app.launch()
+        
+        let compoundTabSelected = app.buttons["compoundTabSelected"]
+        let compoundTabUnselected = app.buttons["compoundTabUnselected"]
+        if compoundTabUnselected.exists {
+            compoundTabUnselected.tap()
+        }
+        
+        let tagButton = app.buttons["tagButton"]
+        XCTAssert(tagButton.exists)
+        
+        tagButton.tap()
+        
+        let resetTagButton = app.buttons["resetTagButton"]
+        XCTAssert(resetTagButton.exists)
+
+        resetTagButton.tap()
+        XCTAssertFalse(resetTagButton.waitForExistence(timeout: 0.5))
+        
+        XCTAssert(compoundTabSelected.exists)
+    }
+    
+    func testAddCompoundButton() {
+        app.launch()
+        
+        let compoundTabSelected = app.buttons["compoundTabSelected"]
+        let compoundTabUnselected = app.buttons["compoundTabUnselected"]
+        if compoundTabUnselected.exists {
+            compoundTabUnselected.tap()
+        }
+        
+        let addCompoundButton = app.buttons["addCompoundButton"]
+        XCTAssert(addCompoundButton.exists)
+        
+        addCompoundButton.tap()
+        
+        let cancelAddCompoundButton = app.buttons["cancelAddCompoundButton"]
+        XCTAssert(cancelAddCompoundButton.exists)
+
+        cancelAddCompoundButton.tap()
+        XCTAssertFalse(cancelAddCompoundButton.waitForExistence(timeout: 0.5))
+        
+        XCTAssert(compoundTabSelected.exists)
+    }
+    
+    func testMakeSolutionButton() {
+        // Use recording to get started writing UI tests.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        app.launch()
+        
+        let solutionTabSelected = app.buttons["solutionTabSelected"]
+        let solutionTabUnselected = app.buttons["solutionTabUnselected"]
+        
+        if solutionTabUnselected.exists {
+            solutionTabUnselected.tap()
+        }
+        
+        let makeSolutionButton = app.buttons["makeSolutionButton"]
+        XCTAssert(makeSolutionButton.exists)
+        
+        makeSolutionButton.tap()
+        
+        let cancelMakeSolutionButton = app.buttons["cancelMakeSolutionButton"]
+        XCTAssert(cancelMakeSolutionButton.exists)
+
+        cancelMakeSolutionButton.tap()
+        XCTAssertFalse(cancelMakeSolutionButton.waitForExistence(timeout: 0.5))
+        
+        XCTAssert(solutionTabSelected.exists)
+    }
 }

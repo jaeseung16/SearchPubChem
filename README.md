@@ -5,7 +5,7 @@ The app allows to search compounds through ‘PubChem’ and helps to keep infor
 * The app is written and tested on `Swift 4.1` and `Xcode 9.3`.
 * The app is available on App Store.
 
-[![App Store Badge](https://linkmaker.itunes.apple.com/assets/shared/badges/en-us/appstore-lrg.svg)](https://itunes.apple.com/us/app/search-pubchem/id1369742632?mt=8)
+[<img src="./docs/assets/images/App_Store_Badge.svg">](https://itunes.apple.com/us/app/search-pubchem/id1369742632?mt=8)
 
 # Installation
 
@@ -88,7 +88,22 @@ Choose compounds downloaded from PubChem and make a solution. The app allows to 
 
 ## Version History
 
-### ver 2.1
+### ver 4.2 (12/9/2023)
+1. Support splotlight search: A user can turn the feature on/off through Settings
+2. The 3D structure display can be reset to go back to the original viewpoint.
+
+### ver 4.1 (6/19/2023)
+1. Notification and Widget are available
+2. Search compound by name
+
+### ver 4.0 (10/27/2021)
+1. The data can be shared between multiple devices if iCloud is enabled
+
+### ver 3.0 (6/14/2021)
+1. Compounds can be searched by PubChem CID (compound identification number)
+2. Compounds can be tagged
+
+### ver 2.1 (8/1/2020)
 
 1. Fix the 'magnifier' icon for opening the PubChem page for the compound
 2. Enhance JSON parsing using Codable types

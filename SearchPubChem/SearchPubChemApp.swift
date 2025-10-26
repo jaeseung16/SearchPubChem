@@ -7,9 +7,13 @@
 //
 
 import SwiftUI
+import Persistence
 
 @main
 struct SearchPubChemApp: App {
+    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    @Environment(\.scenePhase) private var scenePhase
+    
     @AppStorage("HasLaunchedBefore", store: UserDefaults.standard) var hasLaunchedBefore: Bool = false
     @AppStorage("HasDBMigrated", store: UserDefaults.standard) var hasDBMigrated: Bool = false
     
@@ -17,14 +21,29 @@ struct SearchPubChemApp: App {
         WindowGroup {
             if !hasLaunchedBefore {
                 FirstLaunchView()
-                    .environmentObject(SearchPubChemViewModel())
+                    .environmentObject(appDelegate.viewModel)
             } else if !hasDBMigrated {
                 DataMigrationView()
                     .environmentObject(DataMigrator())
             } else {
                 ContentView()
-                    .environment(\.managedObjectContext, DataController.shared.viewContext)
-                    .environmentObject(SearchPubChemViewModel())
+                    .environmentObject(appDelegate.viewModel)
+                    .onChange(of: scenePhase) { phase in
+                        if phase == .background {
+                            appDelegate.viewModel.writeWidgetEntries()
+                        }
+                    }
+                    .onOpenURL { url in
+                        print("url=\(url)")
+                        if let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                           let scheme = urlComponents.scheme,
+                           scheme == SearchPubChemConstants.widgetURLScheme.rawValue {
+                            appDelegate.viewModel.receivedURL.toggle()
+                            
+                            appDelegate.viewModel.selectedCid = String(urlComponents.path.split(separator: "/")[0])
+                            appDelegate.viewModel.selectedCompoundName = urlComponents.queryItems?[0].name ?? ""
+                        }
+                    }
             }
         }
     }

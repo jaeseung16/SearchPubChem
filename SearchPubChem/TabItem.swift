@@ -8,7 +8,11 @@
 
 import Foundation
 
-enum TabItem: String {
+enum TabItem: String, CaseIterable, Identifiable {
+    var id: Self {
+        return self
+    }
+    
     case Compounds
     case Solutions
     

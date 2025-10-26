@@ -10,7 +10,6 @@ import SwiftUI
 import CoreData
 
 struct CompoundDetailView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
@@ -106,7 +105,11 @@ struct CompoundDetailView: View {
         }
         .sheet(isPresented: $presentConformerView) {
             if let conformer = conformer {
-                ConformerView(conformer: conformer, name: compound.name ?? "", molecularFormula: compound.formula ?? "")
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    ConformerView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
+                } else {
+                    ConformerSceneView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
+                }
             }
         }
         .sheet(isPresented: $presentTagView) {
@@ -206,36 +209,7 @@ struct CompoundDetailView: View {
     }
     
     private func delete() -> Void {
-        if let tags = compound.tags {
-            for tag in tags {
-                if let compoundTag = tag as? CompoundTag {
-                    compoundTag.removeFromCompounds(compound)
-                    compoundTag.compoundCount -= 1
-                }
-            }
-        }
-        
-        if let conformers = compound.conformers, conformers.count > 0 {
-            for conformerEntity in conformers {
-                if let entity = conformerEntity as? ConformerEntity {
-                    if let atoms = entity.atoms {
-                        for atom in atoms {
-                            if let atomEntity = atom as? AtomEntity {
-                                entity.removeFromAtoms(atomEntity)
-                                viewContext.delete(atomEntity)
-                            }
-                        }
-                    }
-                    compound.removeFromConformers(entity)
-                    viewContext.delete(entity)
-                }
-            }
-        }
-        
-        viewContext.delete(compound)
-        
-        viewModel.save(viewContext: viewContext)
-        
+        viewModel.delete(compound: compound)
         presentationMode.wrappedValue.dismiss()
     }
     

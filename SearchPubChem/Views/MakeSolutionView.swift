@@ -10,7 +10,6 @@ import SwiftUI
 import CoreData
 
 struct MakeSolutionView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
@@ -59,6 +58,7 @@ struct MakeSolutionView: View {
             } label: {
                 Text("Add compounds")
             }
+            .accessibilityIdentifier("addCompoundsButton")
             
             if !ingradients.isEmpty {
                 ingradientList()
@@ -74,6 +74,7 @@ struct MakeSolutionView: View {
         }
         .sheet(isPresented: $presentSelectCompoundsView) {
             SelectCompoundsView(selectedCompounds: selectedCompounds)
+                .environmentObject(viewModel)
         }
     }
     
@@ -87,11 +88,12 @@ struct MakeSolutionView: View {
                 } label: {
                     Text(Action.Cancel.rawValue)
                 }
+                .accessibilityIdentifier("cancelMakeSolutionButton")
                 
                 Spacer()
                 
                 Button {
-                    viewModel.saveSolution(solutionLabel: solutionLabel, ingradients: ingradients, viewContext: viewContext)
+                    viewModel.saveSolution(solutionLabel: solutionLabel, ingradients: ingradients)
                     dissmiss()
                 } label: {
                     Text(Action.Save.rawValue)
@@ -110,9 +112,7 @@ struct MakeSolutionView: View {
         List {
             ForEach(0..<ingradients.count, id:\.self) { index in
                 HStack {
-                    if let compound = ingradients[index].compound {
-                        Text(compound.name ?? "")
-                    }
+                    Text(ingradients[index].compound.name ?? "")
 
                     Spacer()
                     
@@ -128,7 +128,7 @@ struct MakeSolutionView: View {
                         }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .frame(width: 50.0)
+                    .frame(width: 80.0)
                 }
             }
         }

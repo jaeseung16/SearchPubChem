@@ -8,9 +8,10 @@
 
 import Foundation
 import CoreData
+import Persistence
 
 class RecordDumper {    
-    var dataController: DataController
+    var persistence: Persistence
     
     //var compounds: [Compound]
     //var compoundTags: [CompoundTag]
@@ -18,8 +19,8 @@ class RecordDumper {
     
     var cidToTags = [Int: [CompoundTag]]()
     
-    init(dataController: DataController) {
-        self.dataController = dataController
+    init(persistence: Persistence) {
+        self.persistence = persistence
     }
     
     static func convert(from compound: Compound) -> CompoundWrapper? {
@@ -84,7 +85,7 @@ class RecordDumper {
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: persistence.container.viewContext, sectionNameKeyPath: "firstCharacterInName", cacheName: "compounds")
         
         do {
             try fetchedResultsController.performFetch()
