@@ -173,8 +173,10 @@ struct CompoundDetailView: View {
                         Button {
                             presentConformerView = true
                         } label: {
-                            Text("3D")
+                            Label("3D", systemImage: "rotate.3d")
+                                .padding(10)
                         }
+                        .glassEffect()
                     }
                 }
                 
