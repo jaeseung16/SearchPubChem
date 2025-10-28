@@ -18,7 +18,7 @@ struct CompoundDetailView: View {
     @State private var presentTagView = false
     
     private let maxHeightFactor = 0.6
-    private let maxWidthFactor = 0.95
+    private let maxWidthFactor = 0.9
     
     private var solutions: [Solution] {
         var solutions = [Solution]()
@@ -84,23 +84,36 @@ struct CompoundDetailView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                ZStack {
+                Group {
+                    ZStack(alignment: .top) {
+                        tagsAndButton()
+                        
+                        formulaAndWeight()
+                    }
+                    .padding(5)
+                    .frame(maxWidth: maxWidthFactor * geometry.size.width)
+                    
                     if let imageData = compound.image, let image = UIImage(data: imageData) {
                         Image(uiImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
+                            .frame(maxWidth: maxWidthFactor * geometry.size.width, minHeight: determineMinHeight(in: geometry), maxHeight: maxHeightFactor * geometry.size.height)
                     } else {
                         Text("N/A")
                     }
                     
-                    info()
+                    cidANDIUPAC()
+                        .frame(maxWidth: maxWidthFactor * geometry.size.width)
+
                 }
-                .frame(maxWidth: maxWidthFactor * geometry.size.width, minHeight: determineMinHeight(in: geometry), maxHeight: maxHeightFactor * geometry.size.height)
-                .scaledToFit()
-                
-                Divider()
                 
                 solutionListView()
+                    .background {
+                        Color(UIColor.systemBackground)
+                    }
+            }
+            .background {
+                Color(red: 0.95, green: 0.95, blue: 0.95)
             }
         }
         .sheet(isPresented: $presentConformerView) {
@@ -156,57 +169,62 @@ struct CompoundDetailView: View {
         return formatter
     }
     
-    private func info() -> some View {
-        VStack {
-            ZStack(alignment: .top) {
-                HStack(alignment: .top) {
-                    VStack {
-                        ForEach(tags) { tag in
-                            Text(tag.name ?? "")
-                                .foregroundColor(.black)
-                        }
-                    }
-                    
-                    Spacer()
-                    
-                    if conformer != nil {
-                        Button {
-                            presentConformerView = true
-                        } label: {
-                            Label("3D", systemImage: "rotate.3d")
-                                .padding(10)
-                        }
-                        .glassEffect()
-                    }
-                }
-                
-                Spacer()
-                
-                HStack {
-                    Spacer()
-                    
-                    VStack {
-                        Text(compound.formula ?? "")
-                            .foregroundColor(.black)
-                        Text("\(molecularWeightFormatter.string(from: NSNumber(value: compound.molecularWeight)) ?? "0.0") gram/mol")
-                            .font(.callout)
-                            .foregroundColor(.black)
-                    }
-                    Spacer()
+    private func cidANDIUPAC() -> some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading) {
+                Text("PubChem CID:")
+                Text("IUPAC Name:")
+            }
+            
+            VStack(alignment: .leading) {
+                Text("\(compound.cid ?? "")")
+                Text("\(compound.nameIUPAC ?? "")")
+                    .textSelection(.enabled)
+                    .multilineTextAlignment(.leading)
+            }
+            
+            Spacer()
+        }
+        .font(.callout)
+        .foregroundColor(.black)
+    }
+    
+    private func tagsAndButton() -> some View {
+        HStack {
+            VStack {
+                ForEach(tags) { tag in
+                    Text(tag.name ?? "")
+                        .foregroundColor(.black)
                 }
             }
             
             Spacer()
             
-            VStack {
-                Text("PubChem CID: \(compound.cid ?? "")")
-                    .font(.callout)
-                    .foregroundColor(.black)
-                Text("IUPAC Name: \(compound.nameIUPAC ?? "")")
-                    .font(.callout)
-                    .foregroundColor(.black)
-                    .scaledToFit()
+            if conformer != nil {
+                Button {
+                    presentConformerView = true
+                } label: {
+                    Label("3D", systemImage: "rotate.3d")
+                        .padding(10)
+                }
+                .foregroundColor(.primary)
+                .glassEffect()
             }
+        }
+    }
+    
+    private func formulaAndWeight() -> some View {
+        HStack {
+            Spacer()
+            
+            VStack {
+                Text(compound.formula ?? "")
+                    .foregroundColor(.black)
+                Text("\(molecularWeightFormatter.string(from: NSNumber(value: compound.molecularWeight)) ?? "0.0") gram/mol")
+                    .font(.callout)
+                    .foregroundColor(.black)
+            }
+            Spacer()
         }
     }
     
@@ -217,6 +235,8 @@ struct CompoundDetailView: View {
     
     private func solutionListView() -> some View {
         VStack {
+            Spacer(minLength: 10)
+            
             HStack {
                 Text("SOLUTIONS")
                     .bold()
