@@ -48,7 +48,13 @@ struct SelectCompoundsView: View {
                                             .frame(maxWidth: geometry.size.width * 0.25)
                                     }
                                     
-                                    Text(compound.name ?? "")
+                                    if selectedCompounds.contains(compound) {
+                                        Text(compound.name ?? "")
+                                            .foregroundColor(.accentColor)
+                                    } else {
+                                        Text(compound.name ?? "")
+                                            .foregroundColor(.primary)
+                                    }
                                 }
                             }
                         }
