@@ -36,7 +36,12 @@ struct SolutionListView: View {
                 .navigationTitle(TabItem.Solutions.rawValue)
                 .toolbar {
                     ToolbarItemGroup {
-                        toolBarContent()
+                        Button {
+                            presentMakeSolutionView = true
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                        .accessibilityIdentifier("makeSolutionButton")
                     }
                 }
             } detail: {
@@ -62,16 +67,4 @@ struct SolutionListView: View {
         }
     }
     
-    private func toolBarContent() -> some View {
-        HStack {
-            Spacer()
-            
-            Button {
-                presentMakeSolutionView = true
-            } label: {
-                Image(systemName: "plus")
-            }
-            .accessibilityIdentifier("makeSolutionButton")
-        }
-    }
 }
