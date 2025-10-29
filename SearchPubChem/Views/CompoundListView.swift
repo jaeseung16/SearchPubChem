@@ -43,7 +43,19 @@ struct CompoundListView: View {
                 .navigationTitle(navigationTitle)
                 .toolbar {
                     ToolbarItemGroup {
-                        toolBarContent()
+                        Button {
+                            presentSelectTagView = true
+                        } label: {
+                            Image(systemName: "tag")
+                        }
+                        .accessibilityIdentifier("tagButton")
+                        
+                        Button {
+                            presentAddCompoundView = true
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                        .accessibilityIdentifier("addCompoundButton")
                     }
                 }
                 .searchable(text: $viewModel.selectedCompoundName)
@@ -100,26 +112,6 @@ struct CompoundListView: View {
             
             Spacer()
             Text(compound.formula ?? "N/A")
-        }
-    }
-    
-    private func toolBarContent() -> some View {
-        HStack {
-            Spacer()
-            
-            Button {
-                presentSelectTagView = true
-            } label: {
-                Image(systemName: "tag")
-            }
-            .accessibilityIdentifier("tagButton")
-            
-            Button {
-                presentAddCompoundView = true
-            } label: {
-                Image(systemName: "plus")
-            }
-            .accessibilityIdentifier("addCompoundButton")
         }
     }
     
