@@ -71,7 +71,19 @@ struct SolutionDetailView: View {
                 ingradientList()
             }
             .toolbar {
-                toolbarContent()
+                ToolbarItemGroup {
+                    Button {
+                        presentShareSheet = true
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    
+                    Button {
+                        delete()
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                }
             }
             .sheet(isPresented: $presentCompoundMiniDetailView) {
                 if let compound = compound {
@@ -158,22 +170,6 @@ struct SolutionDetailView: View {
             }
         }
         .listStyle(PlainListStyle())
-    }
-    
-    private func toolbarContent() -> some View {
-        HStack {
-            Button {
-                presentShareSheet = true
-            } label: {
-                Image(systemName: "square.and.arrow.up")
-            }
-            
-            Button {
-                delete()
-            } label: {
-                Image(systemName: "trash")
-            }
-        }
     }
     
     private var amountsToDisplay: [String: Double] {
