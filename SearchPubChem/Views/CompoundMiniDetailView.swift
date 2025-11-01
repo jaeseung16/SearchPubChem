@@ -9,8 +9,7 @@
 import SwiftUI
 
 struct CompoundMiniDetailView: View {
-    @Environment(\.presentationMode) private var presentationMode
-    
+
     var compound: Compound
     
     private var name: String {
@@ -30,29 +29,31 @@ struct CompoundMiniDetailView: View {
     }
     
     var body: some View {
-        ZStack {
-            if let image = image {
-                Image(uiImage: image)
+        GeometryReader { geometry in
+            HStack {
+                Spacer()
+                
+                VStack(alignment: .center) {
+                    Spacer()
+                    
+                    Text(name)
+                        .foregroundColor(.black)
+                    
+                    if let image = image {
+                        Image(uiImage: image)
+                    }
+                    
+                    Text(formula)
+                        .foregroundColor(.black)
+                    
+                    Spacer()
+                }
+                
+                Spacer()
             }
-            
-            VStack {
-                Spacer()
-                
-                Text(name)
-                    .foregroundColor(.black)
-                
-                Spacer()
-                
-                Text(formula)
-                    .foregroundColor(.black)
-                
-                Spacer()
-            }
+            .padding()
         }
-        .padding()
-        .onTapGesture {
-            presentationMode.wrappedValue.dismiss()
-        }
+        
     }
 }
 

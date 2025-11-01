@@ -16,7 +16,6 @@ struct SolutionDetailView: View {
     
     @State private var absoluteRelative: AbsoluteRelatve = .absolute
     @State private var unit: Unit = .gram
-    @State private var presentCompoundMiniDetailView = false
     @State private var presentShareSheet = false
     @State private var presentAlert = false
     
@@ -53,8 +52,6 @@ struct SolutionDetailView: View {
         return viewModel.getAmounts(of: ingradients, in: unit)
     }
     
-    @State private var compound: Compound?
-    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -83,11 +80,6 @@ struct SolutionDetailView: View {
                     } label: {
                         Image(systemName: "trash")
                     }
-                }
-            }
-            .sheet(isPresented: $presentCompoundMiniDetailView) {
-                if let compound = compound {
-                    CompoundMiniDetailView(compound: compound)
                 }
             }
             .sheet(isPresented: $presentShareSheet) {
@@ -140,6 +132,7 @@ struct SolutionDetailView: View {
                                 .tag(item)
                         }
                     }
+                    .frame(width: 80)
                 }
             }
             .frame(width: geometry.size.width * 0.4)
@@ -149,21 +142,20 @@ struct SolutionDetailView: View {
     }
     
     private func ingradientList() -> some View {
-        List {
-            ForEach(ingradients) { ingradient in
-                Button {
-                    compound = ingradient.compound
-                    presentCompoundMiniDetailView = true
+        List(ingradients) { ingradient in
+            if let name = ingradient.compound.name {
+                NavigationLink {
+                    CompoundMiniDetailView(compound: ingradient.compound)
+                        .id(ingradient.compound)
+                        .navigationTitle(solution.name ?? "")
                 } label: {
-                    if let name = ingradient.compound.name {
-                        HStack {
-                            Text(name)
-                            
-                            Spacer()
-                            
-                            if let amount = amountsToDisplay[name] {
-                                Text("\(amount)")
-                            }
+                    HStack {
+                        Text(name)
+
+                        Spacer()
+
+                        if let amount = amountsToDisplay[name] {
+                            Text("\(amount)")
                         }
                     }
                 }
