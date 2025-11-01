@@ -10,15 +10,14 @@ import SwiftUI
 import CoreData
 
 struct CompoundDetailView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @State var compound: Compound
     @State private var presentConformerView = false
     @State private var presentTagView = false
     
-    private let maxHeightFactor = 0.6
-    private let maxWidthFactor = 0.9
+    private let imageScaleFactor = 0.6
     
     private var solutions: [Solution] {
         var solutions = [Solution]()
@@ -91,19 +90,19 @@ struct CompoundDetailView: View {
                         formulaAndWeight()
                     }
                     .padding(5)
-                    .frame(maxWidth: maxWidthFactor * geometry.size.width)
+                    .frame(maxWidth: maxImageLength(in: geometry))
                     
                     if let imageData = compound.image, let image = UIImage(data: imageData) {
                         Image(uiImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(maxWidth: maxWidthFactor * geometry.size.width, minHeight: determineMinHeight(in: geometry), maxHeight: maxHeightFactor * geometry.size.height)
+                            .frame(maxWidth: maxImageLength(in: geometry), maxHeight: maxImageLength(in: geometry))
                     } else {
                         Text("N/A")
                     }
                     
                     cidANDIUPAC()
-                        .frame(maxWidth: maxWidthFactor * geometry.size.width)
+                        .frame(maxWidth: maxImageLength(in: geometry))
 
                 }
                 
@@ -154,10 +153,8 @@ struct CompoundDetailView: View {
         .padding()
     }
     
-    private func determineMinHeight(in geometry: GeometryProxy) -> CGFloat {
-        var factor = 10.0 * geometry.size.width / geometry.size.height
-        factor.round(.towardZero)
-        return factor < 6 ? 0.1 * CGFloat(factor) * geometry.size.height : maxHeightFactor * geometry.size.height
+    private func maxImageLength(in geometry: GeometryProxy) -> CGFloat {
+        return geometry.size.width > geometry.size.height ? 0.6 * geometry.size.height : 0.7 * geometry.size.width
     }
     
     private var molecularWeightFormatter: NumberFormatter {
@@ -230,7 +227,7 @@ struct CompoundDetailView: View {
     
     private func delete() -> Void {
         viewModel.delete(compound: compound)
-        presentationMode.wrappedValue.dismiss()
+        dismiss.callAsFunction()
     }
     
     private func solutionListView() -> some View {
