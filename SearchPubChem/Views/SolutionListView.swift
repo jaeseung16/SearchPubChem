@@ -46,8 +46,10 @@ struct SolutionListView: View {
                 }
             } detail: {
                 if let selectedSolution {
-                    SolutionDetailView(solution: selectedSolution)
-                        .id(selectedSolution)
+                    NavigationStack {
+                        SolutionDetailView(solution: selectedSolution)
+                            .id(selectedSolution)
+                    }
                 } else {
                     EmptyView()
                 }

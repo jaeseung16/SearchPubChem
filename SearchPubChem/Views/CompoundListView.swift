@@ -61,8 +61,10 @@ struct CompoundListView: View {
                 .searchable(text: $viewModel.selectedCompoundName)
             } detail: {
                 if let selectedCompound {
-                    CompoundDetailView(compound: selectedCompound)
-                        .id(selectedCompound)
+                    NavigationStack {
+                        CompoundDetailView(compound: selectedCompound)
+                            .id(selectedCompound)
+                    }
                 } else {
                     EmptyView()
                 }
