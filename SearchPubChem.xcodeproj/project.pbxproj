@@ -75,6 +75,7 @@
 		908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A12714A6D400DC3989 /* DataMigrationView.swift */; };
 		908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A32714BF9C00DC3989 /* FirstLaunchView.swift */; };
 		9089A0E92A5AF9CF00C14859 /* ConformerSceneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */; };
+		909031432EB7FA640068C492 /* SolutionIngradientData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909031422EB7FA640068C492 /* SolutionIngradientData.swift */; };
 		909AE6B3200CF2F000FEE529 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */; };
 		909AE6BE200CF2F000FEE529 /* SearchPubChemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6BD200CF2F000FEE529 /* SearchPubChemTests.swift */; };
 		909AE6C9200CF2F000FEE529 /* SearchPubChemUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909AE6C8200CF2F000FEE529 /* SearchPubChemUITests.swift */; };
@@ -228,6 +229,7 @@
 		908990A32714BF9C00DC3989 /* FirstLaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLaunchView.swift; sourceTree = "<group>"; };
 		9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerSceneHelper.swift; sourceTree = "<group>"; };
 		908C70F82A4652AF00D6C9FA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		909031422EB7FA640068C492 /* SolutionIngradientData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionIngradientData.swift; sourceTree = "<group>"; };
 		909AE6A5200CF2F000FEE529 /* SearchPubChem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchPubChem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		909AE6B2200CF2F000FEE529 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		909AE6B4200CF2F000FEE529 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 				907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */,
 				907AB0F72A52306E00922EF0 /* PersistenceHelper.swift */,
 				9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */,
+				909031422EB7FA640068C492 /* SolutionIngradientData.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -814,6 +817,7 @@
 				90CE069622E4F0250054E7C2 /* Element.swift in Sources */,
 				90EB2E2D27275CBA00C654BB /* RoundedBackgroundRectangle.swift in Sources */,
 				90E010D3270A2941004A2401 /* CompoundListView.swift in Sources */,
+				909031432EB7FA640068C492 /* SolutionIngradientData.swift in Sources */,
 				908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */,
 				90B12C41271333EF00EF065D /* DataMigrator.swift in Sources */,
 				902B077D2861021D004D9DF0 /* AppDelegate.swift in Sources */,

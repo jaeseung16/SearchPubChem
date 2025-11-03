@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SolutionDetailView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     var solution: Solution
@@ -30,6 +30,10 @@ struct SolutionDetailView: View {
             }
         }
         return ingradients
+    }
+    
+    private var ingradientData: [SolutionIngradientData] {
+        return viewModel.solutionIngradientData(solution)
     }
     
     private var amounts: [String: Double] {
@@ -112,14 +116,6 @@ struct SolutionDetailView: View {
             VStack {
                 Text("Amount")
 
-                Picker("", selection: $absoluteRelative) {
-                    ForEach(AbsoluteRelatve.allCases) { item in
-                        Text(item.rawValue)
-                            .tag(item)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-
                 HStack {
                     Spacer()
                     
@@ -141,8 +137,9 @@ struct SolutionDetailView: View {
         }
     }
     
+    // TODO: Editable?
     private func ingradientList() -> some View {
-        List(ingradients) { ingradient in
+        List(ingradientData) { ingradient in
             if let name = ingradient.compound.name {
                 NavigationLink {
                     CompoundMiniDetailView(compound: ingradient.compound)
@@ -151,11 +148,17 @@ struct SolutionDetailView: View {
                 } label: {
                     HStack {
                         Text(name)
-
+                        
                         Spacer()
 
-                        if let amount = amountsToDisplay[name] {
-                            Text("\(amount)")
+                        if let absoluteAmount = ingradient.absoluteAmountByUnit[unit],
+                            let relativeAmount = ingradient.relativeAmountByUnit[unit] {
+                            
+                            VStack {
+                                Text(absoluteAmount, format: .number)
+                                Text(relativeAmount, format: .percent)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                 }
@@ -210,7 +213,7 @@ struct SolutionDetailView: View {
         
         viewModel.save()
         
-        presentationMode.wrappedValue.dismiss()
+        dismiss.callAsFunction()
     }
     
 }

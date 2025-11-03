@@ -567,6 +567,62 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         return amounts
     }
     
+    func solutionIngradientData(_ solution: Solution) -> [SolutionIngradientData] {
+        var result = [SolutionIngradientData]()
+        
+        let ingradients: [SolutionIngradientDTO]? = solution.ingradients?.compactMap { ingradient in
+            if let ingradient = ingradient as? SolutionIngradient {
+                if let compound = ingradient.compound, let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
+                    return SolutionIngradientDTO(compound: compound, amount: ingradient.amount, unit: unit)
+                }
+            }
+            return nil
+        }
+        
+        guard let ingradients = ingradients else {
+            return result
+        }
+        
+        var absoluteAmounts: [String: [Unit: Double]] = [:]
+        var relativeAmounts: [String: [Unit: Double]] = [:]
+        
+        for unit in Unit.allCases {
+            let amounts = getAmounts(of: ingradients, in: unit)
+            let total = total(amounts)
+            
+            for amount in amounts {
+                absoluteAmounts[amount.key, default: [:]][unit] = amount.value
+                relativeAmounts[amount.key, default: [:]][unit] = amount.value / total
+            }
+        }
+        
+        for ingradient in ingradients {
+            guard let name = ingradient.compound.name else {
+                continue
+            }
+            
+            guard let absoluteAmountByUnit = absoluteAmounts[name] else {
+                continue
+            }
+            
+            guard let relativeAmountByUnit = relativeAmounts[name] else {
+                continue
+            }
+            
+            let solutionIngradientData = SolutionIngradientData(compound: ingradient.compound,
+                                                                absoluteAmountByUnit: absoluteAmountByUnit,
+                                                                relativeAmountByUnit: relativeAmountByUnit)
+            
+            result.append(solutionIngradientData)
+        }
+        
+        return result
+    }
+    
+    private func total(_ amounts: [String: Double]) -> Double {
+        return amounts.values.reduce(0.0, { x, y in x + y })
+    }
+    
     // MARK: - Widget
     func writeWidgetEntries() {
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
