@@ -14,7 +14,6 @@ struct CompoundDetailView: View {
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @State var compound: Compound
-    @State private var presentConformerView = false
     @State private var presentTagView = false
     
     private let imageScaleFactor = 0.6
@@ -96,10 +95,20 @@ struct CompoundDetailView: View {
                             Spacer()
                         }
                         
-                        if conformer != nil {
+                        if let conformer = conformer {
                             HStack {
                                 Spacer()
-                                conformerButton()
+                                //conformerButton()
+                                NavigationLink {
+                                    ConformerSceneView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
+                                        .id(conformer.cid)
+                                        .navigationTitle(compound.name ?? "")
+                                } label: {
+                                    Label("3D", systemImage: "rotate.3d")
+                                        .padding(10)
+                                }
+                                .foregroundColor(.primary)
+                                .glassEffect()
                             }
                         }
                     }
@@ -127,15 +136,6 @@ struct CompoundDetailView: View {
             }
             .background {
                 Color(red: 0.95, green: 0.95, blue: 0.95)
-            }
-        }
-        .sheet(isPresented: $presentConformerView) {
-            if let conformer = conformer {
-                if UIDevice.current.userInterfaceIdiom == .phone {
-                    ConformerView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
-                } else {
-                    ConformerSceneView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
-                }
             }
         }
         .sheet(isPresented: $presentTagView) {
@@ -217,17 +217,6 @@ struct CompoundDetailView: View {
                 .font(.callout)
                 .foregroundColor(.black)
         }
-    }
-    
-    private func conformerButton() -> some View {
-        Button {
-            presentConformerView = true
-        } label: {
-            Label("3D", systemImage: "rotate.3d")
-                .padding(10)
-        }
-        .foregroundColor(.primary)
-        .glassEffect()
     }
     
     private func delete() -> Void {
