@@ -154,7 +154,7 @@ struct SolutionDetailView: View {
                         if let absoluteAmount = ingradient.absoluteAmountByUnit[unit],
                             let relativeAmount = ingradient.relativeAmountByUnit[unit] {
                             
-                            VStack {
+                            VStack(alignment: .trailing) {
                                 Text(absoluteAmount, format: .number)
                                 Text(relativeAmount, format: .percent)
                                     .foregroundColor(.secondary)
