@@ -12,8 +12,8 @@ import XCTest
 class SearchPubChemUITests: XCTestCase, Sendable {
     var app: XCUIApplication!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
