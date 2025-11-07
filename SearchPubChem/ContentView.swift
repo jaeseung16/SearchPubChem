@@ -18,13 +18,21 @@ struct ContentView: View {
             Tab(value: .compound) {
                 CompoundListView(compounds: viewModel.allCompounds)
             } label: {
-                Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.defaultImageName)
+                if selectedTab == .compound {
+                    Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.selectedImageName)
+                } else {
+                    Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.defaultImageName)
+                }
             }
             
             Tab(value: .solution) {
                 SolutionListView()
             } label: {
-                Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.defaultImageName)
+                if selectedTab == .solution {
+                    Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.selectedImageName)
+                } else {
+                    Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.defaultImageName)
+                }
             }
         }
         .alert("Unable to Save Data", isPresented: $viewModel.showAlert) {
