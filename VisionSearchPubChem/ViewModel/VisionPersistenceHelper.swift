@@ -11,7 +11,7 @@ import CoreData
 import os
 import Persistence
 
-class VisionPersistenceHelper {
+final class VisionPersistenceHelper: Sendable {
     private static let logger = Logger()
     
     private let persistence: Persistence
@@ -23,8 +23,20 @@ class VisionPersistenceHelper {
         self.persistence = persistence
     }
     
+    @available(*, renamed: "save()")
     func save(completionHandler: @escaping (Result<Void, Error>) -> Void) -> Void {
-        persistence.save { completionHandler($0) }
+        Task {
+            do {
+                try await save()
+                completionHandler(.success(()))
+            } catch {
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
+    func save() async throws -> Void {
+        try await persistence.save()
     }
     
     func delete(_ object: NSManagedObject) -> Void {
