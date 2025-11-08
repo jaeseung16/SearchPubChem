@@ -9,63 +9,43 @@
 import Foundation
 import os
 
-class PubChemDownloader: PubChemDownloading {
-    static var shared = PubChemDownloader()
+actor PubChemDownloader: PubChemDownloading {
+    static let shared = PubChemDownloader()
     
     private let compoundProperties: [String] = [PubChemSearch.PropertyKey.formula, PubChemSearch.PropertyKey.weight, PubChemSearch.PropertyKey.nameIUPAC, PubChemSearch.PropertyKey.title]
     
     private let session: URLSession = URLSession.shared
     private let logger = Logger()
     
-    func downloadProperties(identifier: String, identifierType: SearchType, completionHandler: @escaping (Result<Properties, Error>) -> Void) -> Void {
+    func downloadProperties(identifier: String, identifierType: SearchType) async throws -> Properties {
         let url = url(for: identifier, type: identifierType)
         
-        _ = dataTask(with: url) { result in
-            switch result {
-            case .success(let data):
-                if let compoundDTO: CompoundDTO = self.decode(from: data) {
-                    completionHandler(.success(compoundDTO.propertyTable.properties[0]))
-                } else {
-                    self.logger.log("Cannot parse data=\(data, privacy: .public)")
-                    completionHandler(.failure(PubChemDownloadError.unableToParse))
-                }
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
+        let data = try await dataTask(with: url)
+        if let compoundDTO: CompoundDTO = self.decode(from: data) {
+            return compoundDTO.propertyTable.properties[0]
+        } else {
+            self.logger.log("Cannot parse data=\(data, privacy: .public)")
+            throw PubChemDownloadError.unableToParse
         }
     }
     
-    func downloadImage(for cid: String, completionHandler: @escaping (Result<Data, Error>) -> Void) -> Void {
+    func downloadImage(for cid: String) async throws -> Data {
         var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForCID + cid + PubChemSearch.QueryResult.png
-        
-        _ = dataTask(with: component.url!) { result in
-            switch result {
-            case .success(let data):
-                completionHandler(.success(data))
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
-        }
+        return try await dataTask(with: component.url!)
     }
     
-    func downloadConformer(for cid: String, completionHandler: @escaping (Result<ConformerDTO, Error>) -> Void) {
+    func downloadConformer(for cid: String) async throws -> ConformerDTO {
         var component = commonURLComponents()
         component.path = PubChemSearch.Constant.pathForCID + cid + "/JSON"
         component.query = "\(PubChemSearch.QueryString.recordType)=\(PubChemSearch.RecordType.threeD)"
         
-        _ = dataTask(with: component.url!) { result in
-            switch result {
-            case .success(let data):
-                if let dto: ConformerDTO = self.decode(from: data) {
-                    completionHandler(.success(dto))
-                } else {
-                    self.logger.log("Cannot parse data=\(data, privacy: .public)")
-                    completionHandler(.failure(PubChemDownloadError.unableToParse))
-                }
-            case .failure(let error):
-                completionHandler(.failure(error))
-            }
+        let data = try await dataTask(with: component.url!)
+        if let dto: ConformerDTO = self.decode(from: data) {
+            return dto
+        } else {
+            self.logger.log("Cannot parse data=\(data, privacy: .public)")
+            throw PubChemDownloadError.unableToParse
         }
     }
     
@@ -98,51 +78,38 @@ class PubChemDownloader: PubChemDownloading {
         return component
     }
     
-    private func dataTask(with url: URL, completionHandler: @escaping (Result<Data, Error>) -> Void) -> URLSessionTask {
+    private func dataTask(with url: URL) async throws -> Data {
         let request = URLRequest(url: url, timeoutInterval: 15)
         
-        let task = session.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                completionHandler(.failure(error))
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                    if let code = PubChemSearch.Status(rawValue: statusCode) {
-                        var error: PubChemDownloadError
-                        switch(code) {
-                        case .badRequest:
-                            error = .badRequest
-                        case .notFound:
-                            error = .notFound
-                        case .notAllowed:
-                            error = .notAllowed
-                        case .serverBusy:
-                            error = .serverBusy
-                        case .timeOut:
-                            error = .timeOut
-                        default:
-                            error = .other
-                        }
-                        completionHandler(.failure(error))
+        let (data, response) = try await session.data(for: request)
+        
+        guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+            if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                if let code = PubChemSearch.Status(rawValue: statusCode) {
+                    var error: PubChemDownloadError
+                    switch(code) {
+                    case .badRequest:
+                        error = .badRequest
+                    case .notFound:
+                        error = .notFound
+                    case .notAllowed:
+                        error = .notAllowed
+                    case .serverBusy:
+                        error = .serverBusy
+                    case .timeOut:
+                        error = .timeOut
+                    default:
+                        error = .other
                     }
-                } else {
-                    completionHandler(.failure(PubChemDownloadError.noStatusCode))
+                    throw error
                 }
-                return
+                throw PubChemDownloadError.other
+            } else {
+                throw PubChemDownloadError.noStatusCode
             }
-            
-            guard let data = data else {
-                completionHandler(.failure(PubChemDownloadError.noData))
-                return
-            }
-            
-            completionHandler(.success(data))
         }
         
-        task.resume()
-        return task
+        return data
     }
     
     private func decode<T: Codable>(from data: Data) -> T? {

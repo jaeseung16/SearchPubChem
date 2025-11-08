@@ -10,7 +10,6 @@ import SwiftUI
 import SceneKit
 
 struct ConformerSceneView: View {
-    @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     private let nodeName = ConformerSceneHelper.nodeName
@@ -24,66 +23,61 @@ struct ConformerSceneView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                header()
-                
-                ZStack(alignment: .top) {
+            ZStack {
+                SceneView(scene: scene)
+                    .simultaneousGesture(
+                        MagnificationGesture()
+                            .onChanged { value in
+                                pinchGesture(scale: value, isEnded: false)
+                            }
+                            .onEnded { value in
+                                pinchGesture(scale: value, isEnded: true)
+                            }
+                    )
+                    .simultaneousGesture(
+                        DragGesture()
+                            .onChanged{ value in
+                                panGesture(translation: value.translation, isEnded: false)
+                            }
+                            .onEnded { value in
+                                panGesture(translation: value.translation, isEnded: true)
+                            }
+                    )
+
+                VStack {
+                    header()
                     
-                    SceneView(scene: scene)
-                        .simultaneousGesture(
-                            MagnificationGesture()
-                                .onChanged { value in
-                                    pinchGesture(scale: value, isEnded: false)
-                                }
-                                .onEnded { value in
-                                    pinchGesture(scale: value, isEnded: true)
-                                })
-                        .simultaneousGesture(
-                            DragGesture()
-                                .onChanged{ value in
-                                    panGesture(translation: value.translation, isEnded: false)
-                                }
-                                .onEnded { value in
-                                    panGesture(translation: value.translation, isEnded: true)
-                                })
+                    Spacer()
                     
-                    VStack {
-                        Text("")
-                        Text(molecularFormula)
-                        Spacer()
-                    }
+                    footer()
                 }
+                .frame(width: 0.95 * geometry.size.width, height: 0.95 * geometry.size.height)
             }
+            
         }
         .padding()
     }
     
     private func header() -> some View {
-        ZStack {
-            HStack {
-                Spacer()
-                
-                Text(name)
-                    .font(.headline)
-                
-                Spacer()
-            }
+        HStack {
+            Spacer()
+            Text(molecularFormula)
+                .font(.title)
+            Spacer()
+        }
+    }
+    
+    private func footer() -> some View {
+        HStack {
+            Spacer()
             
-            HStack {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    Text(Action.Dismiss.rawValue)
-                }
-                
-                Spacer()
-                
-                Button {
-                    resetRotation()
-                } label: {
-                    Text(Action.Reset.rawValue)
-                }
+            Button {
+                resetRotation()
+            } label: {
+                Text(Action.Reset.rawValue)
             }
+            .padding(5)
+            .glassEffect()
         }
     }
     

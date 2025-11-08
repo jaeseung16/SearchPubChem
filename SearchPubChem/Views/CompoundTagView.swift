@@ -106,11 +106,13 @@ struct CompoundTagView: View {
     
     private func addTag() {
         if !newTagName.isEmpty {
-            viewModel.saveTag(name: newTagName, compound: compound) { tag in
-                if tags == nil {
-                    tags = Set()
+            Task {
+                if let tag = await viewModel.save(tag: newTagName, compound: compound) {
+                    if tags == nil {
+                        tags = Set()
+                    }
+                    tags!.insert(tag)
                 }
-                tags!.insert(tag)
             }
         } else {
             print("New tag is not given")

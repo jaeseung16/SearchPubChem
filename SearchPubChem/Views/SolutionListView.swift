@@ -13,6 +13,7 @@ struct SolutionListView: View {
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @State private var presentMakeSolutionView = false
+    @State private var selectedSolution: Solution?
     
     private var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
@@ -23,29 +24,40 @@ struct SolutionListView: View {
     }
     
     var body: some View {
-        NavigationView {
-            GeometryReader { geometry in
-                VStack {
-                    List {
-                        ForEach(viewModel.allSolutions) { solution in
-                            NavigationLink {
-                                SolutionDetailView(solution: solution)
-                            } label: {
-                                label(for: solution)
-                            }
+        GeometryReader { geometry in
+            NavigationSplitView {
+                List(selection: $selectedSolution) {
+                    ForEach(viewModel.allSolutions) { solution in
+                        NavigationLink(value: solution) {
+                            label(for: solution)
                         }
                     }
-                    .navigationTitle(TabItem.Solutions.rawValue)
-                    .toolbar {
-                        toolBarContent()
+                }
+                .navigationTitle(TabItem.Solutions.rawValue)
+                .toolbar {
+                    ToolbarItemGroup {
+                        Button {
+                            presentMakeSolutionView = true
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                        .accessibilityIdentifier("makeSolutionButton")
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            } detail: {
+                if let selectedSolution {
+                    NavigationStack {
+                        SolutionDetailView(solution: selectedSolution)
+                            .id(selectedSolution)
+                    }
+                } else {
+                    EmptyView()
+                }
             }
-        }
-        .sheet(isPresented: $presentMakeSolutionView) {
-            MakeSolutionView()
-                .environmentObject(viewModel)
+            .sheet(isPresented: $presentMakeSolutionView) {
+                MakeSolutionView()
+                    .environmentObject(viewModel)
+            }
         }
     }
     
@@ -57,16 +69,4 @@ struct SolutionListView: View {
         }
     }
     
-    private func toolBarContent() -> some View {
-        HStack {
-            Spacer()
-            
-            Button {
-                presentMakeSolutionView = true
-            } label: {
-                Image(systemName: "plus")
-            }
-            .accessibilityIdentifier("makeSolutionButton")
-        }
-    }
 }

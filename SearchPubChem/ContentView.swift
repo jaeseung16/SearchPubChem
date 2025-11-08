@@ -15,29 +15,25 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            CompoundListView(compounds: viewModel.allCompounds)
-                .tabItem {
-                    if selectedTab == .compound {
-                        Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.selectedImageName)
-                            .accessibilityIdentifier("compoundTabSelected")
-                    } else {
-                        Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.defaultImageName)
-                            .accessibilityIdentifier("compoundTabUnselected")
-                    }
+            Tab(value: .compound) {
+                CompoundListView(compounds: viewModel.allCompounds)
+            } label: {
+                if selectedTab == .compound {
+                    Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.selectedImageName)
+                } else {
+                    Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.defaultImageName)
                 }
-                .tag(SelectedTab.compound)
+            }
             
-            SolutionListView()
-                .tabItem {
-                    if selectedTab == .solution {
-                        Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.selectedImageName)
-                            .accessibilityIdentifier("solutionTabSelected")
-                    } else {
-                        Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.defaultImageName)
-                            .accessibilityIdentifier("solutionTabUnselected")
-                    }
+            Tab(value: .solution) {
+                SolutionListView()
+            } label: {
+                if selectedTab == .solution {
+                    Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.selectedImageName)
+                } else {
+                    Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.defaultImageName)
                 }
-                .tag(SelectedTab.solution)
+            }
         }
         .alert("Unable to Save Data", isPresented: $viewModel.showAlert) {
             Button {
@@ -46,7 +42,7 @@ struct ContentView: View {
                 Text(Action.Dismiss.rawValue)
             }
         }
-        .onChange(of: viewModel.receivedURL) { _ in
+        .onChange(of: viewModel.receivedURL) {
             selectedTab = .compound
         }
     }

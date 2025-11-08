@@ -12,8 +12,9 @@ import CoreData
 import SceneKit
 import os
 import Persistence
-import CoreSpotlight
+@preconcurrency import CoreSpotlight
 
+@MainActor
 class SearchPubChemViewModel: NSObject, ObservableObject {
     private var session: URLSession = URLSession.shared
     private let logger = Logger()
@@ -47,11 +48,8 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var solutionLabel: String = ""
     
     private let persistence: Persistence
-    private var persistenceContainer: NSPersistentCloudKitContainer {
-        persistence.container
-    }
     private var viewContext: NSManagedObjectContext {
-        persistenceContainer.viewContext
+        persistence.container.viewContext
     }
     private let persistenceHelper: PersistenceHelper
     
@@ -67,11 +65,12 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         
         NotificationCenter.default
           .publisher(for: .NSPersistentStoreRemoteChange)
+          .receive(on: DispatchQueue.main)
           .sink { self.fetchUpdates($0) }
           .store(in: &subscriptions)
         
-        if let persistentStoreDescription = self.persistenceContainer.persistentStoreDescriptions.first {
-            self.spotlightIndexer = SearchPubChemSpotlightDelegate(forStoreWith: persistentStoreDescription, coordinator: self.persistenceContainer.persistentStoreCoordinator)
+        if let spotlightIndexer = persistence.createCoreSpotlightDelegate() as? SearchPubChemSpotlightDelegate {
+            self.spotlightIndexer = spotlightIndexer
             self.spotlightIndexing = UserDefaults.standard.bool(forKey: "spotlight_indexing")
             self.toggleSpotlightIndexing(enabled: self.spotlightIndexing)
             NotificationCenter.default.addObserver(self, selector: #selector(defaultsChanged), name: UserDefaults.didChangeNotification, object: nil)
@@ -79,7 +78,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         
         logger.log("spotlightIndexer=\(String(describing: self.spotlightIndexer)) isIndexingEnabled=\(String(describing: self.spotlightIndexer?.isIndexingEnabled))")
         
-        self.persistence.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        self.persistence.container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         
         fetchEntities()
     }
@@ -98,11 +97,11 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func preloadData() -> Void {
-        persistenceHelper.preloadData { result in
-            switch result {
-            case .success(_):
+        Task {
+            do {
+                try await persistenceHelper.preloadData()
                 self.logger.log("Preload succeeded")
-            case .failure(let error):
+            } catch {
                 self.logger.log("Failed to preload: error=\(error.localizedDescription)")
             }
         }
@@ -118,19 +117,17 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     
     // MARK: - PubChem API calls
     func download3DData(for cid: String) {
-        downloader.downloadConformer(for: cid) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let conformerDTO):
-                    self.conformer = self.populateConformer(from: conformerDTO.pcCompounds[0])
-                    self.errorMessage = nil
-                    self.success = true
-                case .failure(let error):
-                    self.logger.log("Error while downloading 3d data: \(error.localizedDescription)")
-                    self.conformer = nil
-                    self.errorMessage = error.localizedDescription
-                    self.success = false
-                }
+        Task {
+            do {
+                let conformerDTO = try await downloader.downloadConformer(for: cid)
+                self.conformer = self.populateConformer(from: conformerDTO.pcCompounds[0])
+                self.errorMessage = nil
+                self.success = true
+            } catch {
+                self.logger.log("Error while downloading 3d data: \(error.localizedDescription)")
+                self.conformer = nil
+                self.errorMessage = error.localizedDescription
+                self.success = false
             }
         }
     }
@@ -173,40 +170,36 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func downloadImage(for cid: String) {
-        downloader.downloadImage(for: cid) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    self.imageData = data
-                    self.errorMessage = nil
-                    self.success = true
-                case .failure(let error):
-                    self.logger.log("Error while downloading an image: \(error.localizedDescription)")
-                    self.imageData = nil
-                    self.errorMessage = error.localizedDescription
-                    self.success = false
-                }
+        Task {
+            do {
+                let data = try await downloader.downloadImage(for: cid)
+                self.imageData = data
+                self.errorMessage = nil
+                self.success = true
+            } catch {
+                self.logger.log("Error while downloading an image: \(error.localizedDescription)")
+                self.imageData = nil
+                self.errorMessage = error.localizedDescription
+                self.success = false
             }
         }
     }
     
     func searchCompound(type: SearchType, value: String) -> Void {
-        downloader.downloadProperties(identifier: value, identifierType: type) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let properties):
-                    self.propertySet = properties
-                    self.errorMessage = nil
-                    self.success = true
-                    self.downloadImage(for: "\(properties.CID)")
-                    self.download3DData(for: "\(properties.CID)")
-                case .failure(let error):
-                    self.logger.log("Error while getting properties: \(error.localizedDescription))")
-                    self.propertySet = nil
-                    self.errorMessage = error.localizedDescription
-                    self.success = false
-                    self.showAlert = true
-                }
+        Task {
+            do {
+                let properties = try await downloader.downloadProperties(identifier: value, identifierType: type)
+                self.propertySet = properties
+                self.errorMessage = nil
+                self.success = true
+                self.downloadImage(for: "\(properties.CID)")
+                self.download3DData(for: "\(properties.CID)")
+            } catch {
+                self.logger.log("Error while getting properties: \(error.localizedDescription))")
+                self.propertySet = nil
+                self.errorMessage = error.localizedDescription
+                self.success = false
+                self.showAlert = true
             }
         }
     }
@@ -218,16 +211,19 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         }
         
         let name = searchType == .cid ? properties.Title : searchValue
+        let conformer = conformer
         
-        persistenceHelper.saveCompound(name, properties: properties, imageData: imageData, conformer: conformer) { result in
-            switch result {
-            case .success(_):
+        Task {
+            do {
+                try await persistenceHelper.save(compound: name, properties: properties, image: imageData, conformer: conformer)
                 self.logger.log("Saved a compound called name=\(name, privacy: .public)")
-            case .failure(let error):
+                self.resetCompound()
+                self.persistenceResultHandler(error: nil)
+            } catch {
                 self.logger.log("Failed to save a compound called name=\(name, privacy: .public): \(error.localizedDescription)")
+                self.resetCompound()
+                self.persistenceResultHandler(error: error)
             }
-            self.resetCompound()
-            self.persistenceResultHandler(result)
         }
     }
     
@@ -257,18 +253,18 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         
         save()
     }
-    
-    func saveTag(name: String, compound: Compound, completionHandler: @escaping (CompoundTag) -> Void) -> Void {
-        persistenceHelper.saveNewTag(name, for: compound) { result in
-            switch result {
-            case .success(let tag):
-                self.logger.log("Saved a tag named=\(name, privacy: .public)")
-                completionHandler(tag)
-            case .failure(let error):
-                self.logger.log("Failed to save a tag named=\(name, privacy: .public): \(error.localizedDescription)")
-                self.errorMessage = "Failed to save a tag named \(name)"
-                self.showAlert.toggle()
-            }
+   
+    func save(tag name: String, compound: Compound) async -> CompoundTag? {
+        let compoundID = compound.objectID
+        do {
+            let tag = try await persistenceHelper.saveNewTag(name, for: compoundID)
+            self.logger.log("Saved a tag named=\(name, privacy: .public)")
+            return tag
+        } catch let error {
+            self.logger.log("Failed to save a tag named=\(name, privacy: .public): \(error.localizedDescription)")
+            self.errorMessage = "Failed to save a tag named \(name)"
+            self.showAlert.toggle()
+            return nil
         }
     }
     
@@ -319,16 +315,29 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     
     func saveSolution(solutionLabel: String, ingradients: [SolutionIngradientDTO]) -> Void {
         let label = solutionLabel.isEmpty ? self.solutionLabel : solutionLabel
-        
-        persistenceHelper.saveSolution(label, ingradients: ingradients) { result in
-            switch result {
-            case .success(_):
+        Task {
+            do {
+                try await persistenceHelper.saveSolution(label, ingradients: ingradients)
                 self.logger.log("Saved a solution: label=\(label, privacy: .public)")
-            case .failure(let error):
+                self.persistenceResultHandler(error: nil)
+            } catch {
                 self.logger.log("Failed to save a solution: label=\(label, privacy: .public), error=\(error.localizedDescription)")
+                self.persistenceResultHandler(error: error)
             }
-            self.persistenceResultHandler(result)
+            
         }
+    }
+    
+    private func persistenceResultHandler(error: Error?) -> Void {
+        if let error = error {
+            self.logger.log("Error while saving data: \(error.localizedDescription, privacy: .public)")
+            self.logger.log("Error while saving data: \(Thread.callStackSymbols, privacy: .public)")
+            self.errorMessage = "Error while saving data"
+            self.showAlert.toggle()
+        } else {
+            self.toggle.toggle()
+        }
+        self.fetchEntities()
     }
     
     private func persistenceResultHandler(_ result: Result<Void, Error>) -> Void {
@@ -347,8 +356,13 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func save() -> Void {
-        persistenceHelper.save { result in
-            self.persistenceResultHandler(result)
+        Task {
+            do {
+                try await persistence.save()
+                self.persistenceResultHandler(error: nil)
+            } catch {
+                self.persistenceResultHandler(error: error)
+            }
         }
     }
     
@@ -379,16 +393,14 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     // MARK: - Persistence History Request
     private lazy var historyRequestQueue = DispatchQueue(label: "history")
     private func fetchUpdates(_ notification: Notification) -> Void {
-        persistence.fetchUpdates(notification) { result in
-            switch result {
-            case .success(()):
-                DispatchQueue.main.async {
-                    self.toggle.toggle()
-                    if self.selectedCompoundName.isEmpty {
-                        self.fetchEntities()
-                    }
+        Task {
+            do {
+                let _ = try await persistence.fetchUpdates()
+                self.toggle.toggle()
+                if self.selectedCompoundName.isEmpty {
+                    self.fetchEntities()
                 }
-            case .failure(let error):
+            } catch {
                 self.logger.log("Error while updating history: \(error.localizedDescription, privacy: .public) \(Thread.callStackSymbols, privacy: .public)")
             }
         }
@@ -555,6 +567,62 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
         return amounts
     }
     
+    func solutionIngradientData(_ solution: Solution) -> [SolutionIngradientData] {
+        var result = [SolutionIngradientData]()
+        
+        let ingradients: [SolutionIngradientDTO]? = solution.ingradients?.compactMap { ingradient in
+            if let ingradient = ingradient as? SolutionIngradient {
+                if let compound = ingradient.compound, let unitRawValue = ingradient.unit, let unit = Unit(rawValue: unitRawValue) {
+                    return SolutionIngradientDTO(compound: compound, amount: ingradient.amount, unit: unit)
+                }
+            }
+            return nil
+        }
+        
+        guard let ingradients = ingradients else {
+            return result
+        }
+        
+        var absoluteAmounts: [String: [Unit: Double]] = [:]
+        var relativeAmounts: [String: [Unit: Double]] = [:]
+        
+        for unit in Unit.allCases {
+            let amounts = getAmounts(of: ingradients, in: unit)
+            let total = total(amounts)
+            
+            for amount in amounts {
+                absoluteAmounts[amount.key, default: [:]][unit] = amount.value
+                relativeAmounts[amount.key, default: [:]][unit] = amount.value / total
+            }
+        }
+        
+        for ingradient in ingradients {
+            guard let name = ingradient.compound.name else {
+                continue
+            }
+            
+            guard let absoluteAmountByUnit = absoluteAmounts[name] else {
+                continue
+            }
+            
+            guard let relativeAmountByUnit = relativeAmounts[name] else {
+                continue
+            }
+            
+            let solutionIngradientData = SolutionIngradientData(compound: ingradient.compound,
+                                                                absoluteAmountByUnit: absoluteAmountByUnit,
+                                                                relativeAmountByUnit: relativeAmountByUnit)
+            
+            result.append(solutionIngradientData)
+        }
+        
+        return result
+    }
+    
+    private func total(_ amounts: [String: Double]) -> Double {
+        return amounts.values.reduce(0.0, { x, y in x + y })
+    }
+    
     // MARK: - Widget
     func writeWidgetEntries() {
         let fetchRequest: NSFetchRequest<Compound> = Compound.fetchRequest()
@@ -718,7 +786,9 @@ extension SearchPubChemViewModel {
         let escapedName = name.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"")
         let queryString = "(title == \"*\(escapedName)*\"cd)"
         
-        searchQuery = CSSearchQuery(queryString: queryString, attributes: ["title"])
+        let context = CSSearchQueryContext()
+        context.fetchAttributes = ["title"]
+        searchQuery = CSSearchQuery(queryString: queryString, queryContext: context)
         
         searchQuery?.foundItemsHandler = { items in
             DispatchQueue.main.async {
@@ -764,3 +834,4 @@ extension SearchPubChemViewModel {
         })
     }
 }
+

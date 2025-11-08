@@ -8,11 +8,12 @@
 
 import XCTest
 
-class SearchPubChemUITests: XCTestCase {
+@MainActor
+class SearchPubChemUITests: XCTestCase, Sendable {
     var app: XCUIApplication!
     
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
@@ -36,32 +37,25 @@ class SearchPubChemUITests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         app.launch()
         
-        let compoundTabSelected = app.buttons["compoundTabSelected"]
-        let compoundTabUnselected = app.buttons["compoundTabUnselected"]
-        let solutionTabSelected = app.buttons["solutionTabSelected"]
-        let solutionTabUnselected = app.buttons["solutionTabUnselected"]
+        let compoundTab = app.buttons["Compounds"]
+        let solutionTab = app.buttons["Solutions"]
         
-        XCTAssert(compoundTabSelected.exists)
-        XCTAssert(solutionTabUnselected.exists)
+        XCTAssert(compoundTab.exists)
+        XCTAssert(solutionTab.exists)
         
-        solutionTabUnselected.tap()
+        compoundTab.tap()
+        XCTAssert(compoundTab.isSelected)
         
-        XCTAssert(compoundTabUnselected.exists)
-        XCTAssert(solutionTabSelected.exists)
-        
-        compoundTabUnselected.tap()
-        XCTAssert(compoundTabSelected.exists)
-        XCTAssert(solutionTabUnselected.exists)
+        solutionTab.tap()
+        XCTAssert(solutionTab.isSelected)
     }
     
     func testTagButton() {
         app.launch()
         
-        let compoundTabSelected = app.buttons["compoundTabSelected"]
-        let compoundTabUnselected = app.buttons["compoundTabUnselected"]
-        if compoundTabUnselected.exists {
-            compoundTabUnselected.tap()
-        }
+        let compoundTab = app.buttons["Compounds"]
+        compoundTab.tap()
+        XCTAssert(compoundTab.isSelected)
         
         let tagButton = app.buttons["tagButton"]
         XCTAssert(tagButton.exists)
@@ -73,18 +67,14 @@ class SearchPubChemUITests: XCTestCase {
 
         resetTagButton.tap()
         XCTAssertFalse(resetTagButton.waitForExistence(timeout: 0.5))
-        
-        XCTAssert(compoundTabSelected.exists)
     }
     
     func testAddCompoundButton() {
         app.launch()
         
-        let compoundTabSelected = app.buttons["compoundTabSelected"]
-        let compoundTabUnselected = app.buttons["compoundTabUnselected"]
-        if compoundTabUnselected.exists {
-            compoundTabUnselected.tap()
-        }
+        let compoundTab = app.buttons["Compounds"]
+        compoundTab.tap()
+        XCTAssert(compoundTab.isSelected)
         
         let addCompoundButton = app.buttons["addCompoundButton"]
         XCTAssert(addCompoundButton.exists)
@@ -97,7 +87,6 @@ class SearchPubChemUITests: XCTestCase {
         cancelAddCompoundButton.tap()
         XCTAssertFalse(cancelAddCompoundButton.waitForExistence(timeout: 0.5))
         
-        XCTAssert(compoundTabSelected.exists)
     }
     
     func testMakeSolutionButton() {
@@ -105,12 +94,9 @@ class SearchPubChemUITests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         app.launch()
         
-        let solutionTabSelected = app.buttons["solutionTabSelected"]
-        let solutionTabUnselected = app.buttons["solutionTabUnselected"]
-        
-        if solutionTabUnselected.exists {
-            solutionTabUnselected.tap()
-        }
+        let solutionTab = app.buttons["Solutions"]
+        solutionTab.tap()
+        XCTAssert(solutionTab.isSelected)
         
         let makeSolutionButton = app.buttons["makeSolutionButton"]
         XCTAssert(makeSolutionButton.exists)
@@ -123,6 +109,5 @@ class SearchPubChemUITests: XCTestCase {
         cancelMakeSolutionButton.tap()
         XCTAssertFalse(cancelMakeSolutionButton.waitForExistence(timeout: 0.5))
         
-        XCTAssert(solutionTabSelected.exists)
     }
 }

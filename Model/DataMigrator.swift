@@ -12,6 +12,7 @@ import os
 import Persistence
 
 // Reference: https://williamboles.me/progressive-core-data-migration/
+@MainActor
 class DataMigrator: ObservableObject {
     private static let modelExtension = "mom"
     private static let hasDBMigradtedKey = "HasDBMigrated"

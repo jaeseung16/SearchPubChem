@@ -10,15 +10,13 @@ import SwiftUI
 import CoreData
 
 struct CompoundDetailView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @State var compound: Compound
-    @State private var presentConformerView = false
     @State private var presentTagView = false
     
-    private let maxHeightFactor = 0.6
-    private let maxWidthFactor = 0.95
+    private let imageScaleFactor = 0.6
     
     private var solutions: [Solution] {
         var solutions = [Solution]()
@@ -84,32 +82,60 @@ struct CompoundDetailView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                ZStack {
+                Group {
+                    ZStack(alignment: .top) {
+                        HStack {
+                            tagListView()
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            Spacer()
+                            formulaAndWeight()
+                            Spacer()
+                        }
+                        
+                        if let conformer = conformer {
+                            HStack {
+                                Spacer()
+                                //conformerButton()
+                                NavigationLink {
+                                    ConformerSceneView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
+                                        .id(conformer.cid)
+                                        .navigationTitle(compound.name ?? "")
+                                } label: {
+                                    Label("3D", systemImage: "rotate.3d")
+                                        .padding(10)
+                                }
+                                .foregroundColor(.primary)
+                                .glassEffect()
+                            }
+                        }
+                    }
+                    .padding(5)
+                    .frame(maxWidth: 0.9 * geometry.size.width)
+                    
                     if let imageData = compound.image, let image = UIImage(data: imageData) {
                         Image(uiImage: image)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
+                            .frame(maxWidth: maxImageLength(in: geometry), maxHeight: maxImageLength(in: geometry))
                     } else {
                         Text("N/A")
                     }
                     
-                    info()
+                    cidANDIUPAC()
+                        .frame(maxWidth: 0.9 * geometry.size.width)
+
                 }
-                .frame(maxWidth: maxWidthFactor * geometry.size.width, minHeight: determineMinHeight(in: geometry), maxHeight: maxHeightFactor * geometry.size.height)
-                .scaledToFit()
-                
-                Divider()
                 
                 solutionListView()
+                    .background {
+                        Color(UIColor.systemBackground)
+                    }
             }
-        }
-        .sheet(isPresented: $presentConformerView) {
-            if let conformer = conformer {
-                if UIDevice.current.userInterfaceIdiom == .phone {
-                    ConformerView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
-                } else {
-                    ConformerSceneView(scene: viewModel.makeScene(conformer), name: compound.name ?? "", molecularFormula: compound.formula ?? "")
-                }
+            .background {
+                Color(red: 0.95, green: 0.95, blue: 0.95)
             }
         }
         .sheet(isPresented: $presentTagView) {
@@ -141,10 +167,8 @@ struct CompoundDetailView: View {
         .padding()
     }
     
-    private func determineMinHeight(in geometry: GeometryProxy) -> CGFloat {
-        var factor = 10.0 * geometry.size.width / geometry.size.height
-        factor.round(.towardZero)
-        return factor < 6 ? 0.1 * CGFloat(factor) * geometry.size.height : maxHeightFactor * geometry.size.height
+    private func maxImageLength(in geometry: GeometryProxy) -> CGFloat {
+        return geometry.size.width > geometry.size.height ? 0.6 * geometry.size.height : 0.7 * geometry.size.width
     }
     
     private var molecularWeightFormatter: NumberFormatter {
@@ -156,65 +180,54 @@ struct CompoundDetailView: View {
         return formatter
     }
     
-    private func info() -> some View {
-        VStack {
-            ZStack(alignment: .top) {
-                HStack(alignment: .top) {
-                    VStack {
-                        ForEach(tags) { tag in
-                            Text(tag.name ?? "")
-                                .foregroundColor(.black)
-                        }
-                    }
-                    
-                    Spacer()
-                    
-                    if conformer != nil {
-                        Button {
-                            presentConformerView = true
-                        } label: {
-                            Text("3D")
-                        }
-                    }
-                }
-                
-                Spacer()
-                
-                HStack {
-                    Spacer()
-                    
-                    VStack {
-                        Text(compound.formula ?? "")
-                            .foregroundColor(.black)
-                        Text("\(molecularWeightFormatter.string(from: NSNumber(value: compound.molecularWeight)) ?? "0.0") gram/mol")
-                            .font(.callout)
-                            .foregroundColor(.black)
-                    }
-                    Spacer()
-                }
+    private func cidANDIUPAC() -> some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading) {
+                Text("PubChem CID:")
+                Text("IUPAC Name:")
+            }
+            
+            VStack(alignment: .leading) {
+                Text("\(compound.cid ?? "")")
+                Text("\(compound.nameIUPAC ?? "")")
+                    .textSelection(.enabled)
+                    .multilineTextAlignment(.leading)
             }
             
             Spacer()
-            
-            VStack {
-                Text("PubChem CID: \(compound.cid ?? "")")
-                    .font(.callout)
+        }
+        .font(.callout)
+        .foregroundColor(.black)
+    }
+    
+    private func tagListView() -> some View {
+        VStack {
+            ForEach(tags) { tag in
+                Text(tag.name ?? "")
                     .foregroundColor(.black)
-                Text("IUPAC Name: \(compound.nameIUPAC ?? "")")
-                    .font(.callout)
-                    .foregroundColor(.black)
-                    .scaledToFit()
             }
+        }
+    }
+    
+    private func formulaAndWeight() -> some View {
+        VStack {
+            Text(compound.formula ?? "")
+                .foregroundColor(.black)
+            Text("\(molecularWeightFormatter.string(from: NSNumber(value: compound.molecularWeight)) ?? "0.0") gram/mol")
+                .font(.callout)
+                .foregroundColor(.black)
         }
     }
     
     private func delete() -> Void {
         viewModel.delete(compound: compound)
-        presentationMode.wrappedValue.dismiss()
+        dismiss.callAsFunction()
     }
     
     private func solutionListView() -> some View {
         VStack {
+            Spacer(minLength: 10)
+            
             HStack {
                 Text("SOLUTIONS")
                     .bold()
@@ -226,6 +239,7 @@ struct CompoundDetailView: View {
                     HStack {
                         NavigationLink {
                             SolutionDetailView(solution: solution)
+                                .id(solution)
                         } label: {
                             Text(solution.name ?? "")
                             Spacer()

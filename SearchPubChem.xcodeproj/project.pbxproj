@@ -153,6 +153,7 @@
 		908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A12714A6D400DC3989 /* DataMigrationView.swift */; };
 		908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908990A32714BF9C00DC3989 /* FirstLaunchView.swift */; };
 		9089A0E92A5AF9CF00C14859 /* ConformerSceneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */; };
+		909031432EB7FA640068C492 /* SolutionIngradientData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909031422EB7FA640068C492 /* SolutionIngradientData.swift */; };
 		9089DEE32B96994D004024E6 /* CompoundTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9089DEE22B96994D004024E6 /* CompoundTagView.swift */; };
 		908E383C2B950413003C0A61 /* AddCompoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E383B2B950413003C0A61 /* AddCompoundView.swift */; };
 		908E383D2B950458003C0A61 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2927271E6B00C654BB /* Action.swift */; };
@@ -179,6 +180,7 @@
 		90CE069422E4EFBF0054E7C2 /* Conformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069322E4EFBF0054E7C2 /* Conformer.swift */; };
 		90CE069622E4F0250054E7C2 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069522E4F0250054E7C2 /* Element.swift */; };
 		90CE069822E4F2220054E7C2 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CE069722E4F2220054E7C2 /* Atom.swift */; };
+		90CEBE922EAD3DEC00020608 /* SearchPubChemError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CEBE912EAD3DE600020608 /* SearchPubChemError.swift */; };
 		90D4F7482651616D0082CFAE /* Compounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D4F7472651616D0082CFAE /* Compounds.swift */; };
 		90D4F74A2651687A0082CFAE /* CompoundTagDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D4F7492651687A0082CFAE /* CompoundTagDTO.swift */; };
 		90D4F74C26516D540082CFAE /* CompoundWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D4F74B26516D540082CFAE /* CompoundWrapper.swift */; };
@@ -199,6 +201,7 @@
 		90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E19506270BB00300B8196A /* CompoundTagView.swift */; };
 		90E19509270BCBBC00B8196A /* SelectCompoundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E19508270BCBBC00B8196A /* SelectCompoundsView.swift */; };
 		90E6E110285F7AF5007B6933 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 90E6E10F285F7AF5007B6933 /* Persistence */; };
+		90E8111C2EA8483300358E9B /* AppIcon_iOS26.icon in Resources */ = {isa = PBXBuildFile; fileRef = 90E8111B2EA8483300358E9B /* AppIcon_iOS26.icon */; };
 		90EB2E2827271B4400C654BB /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2727271B4300C654BB /* TabItem.swift */; };
 		90EB2E2A27271E6B00C654BB /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2927271E6B00C654BB /* Action.swift */; };
 		90EB2E2D27275CBA00C654BB /* RoundedBackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EB2E2C27275CBA00C654BB /* RoundedBackgroundRectangle.swift */; };
@@ -332,6 +335,7 @@
 		9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConformerSceneHelper.swift; sourceTree = "<group>"; };
 		9089DEE22B96994D004024E6 /* CompoundTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundTagView.swift; sourceTree = "<group>"; };
 		908C70F82A4652AF00D6C9FA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		909031422EB7FA640068C492 /* SolutionIngradientData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionIngradientData.swift; sourceTree = "<group>"; };
 		908E383B2B950413003C0A61 /* AddCompoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCompoundView.swift; sourceTree = "<group>"; };
 		908E383E2B9511FA003C0A61 /* WindowId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowId.swift; sourceTree = "<group>"; };
 		9096A3A82BAE313B00B55667 /* VisionAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionAppDelegate.swift; sourceTree = "<group>"; };
@@ -364,6 +368,7 @@
 		90CE069322E4EFBF0054E7C2 /* Conformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conformer.swift; sourceTree = "<group>"; };
 		90CE069522E4F0250054E7C2 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		90CE069722E4F2220054E7C2 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
+		90CEBE912EAD3DE600020608 /* SearchPubChemError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPubChemError.swift; sourceTree = "<group>"; };
 		90D4F7472651616D0082CFAE /* Compounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compounds.swift; sourceTree = "<group>"; };
 		90D4F7492651687A0082CFAE /* CompoundTagDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundTagDTO.swift; sourceTree = "<group>"; };
 		90D4F74B26516D540082CFAE /* CompoundWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundWrapper.swift; sourceTree = "<group>"; };
@@ -385,6 +390,7 @@
 		90E19504270B782200B8196A /* CompoundMiniDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundMiniDetailView.swift; sourceTree = "<group>"; };
 		90E19506270BB00300B8196A /* CompoundTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompoundTagView.swift; sourceTree = "<group>"; };
 		90E19508270BCBBC00B8196A /* SelectCompoundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCompoundsView.swift; sourceTree = "<group>"; };
+		90E8111B2EA8483300358E9B /* AppIcon_iOS26.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon_iOS26.icon; sourceTree = "<group>"; };
 		90EB2E2727271B4300C654BB /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
 		90EB2E2927271E6B00C654BB /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		90EB2E2C27275CBA00C654BB /* RoundedBackgroundRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBackgroundRectangle.swift; sourceTree = "<group>"; };
@@ -636,6 +642,7 @@
 				90D8B028270E51AD00C81750 /* SearchPubChemApp.swift */,
 				909AE6B1200CF2F000FEE529 /* LaunchScreen.storyboard */,
 				902DFADC2027636B001E2AD6 /* Assets.xcassets */,
+				90E8111B2EA8483300358E9B /* AppIcon_iOS26.icon */,
 				909AE6B4200CF2F000FEE529 /* Info.plist */,
 				90EB2E2727271B4300C654BB /* TabItem.swift */,
 				90EB2E2927271E6B00C654BB /* Action.swift */,
@@ -701,6 +708,7 @@
 		90D8B01F270E1E6000C81750 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				90CEBE912EAD3DE600020608 /* SearchPubChemError.swift */,
 				90D8B01D270E1E0900C81750 /* SearchPubChemViewModel.swift */,
 				90D58EF5270FAB0600C626A2 /* SolutionIngradientDTO.swift */,
 				9087E641271662F10097CFC6 /* Unit.swift */,
@@ -708,6 +716,7 @@
 				907AE1C32A40D6F5003D88A5 /* SearchPubChemSpotlightDelegate.swift */,
 				907AB0F72A52306E00922EF0 /* PersistenceHelper.swift */,
 				9089A0E82A5AF9CF00C14859 /* ConformerSceneHelper.swift */,
+				909031422EB7FA640068C492 /* SolutionIngradientData.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -850,8 +859,8 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1520;
-				LastUpgradeCheck = 1520;
+				LastSwiftUpdateCheck = 1340;
+				LastUpgradeCheck = 2610;
 				ORGANIZATIONNAME = "Jae Seung Lee";
 				TargetAttributes = {
 					902B0781286107AE004D9DF0 = {
@@ -994,6 +1003,7 @@
 				908497C9266D76D2002644F6 /* records.json in Resources */,
 				90849820266D79A7002644F6 /* 2682_hexadecan-1-ol.png in Resources */,
 				90849824266D79A7002644F6 /* 6137_methionine.png in Resources */,
+				90E8111C2EA8483300358E9B /* AppIcon_iOS26.icon in Resources */,
 				90849811266D79A7002644F6 /* 33032_glutamic acid.png in Resources */,
 				907327652A47774100B0A8DA /* Settings.bundle in Resources */,
 				908990A027149CB100DC3989 /* 5234_sodium chloride.png in Resources */,
@@ -1115,6 +1125,7 @@
 				90CE069622E4F0250054E7C2 /* Element.swift in Sources */,
 				90EB2E2D27275CBA00C654BB /* RoundedBackgroundRectangle.swift in Sources */,
 				90E010D3270A2941004A2401 /* CompoundListView.swift in Sources */,
+				909031432EB7FA640068C492 /* SolutionIngradientData.swift in Sources */,
 				908990A22714A6D400DC3989 /* DataMigrationView.swift in Sources */,
 				90B12C41271333EF00EF065D /* DataMigrator.swift in Sources */,
 				902B077D2861021D004D9DF0 /* AppDelegate.swift in Sources */,
@@ -1128,6 +1139,7 @@
 				90EB2E2827271B4400C654BB /* TabItem.swift in Sources */,
 				908990A42714BF9C00DC3989 /* FirstLaunchView.swift in Sources */,
 				90D8B029270E51AD00C81750 /* SearchPubChemApp.swift in Sources */,
+				90CEBE922EAD3DEC00020608 /* SearchPubChemError.swift in Sources */,
 				9089A0E92A5AF9CF00C14859 /* ConformerSceneHelper.swift in Sources */,
 				90E010D9270A54C9004A2401 /* SolutionDetailView.swift in Sources */,
 				90E19507270BB00300B8196A /* CompoundTagView.swift in Sources */,
@@ -1206,27 +1218,31 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = SearchPubChemWidgetExtensionExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
-				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				CURRENT_PROJECT_VERSION = 4;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SearchPubChemWidgetExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SearchPubChemWidgetExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Jae Seung Lee. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.2;
+				MARKETING_VERSION = 4.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChem.SearchPubChemWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1240,26 +1256,30 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = SearchPubChemWidgetExtensionExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
-				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				CURRENT_PROJECT_VERSION = 4;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SearchPubChemWidgetExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SearchPubChemWidgetExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Jae Seung Lee. All rights reserved.";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.2;
+				MARKETING_VERSION = 4.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChem.SearchPubChemWidgetExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1378,8 +1398,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = U8VSJXRJTQ;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1398,8 +1420,10 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -1439,8 +1463,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = U8VSJXRJTQ;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1452,8 +1478,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1461,27 +1489,28 @@
 		909AE6CE200CF2F000FEE529 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_iOS26;
 				CODE_SIGN_ENTITLEMENTS = SearchPubChem/SearchPubChem.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
-				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				CURRENT_PROJECT_VERSION = 4;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				INFOPLIST_FILE = SearchPubChem/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Search PubChem";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2;
+				MARKETING_VERSION = 4.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChem;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1489,27 +1518,28 @@
 		909AE6CF200CF2F000FEE529 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_iOS26;
 				CODE_SIGN_ENTITLEMENTS = SearchPubChem/SearchPubChem.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
-				DEVELOPMENT_TEAM = U8VSJXRJTQ;
+				CURRENT_PROJECT_VERSION = 4;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				INFOPLIST_FILE = SearchPubChem/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Search PubChem";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2;
+				MARKETING_VERSION = 4.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.jlee.SearchPubChem;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1517,11 +1547,10 @@
 		909AE6D1200CF2F000FEE529 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U8VSJXRJTQ;
 				INFOPLIST_FILE = SearchPubChemTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1532,7 +1561,8 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
-				SWIFT_VERSION = 5.0;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SearchPubChem.app/SearchPubChem";
 			};
@@ -1541,11 +1571,10 @@
 		909AE6D2200CF2F000FEE529 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U8VSJXRJTQ;
 				INFOPLIST_FILE = SearchPubChemTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1556,7 +1585,8 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
-				SWIFT_VERSION = 5.0;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SearchPubChem.app/SearchPubChem";
 			};
@@ -1565,11 +1595,10 @@
 		909AE6D4200CF2F000FEE529 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U8VSJXRJTQ;
 				INFOPLIST_FILE = SearchPubChemUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1577,7 +1606,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.SearchPubChemUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = SearchPubChem;
 			};
@@ -1586,11 +1615,10 @@
 		909AE6D5200CF2F000FEE529 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U8VSJXRJTQ;
 				INFOPLIST_FILE = SearchPubChemUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1598,7 +1626,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.resonance.SearchPubChemUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = SearchPubChem;
 			};
@@ -1668,8 +1696,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jaeseung16/PersistenceSwift";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = exactVersion;
+				version = 0.2.15;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

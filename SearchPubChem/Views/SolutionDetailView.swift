@@ -9,14 +9,13 @@
 import SwiftUI
 
 struct SolutionDetailView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     var solution: Solution
     
     @State private var absoluteRelative: AbsoluteRelatve = .absolute
     @State private var unit: Unit = .gram
-    @State private var presentCompoundMiniDetailView = false
     @State private var presentShareSheet = false
     @State private var presentAlert = false
     
@@ -31,6 +30,10 @@ struct SolutionDetailView: View {
             }
         }
         return ingradients
+    }
+    
+    private var ingradientData: [SolutionIngradientData] {
+        return viewModel.solutionIngradientData(solution)
     }
     
     private var amounts: [String: Double] {
@@ -53,8 +56,6 @@ struct SolutionDetailView: View {
         return viewModel.getAmounts(of: ingradients, in: unit)
     }
     
-    @State private var compound: Compound?
-    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -71,11 +72,18 @@ struct SolutionDetailView: View {
                 ingradientList()
             }
             .toolbar {
-                toolbarContent()
-            }
-            .sheet(isPresented: $presentCompoundMiniDetailView) {
-                if let compound = compound {
-                    CompoundMiniDetailView(compound: compound)
+                ToolbarItemGroup {
+                    Button {
+                        presentShareSheet = true
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    
+                    Button {
+                        delete()
+                    } label: {
+                        Image(systemName: "trash")
+                    }
                 }
             }
             .sheet(isPresented: $presentShareSheet) {
@@ -93,7 +101,7 @@ struct SolutionDetailView: View {
     }
     
     private func created(on date: Date) -> some View {
-        Text("Created on ") + Text(date, style: .date)
+        Text("Created on \(date, style: .date) ")
     }
     
     private func columnHeads(geometry: GeometryProxy) -> some View {
@@ -108,14 +116,6 @@ struct SolutionDetailView: View {
             VStack {
                 Text("Amount")
 
-                Picker("", selection: $absoluteRelative) {
-                    ForEach(AbsoluteRelatve.allCases) { item in
-                        Text(item.rawValue)
-                            .tag(item)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-
                 HStack {
                     Spacer()
                     
@@ -128,6 +128,7 @@ struct SolutionDetailView: View {
                                 .tag(item)
                         }
                     }
+                    .frame(width: 80)
                 }
             }
             .frame(width: geometry.size.width * 0.4)
@@ -136,21 +137,27 @@ struct SolutionDetailView: View {
         }
     }
     
+    // TODO: Editable?
     private func ingradientList() -> some View {
-        List {
-            ForEach(ingradients) { ingradient in
-                Button {
-                    compound = ingradient.compound
-                    presentCompoundMiniDetailView = true
+        List(ingradientData) { ingradient in
+            if let name = ingradient.compound.name {
+                NavigationLink {
+                    CompoundMiniDetailView(compound: ingradient.compound)
+                        .id(ingradient.compound)
+                        .navigationTitle(solution.name ?? "")
                 } label: {
-                    if let name = ingradient.compound.name {
-                        HStack {
-                            Text(name)
+                    HStack {
+                        Text(name)
+                        
+                        Spacer()
+
+                        if let absoluteAmount = ingradient.absoluteAmountByUnit[unit],
+                            let relativeAmount = ingradient.relativeAmountByUnit[unit] {
                             
-                            Spacer()
-                            
-                            if let amount = amountsToDisplay[name] {
-                                Text("\(amount)")
+                            VStack(alignment: .trailing) {
+                                Text(absoluteAmount, format: .number)
+                                Text(relativeAmount, format: .percent)
+                                    .foregroundColor(.secondary)
                             }
                         }
                     }
@@ -158,22 +165,6 @@ struct SolutionDetailView: View {
             }
         }
         .listStyle(PlainListStyle())
-    }
-    
-    private func toolbarContent() -> some View {
-        HStack {
-            Button {
-                presentShareSheet = true
-            } label: {
-                Image(systemName: "square.and.arrow.up")
-            }
-            
-            Button {
-                delete()
-            } label: {
-                Image(systemName: "trash")
-            }
-        }
     }
     
     private var amountsToDisplay: [String: Double] {
@@ -222,7 +213,7 @@ struct SolutionDetailView: View {
         
         viewModel.save()
         
-        presentationMode.wrappedValue.dismiss()
+        dismiss.callAsFunction()
     }
     
 }
