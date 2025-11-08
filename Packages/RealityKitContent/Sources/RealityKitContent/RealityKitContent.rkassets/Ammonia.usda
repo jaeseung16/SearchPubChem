@@ -1,0 +1,71 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 1.0 (409.100.15)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["Nitrogen", "Hydrogen_1"]
+    uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+    def "Nitrogen" (
+        active = true
+        references = @Nitrogen.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def "Hydrogen_1" (
+        active = true
+        references = @Hydrogen.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (-0.04417, 0.02906, 0.08711)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
+
+    def "Hydrogen_2" (
+        active = true
+        references = @Hydrogen.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.07256, 0.06896, -0.01907)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Sphere"
+        {
+            over "DefaultMaterial"
+            {
+                token outputs:surface.connect = </Root/Hydrogen_2/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            }
+        }
+    }
+
+    def "Hydrogen_3" (
+        active = true
+        references = @Hydrogen.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0.04875, -0.08701, 0.02089)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Sphere"
+        {
+            over "DefaultMaterial"
+            {
+                token outputs:surface.connect = </Root/Hydrogen_3/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            }
+        }
+    }
+}
+

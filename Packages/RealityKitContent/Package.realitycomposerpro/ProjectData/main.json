@@ -1,0 +1,17 @@
+{
+  "pathsToIds" : {
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/GridMaterial.usda" : "440DE5B4-E4E4-459B-AABF-9ACE96319272",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/procedural_sphere_grid.usda" : "34C460AE-CA1B-4348-BD05-621ACBDFFE97",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "0A9B4653-B11E-4D6A-850E-C6FCB621626C",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Untitled Scene.usda" : "03E02005-EFA6-48D6-8A76-05B2822A74E9",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Ammonia.usda" : "25834153-ACDD-487B-8A26-F19A800268B6",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Carbon.usda" : "CC18725B-7253-4AFC-A9D5-58E73991E3EB",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/GridMaterial.usda" : "FBD8436F-6B8B-4B82-99B5-995D538B4704",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Methane.usda" : "BEF793EC-4FA5-4299-874B-365772F7B97F",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Nitrogen.usda" : "AE843AF4-5173-4A9C-B1A4-913D875226A1",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Oxygen.usda" : "CBBC6330-CB2B-4EFC-826E-D46C56B7B871",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/procedural_sphere_grid.usda" : "1CBF3893-ABFD-408C-8B91-045BFD257808",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "26DBAE76-5DD8-47B6-A085-1B4ADA111097",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Water.usda" : "B3B1C0F8-771F-4CDD-9024-2D6ED5E7F425"
+  }
+}
