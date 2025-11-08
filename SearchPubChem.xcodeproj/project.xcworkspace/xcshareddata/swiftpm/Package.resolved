@@ -1,4 +1,5 @@
 {
+  "originHash" : "d38d9e529891d6055dfe8eb96b35d4e70ac4710ea0cd135e95ce1cc57ebc2d63",
   "pins" : [
     {
       "identity" : "persistenceswift",
@@ -6,9 +7,10 @@
       "location" : "https://github.com/jaeseung16/PersistenceSwift",
       "state" : {
         "branch" : "main",
-        "revision" : "30bc60a602b51a7f028ba8c38698df214a8d172e"
+        "revision" : "8d9a37463003ee4287c198d6ecf8ae7c6a4dc537",
+        "version" : "0.2.15"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
