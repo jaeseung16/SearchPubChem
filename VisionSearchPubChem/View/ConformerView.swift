@@ -45,7 +45,9 @@ struct ConformerView: View {
                     
                     let boxMeshResource = MeshResource.generateBox(size: 0.95 * bounds.extents.min())
                     let boxShapeResource = ShapeResource.generateBox(size: 0.95 * bounds.extents)
-                    let boxEntity = ModelEntity(mesh: boxMeshResource, materials: [UnlitMaterial(color: .clear)], collisionShape: boxShapeResource, mass: 0.0)
+                    let boxEntity = ModelEntity(mesh: boxMeshResource,
+                                                materials: [SimpleMaterial(color: .clear, isMetallic: false)],
+                                                collisionShape: boxShapeResource, mass: 0.0)
                     boxEntity.name = "\(conformer.cid): \(conformer.conformerId)"
                     
                     for atom in conformer.atoms {
