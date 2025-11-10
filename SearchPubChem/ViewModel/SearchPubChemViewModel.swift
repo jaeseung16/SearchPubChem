@@ -48,9 +48,7 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     @Published var solutionLabel: String = ""
     
     private let persistence: Persistence
-    private var viewContext: NSManagedObjectContext {
-        persistence.container.viewContext
-    }
+    
     private let persistenceHelper: PersistenceHelper
     
     private var subscriptions: Set<AnyCancellable> = []
@@ -266,17 +264,6 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
             self.showAlert.toggle()
             return nil
         }
-    }
-    
-    func saveTag(name: String, compound: Compound) -> CompoundTag {
-        let newTag = CompoundTag(context: viewContext)
-        newTag.compoundCount = 1
-        newTag.name = name
-        newTag.addToCompounds(compound)
-        
-        save()
-        
-        return newTag
     }
     
     func deleteTags(_ indexSet: IndexSet) -> Void {
@@ -742,10 +729,7 @@ extension SearchPubChemViewModel {
     }
     
     func selectCompound(for url: URL) -> Compound? {
-        guard let objectID = viewContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url) else {
-            return nil
-        }
-        return viewContext.object(with: objectID) as? Compound
+        return persistenceHelper.selectCompound(for: url)
     }
     
     private func indexCompounds() -> Void {

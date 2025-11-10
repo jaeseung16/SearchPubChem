@@ -215,4 +215,11 @@ final class PersistenceHelper: Sendable {
             return nil
         }
     }
+    
+    func selectCompound(for url: URL) -> Compound? {
+        guard let objectID = viewContext.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url) else {
+            return nil
+        }
+        return viewContext.object(with: objectID) as? Compound
+    }
 }
