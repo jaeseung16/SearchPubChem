@@ -12,6 +12,7 @@ import os
 import Persistence
 import CloudKit
 
+@MainActor
 class VisionAppDelegate: NSObject {
     private let logger = Logger()
     
@@ -38,12 +39,13 @@ class VisionAppDelegate: NSObject {
     }
     
     private func registerForPushNotifications() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] granted, _ in
-            guard granted else {
-                return
+        Task {
+            do {
+                try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge])
+                getNotificationSettings()
+            } catch {
+                logger.log("Error whie requesting notification authorization: \(error.localizedDescription)")
             }
-            
-            self?.getNotificationSettings()
         }
     }
 
@@ -167,12 +169,15 @@ extension VisionAppDelegate: UIApplicationDelegate {
 }
 
 extension VisionAppDelegate: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound])
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        viewModel.selectedCid = response.notification.request.content.body
+    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let seletecdCid: String = response.notification.request.content.body
+        Task { @MainActor in
+            viewModel.selectedCid = seletecdCid
+        }
         completionHandler()
     }
 }

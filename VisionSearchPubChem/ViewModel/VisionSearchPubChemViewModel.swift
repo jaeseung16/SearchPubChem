@@ -14,6 +14,7 @@ import os
 import Persistence
 import CoreSpotlight
 
+@MainActor
 class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     private var session: URLSession = URLSession.shared
     private let logger = Logger()
@@ -50,11 +51,8 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     @Published var solutionLabel: String = ""
     
     private let persistence: Persistence
-    private var persistenceContainer: NSPersistentCloudKitContainer {
-        persistence.container
-    }
     private var viewContext: NSManagedObjectContext {
-        persistenceContainer.viewContext
+        persistence.container.viewContext
     }
     private let persistenceHelper: VisionPersistenceHelper
     
@@ -105,19 +103,17 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     
     // MARK: - PubChem API calls
     func download3DData(for cid: String) {
-        downloader.downloadConformer(for: cid) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let conformerDTO):
-                    self.conformer = self.populateConformer(from: conformerDTO.pcCompounds[0])
-                    self.errorMessage = nil
-                    self.success = true
-                case .failure(let error):
-                    self.logger.log("Error while downloading 3d data: \(error.localizedDescription)")
-                    self.conformer = nil
-                    self.errorMessage = error.localizedDescription
-                    self.success = false
-                }
+        Task {
+            do {
+                let conformerDTO = try await downloader.downloadConformer(for: cid)
+                self.conformer = self.populateConformer(from: conformerDTO.pcCompounds[0])
+                self.errorMessage = nil
+                self.success = true
+            } catch {
+                self.logger.log("Error while downloading 3d data: \(error.localizedDescription)")
+                self.conformer = nil
+                self.errorMessage = error.localizedDescription
+                self.success = false
             }
         }
     }
@@ -160,40 +156,36 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func downloadImage(for cid: String) {
-        downloader.downloadImage(for: cid) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    self.imageData = data
-                    self.errorMessage = nil
-                    self.success = true
-                case .failure(let error):
-                    self.logger.log("Error while downloading an image: \(error.localizedDescription)")
-                    self.imageData = nil
-                    self.errorMessage = error.localizedDescription
-                    self.success = false
-                }
+        Task {
+            do {
+                let data = try await downloader.downloadImage(for: cid)
+                self.imageData = data
+                self.errorMessage = nil
+                self.success = true
+            } catch {
+                self.logger.log("Error while downloading an image: \(error.localizedDescription)")
+                self.imageData = nil
+                self.errorMessage = error.localizedDescription
+                self.success = false
             }
         }
     }
     
     func searchCompound(type: SearchType, value: String) -> Void {
-        downloader.downloadProperties(identifier: value, identifierType: type) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let properties):
-                    self.propertySet = properties
-                    self.errorMessage = nil
-                    self.success = true
-                    self.downloadImage(for: "\(properties.CID)")
-                    self.download3DData(for: "\(properties.CID)")
-                case .failure(let error):
-                    self.logger.log("Error while getting properties: \(error.localizedDescription))")
-                    self.propertySet = nil
-                    self.errorMessage = error.localizedDescription
-                    self.success = false
-                    self.showAlert = true
-                }
+        Task {
+            do {
+                let properties = try await downloader.downloadProperties(identifier: value, identifierType: type)
+                self.propertySet = properties
+                self.errorMessage = nil
+                self.success = true
+                self.downloadImage(for: "\(properties.CID)")
+                self.download3DData(for: "\(properties.CID)")
+            } catch {
+                self.logger.log("Error while getting properties: \(error.localizedDescription))")
+                self.propertySet = nil
+                self.errorMessage = error.localizedDescription
+                self.success = false
+                self.showAlert = true
             }
         }
     }
@@ -366,16 +358,14 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     // MARK: - Persistence History Request
     private lazy var historyRequestQueue = DispatchQueue(label: "history")
     private func fetchUpdates(_ notification: Notification) -> Void {
-        persistence.fetchUpdates(notification) { result in
-            switch result {
-            case .success(()):
-                DispatchQueue.main.async {
-                    self.toggle.toggle()
-                    if self.selectedCompoundName.isEmpty {
-                        self.fetchEntities()
-                    }
+        Task {
+            do {
+                let _ = try await persistence.fetchUpdates()
+                self.toggle.toggle()
+                if self.selectedCompoundName.isEmpty {
+                    self.fetchEntities()
                 }
-            case .failure(let error):
+            } catch {
                 self.logger.log("Error while updating history: \(error.localizedDescription, privacy: .public) \(Thread.callStackSymbols, privacy: .public)")
             }
         }
