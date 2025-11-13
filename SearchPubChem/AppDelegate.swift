@@ -43,20 +43,15 @@ class AppDelegate: NSObject {
         Task {
             do {
                 try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge])
-                getNotificationSettings()
+                
+                let settings = await UNUserNotificationCenter.current().notificationSettings()
+                if settings.authorizationStatus == .authorized {
+                    Task { @MainActor in
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }
+                }
             } catch {
                 logger.log("Error whie requesting notification authorization: \(error.localizedDescription)")
-            }
-        }
-    }
-
-    private func getNotificationSettings() {
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
-            guard settings.authorizationStatus == .authorized else {
-                return
-            }
-            DispatchQueue.main.async {
-                UIApplication.shared.registerForRemoteNotifications()
             }
         }
     }
