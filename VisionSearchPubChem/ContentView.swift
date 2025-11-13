@@ -22,37 +22,19 @@ struct ContentView: View {
     @State var solution: Solution?
     
     var body: some View {
-        NavigationSplitView {
-            List(TabItem.allCases, selection: $selectedTab) {
-                Text($0.rawValue)
-            }
-        } content: {
-            switch selectedTab {
-            case .Compounds:
+        TabView(selection: $selectedTab) {
+            Tab(value: .Compounds) {
                 CompoundListView(compounds: viewModel.allCompounds, selectedCompound: $compound)
                     .environmentObject(viewModel)
-            case .Solutions:
-                SolutionListView(selectedSolution: $solution)
-            case .none:
-                EmptyView()
+            } label: {
+                Label(TabItem.Compounds.rawValue, image: TabItem.Compounds.defaultImageName)
             }
-        } detail: {
-            switch selectedTab {
-            case .Compounds:
-                if compound != nil {
-                    CompoundDetailView(compound: $compound)
-                        .environmentObject(viewModel)
-                } else {
-                    EmptyView()
-                }
-            case .Solutions:
-                if solution != nil {
-                    SolutionDetailView(solution: $solution)
-                } else {
-                    EmptyView()
-                }
-            case .none:
-                EmptyView()
+            
+            Tab(value: .Solutions) {
+                SolutionListView(selectedSolution: $solution)
+                    .environmentObject(viewModel)
+            } label: {
+                Label(TabItem.Solutions.rawValue, image: TabItem.Solutions.defaultImageName)
             }
         }
         .padding()

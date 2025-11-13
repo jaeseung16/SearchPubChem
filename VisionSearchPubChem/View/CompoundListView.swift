@@ -29,30 +29,44 @@ struct CompoundListView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            List(compounds, selection: $selectedCompound) { compound in
-                NavigationLink(value: compound) {
-                    label(for: compound)
-                }
-                .hoverEffect()
-            }
-            .navigationTitle(navigationTitle)
-            .toolbar {
-                ToolbarItem(placement: .bottomOrnament) {
-                    Button {
-                        presentSelectTagView = true
-                    } label: {
-                        Image(systemName: "tag")
+            NavigationSplitView {
+                List(selection: $selectedCompound) {
+                    ForEach(compounds) { compound in
+                        NavigationLink(value: compound) {
+                            label(for: compound)
+                        }
+                        .hoverEffect()
                     }
-                    .accessibilityIdentifier("tagButton")
                 }
-                
-                ToolbarItem(placement: .bottomOrnament) {
-                    Button {
-                        presentAddCompoundView = true
-                    } label: {
-                        Image(systemName: "plus")
+                .navigationTitle(navigationTitle)
+                .toolbar {
+                    ToolbarItemGroup(placement: .bottomOrnament) {
+                        Button {
+                            presentSelectTagView = true
+                        } label: {
+                            Image(systemName: "tag")
+                        }
+                        .accessibilityIdentifier("tagButton")
+                        
+                        Button {
+                            presentAddCompoundView = true
+                        } label: {
+                            Image(systemName: "plus")
+                        }
+                        .accessibilityIdentifier("addCompoundButton")
                     }
-                    .accessibilityIdentifier("addCompoundButton")
+                }
+                .refreshable {
+                    compounds = viewModel.allCompounds
+                }
+            } detail : {
+                if let selectedCompound {
+                    NavigationStack {
+                        CompoundDetailView(compound: selectedCompound)
+                            .id(selectedCompound)
+                    }
+                } else {
+                    EmptyView()
                 }
             }
             .sheet(isPresented: $presentSelectTagView) {
@@ -64,9 +78,6 @@ struct CompoundListView: View {
                 AddCompoundView()
                     .environmentObject(viewModel)
             }
-            .refreshable {
-                compounds = viewModel.allCompounds
-            }
             .onChange(of: viewModel.allCompounds) {
                 compounds = viewModel.allCompounds
             }
@@ -74,7 +85,6 @@ struct CompoundListView: View {
                 compounds = getTagged(compounds: viewModel.allCompounds)
             }
         }
-        
     }
     
     private func label(for compound: Compound) -> some View {
