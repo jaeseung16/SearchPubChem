@@ -102,7 +102,6 @@ struct MakeSolutionView: View {
             .sheet(isPresented: $presentSelectCompoundsView) {
                 SelectCompoundsView(selectedCompounds: selectedCompounds)
                     .environmentObject(viewModel)
-                    .frame(minWidth: 1.5 * geometry.size.width, minHeight: geometry.size.height)
             }
         }
     }

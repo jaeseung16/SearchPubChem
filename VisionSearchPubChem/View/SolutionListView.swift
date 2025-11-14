@@ -25,7 +25,6 @@ struct SolutionListView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            // TODO: - NavigationSplitView with NavigationStack in detail
             NavigationSplitView {
                 List(selection: $selectedSolution) {
                     ForEach(viewModel.allSolutions) { solution in
@@ -60,7 +59,6 @@ struct SolutionListView: View {
             .sheet(isPresented: $presentMakeSolutionView) {
                 MakeSolutionView()
                     .environmentObject(viewModel)
-                    .frame(minWidth: 1.5 * geometry.size.width, minHeight: geometry.size.height)
             }
         }
     }

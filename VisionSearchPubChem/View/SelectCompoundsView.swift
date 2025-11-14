@@ -31,7 +31,7 @@ struct SelectCompoundsView: View {
                 Text(selectedCompoundsLabel)
                 
                 ScrollView {
-                    LazyVGrid(columns: Array(repeating: GridItem.init(.flexible()), count: 3)) {
+                    LazyVGrid(columns: Array(repeating: .init(.fixed(geometry.size.width * 0.3)), count: 3)) {
                         ForEach(viewModel.allCompounds) { compound in
                             Button {
                                 if let index = selectedCompounds.firstIndex(of: compound) {
@@ -45,7 +45,6 @@ struct SelectCompoundsView: View {
                                         Image(uiImage: uiImage)
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                            .frame(maxWidth: geometry.size.width * 0.25)
                                     }
                                     
                                     Text(compound.name ?? "")
