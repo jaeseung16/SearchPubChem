@@ -10,7 +10,7 @@ import SwiftUI
 import SceneKit
 
 struct ConformerView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @State var scene: SCNScene
@@ -69,7 +69,7 @@ struct ConformerView: View {
             HStack {
                 Button {
                     viewModel.resetRotation()
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss.callAsFunction()
                 } label: {
                     Text(Action.Dismiss.rawValue)
                 }

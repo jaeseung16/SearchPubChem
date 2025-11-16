@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct AddCompoundView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @State private var searchType = SearchType.name
@@ -92,7 +92,7 @@ struct AddCompoundView: View {
         HStack {
             Button {
                 viewModel.resetCompound()
-                presentationMode.wrappedValue.dismiss()
+                dismiss.callAsFunction()
             } label: {
                 Text(Action.Cancel.rawValue)
             }
@@ -102,7 +102,7 @@ struct AddCompoundView: View {
             
             Button {
                 viewModel.saveCompound(searchType: searchType, searchValue: searchValue)
-                presentationMode.wrappedValue.dismiss()
+                dismiss.callAsFunction()
             } label: {
                 Text(Action.Save.rawValue)
             }

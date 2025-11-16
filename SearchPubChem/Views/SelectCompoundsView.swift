@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SelectCompoundsView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @State var selectedCompounds: [Compound]
@@ -69,7 +69,7 @@ struct SelectCompoundsView: View {
         HStack {
             Button {
                 selectedCompounds.removeAll()
-                presentationMode.wrappedValue.dismiss()
+                dismiss.callAsFunction()
             } label: {
                 Text(Action.Cancel.rawValue)
             }
@@ -78,7 +78,7 @@ struct SelectCompoundsView: View {
             
             Button {
                 viewModel.selectedCompounds(selectedCompounds, with: selectedCompoundsLabel)
-                presentationMode.wrappedValue.dismiss()
+                dismiss.callAsFunction()
             } label: {
                 Text(Action.Done.rawValue)
             }

@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct SolutionListView: View {
-    @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: VisionSearchPubChemViewModel
     
     @Binding var selectedSolution: Solution?

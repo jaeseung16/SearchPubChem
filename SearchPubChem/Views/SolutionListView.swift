@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct SolutionListView: View {
-    @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     @State private var presentMakeSolutionView = false

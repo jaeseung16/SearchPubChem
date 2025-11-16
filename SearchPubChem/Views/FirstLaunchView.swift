@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct FirstLaunchView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: SearchPubChemViewModel
     
     private let hasLaunchedBeforeKey = "HasLaunchedBefore"
@@ -35,7 +35,7 @@ struct FirstLaunchView: View {
                 Button {
                     UserDefaults.standard.set(true, forKey: hasLaunchedBeforeKey)
                     UserDefaults.standard.set(true, forKey: hasDBMigratedKey)
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss.callAsFunction()
                 } label: {
                     Text(Action.No.rawValue)
                 }
@@ -46,7 +46,7 @@ struct FirstLaunchView: View {
                     UserDefaults.standard.set(true, forKey: hasLaunchedBeforeKey)
                     UserDefaults.standard.set(true, forKey: hasDBMigratedKey)
                     viewModel.preloadData()
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss.callAsFunction()
                 } label: {
                     Text(Action.Yes.rawValue)
                 }
