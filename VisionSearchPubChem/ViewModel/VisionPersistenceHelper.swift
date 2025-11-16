@@ -23,18 +23,6 @@ final class VisionPersistenceHelper: Sendable {
         self.persistence = persistence
     }
     
-    @available(*, renamed: "save()")
-    func save(completionHandler: @escaping (Result<Void, Error>) -> Void) -> Void {
-        Task {
-            do {
-                try await save()
-                completionHandler(.success(()))
-            } catch {
-                completionHandler(.failure(error))
-            }
-        }
-    }
-    
     func save() async throws -> Void {
         try await persistence.save()
     }
@@ -43,7 +31,7 @@ final class VisionPersistenceHelper: Sendable {
         viewContext.delete(object)
     }
     
-    func saveCompound(_ name: String, properties: Properties, imageData: Data?, conformer: Conformer?, completionHandler: @escaping (Result<Void, Error>) -> Void) -> Void {
+    func saveCompound(_ name: String, properties: Properties, imageData: Data?, conformer: Conformer?) async throws -> Void {
         let compound = Compound(context: viewContext)
         compound.name = name
         compound.firstCharacterInName = String(compound.name!.first!).uppercased()
@@ -72,10 +60,10 @@ final class VisionPersistenceHelper: Sendable {
             compound.addToConformers(conformerEntity)
         }
         
-        save { completionHandler($0) }
+        try await save()
     }
     
-    func saveSolution(_ label: String, ingradients: [SolutionIngradientDTO], completionHandler: @escaping (Result<Void, Error>) -> Void) -> Void {
+    func saveSolution(_ label: String, ingradients: [SolutionIngradientDTO]) async throws -> Void {
         let solution = Solution(context: viewContext)
         solution.name = label
         
@@ -92,22 +80,24 @@ final class VisionPersistenceHelper: Sendable {
             solution.addToCompounds(ingradient.compound)
         }
         
-        save() { completionHandler($0) }
+        try await save()
     }
     
-    func saveNewTag(_ name: String, for compound: Compound, completionHandler: @escaping (Result<CompoundTag, Error>) -> Void) -> Void {
-        let newTag = CompoundTag(context: viewContext)
-        newTag.compoundCount = 1
-        newTag.name = name
-        newTag.addToCompounds(compound)
-        
-        save() { result in
-            switch result {
-            case .success(_):
-                completionHandler(.success(newTag))
-            case .failure(let error):
-                completionHandler(.failure(error))
+    func saveNewTag(_ name: String, for compoundId: NSManagedObjectID) async throws -> CompoundTag {
+        if let compound = fetchObject(with: compoundId) as? Compound {
+            let newTag = CompoundTag(context: viewContext)
+            newTag.compoundCount = 1
+            newTag.name = name
+            newTag.addToCompounds(compound)
+            
+            do {
+                try await save()
+                return newTag
+            } catch let error {
+                throw error
             }
+        } else {
+            throw SearchPubChemError.noCompoundsFound
         }
     }
    
@@ -121,7 +111,7 @@ final class VisionPersistenceHelper: Sendable {
         return fetchedEntities
     }
     
-    func preloadData(completionHandler: @escaping (Result<Void, Error>) -> Void) -> Void {
+    func preloadData() async throws -> Void {
         // Example Compound 1: Water
         let water = Compound(context: viewContext)
         water.name = "water"
@@ -165,6 +155,19 @@ final class VisionPersistenceHelper: Sendable {
         let recordLoader = RecordLoader(viewContext: viewContext)
         recordLoader.loadRecords()
         
-        save() { completionHandler($0) }
+        try await save()
     }
+    
+    private func fetchObject(with objectID: NSManagedObjectID) -> NSManagedObject? {
+        do {
+            // Attempt to retrieve the object with the given NSManagedObjectID
+            let managedObject = try viewContext.existingObject(with: objectID)
+            return managedObject
+        } catch {
+            // Handle any errors that occur during the fetch
+            VisionPersistenceHelper.logger.error("Error fetching object with ID \(objectID, privacy: .public): \(error.localizedDescription, privacy: .public)")
+            return nil
+        }
+    }
+    
 }

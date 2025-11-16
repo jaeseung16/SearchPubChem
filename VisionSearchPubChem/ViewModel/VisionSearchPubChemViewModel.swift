@@ -68,10 +68,11 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
         
         NotificationCenter.default
           .publisher(for: .NSPersistentStoreRemoteChange)
+          .receive(on: DispatchQueue.main)
           .sink { self.fetchUpdates($0) }
           .store(in: &subscriptions)
         
-        self.persistence.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        self.persistence.container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         
         fetchEntities()
     }
@@ -83,11 +84,11 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func preloadData() -> Void {
-        persistenceHelper.preloadData { result in
-            switch result {
-            case .success(_):
+        Task {
+            do {
+                try await persistenceHelper.preloadData()
                 self.logger.log("Preload succeeded")
-            case .failure(let error):
+            } catch {
                 self.logger.log("Failed to preload: error=\(error.localizedDescription)")
             }
         }
@@ -199,16 +200,20 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
         }
         
         let name = searchType == .cid ? properties.Title : searchValue
+        let imageData = self.imageData
+        let conformer = self.conformer
         
-        persistenceHelper.saveCompound(name, properties: properties, imageData: imageData, conformer: conformer) { result in
-            switch result {
-            case .success(_):
+        Task {
+            do {
+                try await persistenceHelper.saveCompound(name, properties: properties, imageData: imageData, conformer: conformer)
                 self.logger.log("Saved a compound called name=\(name, privacy: .public)")
-            case .failure(let error):
+                self.resetCompound()
+                self.persistenceResultHandler(.success(()))
+            } catch {
                 self.logger.log("Failed to save a compound called name=\(name, privacy: .public): \(error.localizedDescription)")
+                self.resetCompound()
+                self.persistenceResultHandler(.failure(error))
             }
-            self.resetCompound()
-            self.persistenceResultHandler(result)
         }
     }
     
@@ -239,17 +244,17 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
         save()
     }
     
-    func saveTag(name: String, compound: Compound, completionHandler: @escaping (CompoundTag) -> Void) -> Void {
-        persistenceHelper.saveNewTag(name, for: compound) { result in
-            switch result {
-            case .success(let tag):
-                self.logger.log("Saved a tag named=\(name, privacy: .public)")
-                completionHandler(tag)
-            case .failure(let error):
-                self.logger.log("Failed to save a tag named=\(name, privacy: .public): \(error.localizedDescription)")
-                self.errorMessage = "Failed to save a tag named \(name)"
-                self.showAlert.toggle()
-            }
+    func saveNewTag(name: String, compound: Compound) async -> CompoundTag? {
+        let compoundID = compound.objectID
+        do {
+            let tag = try await persistenceHelper.saveNewTag(name, for: compoundID)
+            self.logger.log("Saved a tag named=\(name, privacy: .public)")
+            return tag
+        } catch let error {
+            self.logger.log("Failed to save a tag named=\(name, privacy: .public): \(error.localizedDescription)")
+            self.errorMessage = "Failed to save a tag named \(name)"
+            self.showAlert.toggle()
+            return nil
         }
     }
     
@@ -301,14 +306,15 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     func saveSolution(solutionLabel: String, ingradients: [SolutionIngradientDTO]) -> Void {
         let label = solutionLabel.isEmpty ? self.solutionLabel : solutionLabel
         
-        persistenceHelper.saveSolution(label, ingradients: ingradients) { result in
-            switch result {
-            case .success(_):
+        Task {
+            do {
+                try await persistenceHelper.saveSolution(label, ingradients: ingradients)
                 self.logger.log("Saved a solution: label=\(label, privacy: .public)")
-            case .failure(let error):
+                self.persistenceResultHandler(.success(()))
+            } catch {
                 self.logger.log("Failed to save a solution: label=\(label, privacy: .public), error=\(error.localizedDescription)")
+                self.persistenceResultHandler(.failure(error))
             }
-            self.persistenceResultHandler(result)
         }
     }
     
@@ -328,8 +334,13 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func save() -> Void {
-        persistenceHelper.save { result in
-            self.persistenceResultHandler(result)
+        Task {
+            do {
+                try await persistenceHelper.save()
+                self.persistenceResultHandler(.success(()))
+            } catch {
+                self.persistenceResultHandler(.failure(error))
+            }
         }
     }
     
