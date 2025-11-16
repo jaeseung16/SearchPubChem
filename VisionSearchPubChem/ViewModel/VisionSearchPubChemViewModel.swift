@@ -313,7 +313,7 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     private func persistenceResultHandler(_ result: Result<Void, Error>) -> Void {
-        DispatchQueue.main.async {
+        Task { @MainActor in
             switch result {
             case .success(_):
                 self.toggle.toggle()
