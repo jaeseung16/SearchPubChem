@@ -112,6 +112,8 @@ final class VisionPersistenceHelper: Sendable {
     }
     
     func preloadData() async throws -> Void {
+        VisionPersistenceHelper.logger.log("Preloading Data...")
+        
         // Example Compound 1: Water
         let water = Compound(context: viewContext)
         water.name = "water"
@@ -144,7 +146,7 @@ final class VisionPersistenceHelper: Sendable {
         sodiumChlorideIngradient.unit = "gram"
         
         let saltyWater = Solution(context: viewContext)
-        saltyWater.name = "sakty water"
+        saltyWater.name = "salty water"
         
         saltyWater.addToCompounds(water)
         saltyWater.addToIngradients(waterIngradient)
@@ -152,10 +154,10 @@ final class VisionPersistenceHelper: Sendable {
         saltyWater.addToIngradients(sodiumChlorideIngradient)
         
         // Load additional compounds
-        let recordLoader = RecordLoader(viewContext: viewContext)
-        recordLoader.loadRecords()
+        // let recordLoader = RecordLoader(viewContext: viewContext)
+        // recordLoader.loadRecords()
         
-        try await save()
+        try await loadRecords()
     }
     
     private func fetchObject(with objectID: NSManagedObjectID) -> NSManagedObject? {
@@ -168,6 +170,111 @@ final class VisionPersistenceHelper: Sendable {
             VisionPersistenceHelper.logger.error("Error fetching object with ID \(objectID, privacy: .public): \(error.localizedDescription, privacy: .public)")
             return nil
         }
+    }
+    
+    private func loadRecords() async throws {
+        VisionPersistenceHelper.logger.log("loading records")
+        guard let url = Bundle.main.url(forResource: "records", withExtension: "json") else {
+            VisionPersistenceHelper.logger.log("Cannot find records.json")
+            return
+        }
+        
+        var records: Data?
+        do {
+            records = try Data(contentsOf: url, options: [])
+            VisionPersistenceHelper.logger.log("records = \(String(describing: records))")
+            
+        } catch {
+            VisionPersistenceHelper.logger.error("Cannot read the table: \(error.localizedDescription)")
+        }
+        
+        guard let records = records else {
+            VisionPersistenceHelper.logger.log("Cannot read records")
+            return
+        }
+        
+        let decoder = JSONDecoder()
+        
+        var compounds: [CompoundWrapper]?
+        do {
+            compounds = try decoder.decode([CompoundWrapper].self, from: records)
+        } catch {
+            VisionPersistenceHelper.logger.log("Cannot parse data as type \([CompoundWrapper].self): \(error.localizedDescription)")
+            return
+        }
+        
+        guard let compounds = compounds else {
+            VisionPersistenceHelper.logger.log("No compounds")
+            return
+        }
+        
+        VisionPersistenceHelper.logger.log("\(compounds.count) compounds to load")
+        
+        var tags = [String: CompoundTag]()
+        
+        for compound in compounds {
+            VisionPersistenceHelper.logger.log("Processing compound: \(String(describing: compound.name))")
+            let compoundEntity = Compound(context: viewContext)
+            compoundEntity.cid = compound.cid
+            compoundEntity.name = compound.name
+            compoundEntity.nameIUPAC = compound.iupacName
+            compoundEntity.formula = compound.molecularFormula
+            compoundEntity.molecularWeight = Double(compound.molecularWeight) ?? 0.0
+            compoundEntity.conformerDownloaded = compound.conformerDownloaded
+            compoundEntity.firstCharacterInName = String(compound.name!.first!).uppercased()
+            
+            if !compound.conformers.isEmpty {
+                let conformer = compound.conformers[0]
+                let conformerEntity = ConformerEntity(context: viewContext)
+                conformerEntity.compound = compoundEntity
+                conformerEntity.conformerId = conformer.conformerId
+            
+                for atom in conformer.atoms {
+                    let atomEntity = AtomEntity(context: viewContext)
+                    atomEntity.atomicNumber = Int16(atom.atomicNumber)
+                    atomEntity.coordX = atom.coordX
+                    atomEntity.coordY = atom.coordY
+                    atomEntity.coordZ = atom.coordZ
+                    atomEntity.conformer = conformerEntity
+                }
+            }
+            
+            if !compound.compoundTags.isEmpty {
+                var compoundTags = Set<CompoundTag>()
+                
+                for compoundTag in compound.compoundTags {
+                    if let tag = tags[compoundTag] {
+                        tag.compoundCount += 1
+                        compoundTags.insert(tag)
+                    } else {
+                        let newTag = CompoundTag(context: viewContext)
+                        newTag.name = compoundTag
+                        newTag.compoundCount = 1
+                        
+                        tags[compoundTag] = newTag
+                        compoundTags.insert(newTag)
+                    }
+                }
+                
+                compoundEntity.tags = NSSet(set: compoundTags)
+            }
+            
+            guard let imageUrl = Bundle.main.url(forResource: "\(compound.cid!)_\(compound.name!)", withExtension: "png") else {
+                VisionPersistenceHelper.logger.log("Cannot find \(compound.cid!)_\(compound.name!).png")
+                continue
+            }
+            
+            var imageData: Data?
+            do {
+                imageData = try Data(contentsOf: imageUrl, options: [])
+            } catch {
+                VisionPersistenceHelper.logger.log("Cannot read an image from \(imageUrl): \(error.localizedDescription)")
+            }
+            
+            compoundEntity.image = imageData
+        }
+        
+        try await save()
     }
     
 }
