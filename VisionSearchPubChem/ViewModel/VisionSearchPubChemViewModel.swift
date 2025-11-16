@@ -94,11 +94,13 @@ class VisionSearchPubChemViewModel: NSObject, ObservableObject {
     }
     
     func resetCompound() -> Void {
-        success = false
-        errorMessage = nil
-        propertySet = nil
-        imageData = nil
-        conformer = nil
+        Task { @MainActor in
+            success = false
+            errorMessage = nil
+            propertySet = nil
+            imageData = nil
+            conformer = nil
+        }
     }
     
     // MARK: - PubChem API calls
