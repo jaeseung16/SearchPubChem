@@ -114,44 +114,48 @@ final class VisionPersistenceHelper: Sendable {
     func preloadData() async throws -> Void {
         VisionPersistenceHelper.logger.log("Preloading Data...")
         
-        // Example Compound 1: Water
-        let water = Compound(context: viewContext)
-        water.name = "water"
-        water.firstCharacterInName = "W"
-        water.formula = "H2O"
-        water.molecularWeight = 18.015
-        water.cid = "962"
-        water.nameIUPAC = "oxidane"
-        water.image = try? Data(contentsOf: Bundle.main.url(forResource: "962_water", withExtension: "png")!, options: [])
+        await MainActor.run {
+            // Example Compound 1: Water
+            let water = Compound(context: viewContext)
+            water.name = "water"
+            water.firstCharacterInName = "W"
+            water.formula = "H2O"
+            water.molecularWeight = 18.015
+            water.cid = "962"
+            water.nameIUPAC = "oxidane"
+            water.image = try? Data(contentsOf: Bundle.main.url(forResource: "962_water", withExtension: "png")!, options: [])
         
-        // Example Compound 2: Sodium Chloride
-        let sodiumChloride = Compound(context: viewContext)
-        sodiumChloride.name = "sodium chloride"
-        sodiumChloride.firstCharacterInName = "S"
-        sodiumChloride.formula = "NaCl"
-        sodiumChloride.molecularWeight = 58.44
-        sodiumChloride.cid = "5234"
-        sodiumChloride.nameIUPAC = "sodium chloride"
-        sodiumChloride.image = try? Data(contentsOf: Bundle.main.url(forResource: "5234_sodium chloride", withExtension: "png")!, options: [])
-
-        // Example Solution: Sodium Chloride Aqueous Solution
-        let waterIngradient = SolutionIngradient(context: viewContext)
-        waterIngradient.compound = water
-        waterIngradient.amount = 1.0
-        waterIngradient.unit = "gram"
+            // Example Compound 2: Sodium Chloride
+            let sodiumChloride = Compound(context: viewContext)
+            sodiumChloride.name = "sodium chloride"
+            sodiumChloride.firstCharacterInName = "S"
+            sodiumChloride.formula = "NaCl"
+            sodiumChloride.molecularWeight = 58.44
+            sodiumChloride.cid = "5234"
+            sodiumChloride.nameIUPAC = "sodium chloride"
+            sodiumChloride.image = try? Data(contentsOf: Bundle.main.url(forResource: "5234_sodium chloride", withExtension: "png")!, options: [])
         
-        let sodiumChlorideIngradient = SolutionIngradient(context: viewContext)
-        sodiumChlorideIngradient.compound = sodiumChloride
-        sodiumChlorideIngradient.amount = 0.05
-        sodiumChlorideIngradient.unit = "gram"
+            // Example Solution: Sodium Chloride Aqueous Solution
+            let waterIngradient = SolutionIngradient(context: viewContext)
+            waterIngradient.compound = water
+            waterIngradient.amount = 1.0
+            waterIngradient.unit = "gram"
+            
+            let sodiumChlorideIngradient = SolutionIngradient(context: viewContext)
+            sodiumChlorideIngradient.compound = sodiumChloride
+            sodiumChlorideIngradient.amount = 0.05
+            sodiumChlorideIngradient.unit = "gram"
+            
+            let saltyWater = Solution(context: viewContext)
+            saltyWater.name = "salty water"
+            
+            saltyWater.addToCompounds(water)
+            saltyWater.addToIngradients(waterIngradient)
+            saltyWater.addToCompounds(sodiumChloride)
+            saltyWater.addToIngradients(sodiumChlorideIngradient)
+        }
         
-        let saltyWater = Solution(context: viewContext)
-        saltyWater.name = "salty water"
-        
-        saltyWater.addToCompounds(water)
-        saltyWater.addToIngradients(waterIngradient)
-        saltyWater.addToCompounds(sodiumChloride)
-        saltyWater.addToIngradients(sodiumChlorideIngradient)
+        try await save()
         
         // Load additional compounds
         // let recordLoader = RecordLoader(viewContext: viewContext)
@@ -183,7 +187,6 @@ final class VisionPersistenceHelper: Sendable {
         do {
             records = try Data(contentsOf: url, options: [])
             VisionPersistenceHelper.logger.log("records = \(String(describing: records))")
-            
         } catch {
             VisionPersistenceHelper.logger.error("Cannot read the table: \(error.localizedDescription)")
         }
@@ -210,71 +213,77 @@ final class VisionPersistenceHelper: Sendable {
         
         VisionPersistenceHelper.logger.log("\(compounds.count) compounds to load")
         
-        var tags = [String: CompoundTag]()
-        
         for compound in compounds {
-            VisionPersistenceHelper.logger.log("Processing compound: \(String(describing: compound.name))")
-            let compoundEntity = Compound(context: viewContext)
-            compoundEntity.cid = compound.cid
-            compoundEntity.name = compound.name
-            compoundEntity.nameIUPAC = compound.iupacName
-            compoundEntity.formula = compound.molecularFormula
-            compoundEntity.molecularWeight = Double(compound.molecularWeight) ?? 0.0
-            compoundEntity.conformerDownloaded = compound.conformerDownloaded
-            compoundEntity.firstCharacterInName = String(compound.name!.first!).uppercased()
-            
-            if !compound.conformers.isEmpty {
-                let conformer = compound.conformers[0]
-                let conformerEntity = ConformerEntity(context: viewContext)
-                conformerEntity.compound = compoundEntity
-                conformerEntity.conformerId = conformer.conformerId
-            
-                for atom in conformer.atoms {
-                    let atomEntity = AtomEntity(context: viewContext)
-                    atomEntity.atomicNumber = Int16(atom.atomicNumber)
-                    atomEntity.coordX = atom.coordX
-                    atomEntity.coordY = atom.coordY
-                    atomEntity.coordZ = atom.coordZ
-                    atomEntity.conformer = conformerEntity
-                }
-            }
-            
-            if !compound.compoundTags.isEmpty {
-                var compoundTags = Set<CompoundTag>()
+            await MainActor.run {
+                VisionPersistenceHelper.logger.log("Processing compound: \(String(describing: compound.name))")
+                let compoundEntity = Compound(context: viewContext)
+                compoundEntity.cid = compound.cid
+                compoundEntity.name = compound.name
+                compoundEntity.nameIUPAC = compound.iupacName
+                compoundEntity.formula = compound.molecularFormula
+                compoundEntity.molecularWeight = Double(compound.molecularWeight) ?? 0.0
+                compoundEntity.conformerDownloaded = compound.conformerDownloaded
+                compoundEntity.firstCharacterInName = String(compound.name!.first!).uppercased()
                 
-                for compoundTag in compound.compoundTags {
-                    if let tag = tags[compoundTag] {
-                        tag.compoundCount += 1
-                        compoundTags.insert(tag)
-                    } else {
-                        let newTag = CompoundTag(context: viewContext)
-                        newTag.name = compoundTag
-                        newTag.compoundCount = 1
+                if let imageUrl = Bundle.main.url(forResource: "\(compound.cid!)_\(compound.name!)", withExtension: "png") {
+                    var imageData: Data?
+                    do {
+                        imageData = try Data(contentsOf: imageUrl, options: [])
+                        compoundEntity.image = imageData
+                    } catch {
+                        VisionPersistenceHelper.logger.log("Cannot read an image from \(imageUrl): \(error.localizedDescription)")
+                    }
+                } else {
+                    VisionPersistenceHelper.logger.log("Cannot find \(compound.cid!)_\(compound.name!).png")
+                }
+                
+                if !compound.conformers.isEmpty {
+                    let conformer = compound.conformers[0]
+                    let conformerEntity = ConformerEntity(context: viewContext)
+                    conformerEntity.conformerId = conformer.conformerId
+                
+                    var atoms: [AtomEntity] = []
+                    for atom in conformer.atoms {
+                        let atomEntity = AtomEntity(context: viewContext)
+                        atomEntity.atomicNumber = Int16(atom.atomicNumber)
+                        atomEntity.coordX = atom.coordX
+                        atomEntity.coordY = atom.coordY
+                        atomEntity.coordZ = atom.coordZ
+                        atoms.append(atomEntity)
                         
-                        tags[compoundTag] = newTag
-                        compoundTags.insert(newTag)
+                    }
+                    
+                    conformerEntity.addToAtoms(NSSet(array: atoms))
+                    compoundEntity.addToConformers(conformerEntity)
+                }
+                
+                if !compound.compoundTags.isEmpty {
+                    let allTags = fetchAllTags()
+                    let tagsByName = Dictionary(uniqueKeysWithValues: allTags.map{ ($0.name!, $0) })
+                    for compoundTag in compound.compoundTags {
+                        if let tag = tagsByName[compoundTag] {
+                            VisionPersistenceHelper.logger.log("tag=\(tag)")
+                            tag.compoundCount += 1
+                            tag.addToCompounds(compoundEntity)
+                        } else {
+                            let newTag = CompoundTag(context: viewContext)
+                            newTag.name = compoundTag
+                            newTag.compoundCount = 1
+                            newTag.addToCompounds(compoundEntity)
+                        }
                     }
                 }
-                
-                compoundEntity.tags = NSSet(set: compoundTags)
             }
             
-            guard let imageUrl = Bundle.main.url(forResource: "\(compound.cid!)_\(compound.name!)", withExtension: "png") else {
-                VisionPersistenceHelper.logger.log("Cannot find \(compound.cid!)_\(compound.name!).png")
-                continue
-            }
-            
-            var imageData: Data?
-            do {
-                imageData = try Data(contentsOf: imageUrl, options: [])
-            } catch {
-                VisionPersistenceHelper.logger.log("Cannot read an image from \(imageUrl): \(error.localizedDescription)")
-            }
-            
-            compoundEntity.image = imageData
+            VisionPersistenceHelper.logger.log("Saving \(String(describing: compound.name))")
+            try await save()
+            VisionPersistenceHelper.logger.log("Saved \(String(describing: compound.name))")
         }
-        
-        try await save()
+    }
+    
+    private func fetchAllTags() -> [CompoundTag] {
+        let fetchRequet = NSFetchRequest<CompoundTag>(entityName: "CompoundTag")
+        return perform(fetchRequet)
     }
     
 }
