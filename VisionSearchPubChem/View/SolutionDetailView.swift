@@ -9,9 +9,10 @@
 import SwiftUI
 
 struct SolutionDetailView: View {
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: VisionSearchPubChemViewModel
     
-    @Binding var solution: Solution?
+    @State var solution: Solution
     
     @State private var absoluteRelative: AbsoluteRelatve = .absolute
     @State private var unit: Unit = .gram
@@ -21,7 +22,7 @@ struct SolutionDetailView: View {
     
     private var ingradients: [SolutionIngradientDTO] {
         var ingradients = [SolutionIngradientDTO]()
-        solution?.ingradients?.forEach { entity in
+        solution.ingradients?.forEach { entity in
             if let entity = entity as? SolutionIngradient {
                 if let compound = entity.compound, let unitRawValue = entity.unit, let unit = Unit(rawValue: unitRawValue) {
                     let dto = SolutionIngradientDTO(compound: compound, amount: entity.amount, unit: unit)
@@ -58,10 +59,10 @@ struct SolutionDetailView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                Text(solution?.name?.uppercased() ?? "")
+                Text(solution.name?.uppercased() ?? "")
                     .font(.headline)
                 
-                created(on: solution?.created ?? Date())
+                created(on: solution.created ?? Date())
                     .font(.caption)
                 
                 Divider()
@@ -112,13 +113,13 @@ struct SolutionDetailView: View {
                 }
             }
             .sheet(isPresented: $presentShareSheet) {
-                if let name = solution?.name, let date = solution?.created, let url = viewModel.generateCSV(solutionName: name, created: date, ingradients: ingradients) {
+                if let name = solution.name, let date = solution.created, let url = viewModel.generateCSV(solutionName: name, created: date, ingradients: ingradients) {
                     ShareActivityView(url: url, applicationActivities: nil, failedToRemoveItem: $presentAlert)
                 }
             }
             .alert(isPresented: $presentAlert) {
                 Alert(title: Text("Failed to remove files"),
-                      message: Text("Files generated for \(solution?.name ?? "") couldn't be deleted from the document directory"),
+                      message: Text("Files generated for \(solution.name ?? "") couldn't be deleted from the document directory"),
                       dismissButton: .default(Text(Action.Dismiss.rawValue)))
             }
             .onChange(of: selectedIngradient) { oldValue, newValue in
@@ -142,7 +143,7 @@ struct SolutionDetailView: View {
     }
     
     private func created(on date: Date) -> some View {
-        Text("Created on ") + Text(date, style: .date)
+        Text("Created on \(date, style: .date)")
     }
     
     private func optionSelector(geometry: GeometryProxy) -> some View {
@@ -221,19 +222,16 @@ struct SolutionDetailView: View {
     }
     
     private func delete() -> Void {
-        if let solution {
-            solution.compounds?.forEach { compound in
-                if let compound = compound as? Compound {
-                    compound.removeFromSolutions(solution)
-                }
+        solution.compounds?.forEach { compound in
+            if let compound = compound as? Compound {
+                compound.removeFromSolutions(solution)
             }
-            
-            viewModel.delete(solution)
-            
-            viewModel.save()
-            
-            self.solution = nil
         }
+        
+        viewModel.delete(solution)
+        viewModel.save()
+        
+        dismiss.callAsFunction()
     }
     
 }

@@ -10,7 +10,7 @@ import SwiftUI
 import CoreData
 
 struct MakeSolutionView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: VisionSearchPubChemViewModel
     
     @State private var solutionLabel = ""
@@ -102,7 +102,6 @@ struct MakeSolutionView: View {
             .sheet(isPresented: $presentSelectCompoundsView) {
                 SelectCompoundsView(selectedCompounds: selectedCompounds)
                     .environmentObject(viewModel)
-                    .frame(minWidth: 1.5 * geometry.size.width, minHeight: geometry.size.height)
             }
         }
     }
@@ -134,7 +133,7 @@ struct MakeSolutionView: View {
     private func dissmiss() -> Void {
         viewModel.compounds = nil
         viewModel.solutionLabel = ""
-        presentationMode.wrappedValue.dismiss()
+        dismiss.callAsFunction()
     }
     
     private func ingradientList(geometry: GeometryProxy) -> some View {

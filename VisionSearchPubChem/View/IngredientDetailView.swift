@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct IngredientDetailView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     var compound: Compound
     
@@ -48,7 +48,7 @@ struct IngredientDetailView: View {
             Spacer()
             
             Button("Dismiss") {
-                presentationMode.wrappedValue.dismiss()
+                dismiss.callAsFunction()
             }
         }
         .padding()

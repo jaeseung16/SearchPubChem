@@ -10,12 +10,12 @@ import SwiftUI
 import CoreData
 
 struct CompoundDetailView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
     @EnvironmentObject private var viewModel: VisionSearchPubChemViewModel
     
-    @Binding var compound: Compound?
+    @State var compound: Compound
     @State private var presentConformer = false
     @State private var presentTagView = false
     
@@ -24,7 +24,7 @@ struct CompoundDetailView: View {
     
     private var tags: [CompoundTag] {
         var tags = [CompoundTag]()
-        compound?.tags?.forEach { tag in
+        compound.tags?.forEach { tag in
             if let tag = tag as? CompoundTag {
                 tags.append(tag)
             }
@@ -33,7 +33,7 @@ struct CompoundDetailView: View {
     }
     
     private var conformer: Conformer? {
-        guard let compound, compound.conformerDownloaded else {
+        guard compound.conformerDownloaded else {
             return nil
         }
         
@@ -55,7 +55,7 @@ struct CompoundDetailView: View {
     }
     
     private var urlForPubChem: URL? {
-        guard let cid = compound?.cid else {
+        guard let cid = compound.cid else {
             return nil
         }
         
@@ -77,7 +77,7 @@ struct CompoundDetailView: View {
         GeometryReader { geometry in
             HStack {
                 VStack {
-                    if let imageData = compound?.image, let image = UIImage(data: imageData) {
+                    if let imageData = compound.image, let image = UIImage(data: imageData) {
                         Spacer()
                         Image(uiImage: image)
                             .resizable()
@@ -119,7 +119,7 @@ struct CompoundDetailView: View {
                            Text("Formula")
                                .foregroundColor(.secondary)
                            
-                           Text("\(compound?.formula ?? "")")
+                           Text("\(compound.formula ?? "")")
                                .foregroundColor(.primary)
                        }
                        
@@ -135,7 +135,7 @@ struct CompoundDetailView: View {
                            Text("PubChem CID")
                                .foregroundColor(.secondary)
                            
-                           Text("\(compound?.cid ?? "")")
+                           Text("\(compound.cid ?? "")")
                                .foregroundColor(.primary)
                        }
                        
@@ -143,7 +143,7 @@ struct CompoundDetailView: View {
                            Text("IUPAC Name")
                                .foregroundColor(.secondary)
                            
-                           Text("\(compound?.nameIUPAC ?? "")")
+                           Text("\(compound.nameIUPAC ?? "")")
                                .foregroundColor(.primary)
                        }
                        
@@ -164,10 +164,8 @@ struct CompoundDetailView: View {
                                .foregroundColor(.primary)
                        }
                        .sheet(isPresented: $presentTagView) {
-                           if let compound {
-                               CompoundTagView(compound: compound, tags: compound.tags as? Set<CompoundTag>)
-                                   .frame(minWidth: 0.5 * geometry.size.width, minHeight: geometry.size.height)
-                           }
+                           CompoundTagView(compound: compound, tags: compound.tags as? Set<CompoundTag>)
+                               .frame(minWidth: 0.5 * geometry.size.width, minHeight: geometry.size.height)
                        }
                    }
                    
@@ -196,7 +194,7 @@ struct CompoundDetailView: View {
                     .disabled(deleteDisabled)
                 }
             }
-            .navigationTitle(Text(compound?.name ?? ""))
+            .navigationTitle(Text(compound.name ?? ""))
             .padding()
             .onAppear {
                 if !presentConformer && viewModel.isConformerViewOpen {
@@ -207,7 +205,7 @@ struct CompoundDetailView: View {
     }
     
     private var deleteDisabled: Bool {
-        if let solutions = compound?.solutions {
+        if let solutions = compound.solutions {
             return solutions.count > 0
         } else {
             return false
@@ -230,8 +228,7 @@ struct CompoundDetailView: View {
     }
     
     private var molecularWeightString: String {
-        if let molecularWeight = compound?.molecularWeight, 
-            let text = molecularWeightFormatter.string(from: NSNumber(value: molecularWeight)) {
+        if let text = molecularWeightFormatter.string(from: NSNumber(value: compound.molecularWeight)) {
             return "\(text) gram/mol"
         } else {
             return "Unkown"
@@ -239,10 +236,8 @@ struct CompoundDetailView: View {
     }
     
     private func delete() -> Void {
-        if let compound {
-            viewModel.delete(compound: compound)
-            presentationMode.wrappedValue.dismiss()
-        }
+        viewModel.delete(compound: compound)
+        dismiss.callAsFunction()
     }
     
 }

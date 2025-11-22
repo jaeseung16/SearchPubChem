@@ -96,12 +96,15 @@ class SearchPubChemViewModel: NSObject, ObservableObject {
     
     func preloadData() -> Void {
         Task {
+            cancelSubscriptions()
             do {
                 try await persistenceHelper.preloadData()
                 self.logger.log("Preload succeeded")
             } catch {
                 self.logger.log("Failed to preload: error=\(error.localizedDescription)")
             }
+            fetchEntities()
+            resubscribe()
         }
     }
     
@@ -816,6 +819,18 @@ extension SearchPubChemViewModel {
                 return compound1.name! < compound2.name!
             }
         })
+    }
+    
+    private func cancelSubscriptions() {
+        subscriptions.removeAll()
+    }
+    
+    private func resubscribe() {
+        NotificationCenter.default
+          .publisher(for: .NSPersistentStoreRemoteChange)
+          .receive(on: DispatchQueue.main)
+          .sink { self.fetchUpdates($0) }
+          .store(in: &subscriptions)
     }
 }
 

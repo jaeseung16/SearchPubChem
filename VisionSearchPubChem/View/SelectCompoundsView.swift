@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SelectCompoundsView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: VisionSearchPubChemViewModel
     
     @State var selectedCompounds: [Compound]
@@ -31,7 +31,7 @@ struct SelectCompoundsView: View {
                 Text(selectedCompoundsLabel)
                 
                 ScrollView {
-                    LazyVGrid(columns: Array(repeating: GridItem.init(.flexible()), count: 3)) {
+                    LazyVGrid(columns: Array(repeating: .init(.fixed(geometry.size.width * 0.3)), count: 3)) {
                         ForEach(viewModel.allCompounds) { compound in
                             Button {
                                 if let index = selectedCompounds.firstIndex(of: compound) {
@@ -45,7 +45,6 @@ struct SelectCompoundsView: View {
                                         Image(uiImage: uiImage)
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                            .frame(maxWidth: geometry.size.width * 0.25)
                                     }
                                     
                                     Text(compound.name ?? "")
@@ -65,7 +64,7 @@ struct SelectCompoundsView: View {
         HStack {
             Button {
                 selectedCompounds.removeAll()
-                presentationMode.wrappedValue.dismiss()
+                dismiss.callAsFunction()
             } label: {
                 Text(Action.Cancel.rawValue)
             }
@@ -74,7 +73,7 @@ struct SelectCompoundsView: View {
             
             Button {
                 viewModel.selectedCompounds(selectedCompounds, with: selectedCompoundsLabel)
-                presentationMode.wrappedValue.dismiss()
+                dismiss.callAsFunction()
             } label: {
                 Text(Action.Done.rawValue)
             }

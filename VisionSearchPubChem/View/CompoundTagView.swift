@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CompoundTagView: View {
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var viewModel: VisionSearchPubChemViewModel
     
     var compound: Compound
@@ -85,7 +85,7 @@ struct CompoundTagView: View {
     private func header() -> some View {
         HStack {
             Button {
-                presentationMode.wrappedValue.dismiss()
+                dismiss.callAsFunction()
             } label: {
                 Text(Action.Dismiss.rawValue)
             }
@@ -98,7 +98,7 @@ struct CompoundTagView: View {
             
             Button {
                 updateTags()
-                presentationMode.wrappedValue.dismiss()
+                dismiss.callAsFunction()
             } label: {
                 Text(Action.Save.rawValue)
             }
@@ -107,11 +107,13 @@ struct CompoundTagView: View {
     
     private func addTag() {
         if !newTagName.isEmpty {
-            viewModel.saveTag(name: newTagName, compound: compound) { tag in
-                if tags == nil {
-                    tags = Set()
+            Task {
+                if let tag = await viewModel.saveNewTag(name: newTagName, compound: compound) {
+                    if tags == nil {
+                        tags = Set()
+                    }
+                    tags!.insert(tag)
                 }
-                tags!.insert(tag)
             }
         }
     }
