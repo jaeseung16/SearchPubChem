@@ -107,6 +107,7 @@ final class PersistenceHelper: Sendable {
         return
     }
     
+    @MainActor
     func saveSolution(_ label: String, ingradients: [SolutionIngradientDTO]) async throws -> Void {
         let solution = Solution(context: viewContext)
         solution.name = label

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Atom {
+final class Atom: @unchecked Sendable {
     var number: Int
     var location: [Double]
     

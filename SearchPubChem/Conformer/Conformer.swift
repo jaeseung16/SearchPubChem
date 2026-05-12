@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Conformer {
+final class Conformer: @unchecked Sendable {
     var atoms: [Atom]
     var cid: String
     var conformerId: String
