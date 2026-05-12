@@ -88,6 +88,9 @@ Choose compounds downloaded from PubChem and make a solution. The app allows to 
 
 ## Version History
 
+### ver 4.3 (11/11/2025)
+1. Updated layouts and navigation
+
 ### ver 4.2 (12/9/2023)
 1. Support splotlight search: A user can turn the feature on/off through Settings
 2. The 3D structure display can be reset to go back to the original viewpoint.
